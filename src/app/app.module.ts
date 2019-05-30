@@ -9,7 +9,7 @@ import { AppComponent } from './app.component';
 import { OverviewComponent } from './components/overview/overview.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
-import { AuthService } from './services/auth.service';
+import { ApiService } from './services/api.service';
 
 @NgModule({
   declarations: [
@@ -24,7 +24,7 @@ import { AuthService } from './services/auth.service';
     FormsModule,
     HttpClientModule
   ],
-  providers: [AuthService],
+  providers: [ApiService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
