@@ -13,6 +13,7 @@ export class OverviewComponent implements OnInit {
   constructor(private api:ApiService) { }
 
   ngOnInit() {
+    this.getPlanningData()
   }
 
   getPlanningData() {
