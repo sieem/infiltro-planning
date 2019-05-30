@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -9,7 +8,7 @@ import { environment } from '../../environments/environment';
 export class AuthService {
   private baseUrl: string = environment.apiUrl;
 
-  constructor(private http:HttpClient, private router: Router) { }
+  constructor(private http:HttpClient) { }
 
   registerUser(user: any) {
     return this.http.post(this.baseUrl + '/register', user)
