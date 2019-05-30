@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PlanningDataService } from 'src/app/services/planning-data.service';
 
 @Component({
   selector: 'app-overview',
@@ -7,9 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OverviewComponent implements OnInit {
 
-  constructor() { }
+  planningData: any = {}
+
+  constructor(private planningDataService:PlanningDataService) { }
 
   ngOnInit() {
+  }
+
+  getPlanningData() {
+    this.planningDataService.getPlanningData().subscribe(
+      res => this.planningData = res,
+      err => console.log(err)
+    )
   }
 
 }
