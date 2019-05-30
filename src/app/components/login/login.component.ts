@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -9,7 +10,7 @@ import { ApiService } from 'src/app/services/api.service';
 export class LoginComponent implements OnInit {
   formData: any = {}
 
-  constructor(private api: ApiService) { }
+  constructor(private api: ApiService, private router: Router) { }
 
   ngOnInit() {
   }
@@ -17,7 +18,11 @@ export class LoginComponent implements OnInit {
   loginUser() {
     this.api.loginUser(this.formData)
       .subscribe(
-        res => console.log(res),
+        (res: any) => {
+          localStorage.setItem('token', res.token)
+          this.router.navigate(['/overview'])
+
+        },
         err => console.log(err)
       )
   }
