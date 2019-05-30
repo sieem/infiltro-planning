@@ -7,7 +7,7 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
-  registerUserData: any = {}
+  formData: any = {}
 
   constructor(private auth: AuthService) { }
 
@@ -16,7 +16,7 @@ export class RegisterComponent implements OnInit {
 
   registerUser() {
     console.log(this)
-    this.auth.registerUser(this.registerUserData)
+    this.auth.registerUser(this.formData)
     .subscribe(
       res => console.log(res),
       err => console.log(err)
