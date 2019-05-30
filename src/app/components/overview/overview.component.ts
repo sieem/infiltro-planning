@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PlanningDataService } from 'src/app/services/planning-data.service';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'app-overview',
@@ -10,13 +10,13 @@ export class OverviewComponent implements OnInit {
 
   planningData: any = {}
 
-  constructor(private planningDataService:PlanningDataService) { }
+  constructor(private api:ApiService) { }
 
   ngOnInit() {
   }
 
   getPlanningData() {
-    this.planningDataService.getPlanningData().subscribe(
+    this.api.getPlanningData().subscribe(
       res => this.planningData = res,
       err => console.log(err)
     )

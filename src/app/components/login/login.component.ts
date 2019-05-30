@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/services/auth.service';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'app-login',
@@ -9,14 +9,13 @@ import { AuthService } from 'src/app/services/auth.service';
 export class LoginComponent implements OnInit {
   formData: any = {}
 
-  constructor(private auth: AuthService) { }
+  constructor(private api: ApiService) { }
 
   ngOnInit() {
   }
 
   loginUser() {
-    console.log(this)
-    this.auth.loginUser(this.formData)
+    this.api.loginUser(this.formData)
       .subscribe(
         res => console.log(res),
         err => console.log(err)

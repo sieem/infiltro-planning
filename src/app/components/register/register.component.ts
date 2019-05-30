@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/services/auth.service';
+import { ApiService } from 'src/app/services/api.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -10,14 +10,14 @@ import { Router } from '@angular/router';
 export class RegisterComponent implements OnInit {
   formData: any = {}
 
-  constructor(private auth: AuthService, private router: Router) { }
+  constructor(private api: ApiService, private router: Router) { }
 
   ngOnInit() {
   }
 
   registerUser() {
     console.log(this)
-    this.auth.registerUser(this.formData)
+    this.api.registerUser(this.formData)
     .subscribe(
       (res:any) => {
         localStorage.setItem('token', res.token)
