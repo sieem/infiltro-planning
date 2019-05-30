@@ -1,3 +1,5 @@
-<p>
-  register works!
-</p>
+<form action="">
+  <input [(ngModel)]="registerUserData.email" type="email" name="email">
+  <input [(ngModel)]="registerUserData.password" type="password" name="password">
+  <button (click)="registerUser()">register</button>
+</form>
