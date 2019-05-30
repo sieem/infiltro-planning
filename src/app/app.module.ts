@@ -10,13 +10,17 @@ import { OverviewComponent } from './components/overview/overview.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ApiService } from './services/api.service';
+import { AuthService } from './services/auth.service';
+import { AuthGuard } from './guards/auth.guard';
+import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     OverviewComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -24,7 +28,7 @@ import { ApiService } from './services/api.service';
     FormsModule,
     HttpClientModule
   ],
-  providers: [ApiService],
+  providers: [ApiService, AuthService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

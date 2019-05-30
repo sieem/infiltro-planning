@@ -6,9 +6,10 @@ import { environment } from '../../environments/environment';
   providedIn: 'root'
 })
 export class ApiService {
+
   private baseUrl: string = environment.apiUrl;
 
-  constructor(private http:HttpClient) { }
+  constructor(private http: HttpClient) { }
 
   registerUser(user: any) {
     return this.http.post(this.baseUrl + '/register', user)

@@ -8,7 +8,7 @@ import { ApiService } from 'src/app/services/api.service';
 })
 export class OverviewComponent implements OnInit {
 
-  planningData: any = {}
+  planningData: any = []
 
   constructor(private api:ApiService) { }
 
