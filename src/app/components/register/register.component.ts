@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 import { Router } from '@angular/router';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
@@ -8,24 +9,49 @@ import { Router } from '@angular/router';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
-  formData: any = {}
+  registerForm: FormGroup;
+  submitted = false;
+  success = false;
 
-  constructor(private api: ApiService, private router: Router) { }
+  constructor(private formBuilder: FormBuilder, private api: ApiService, private router: Router) { }
 
   ngOnInit() {
+    this.registerForm = this.formBuilder.group({
+      // source: https://stackoverflow.com/questions/40513352/email-validation-using-form-builder-in-angular-2-latest-version
+      email: ['', [Validators.required, Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")]],
+      // source: https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a
+      password: ['', [Validators.required, Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$")]],
+    });
+  }
+
+  onSubmit() {
+    this.submitted = true;
+
+    if (this.registerForm.invalid) {
+      return;
+    }
+
+    this.registerUser();
   }
 
   registerUser() {
-    console.log(this)
-    this.api.registerUser(this.formData)
-    .subscribe(
-      (res:any) => {
+
+    const formData = new FormData();
+    formData.append('email', this.registerForm.value.email);
+    formData.append('password', this.registerForm.value.name);
+
+    this.api.registerUser(formData).subscribe(
+      (res: any) => {
         localStorage.setItem('token', res.token)
         this.router.navigate(['/overview'])
-        
+
       },
       err => console.log(err)
-    )
+    );
+  }
+
+  checkInputField(field: string) {
+    return this.registerForm.get(field).invalid && (this.registerForm.get(field).dirty || this.registerForm.get(field).touched)
   }
 
 }
