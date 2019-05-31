@@ -5,6 +5,7 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { AuthGuard } from './guards/auth.guard';
 import { HomeComponent } from './components/home/home.component';
+import { AdminCompaniesComponent } from './components/admin-companies/admin-companies.component';
 
 const routes: Routes = [
   {
@@ -23,7 +24,12 @@ const routes: Routes = [
   {
     path: 'register',
     component: RegisterComponent
-  }
+  },
+  {
+    path: 'admin/companies',
+    component: AdminCompaniesComponent,
+    canActivate: [AuthGuard]
+  },
 ];
 
 @NgModule({

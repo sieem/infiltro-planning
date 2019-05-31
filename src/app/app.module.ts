@@ -14,6 +14,7 @@ import { AuthService } from './services/auth.service';
 import { AuthGuard } from './guards/auth.guard';
 import { HomeComponent } from './components/home/home.component';
 import { TokenInterceptorService } from './services/token-interceptor.service';
+import { AdminCompaniesComponent } from './components/admin-companies/admin-companies.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { TokenInterceptorService } from './services/token-interceptor.service';
     OverviewComponent,
     LoginComponent,
     RegisterComponent,
-    HomeComponent
+    HomeComponent,
+    AdminCompaniesComponent
   ],
   imports: [
     BrowserModule,
