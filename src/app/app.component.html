@@ -3,7 +3,7 @@
   <a routerLink="/overview" routerLinkActive="active">Overview</a>
   <a routerLink="/login" *ngIf="!auth.loggedIn()" routerLinkActive="active">Login</a>
   <a routerLink="/register" *ngIf="!auth.loggedIn()" routerLinkActive="active">Register</a>
-  <a routerLink="/admin/companies" *ngIf="auth.loggedIn()" routerLinkActive="active">Register</a>
+  <a routerLink="/admin/companies" *ngIf="auth.loggedIn()" routerLinkActive="active">Admin companies</a>
   <a *ngIf="auth.loggedIn()" (click)="auth.logoutUser()">log out</a>
 </nav>
 <router-outlet></router-outlet>

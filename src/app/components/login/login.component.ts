@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 import { Router } from '@angular/router';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { FormService } from 'src/app/services/form.service';
 
 @Component({
   selector: 'app-login',
@@ -13,14 +14,12 @@ export class LoginComponent implements OnInit {
   submitted = false;
   success = false;
 
-  constructor(private formBuilder: FormBuilder, private api: ApiService, private router: Router) { }
+  constructor(private formBuilder: FormBuilder, private api: ApiService, private router: Router, private formService: FormService) { }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      // source: https://stackoverflow.com/questions/40513352/email-validation-using-form-builder-in-angular-2-latest-version
-      email: ['', [Validators.required, Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")]],
-      // source: https://stackoverflow.com/a/19605207
-      password: ['', [Validators.required, Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$")]],
+      email: ['', [Validators.required, Validators.pattern(this.formService.emailRegex)]],
+      password: ['', [Validators.required, Validators.pattern(this.formService.passwordRegex)]],
     });
   }
 
@@ -49,9 +48,4 @@ export class LoginComponent implements OnInit {
       err => console.log(err)
     );
   }
-
-  checkInputField(field: string) {
-    return this.loginForm.get(field).invalid && (this.loginForm.get(field).dirty || this.loginForm.get(field).touched)
-  }
-
 }
