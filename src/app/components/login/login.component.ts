@@ -12,7 +12,6 @@ import { FormService } from 'src/app/services/form.service';
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   submitted = false;
-  success = false;
 
   constructor(private formBuilder: FormBuilder, private api: ApiService, private router: Router, private formService: FormService) { }
 

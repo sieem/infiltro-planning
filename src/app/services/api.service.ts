@@ -7,7 +7,7 @@ import { environment } from '../../environments/environment';
 })
 export class ApiService {
 
-  private baseUrl: string = environment.apiUrl;
+  private baseUrl: string = environment.apiUrl
 
   constructor(private http: HttpClient) { }
 
@@ -21,5 +21,17 @@ export class ApiService {
 
   getPlanningData() {
     return this.http.get(this.baseUrl + '/planning-data')
+  }
+
+  getCompanies() {
+    return this.http.get(this.baseUrl + '/get-companies/')
+  }
+
+  saveCompany(company: any) {
+    return this.http.post(this.baseUrl + '/save-company', company)
+  }
+
+  removeCompany(company: any) {
+    return this.http.post(this.baseUrl + '/remove-company', company)
   }
 }

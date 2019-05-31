@@ -1,3 +1,9 @@
-<p>
-  admin-companies works!
-</p>
+<div *ngFor="let company of companies">
+  <div (click)="removeCompany(company)">{{company.name}}</div>
+</div>
+
+<form [formGroup]="companyForm" (ngSubmit)="onSubmit()">
+  <input type="text" name="name" formControlName="name">
+  <p *ngIf="formService.checkInputField(companyForm, 'name')" class="error">name is invalid</p>
+  <input type="submit" value="add company">
+</form>
