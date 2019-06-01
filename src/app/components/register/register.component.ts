@@ -3,6 +3,7 @@ import { ApiService } from 'src/app/services/api.service';
 import { Router } from '@angular/router';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { FormService } from 'src/app/services/form.service';
+import { CompanyService } from 'src/app/services/company.service';
 
 @Component({
   selector: 'app-register',
@@ -13,13 +14,16 @@ export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
   submitted = false;
 
-  constructor(private formBuilder: FormBuilder, private api: ApiService, private router: Router, private formService: FormService) { }
+  constructor(private formBuilder: FormBuilder, private api: ApiService, private router: Router, private formService: FormService, private companyService: CompanyService) { }
 
   ngOnInit() {
     this.registerForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.pattern(this.formService.emailRegex)]],
       password: ['', [Validators.required, Validators.pattern(this.formService.passwordRegex)]],
-    });
+      company: ['', Validators.required],
+    })
+    
+    this.companyService.getCompanies()
   }
 
   onSubmit() {
@@ -36,7 +40,8 @@ export class RegisterComponent implements OnInit {
 
     const formData = new FormData();
     formData.append('email', this.registerForm.value.email);
-    formData.append('password', this.registerForm.value.name);
+    formData.append('password', this.registerForm.value.password);
+    formData.append('company', this.registerForm.value.company);
 
     this.api.registerUser(formData).subscribe(
       (res: any) => {

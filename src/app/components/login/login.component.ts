@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
 
     const formData = new FormData();
     formData.append('email', this.loginForm.value.email);
-    formData.append('password', this.loginForm.value.name);
+    formData.append('password', this.loginForm.value.password);
 
     this.api.loginUser(formData).subscribe(
       (res: any) => {

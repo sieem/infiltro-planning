@@ -3,5 +3,10 @@
   <p *ngIf="formService.checkInputField(registerForm, 'email')" class="error">email is invalid</p>
   <input type="password" name="password" formControlName="password">
   <p *ngIf="formService.checkInputField(registerForm, 'password')" class="error">password is invalid</p>
+  <select name="company" formControlName="company">
+    <option value="">select company</option>
+    <option *ngFor="let company of companyService.companies" value="company._id">{{company.name}}</option>
+  </select>
+  <p *ngIf="formService.checkInputField(registerForm, 'company')" class="error">company is invalid</p>
   <input type="submit" value="register">
 </form>
