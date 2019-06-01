@@ -1,4 +1,4 @@
-<div *ngFor="let company of companies">
+<div *ngFor="let company of companyService.companies">
   <div (click)="removeCompany(company)">{{company.name}}</div>
 </div>
 
