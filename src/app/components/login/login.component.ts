@@ -3,6 +3,7 @@ import { ApiService } from 'src/app/services/api.service';
 import { Router } from '@angular/router';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { FormService } from 'src/app/services/form.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   submitted = false;
 
-  constructor(private formBuilder: FormBuilder, private api: ApiService, private router: Router, private formService: FormService) { }
+  constructor(private formBuilder: FormBuilder, private api: ApiService, private router: Router, private formService: FormService, private auth:AuthService) { }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
@@ -41,10 +42,10 @@ export class LoginComponent implements OnInit {
     this.api.loginUser(formData).subscribe(
       (res: any) => {
         localStorage.setItem('token', res.token)
+        this.auth.saveUserDetails()
         this.router.navigate(['/overview'])
-
       },
       err => console.log(err)
-    );
+    )
   }
 }

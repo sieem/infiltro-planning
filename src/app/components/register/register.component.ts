@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { FormService } from 'src/app/services/form.service';
 import { CompanyService } from 'src/app/services/company.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -14,7 +15,7 @@ export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
   submitted = false;
 
-  constructor(private formBuilder: FormBuilder, private api: ApiService, private router: Router, private formService: FormService, private companyService: CompanyService) { }
+  constructor(private formBuilder: FormBuilder, private api: ApiService, private router: Router, private formService: FormService, private companyService: CompanyService, private auth:AuthService) { }
 
   ngOnInit() {
     this.registerForm = this.formBuilder.group({
@@ -46,10 +47,11 @@ export class RegisterComponent implements OnInit {
     this.api.registerUser(formData).subscribe(
       (res: any) => {
         localStorage.setItem('token', res.token)
+        this.auth.saveUserDetails()
         this.router.navigate(['/overview'])
 
       },
       err => console.log(err)
-    );
+    )
   }
 }

@@ -34,4 +34,8 @@ export class ApiService {
   removeCompany(company: any) {
     return this.http.post(this.baseUrl + '/remove-company', company)
   }
+  
+  getUserDetails() {
+    return this.http.get(this.baseUrl + '/get-user-details')
+  }
 }

@@ -1,12 +1,15 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ApiService } from './api.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(private router: Router) { }
+  userDetails: any
+
+  constructor(private router: Router, private api:ApiService) { }
 
   loggedIn() {
     return !!localStorage.getItem('token')
@@ -19,5 +22,12 @@ export class AuthService {
   logoutUser() {
     localStorage.removeItem('token')
     this.router.navigate(['/'])
+  }
+
+  saveUserDetails() {
+    this.api.getUserDetails().subscribe(
+      res => this.userDetails = res,
+      err => console.log(err)
+    )
   }
 }
