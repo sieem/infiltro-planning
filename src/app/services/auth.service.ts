@@ -10,15 +10,15 @@ export class AuthService {
   userDetails: any
   userRoles: any = [
     {
-      "sort": "admin",
+      "type": "admin",
       "name": "Administrator"
     },
     {
-      "sort": "company",
+      "type": "company",
       "name": "Bedrijf"
     },
     {
-      "sort": "client",
+      "type": "client",
       "name": "klant"
     }
   ]
