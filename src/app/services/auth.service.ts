@@ -10,15 +10,15 @@ export class AuthService {
   userDetails: any
   userRoles: any = [
     {
-      "role": "admin",
+      "sort": "admin",
       "name": "Administrator"
     },
     {
-      "role": "company",
+      "sort": "company",
       "name": "Bedrijf"
     },
     {
-      "role": "client",
+      "sort": "client",
       "name": "klant"
     }
   ]
@@ -40,13 +40,20 @@ export class AuthService {
 
   saveUserDetails() {
     this.api.getUserDetails().subscribe(
-      res => this.userDetails = res,
+      res => {
+        this.userDetails = res
+        return this.userDetails
+      },
       err => console.log(err)
     )
   }
 
   getUserDetails() {
-    return this.userDetails
+    if (!this.userDetails) {
+      this.saveUserDetails()
+    } else {
+      return this.userDetails
+    }
   }
 
   getUserRoles() {

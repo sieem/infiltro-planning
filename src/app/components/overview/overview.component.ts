@@ -18,7 +18,7 @@ export class OverviewComponent implements OnInit {
   }
 
   getPlanningData() {
-    console.log(this.auth.userDetails)
+    console.log(this.auth.getUserDetails())
     this.api.getPlanningData().subscribe(
       res => this.planningData = res,
       err => console.log(err)

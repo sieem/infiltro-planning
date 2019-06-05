@@ -10,7 +10,7 @@
   <div class="formGroup">
     <select name="company" formControlName="company">
       <option value="">select company</option>
-      <option *ngFor="let company of companyService.companies" value="company._id">{{company.name}}</option>
+      <option *ngFor="let company of companyService.getCompanies()" value="company._id">{{company.name}}</option>
     </select>
     <p *ngIf="formService.checkInputField(registerForm, 'company')" class="error">company is invalid</p>
   </div>
@@ -19,7 +19,7 @@
   <div class="formGroup">
     <select name="role" formControlName="role">
       <option value="">select role</option>
-      <option *ngFor="let role of roleService.companies" value="role._id">{{role.name}}</option>
+      <option *ngFor="let role of auth.getUserRoles()" value="role.sort">{{role.name}}</option>
     </select>
     <p *ngIf="formService.checkInputField(registerForm, 'role')" class="error">role is invalid</p>
   </div>

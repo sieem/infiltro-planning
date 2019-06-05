@@ -18,8 +18,6 @@ export class RegisterComponent implements OnInit {
   constructor(private formBuilder: FormBuilder, private api: ApiService, private router: Router, private formService: FormService, private companyService: CompanyService, private auth:AuthService) { }
 
   ngOnInit() {
-    this.companyService.getCompanies()
-    this.auth.getUserRoles()
 
     this.registerForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.pattern(this.formService.emailRegex)]],
