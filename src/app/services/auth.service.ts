@@ -26,7 +26,7 @@ export class AuthService {
   constructor(private router: Router, private api:ApiService) { }
 
   loggedIn() {
-    return localStorage.loggedIn
+    return (localStorage.loggedIn === "true")
   }
 
   logoutUser() {
