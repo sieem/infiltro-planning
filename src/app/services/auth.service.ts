@@ -8,6 +8,20 @@ import { ApiService } from './api.service';
 export class AuthService {
 
   userDetails: any
+  userRoles: any = [
+    {
+      "role": "admin",
+      "name": "Administrator"
+    },
+    {
+      "role": "company",
+      "name": "Bedrijf"
+    },
+    {
+      "role": "client",
+      "name": "klant"
+    }
+  ]
 
   constructor(private router: Router, private api:ApiService) { }
 
@@ -29,5 +43,13 @@ export class AuthService {
       res => this.userDetails = res,
       err => console.log(err)
     )
+  }
+
+  getUserDetails() {
+    return this.userDetails
+  }
+
+  getUserRoles() {
+    return this.userRoles
   }
 }

@@ -18,13 +18,16 @@ export class RegisterComponent implements OnInit {
   constructor(private formBuilder: FormBuilder, private api: ApiService, private router: Router, private formService: FormService, private companyService: CompanyService, private auth:AuthService) { }
 
   ngOnInit() {
+    this.companyService.getCompanies()
+    this.auth.getUserRoles()
+
     this.registerForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.pattern(this.formService.emailRegex)]],
       password: ['', [Validators.required, Validators.pattern(this.formService.passwordRegex)]],
       company: ['', Validators.required],
+      role: ['', Validators.required],
     })
     
-    this.companyService.getCompanies()
   }
 
   onSubmit() {
@@ -43,6 +46,7 @@ export class RegisterComponent implements OnInit {
     formData.append('email', this.registerForm.value.email);
     formData.append('password', this.registerForm.value.password);
     formData.append('company', this.registerForm.value.company);
+    formData.append('role', this.registerForm.value.role);
 
     this.api.registerUser(formData).subscribe(
       (res: any) => {
