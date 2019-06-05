@@ -6,17 +6,21 @@ import { environment } from '../../environments/environment';
   providedIn: 'root'
 })
 export class ApiService {
-
+  
   private baseUrl: string = environment.apiUrl
 
   constructor(private http: HttpClient) { }
 
-  registerUser(user: any) {
+  registerUser(user: FormData) {
     return this.http.post(this.baseUrl + '/register', user)
   }
 
-  loginUser(user: any) {
+  loginUser(user: FormData) {
     return this.http.post(this.baseUrl + '/login', user)
+  }
+
+  logoutUser() {
+    return this.http.get(this.baseUrl + '/logout')
   }
 
   getPlanningData() {
@@ -27,15 +31,19 @@ export class ApiService {
     return this.http.get(this.baseUrl + '/get-companies/')
   }
 
-  saveCompany(company: any) {
+  saveCompany(company: FormData) {
     return this.http.post(this.baseUrl + '/save-company', company)
   }
 
-  removeCompany(company: any) {
+  removeCompany(company: FormData) {
     return this.http.post(this.baseUrl + '/remove-company', company)
   }
   
   getUserDetails() {
     return this.http.get(this.baseUrl + '/get-user-details')
+  }
+
+  saveProject(formData: FormData) {
+    return this.http.post(this.baseUrl + '/save-project', formData)
   }
 }

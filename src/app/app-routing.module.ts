@@ -6,6 +6,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { AuthGuard } from './guards/auth.guard';
 import { HomeComponent } from './components/home/home.component';
 import { AdminCompaniesComponent } from './components/admin-companies/admin-companies.component';
+import { AdminProjectComponent } from './components/admin-project/admin-project.component';
 
 const routes: Routes = [
   {
@@ -28,6 +29,11 @@ const routes: Routes = [
   {
     path: 'admin/companies',
     component: AdminCompaniesComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'admin/project',
+    component: AdminProjectComponent,
     canActivate: [AuthGuard]
   },
 ];

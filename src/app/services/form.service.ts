@@ -8,6 +8,73 @@ export class FormService {
   public emailRegex: string = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
   // source: https://stackoverflow.com/a/19605207
   public passwordRegex: string = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$"
+  public postalCodeRegex: string = "B-[0-9]{4}"
+
+  projectTypes: any = [
+    {
+      "type": "house",
+      "name": "Woning"
+    },
+    {
+      "type": "stairs",
+      "name": "Traphal"
+    },
+    {
+      "type": "apartment",
+      "name": "Individueel appartement"
+    }
+  ]
+
+  executors: any = [
+    {
+      "type": "roel",
+      "name": "Roel"
+    },
+    {
+      "type": "david",
+      "name": "David"
+    },
+    {
+      "type": "together",
+      "name": "Samen"
+    }
+  ]
+
+  statuses: any = [
+    {
+      "type": "toContact",
+      "name": "Te contacteren"
+    },
+    {
+      "type": "toPlan",
+      "name": "Te plannen"
+    },
+    {
+      "type": "planned",
+      "name": "Ingepland"
+    },
+    {
+      "type": "proposalSent",
+      "name": "Voorstel doorgegeven"
+    },
+    {
+      "type": "onHold",
+      "name": "On - Hold"
+    },
+    {
+      "type": "executed",
+      "name": "Uitgevoerd"
+    },
+    {
+      "type": "reportAvailable",
+      "name": "Rapport beschikbaar"
+    },
+    {
+      "type": "conformityAvailable",
+      "name": "Conformiteit beschikbaar"
+    }
+  ]
+
   constructor() { }
 
   checkInputField(form:any, field: string) {
