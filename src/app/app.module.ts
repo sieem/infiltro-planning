@@ -13,7 +13,6 @@ import { ApiService } from './services/api.service';
 import { AuthService } from './services/auth.service';
 import { AuthGuard } from './guards/auth.guard';
 import { HomeComponent } from './components/home/home.component';
-import { TokenInterceptorService } from './services/token-interceptor.service';
 import { AdminCompaniesComponent } from './components/admin-companies/admin-companies.component';
 
 @NgModule({
@@ -32,13 +31,7 @@ import { AdminCompaniesComponent } from './components/admin-companies/admin-comp
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [ApiService, AuthService, AuthGuard, 
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: TokenInterceptorService,
-      multi: true
-    }
-  ],
+  providers: [ApiService, AuthService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
