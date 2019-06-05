@@ -48,10 +48,9 @@ export class RegisterComponent implements OnInit {
 
     this.api.registerUser(formData).subscribe(
       (res: any) => {
-        localStorage.setItem('token', res.token)
+        localStorage.loggedIn = true
         this.auth.saveUserDetails()
         this.router.navigate(['/overview'])
-
       },
       err => console.log(err)
     )

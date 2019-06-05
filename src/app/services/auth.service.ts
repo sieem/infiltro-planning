@@ -26,16 +26,19 @@ export class AuthService {
   constructor(private router: Router, private api:ApiService) { }
 
   loggedIn() {
-    return !!localStorage.getItem('token')
-  }
-
-  getToken() {
-    return localStorage.getItem('token')
+    return localStorage.loggedIn
   }
 
   logoutUser() {
-    localStorage.removeItem('token')
-    this.router.navigate(['/'])
+    this.api.logoutUser().subscribe(
+      res => {
+        this.userDetails = undefined
+        localStorage.loggedIn = false
+        this.router.navigate(['/'])
+      },
+      err => console.log(err)
+    )
+    
   }
 
   saveUserDetails() {

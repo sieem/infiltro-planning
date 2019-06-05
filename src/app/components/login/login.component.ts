@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
 
     this.api.loginUser(formData).subscribe(
       (res: any) => {
-        localStorage.setItem('token', res.token)
+        localStorage.loggedIn = true
         this.auth.saveUserDetails()
         this.router.navigate(['/overview'])
       },
