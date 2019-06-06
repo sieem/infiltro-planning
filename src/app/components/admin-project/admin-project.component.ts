@@ -86,7 +86,7 @@ export class AdminProjectComponent implements OnInit {
             hourPlanned: res.hourPlanned,
             status: res.status,
             comments: res.comments,
-            invoiced: res.invoiced
+            invoiced: (res.invoiced == undefined)?false:res.invoiced
           });
         },
         err => console.log(err)
