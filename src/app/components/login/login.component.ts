@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
       (res: any) => {
         localStorage.loggedIn = true
         this.auth.saveUserDetails()
-        this.router.navigate(['/overview'])
+        this.router.navigate(['/projects'])
       },
       err => console.log(err)
     )

@@ -9,18 +9,18 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class OverviewComponent implements OnInit {
 
-  planningData: any = []
+  projects: any = []
 
   constructor(private api:ApiService, private auth:AuthService) { }
 
   ngOnInit() {
-    this.getPlanningData()
+    this.getProjects()
   }
 
-  getPlanningData() {
+  getProjects() {
     console.log(this.auth.getUserDetails())
-    this.api.getPlanningData().subscribe(
-      res => this.planningData = res,
+    this.api.getProjects().subscribe(
+      res => this.projects = res,
       err => console.log(err)
     )
   }

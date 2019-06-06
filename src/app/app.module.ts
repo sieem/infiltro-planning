@@ -15,6 +15,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { HomeComponent } from './components/home/home.component';
 import { AdminCompaniesComponent } from './components/admin-companies/admin-companies.component';
 import { AdminProjectComponent } from './components/admin-project/admin-project.component';
+import { SingleProjectComponent } from './components/single-project/single-project.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { AdminProjectComponent } from './components/admin-project/admin-project.
     RegisterComponent,
     HomeComponent,
     AdminCompaniesComponent,
-    AdminProjectComponent
+    AdminProjectComponent,
+    SingleProjectComponent
   ],
   imports: [
     BrowserModule,

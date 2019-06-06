@@ -23,10 +23,6 @@ export class ApiService {
     return this.http.get(this.baseUrl + '/logout')
   }
 
-  getPlanningData() {
-    return this.http.get(this.baseUrl + '/planning-data')
-  }
-
   getCompanies() {
     return this.http.get(this.baseUrl + '/get-companies/')
   }
@@ -41,6 +37,14 @@ export class ApiService {
   
   getUserDetails() {
     return this.http.get(this.baseUrl + '/get-user-details')
+  }
+
+  getProjects() {
+    return this.http.get(this.baseUrl + '/get-projects')
+  }
+
+  getProject(projectId: string) {
+    return this.http.get(this.baseUrl + '/get-project/' + projectId)
   }
 
   saveProject(formData: FormData) {

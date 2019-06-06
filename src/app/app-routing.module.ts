@@ -7,6 +7,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { HomeComponent } from './components/home/home.component';
 import { AdminCompaniesComponent } from './components/admin-companies/admin-companies.component';
 import { AdminProjectComponent } from './components/admin-project/admin-project.component';
+import { SingleProjectComponent } from './components/single-project/single-project.component';
 
 const routes: Routes = [
   {
@@ -14,8 +15,13 @@ const routes: Routes = [
     component: HomeComponent
   },
   {
-    path: 'overview',
+    path: 'projects',
     component: OverviewComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'project/:projectId',
+    component: SingleProjectComponent,
     canActivate: [AuthGuard]
   },
   {
@@ -33,6 +39,11 @@ const routes: Routes = [
   },
   {
     path: 'admin/project',
+    component: AdminProjectComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'admin/project/:projectId',
     component: AdminProjectComponent,
     canActivate: [AuthGuard]
   },

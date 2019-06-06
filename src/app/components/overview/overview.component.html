@@ -1,5 +1,6 @@
-<div>{{auth.userDetails.email}}</div>
-<div *ngFor="let planningItem of planningData">
-  <div>{{planningItem.title}}</div>
-  <div>{{planningItem.date}}</div>
+<div *ngFor="let project of projects">
+  <a [routerLink]="[ '/project', project._id ]">
+    <div>{{project.projectName}}</div>
+    <div>{{project.dateCreated}}</div>
+  </a>
 </div>

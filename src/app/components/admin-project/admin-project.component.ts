@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from 'src/app/services/api.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormService } from 'src/app/services/form.service';
 import { CompanyService } from 'src/app/services/company.service';
 import { AuthService } from 'src/app/services/auth.service';
@@ -15,13 +15,16 @@ export class AdminProjectComponent implements OnInit {
 
   projectForm: FormGroup;
   submitted = false;
+  projectId: string
   
 
-  constructor(private formBuilder: FormBuilder, private api: ApiService, private router: Router, private formService: FormService, private companyService: CompanyService, private auth: AuthService) { }
+  constructor(private formBuilder: FormBuilder, private api: ApiService, private router: Router, private formService: FormService, private companyService: CompanyService, private auth: AuthService, private route: ActivatedRoute) { }
 
   ngOnInit() {
 
     this.projectForm = this.formBuilder.group({
+      _id: [''],
+
       company: ['', Validators.required],
       dateCreated: ['', Validators.required],
       projectType: ['Woning', Validators.required],
@@ -54,6 +57,42 @@ export class AdminProjectComponent implements OnInit {
       invoiced: [''],
     })
 
+    this.route.params.subscribe(params => {
+      this.projectId = params['projectId'];
+      this.api.getProject(this.projectId).subscribe(
+        (res:any) => {
+          this.projectForm.setValue({
+            _id: res._id,
+            company: res.company,
+            dateCreated: res.dateCreated,
+            projectType: res.projectType,
+            houseAmount: res.houseAmount,
+            projectName: res.projectName,
+            client: res.client,
+            street: res.street,
+            city: res.city,
+            postalCode: res.postalCode,
+            extraInfoAddress: res.extraInfoAddress,
+            name: res.name,
+            tel: res.tel,
+            email: res.email,
+            extraInfoContact: res.extraInfoContact,
+            EpbReporter: res.EpbReporter,
+            ATest: res.ATest,
+            v50Value: res.v50Value,
+            protectedVolume: res.protectedVolume,
+            executor: res.executor,
+            datePlanned: res.datePlanned,
+            hourPlanned: res.hourPlanned,
+            status: res.status,
+            comments: res.comments,
+            invoiced: res.invoiced
+          });
+        },
+        err => console.log(err)
+      )
+    });
+
   }
 
   onSubmit() {
@@ -70,6 +109,7 @@ export class AdminProjectComponent implements OnInit {
 
     const formData = new FormData();
     
+    formData.append('_id', this.projectForm.value._id)
     formData.append('company', this.projectForm.value.company)
     formData.append('dateCreated', this.projectForm.value.dateCreated)
     formData.append('projectType', this.projectForm.value.projectType)
@@ -97,7 +137,7 @@ export class AdminProjectComponent implements OnInit {
 
     this.api.saveProject(formData).subscribe(
       (res: any) => {
-        // this.router.navigate(['/overview'])
+        // this.router.navigate(['/projects'])
       },
       err => console.log(err)
     )
