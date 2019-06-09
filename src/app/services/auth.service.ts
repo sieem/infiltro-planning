@@ -1,6 +1,7 @@
 import { Injectable, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from './api.service';
+import * as jwt_decode from "jwt-decode";
 
 @Injectable({
   providedIn: 'root'
@@ -40,30 +41,23 @@ export class AuthService {
   logoutUser() {
     this.userDetails = null
     localStorage.removeItem('token')
-    this.router.navigate(['/'])  
+    this.router.navigate(['/'])
   }
+  
 
-  saveUserDetails() {
-    this.api.getUserDetails().subscribe(
-      res => {
-        this.userDetails = res
-        return this.userDetails
-      },
-      err => console.log(err)
-    )
-  }
+  // saveUserDetails() {
+  //   this.api.getUserDetails().subscribe(
+  //     res => {
+  //       this.userDetails = res
+  //       console.log(this.userDetails)
+  //     },
+  //     err => console.log(err)
+  //   )
+  // }
 
   getUserDetails() {
-    if(this.loggedIn()) {
-      if (!this.userDetails) {
-        this.saveUserDetails()
-      } else {
-        return this.userDetails
-      }
-    } else {
-      return null
-    }
-    
+    const token = this.getToken()
+    return jwt_decode(token)
   }
 
   getUserRoles() {

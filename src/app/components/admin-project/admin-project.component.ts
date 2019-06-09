@@ -14,20 +14,31 @@ import * as moment from 'moment';
 })
 export class AdminProjectComponent implements OnInit {
 
-  projectForm: FormGroup;
-  submitted = false;
+  projectForm: FormGroup
+  submitted = false
   projectId: string
+  user: any
   
 
-  constructor(private formBuilder: FormBuilder, private api: ApiService, private router: Router, private formService: FormService, private companyService: CompanyService, private auth: AuthService, private route: ActivatedRoute) { }
+  constructor(
+    private formBuilder: FormBuilder, 
+    private api: ApiService, 
+    private router: Router, 
+    private formService: FormService, 
+    private companyService: CompanyService, 
+    private auth: AuthService, 
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
+
+    this.user = this.auth.getUserDetails()
+    console.log(this.user)
 
     this.projectForm = this.formBuilder.group({
       _id: [''],
 
       company: ['', Validators.required],
-      dateCreated: ['', Validators.required],
+      dateCreated: [{value: '', disabled: (this.user.role === 'admin')}, Validators.required],
       projectType: ['Woning', Validators.required],
       houseAmount: [1, Validators.required],
       projectName: ['', Validators.required],
