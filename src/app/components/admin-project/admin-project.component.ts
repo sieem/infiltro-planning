@@ -5,6 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormService } from 'src/app/services/form.service';
 import { CompanyService } from 'src/app/services/company.service';
 import { AuthService } from 'src/app/services/auth.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-admin-project',
@@ -64,7 +65,7 @@ export class AdminProjectComponent implements OnInit {
           this.projectForm.setValue({
             _id: res._id,
             company: res.company,
-            dateCreated: res.dateCreated,
+            dateCreated: moment(res.dateCreated).format('YYYY-DD-MM'),
             projectType: res.projectType,
             houseAmount: res.houseAmount,
             projectName: res.projectName,
@@ -82,7 +83,7 @@ export class AdminProjectComponent implements OnInit {
             v50Value: res.v50Value,
             protectedVolume: res.protectedVolume,
             executor: res.executor,
-            datePlanned: res.datePlanned,
+            datePlanned: moment(res.datePlanned).format('YYYY-DD-MM'),
             hourPlanned: res.hourPlanned,
             status: res.status,
             comments: res.comments,
