@@ -8,7 +8,6 @@ import * as jwt_decode from "jwt-decode";
 })
 export class AuthService {
 
-  userDetails: any
   userRoles: any = [
     {
       "type": "admin",
@@ -39,7 +38,6 @@ export class AuthService {
   }
 
   logoutUser() {
-    this.userDetails = null
     localStorage.removeItem('token')
     this.router.navigate(['/'])
   }
@@ -54,10 +52,15 @@ export class AuthService {
   //     err => console.log(err)
   //   )
   // }
+  
 
   getUserDetails() {
     const token = this.getToken()
     return jwt_decode(token)
+  }
+
+  isAdmin() {
+    return this.getUserDetails().role === 'admin'
   }
 
   getUserRoles() {

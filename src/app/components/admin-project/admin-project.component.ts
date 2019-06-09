@@ -18,6 +18,7 @@ export class AdminProjectComponent implements OnInit {
   submitted = false
   projectId: string
   user: any
+  dateFormat: string = 'YYYY-DD-MM'
   
 
   constructor(
@@ -37,8 +38,8 @@ export class AdminProjectComponent implements OnInit {
     this.projectForm = this.formBuilder.group({
       _id: [''],
 
-      company: ['', Validators.required],
-      dateCreated: [{value: '', disabled: (this.user.role === 'admin')}, Validators.required],
+      company: [{ value: this.user.company, disabled: !this.auth.isAdmin() }, Validators.required],
+      dateCreated: [{ value: moment().format(this.dateFormat), disabled: !this.auth.isAdmin()}, Validators.required],
       projectType: ['Woning', Validators.required],
       houseAmount: [1, Validators.required],
       projectName: ['', Validators.required],
@@ -59,14 +60,14 @@ export class AdminProjectComponent implements OnInit {
       v50Value: [''],
       protectedVolume: [''],
 
-      executor: [''],
-      datePlanned: [''],
-      hourPlanned: [''],
-      status: [''],
+      executor: [{value:'', disabled: !this.auth.isAdmin()}],
+      datePlanned: [{value:'', disabled: !this.auth.isAdmin()}],
+      hourPlanned: [{value:'', disabled: !this.auth.isAdmin()}],
+      status: [{value:'', disabled: !this.auth.isAdmin()}],
       
       comments: [''],
 
-      invoiced: [''],
+      invoiced: [{ value: '', disabled: !this.auth.isAdmin() }],
     })
 
     this.route.params.subscribe(params => {
@@ -76,7 +77,7 @@ export class AdminProjectComponent implements OnInit {
           this.projectForm.setValue({
             _id: res._id,
             company: res.company,
-            dateCreated: moment(res.dateCreated).format('YYYY-DD-MM'),
+            dateCreated: moment(res.dateCreated).format(this.dateFormat),
             projectType: res.projectType,
             houseAmount: res.houseAmount,
             projectName: res.projectName,
@@ -94,7 +95,7 @@ export class AdminProjectComponent implements OnInit {
             v50Value: res.v50Value,
             protectedVolume: res.protectedVolume,
             executor: res.executor,
-            datePlanned: moment(res.datePlanned).format('YYYY-DD-MM'),
+            datePlanned: moment(res.datePlanned).format(this.dateFormat),
             hourPlanned: res.hourPlanned,
             status: res.status,
             comments: res.comments,
