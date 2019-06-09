@@ -25,20 +25,22 @@ export class AuthService {
 
   constructor(private router: Router, private api:ApiService) { }
 
+  saveToken(token) {
+    localStorage.setItem('token', token)
+  }
+
+  getToken() {
+    return localStorage.getItem('token')
+  }
+
   loggedIn() {
-    return (localStorage.loggedIn === "true")
+    return !!localStorage.getItem('token')
   }
 
   logoutUser() {
-    this.api.logoutUser().subscribe(
-      res => {
-        this.userDetails = undefined
-        localStorage.loggedIn = false
-        this.router.navigate(['/'])
-      },
-      err => console.log(err)
-    )
-    
+    this.userDetails = null
+    localStorage.removeItem('token')
+    this.router.navigate(['/'])  
   }
 
   saveUserDetails() {
@@ -52,11 +54,16 @@ export class AuthService {
   }
 
   getUserDetails() {
-    if (!this.userDetails) {
-      this.saveUserDetails()
+    if(this.loggedIn()) {
+      if (!this.userDetails) {
+        this.saveUserDetails()
+      } else {
+        return this.userDetails
+      }
     } else {
-      return this.userDetails
+      return null
     }
+    
   }
 
   getUserRoles() {

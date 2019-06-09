@@ -16,6 +16,7 @@ import { HomeComponent } from './components/home/home.component';
 import { AdminCompaniesComponent } from './components/admin-companies/admin-companies.component';
 import { AdminProjectComponent } from './components/admin-project/admin-project.component';
 import { SingleProjectComponent } from './components/single-project/single-project.component';
+import { TokenInterceptorService } from './services/token-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,13 @@ import { SingleProjectComponent } from './components/single-project/single-proje
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [ApiService, AuthService, AuthGuard],
+  providers: [ApiService, AuthService, AuthGuard,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptorService,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
