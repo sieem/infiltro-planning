@@ -11,7 +11,7 @@ export class OverviewComponent implements OnInit {
 
   projects: any = []
 
-  constructor(private api:ApiService, private auth:AuthService) { }
+  constructor(private api:ApiService, public auth:AuthService) { }
 
   ngOnInit() {
     this.getProjects()

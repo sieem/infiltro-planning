@@ -25,9 +25,9 @@ export class AdminProjectComponent implements OnInit {
     private formBuilder: FormBuilder, 
     private api: ApiService, 
     private router: Router, 
-    private formService: FormService, 
-    private companyService: CompanyService, 
-    private auth: AuthService, 
+    public formService: FormService, 
+    public companyService: CompanyService, 
+    public auth: AuthService, 
     private route: ActivatedRoute) { }
 
   ngOnInit() {

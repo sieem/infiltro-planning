@@ -15,7 +15,12 @@ export class AdminCompaniesComponent implements OnInit {
   submitted = false
 
 
-  constructor(private formBuilder: FormBuilder, private api: ApiService, private router: Router, private formService: FormService, private companyService: CompanyService) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private api: ApiService,
+    private router: Router,
+    public formService: FormService,
+    public companyService: CompanyService) { }
 
   ngOnInit() {
     this.companyForm = this.formBuilder.group({
