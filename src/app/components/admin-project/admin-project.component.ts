@@ -100,7 +100,7 @@ export class AdminProjectComponent implements OnInit {
             status: res.status,
             comments: res.comments,
             invoiced: (res.invoiced == undefined)?false:res.invoiced
-          });
+          })
         },
         err => console.log(err)
       )

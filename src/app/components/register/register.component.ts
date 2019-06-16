@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { FormService } from 'src/app/services/form.service';
 import { CompanyService } from 'src/app/services/company.service';
@@ -13,11 +13,14 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
-  submitted = false;
+  submitted: boolean = false;
+  userId: string;
+  user: any;
 
   constructor(private formBuilder: FormBuilder, 
     private api: ApiService, 
     private router: Router, 
+    private activatedRoute: ActivatedRoute,
     public formService: FormService, 
     public companyService: CompanyService, 
     public auth:AuthService) { }
@@ -25,12 +28,27 @@ export class RegisterComponent implements OnInit {
   ngOnInit() {
 
     this.registerForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.pattern(this.formService.emailRegex)]],
+      _id: [''],
       password: ['', [Validators.required, Validators.pattern(this.formService.passwordRegex)]],
-      company: [''],
-      role: ['', Validators.required],
     })
+
+    this.activatedRoute.params.subscribe(params => {
+      this.userId = params['userId'];
+      this.getUser(this.userId)
+    });
     
+  }
+
+  getUser(userId: string) {
+    this.api.getUser(userId).subscribe(
+      (res:any) => {
+        this.registerForm.setValue({
+          _id: res._id,
+          password: '',
+        })
+      },
+      err => console.log(err)
+    )
   }
 
   onSubmit() {
@@ -40,21 +58,18 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
-    this.registerUser();
+    this.registerUser()
   }
 
   registerUser() {
 
     const formData = new FormData();
-    formData.append('email', this.registerForm.value.email);
-    formData.append('password', this.registerForm.value.password);
-    formData.append('company', this.registerForm.value.company);
-    formData.append('role', this.registerForm.value.role);
+    formData.append('_id', this.registerForm.value._id)
+    formData.append('password', this.registerForm.value.password)
 
     this.api.registerUser(formData).subscribe(
       (res: any) => {
         this.auth.saveToken(res.token)
-        // this.auth.saveUserDetails()
         this.router.navigate(['/projects'])
       },
       err => console.log(err)

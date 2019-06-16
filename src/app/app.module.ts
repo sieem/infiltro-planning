@@ -17,6 +17,7 @@ import { AdminCompaniesComponent } from './components/admin-companies/admin-comp
 import { AdminProjectComponent } from './components/admin-project/admin-project.component';
 import { SingleProjectComponent } from './components/single-project/single-project.component';
 import { TokenInterceptorService } from './services/token-interceptor.service';
+import { AdminUserComponent } from './components/admin-user/admin-user.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { TokenInterceptorService } from './services/token-interceptor.service';
     HomeComponent,
     AdminCompaniesComponent,
     AdminProjectComponent,
-    SingleProjectComponent
+    SingleProjectComponent,
+    AdminUserComponent
   ],
   imports: [
     BrowserModule,

@@ -1,31 +1,10 @@
 <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
   <div class="inputGroup">
-    <input type="email" name="email" formControlName="email">
-    <p *ngIf="formService.checkInputField(registerForm, 'email')" class="error">email is invalid</p>
-  </div>
-  <div class="inputGroup">
     <input type="password" name="password" formControlName="password">
     <p *ngIf="formService.checkInputField(registerForm, 'password')" class="error">password is invalid</p>
-  </div>
-  <div class="inputGroup">
-    <select name="company" formControlName="company">
-      <option value="">select company</option>
-      <option *ngFor="let company of companyService.getCompanies()" [value]="company._id">{{company.name}}</option>
-    </select>
-    <p *ngIf="formService.checkInputField(registerForm, 'company')" class="error">company is invalid</p>
-  </div>
-  
-  
-  <div class="inputGroup">
-    <select name="role" formControlName="role">
-      <option value="">select role</option>
-      <option *ngFor="let role of auth.getUserRoles()" [value]="role.type">{{role.name}}</option>
-    </select>
-    <p *ngIf="formService.checkInputField(registerForm, 'role')" class="error">role is invalid</p>
   </div>
 
   <div class="inputGroup">
     <input type="submit" value="register">
   </div>
-  
 </form>

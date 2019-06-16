@@ -15,12 +15,12 @@ export class ApiService {
     return this.http.post(this.baseUrl + '/register', user)
   }
 
-  loginUser(user: FormData) {
-    return this.http.post(this.baseUrl + '/login', user)
+  getUser(userId: string) {
+    return this.http.get(this.baseUrl + '/get-user/' + userId)
   }
 
-  logoutUser() {
-    return this.http.get(this.baseUrl + '/logout')
+  loginUser(user: FormData) {
+    return this.http.post(this.baseUrl + '/login', user)
   }
 
   getCompanies() {
@@ -33,10 +33,6 @@ export class ApiService {
 
   removeCompany(company: FormData) {
     return this.http.post(this.baseUrl + '/remove-company', company)
-  }
-  
-  getUserDetails() {
-    return this.http.get(this.baseUrl + '/get-user-details')
   }
 
   getProjects() {
