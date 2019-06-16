@@ -1,7 +1,19 @@
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-  <input type="email" name="email" formControlName="email">
-  <p *ngIf="formService.checkInputField(loginForm, 'email', submitted)" class="error">!</p>
-  <input type="password" name="password" formControlName="password">
-  <p *ngIf="formService.checkInputField(loginForm, 'password', submitted)" class="error">!</p>
-  <input type="submit" value="login">
+  <div class="inputGroup">
+    <label for="email">email</label>
+    <input type="email" name="email" formControlName="email">
+    <p *ngIf="formService.checkInputField(loginForm, 'email', submitted)" class="error">!</p>
+  </div>
+  
+  
+  <div class="inputGroup">
+    <label for="password">password</label>
+    <input type="password" name="password" formControlName="password">
+    <p *ngIf="formService.checkInputField(loginForm, 'password', submitted)" class="error">!</p>
+  </div>
+
+  <div class="inputGroup">
+    <div></div>
+    <input type="submit" value="login">
+  </div>
 </form>
