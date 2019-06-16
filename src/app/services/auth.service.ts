@@ -43,7 +43,11 @@ export class AuthService {
 
   getUserDetails() {
     const token = this.getToken()
-    return jwt_decode(token)
+    if(token) {
+      return jwt_decode(token)
+    } else {
+      return false
+    }
   }
 
   isAdmin() {
