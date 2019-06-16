@@ -27,7 +27,7 @@ export class AdminUserComponent implements OnInit {
     this.registerForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.pattern(this.formService.emailRegex)]],
       // password: ['', [Validators.required, Validators.pattern(this.formService.passwordRegex)]],
-      company: [''],
+      company: ['', Validators.required],
       role: ['', Validators.required],
     })
 
