@@ -1,9 +1,13 @@
+<h1>Add user</h1>
+
 <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
   <div class="inputGroup">
+    <label for="email">email</label>
     <input type="email" name="email" formControlName="email">
     <p *ngIf="formService.checkInputField(registerForm, 'email', submitted)" class="error">!</p>
   </div>
   <div class="inputGroup">
+    <label for="company">company</label>
     <select name="company" formControlName="company">
       <option value="">select company</option>
       <option *ngFor="let company of companyService.getCompanies()" [value]="company._id">{{company.name}}</option>
@@ -13,6 +17,7 @@
 
 
   <div class="inputGroup">
+    <label for="role">role</label>
     <select name="role" formControlName="role">
       <option value="">select role</option>
       <option *ngFor="let role of auth.getUserRoles()" [value]="role.type">{{role.name}}</option>
@@ -21,6 +26,7 @@
   </div>
 
   <div class="inputGroup">
+    <div></div>
     <input type="submit" value="add user">
   </div>
 

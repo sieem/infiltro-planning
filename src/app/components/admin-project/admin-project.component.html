@@ -1,12 +1,16 @@
+
+
 <ng-container *ngIf="projectId; else elseTemplate">
-  <a [routerLink]="[ '/projects', projectId ]">back</a>
+  <h1>Edit project - {{projectForm.value.projectName}}</h1>
+  <a [routerLink]="[ '/projects', projectId ]">back to project</a>
 </ng-container>
 <ng-template #elseTemplate>
-  <a routerLink="/projects">back</a>
+  <h1>Add project</h1>
+  <a routerLink="/projects">back to overview</a>
 </ng-template>
 
 
-<form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="projectForm" (ngSubmit)="onSubmit()" class="striped">
   <div class="formSection">
     <div class="inputGroup">
       <label for="company">company <span *ngIf="projectForm.controls.company.validator !== null">*</span></label>

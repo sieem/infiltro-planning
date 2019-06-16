@@ -1,9 +1,18 @@
 <div *ngFor="let company of companyService.companies">
-  <div (click)="removeCompany(company)">{{company.name}}</div>
+  <div>{{company.name}} <span (click)="removeCompany(company)">(delete)</span></div>
 </div>
 
 <form [formGroup]="companyForm" (ngSubmit)="onSubmit()">
-  <input type="text" name="name" formControlName="name">
-  <p *ngIf="formService.checkInputField(companyForm, 'name', submitted)" class="error">!</p>
-  <input type="submit" value="add company">
+  <div class="inputGroup">
+    <label for="name">company name</label>
+    <input type="text" name="name" formControlName="name">
+    <p *ngIf="formService.checkInputField(companyForm, 'name', submitted)" class="error">!</p>
+  </div>
+  
+
+  <div class="inputGroup">
+    <div></div>
+    <input type="submit" value="add company">
+  </div>
+  
 </form>

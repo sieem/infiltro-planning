@@ -27,6 +27,16 @@ form,
     padding: 0;
     max-width: 600px;
     border: 1px solid $infiltro-border-grey;
+
+    &.striped {
+
+        .inputGroup,
+        .item {
+            &:nth-child(odd) {
+                background-color: $infiltro-border-grey;
+            }
+        }
+    }
 }
 
 .formSection,
@@ -51,10 +61,6 @@ form,
 
     .value {
         font-size: inherit; // just to fill in
-    }
-
-    &:nth-child(odd) {
-        background-color: $infiltro-border-grey;
     }
 
     p.error {
