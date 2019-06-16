@@ -77,7 +77,7 @@ export class FormService {
 
   constructor() { }
 
-  checkInputField(form:any, field: string) {
-    return form.get(field).invalid && (form.get(field).dirty || form.get(field).touched)
+  checkInputField(form: any, field: string, submitted: boolean) {
+    return form.get(field).invalid && (form.get(field).dirty || form.get(field).touched || submitted)
   }
 }

@@ -1,7 +1,7 @@
 <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
   <div class="inputGroup">
     <input type="password" name="password" formControlName="password">
-    <p *ngIf="formService.checkInputField(registerForm, 'password')" class="error">password is invalid</p>
+    <p *ngIf="formService.checkInputField(registerForm, 'password', submitted)" class="error">!</p>
   </div>
 
   <div class="inputGroup">

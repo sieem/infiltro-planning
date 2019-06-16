@@ -9,173 +9,173 @@
 <form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
   <div class="formSection">
     <div class="inputGroup">
-      <label for="company">company</label>
+      <label for="company">company <span *ngIf="projectForm.controls.company.validator !== null">*</span></label>
       <select name="company" id="company" formControlName="company">
         <option value="">select company</option>
         <option *ngFor="let company of companyService.getCompanies()" [value]="company._id">{{company.name}}</option>
       </select>
-      <p *ngIf="formService.checkInputField(projectForm, 'company')" class="error">!</p>
+      <p *ngIf="formService.checkInputField(projectForm, 'company', submitted)" class="error">!</p>
     </div>
   </div>
   <div class="formSection">
     <div class="inputGroup">
-      <label for="dateCreated">dateCreated</label>
+      <label for="dateCreated">dateCreated <span *ngIf="projectForm.controls.dateCreated.validator !== null">*</span></label>
       <input type="date" name="dateCreated" id="dateCreated" formControlName="dateCreated">
-      <p *ngIf="formService.checkInputField(projectForm, 'dateCreated')" class="error">!</p>
+      <p *ngIf="formService.checkInputField(projectForm, 'dateCreated', submitted)" class="error">!</p>
     </div>
 
     <div class="inputGroup">
-      <label for="projectType">projectType</label>
+      <label for="projectType">projectType <span *ngIf="projectForm.controls.projectType.validator !== null">*</span></label>
       <select name="projectType" id="projectType" formControlName="projectType">
         <option value="">select projectType</option>
         <option *ngFor="let projectType of formService.projectTypes" [value]="projectType.type">{{projectType.name}}</option>
       </select>
-      <p *ngIf="formService.checkInputField(projectForm, 'projectType')" class="error">!</p>
+      <p *ngIf="formService.checkInputField(projectForm, 'projectType', submitted)" class="error">!</p>
     </div>
 
     <div class="inputGroup">
-      <label for="houseAmount">houseAmount</label>
+      <label for="houseAmount">houseAmount <span *ngIf="projectForm.controls.houseAmount.validator !== null">*</span></label>
       <input type="number" name="houseAmount" id="houseAmount" formControlName="houseAmount">
-      <p *ngIf="formService.checkInputField(projectForm, 'houseAmount')" class="error">!</p>
+      <p *ngIf="formService.checkInputField(projectForm, 'houseAmount', submitted)" class="error">!</p>
     </div>
 
     <div class="inputGroup">
-      <label for="projectName">projectName</label>
+      <label for="projectName">projectName <span *ngIf="projectForm.controls.projectName.validator !== null">*</span></label>
       <input type="text" name="projectName" id="projectName" formControlName="projectName">
-      <p *ngIf="formService.checkInputField(projectForm, 'projectName')" class="error">!</p>
+      <p *ngIf="formService.checkInputField(projectForm, 'projectName', submitted)" class="error">!</p>
     </div>
 
     <div class="inputGroup">
-      <label for="client">client</label>
+      <label for="client">client <span *ngIf="projectForm.controls.client.validator !== null">*</span></label>
       <input type="text" name="client" id="client" formControlName="client">
-      <p *ngIf="formService.checkInputField(projectForm, 'client')" class="error">!</p>
+      <p *ngIf="formService.checkInputField(projectForm, 'client', submitted)" class="error">!</p>
     </div>
   </div>
 
     <div class="formSection">
       <div class="inputGroup">
-        <label for="street">street</label>
+        <label for="street">street <span *ngIf="projectForm.controls.street.validator !== null">*</span></label>
         <input type="text" name="street" id="street" formControlName="street">
-        <p *ngIf="formService.checkInputField(projectForm, 'street')" class="error">!</p>
+        <p *ngIf="formService.checkInputField(projectForm, 'street', submitted)" class="error">!</p>
       </div>
 
       <div class="inputGroup">
-        <label for="city">city</label>
+        <label for="city">city <span *ngIf="projectForm.controls.city.validator !== null">*</span></label>
         <input type="text" name="city" id="city" formControlName="city">
-        <p *ngIf="formService.checkInputField(projectForm, 'city')" class="error">!</p>
+        <p *ngIf="formService.checkInputField(projectForm, 'city', submitted)" class="error">!</p>
       </div>
 
       <div class="inputGroup">
-        <label for="postalCode">postalCode</label>
+        <label for="postalCode">postalCode <span *ngIf="projectForm.controls.postalCode.validator !== null">*</span></label>
         <input type="text" name="postalCode" id="postalCode" formControlName="postalCode">
-        <p *ngIf="formService.checkInputField(projectForm, 'postalCode')" class="error">!</p>
+        <p *ngIf="formService.checkInputField(projectForm, 'postalCode', submitted)" class="error">!</p>
       </div>
 
-      <div class="inputGroup">
-        <label for="extraInfoAddress">extraInfoAddress</label>
+      <div class="inputGroup textarea">
+        <label for="extraInfoAddress">extraInfoAddress <span *ngIf="projectForm.controls.extraInfoAddress.validator !== null">*</span></label>
         <textarea name="extraInfoAddress" id="extraInfoAddress" formControlName="extraInfoAddress" cols="30" rows="10"></textarea>
-        <p *ngIf="formService.checkInputField(projectForm, 'extraInfoAddress')" class="error">!</p>
+        <p *ngIf="formService.checkInputField(projectForm, 'extraInfoAddress', submitted)" class="error">!</p>
       </div>
     </div>
 
     <div class="formSection">
       <div class="inputGroup">
-        <label for="name">name</label>
+        <label for="name">name <span *ngIf="projectForm.controls.name.validator !== null">*</span></label>
         <input type="text" name="name" id="name" formControlName="name">
-        <p *ngIf="formService.checkInputField(projectForm, 'name')" class="error">!</p>
+        <p *ngIf="formService.checkInputField(projectForm, 'name', submitted)" class="error">!</p>
       </div>
 
       <div class="inputGroup">
-        <label for="tel">tel</label>
+        <label for="tel">tel <span *ngIf="projectForm.controls.tel.validator !== null">*</span></label>
         <input type="text" name="tel" id="tel" formControlName="tel">
-        <p *ngIf="formService.checkInputField(projectForm, 'tel')" class="error">!</p>
+        <p *ngIf="formService.checkInputField(projectForm, 'tel', submitted)" class="error">!</p>
       </div>
 
       <div class="inputGroup">
-        <label for="email">email</label>
+        <label for="email">email <span *ngIf="projectForm.controls.email.validator !== null">*</span></label>
         <input type="email" name="email" id="email" formControlName="email">
-        <p *ngIf="formService.checkInputField(projectForm, 'email')" class="error">!</p>
+        <p *ngIf="formService.checkInputField(projectForm, 'email', submitted)" class="error">!</p>
       </div>
 
-      <div class="inputGroup">
-        <label for="extraInfoContact">extraInfoContact</label>
+      <div class="inputGroup textarea">
+        <label for="extraInfoContact">extraInfoContact <span *ngIf="projectForm.controls.extraInfoContact.validator !== null">*</span></label>
         <textarea name="extraInfoContact" id="extraInfoContact" formControlName="extraInfoContact" cols="30"
           rows="10"></textarea>
-        <p *ngIf="formService.checkInputField(projectForm, 'extraInfoContact')" class="error">!</p>
+        <p *ngIf="formService.checkInputField(projectForm, 'extraInfoContact', submitted)" class="error">!</p>
       </div>
 
       <div class="inputGroup">
-        <label for="EpbReporter">EpbReporter</label>
+        <label for="EpbReporter">EpbReporter <span *ngIf="projectForm.controls.EpbReporter.validator !== null">*</span></label>
         <input type="text" name="EpbReporter" id="EpbReporter" formControlName="EpbReporter">
-        <p *ngIf="formService.checkInputField(projectForm, 'EpbReporter')" class="error">!</p>
+        <p *ngIf="formService.checkInputField(projectForm, 'EpbReporter', submitted)" class="error">!</p>
       </div>
     </div>
 
     <div class="formSection">
       <div class="inputGroup">
-        <label for="ATest">ATest</label>
+        <label for="ATest">ATest <span *ngIf="projectForm.controls.ATest.validator !== null">*</span></label>
         <input type="text" name="ATest" id="ATest" formControlName="ATest">
-        <p *ngIf="formService.checkInputField(projectForm, 'ATest')" class="error">!</p>
+        <p *ngIf="formService.checkInputField(projectForm, 'ATest', submitted)" class="error">!</p>
       </div>
 
       <div class="inputGroup">
-        <label for="v50Value">v50Value</label>
+        <label for="v50Value">v50Value <span *ngIf="projectForm.controls.v50Value.validator !== null">*</span></label>
         <input type="text" name="v50Value" id="v50Value" formControlName="v50Value">
-        <p *ngIf="formService.checkInputField(projectForm, 'v50Value')" class="error">!</p>
+        <p *ngIf="formService.checkInputField(projectForm, 'v50Value', submitted)" class="error">!</p>
       </div>
 
       <div class="inputGroup">
-        <label for="protectedVolume">protectedVolume</label>
+        <label for="protectedVolume">protectedVolume <span *ngIf="projectForm.controls.protectedVolume.validator !== null">*</span></label>
         <input type="text" name="protectedVolume" id="protectedVolume" formControlName="protectedVolume">
-        <p *ngIf="formService.checkInputField(projectForm, 'protectedVolume')" class="error">!</p>
+        <p *ngIf="formService.checkInputField(projectForm, 'protectedVolume', submitted)" class="error">!</p>
       </div>
     </div>
 
     <div class="formSection">
       <div class="inputGroup">
-        <label for="executor">executor</label>
+        <label for="executor">executor <span *ngIf="projectForm.controls.executor.validator !== null">*</span></label>
         <select name="executor" id="executor" formControlName="executor">
           <option value="">select executor</option>
           <option *ngFor="let executor of formService.executors" [value]="executor.type">{{executor.name}}</option>
         </select>
-        <p *ngIf="formService.checkInputField(projectForm, 'executor')" class="error">!</p>
+        <p *ngIf="formService.checkInputField(projectForm, 'executor', submitted)" class="error">!</p>
       </div>
 
       <div class="inputGroup">
-        <label for="datePlanned">datePlanned</label>
+        <label for="datePlanned">datePlanned <span *ngIf="projectForm.controls.datePlanned.validator !== null">*</span></label>
         <input type="date" name="datePlanned" id="datePlanned" formControlName="datePlanned">
-        <p *ngIf="formService.checkInputField(projectForm, 'datePlanned')" class="error">!</p>
+        <p *ngIf="formService.checkInputField(projectForm, 'datePlanned', submitted)" class="error">!</p>
       </div>
 
       <div class="inputGroup">
-        <label for="hourPlanned">hourPlanned</label>
+        <label for="hourPlanned">hourPlanned <span *ngIf="projectForm.controls.hourPlanned.validator !== null">*</span></label>
         <input type="time" name="hourPlanned" id="hourPlanned" formControlName="hourPlanned">
-        <p *ngIf="formService.checkInputField(projectForm, 'hourPlanned')" class="error">!</p>
+        <p *ngIf="formService.checkInputField(projectForm, 'hourPlanned', submitted)" class="error">!</p>
       </div>
 
       <div class="inputGroup">
-        <label for="status">status</label>
+        <label for="status">status <span *ngIf="projectForm.controls.status.validator !== null">*</span></label>
         <select name="status" id="status" formControlName="status">
           <option value="">select status</option>
           <option *ngFor="let status of formService.statuses" [value]="status.type">{{status.name}}</option>
         </select>
-        <p *ngIf="formService.checkInputField(projectForm, 'status')" class="error">!</p>
+        <p *ngIf="formService.checkInputField(projectForm, 'status', submitted)" class="error">!</p>
       </div>
     </div>
 
     <div class="formSection">
-      <div class="inputGroup">
-        <label for="comments">comments</label>
+      <div class="inputGroup textarea">
+        <label for="comments">comments <span *ngIf="projectForm.controls.comments.validator !== null">*</span></label>
         <textarea name="comments" id="comments" formControlName="comments" cols="30" rows="10"></textarea>
-        <p *ngIf="formService.checkInputField(projectForm, 'comments')" class="error">!</p>
+        <p *ngIf="formService.checkInputField(projectForm, 'comments', submitted)" class="error">!</p>
       </div>
     </div>
 
     <div class="formSection">
       <div class="inputGroup">
-        <label for="invoiced">invoiced</label>
+        <label for="invoiced">invoiced <span *ngIf="projectForm.controls.invoiced.validator !== null">*</span></label>
         <input type="checkbox" name="invoiced" id="invoiced" formControlName="invoiced">
-        <p *ngIf="formService.checkInputField(projectForm, 'invoiced')" class="error">!</p>
+        <p *ngIf="formService.checkInputField(projectForm, 'invoiced', submitted)" class="error">!</p>
       </div>
     </div>
 
@@ -186,7 +186,7 @@
     </div>
   </div>
 
-  <div class="formSection">
+  <div class="formSection" *ngIf="projectId">
     <div class="inputGroup">
       <div></div>
       <div (click)="removeProject()">delete this project</div>

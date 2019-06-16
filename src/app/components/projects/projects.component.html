@@ -1,3 +1,5 @@
+<a [routerLink]="[ '/admin/projects' ]">New project</a>
+
 <div class="project" *ngFor="let project of projects">
     <div class="title">{{ project.projectName }} - {{ project.projectType }}</div>
     <div>{{ project.city }}</div>

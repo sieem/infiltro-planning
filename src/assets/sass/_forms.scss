@@ -18,6 +18,7 @@ option {
 
 textarea {
     border: 1px solid $infiltro-grey;
+    text-align: left;
 }
 
 form,
@@ -69,5 +70,16 @@ form,
         text-align: center;
         line-height: $size;
         font-size: $size/2;
+    }
+
+    &.textarea {
+        display: block;
+
+        textarea,
+        .value {
+            display: block;
+            margin: 15px 0;
+            width: 100%;
+        }
     }
 }

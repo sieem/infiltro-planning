@@ -39,7 +39,7 @@ export class AdminProjectComponent implements OnInit {
 
       company: [{ value: this.user.company, disabled: !this.auth.isAdmin() }, Validators.required],
       dateCreated: [{ value: moment().format(this.dateFormat), disabled: !this.auth.isAdmin()}, Validators.required],
-      projectType: ['Woning', Validators.required],
+      projectType: ['house', Validators.required],
       houseAmount: [1, Validators.required],
       projectName: ['', Validators.required],
       client: ['', Validators.required],
@@ -69,42 +69,44 @@ export class AdminProjectComponent implements OnInit {
       invoiced: [{ value: '', disabled: !this.auth.isAdmin() }],
     })
 
-    this.route.params.subscribe(params => {
-      this.projectId = params['projectId'];
-      this.api.getProject(this.projectId).subscribe(
-        (res:any) => {
-          this.projectForm.setValue({
-            _id: res._id,
-            company: res.company,
-            dateCreated: moment(res.dateCreated).format(this.dateFormat),
-            projectType: res.projectType,
-            houseAmount: res.houseAmount,
-            projectName: res.projectName,
-            client: res.client,
-            street: res.street,
-            city: res.city,
-            postalCode: res.postalCode,
-            extraInfoAddress: res.extraInfoAddress,
-            name: res.name,
-            tel: res.tel,
-            email: res.email,
-            extraInfoContact: res.extraInfoContact,
-            EpbReporter: res.EpbReporter,
-            ATest: res.ATest,
-            v50Value: res.v50Value,
-            protectedVolume: res.protectedVolume,
-            executor: res.executor,
-            datePlanned: moment(res.datePlanned).format(this.dateFormat),
-            hourPlanned: res.hourPlanned,
-            status: res.status,
-            comments: res.comments,
-            invoiced: (res.invoiced == undefined)?false:res.invoiced
-          })
-        },
-        err => console.log(err)
-      )
-    });
 
+    this.route.params.subscribe(params => {
+      if(params['projectId']) {
+        this.projectId = params['projectId'];
+        this.api.getProject(this.projectId).subscribe(
+          (res: any) => {
+            this.projectForm.setValue({
+              _id: res._id,
+              company: res.company,
+              dateCreated: moment(res.dateCreated).format(this.dateFormat),
+              projectType: res.projectType,
+              houseAmount: res.houseAmount,
+              projectName: res.projectName,
+              client: res.client,
+              street: res.street,
+              city: res.city,
+              postalCode: res.postalCode,
+              extraInfoAddress: res.extraInfoAddress,
+              name: res.name,
+              tel: res.tel,
+              email: res.email,
+              extraInfoContact: res.extraInfoContact,
+              EpbReporter: res.EpbReporter,
+              ATest: res.ATest,
+              v50Value: res.v50Value,
+              protectedVolume: res.protectedVolume,
+              executor: res.executor,
+              datePlanned: moment(res.datePlanned).format(this.dateFormat),
+              hourPlanned: res.hourPlanned,
+              status: res.status,
+              comments: res.comments,
+              invoiced: (res.invoiced == undefined) ? false : res.invoiced
+            })
+          },
+          err => console.log(err)
+        )
+      }
+    })
   }
 
   onSubmit() {
