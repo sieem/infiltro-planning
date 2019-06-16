@@ -30,6 +30,8 @@ export class AdminUserComponent implements OnInit {
       role: ['', Validators.required],
     })
 
+    this.auth.getUsers()
+
   }
 
   onSubmit() {
@@ -51,7 +53,8 @@ export class AdminUserComponent implements OnInit {
 
     this.api.addUser(formData).subscribe(
       (res: any) => {
-        console.log(res)
+        this.auth.users.push(res)
+        this.registerForm.reset()
       },
       err => console.log(err)
     )

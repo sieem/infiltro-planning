@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import * as jwt_decode from "jwt-decode";
+import { ApiService } from './api.service';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,9 @@ export class AuthService {
     }
   ]
 
-  constructor(private router: Router) { }
+  users: any
+
+  constructor(private router: Router, private api:ApiService) { }
 
   saveToken(token) {
     localStorage.setItem('token', token)
@@ -57,4 +60,19 @@ export class AuthService {
   getUserRoles() {
     return this.userRoles
   }
+
+  getUsers() {
+    if (!this.users) {
+      this.api.getUsers().subscribe(
+        res => {
+          this.users = res
+          return this.users
+        },
+        err => console.log(err)
+      )
+    } else {
+      return this.users
+    }
+  }
+  
 }

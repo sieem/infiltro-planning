@@ -44,6 +44,11 @@ const routes: Routes = [
     component: RegisterComponent
   },
   {
+    path: 'admin',
+    redirectTo: '/admin/users',
+    pathMatch: 'full'
+  },
+  {
     path: 'admin/users',
     component: AdminUserComponent,
     canActivate: [AuthGuard],

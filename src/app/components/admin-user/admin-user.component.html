@@ -1,4 +1,10 @@
-<h1>Add user</h1>
+<h1>User admin</h1>
+
+<div class="users">
+  <div class="user" *ngFor="let user of auth.users">
+    - {{user.email}}
+  </div>
+</div>
 
 <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
   <div class="inputGroup">

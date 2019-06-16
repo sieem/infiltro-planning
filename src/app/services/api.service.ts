@@ -19,6 +19,10 @@ export class ApiService {
     return this.http.post(this.baseUrl + '/register', user)
   }
 
+  getUsers() {
+    return this.http.get(this.baseUrl + '/get-users')
+  }
+
   getUser(userId: string) {
     return this.http.get(this.baseUrl + '/get-user/' + userId)
   }
