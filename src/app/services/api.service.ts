@@ -35,8 +35,8 @@ export class ApiService {
     return this.http.post(this.baseUrl + '/save-company', company)
   }
 
-  removeCompany(company: FormData) {
-    return this.http.post(this.baseUrl + '/remove-company', company)
+  removeCompany(companyId: string) {
+    return this.http.delete(this.baseUrl + '/remove-company/' + companyId)
   }
 
   getProjects() {
@@ -50,4 +50,9 @@ export class ApiService {
   saveProject(formData: FormData) {
     return this.http.post(this.baseUrl + '/save-project', formData)
   }
+
+  removeProject(projectId: string) {
+    return this.http.delete(this.baseUrl + '/remove-project/' + projectId)
+  }
+  
 }

@@ -55,12 +55,14 @@ export class AdminCompaniesComponent implements OnInit {
   }
 
   removeCompany(company: any) {
-    this.api.removeCompany(company).subscribe(
-      (res: any) => {
-        this.companyService.companies = this.removeElementFromArray(this.companyService.companies, company._id)
-      },
-      err => console.log(err)
-    )
+    if (confirm(`Are you sure to delete ${company.name}?`)) {
+      this.api.removeCompany(company._id).subscribe(
+        (res: any) => {
+          this.companyService.companies = this.removeElementFromArray(this.companyService.companies, company._id)
+        },
+        err => console.log(err)
+      )
+    }
   }
 
   removeElementFromArray(array:any , id:string) {

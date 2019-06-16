@@ -33,7 +33,6 @@ export class AdminProjectComponent implements OnInit {
   ngOnInit() {
 
     this.user = this.auth.getUserDetails()
-    console.log(this.user)
 
     this.projectForm = this.formBuilder.group({
       _id: [''],
@@ -154,6 +153,18 @@ export class AdminProjectComponent implements OnInit {
       },
       err => console.log(err)
     )
+  }
+
+
+  removeProject() {
+    if (confirm(`Are you sure to delete ${this.projectForm.value.projectName}?`)) {
+      this.api.removeProject(this.projectId).subscribe(
+        (res: any) => {
+          this.router.navigate(['/projects'])
+        },
+        err => console.log(err)
+      )
+    }
   }
 
 }
