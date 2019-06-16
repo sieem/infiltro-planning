@@ -49,7 +49,7 @@ export class AdminUserComponent implements OnInit {
     formData.append('company', this.registerForm.value.company)
     formData.append('role', this.registerForm.value.role)
 
-    this.api.registerUser(formData).subscribe(
+    this.api.addUser(formData).subscribe(
       (res: any) => {
         console.log(res)
       },

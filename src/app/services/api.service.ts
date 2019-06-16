@@ -11,6 +11,10 @@ export class ApiService {
 
   constructor(private http: HttpClient) { }
 
+  addUser(user: FormData) {
+    return this.http.post(this.baseUrl + '/add-user', user)
+  }
+
   registerUser(user: FormData) {
     return this.http.post(this.baseUrl + '/register', user)
   }
