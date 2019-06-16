@@ -1,9 +1,12 @@
-<nav>
-  <a routerLink="/" routerLinkActive="active">Home</a>
-  <a routerLink="/projects" routerLinkActive="active">Projects</a>
-  <a routerLink="/login" *ngIf="!auth.loggedIn()" routerLinkActive="active">Login</a>
-  <a routerLink="/register" *ngIf="!auth.loggedIn()" routerLinkActive="active">Register</a>
-  <a routerLink="/admin/companies" *ngIf="auth.loggedIn()" routerLinkActive="active">Admin companies</a>
-  <a *ngIf="auth.loggedIn()" (click)="auth.logoutUser()">log out</a>
-</nav>
-<router-outlet></router-outlet>
+<div class="wrapper">
+  <header class="logo">
+    <img src="/assets/images/infitro-logo.svg" class="logo" alt="Infiltro" routerLink="/">
+  </header>
+
+  <app-nav></app-nav>
+
+  <main>
+    <router-outlet></router-outlet>
+  </main>
+  
+</div>

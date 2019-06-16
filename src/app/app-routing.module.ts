@@ -1,10 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { OverviewComponent } from './components/overview/overview.component';
+import { ProjectsComponent } from './components/projects/projects.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { AuthGuard } from './guards/auth.guard';
-import { HomeComponent } from './components/home/home.component';
 import { AdminCompaniesComponent } from './components/admin-companies/admin-companies.component';
 import { AdminProjectComponent } from './components/admin-project/admin-project.component';
 import { SingleProjectComponent } from './components/single-project/single-project.component';
@@ -13,15 +12,16 @@ import { AdminUserComponent } from './components/admin-user/admin-user.component
 const routes: Routes = [
   {
     path: '',
-    component: HomeComponent
+    redirectTo: '/projects',
+    pathMatch: 'full'
   },
   {
     path: 'projects',
-    component: OverviewComponent,
+    component: ProjectsComponent,
     canActivate: [AuthGuard]
   },
   {
-    path: 'project/:projectId',
+    path: 'projects/:projectId',
     component: SingleProjectComponent,
     canActivate: [AuthGuard]
   },
@@ -34,7 +34,7 @@ const routes: Routes = [
     component: RegisterComponent
   },
   {
-    path: 'admin/user',
+    path: 'admin/users',
     component: AdminUserComponent,
     canActivate: [AuthGuard],
     data: { roles: ['admin'] }
@@ -46,13 +46,13 @@ const routes: Routes = [
     data: { roles: ['admin'] }
   },
   {
-    path: 'admin/project',
+    path: 'admin/projects',
     component: AdminProjectComponent,
     canActivate: [AuthGuard],
     data: { roles: ['admin', 'company'] }
   },
   {
-    path: 'admin/project/:projectId',
+    path: 'admin/projects/:projectId',
     component: AdminProjectComponent,
     canActivate: [AuthGuard],
     data: { roles: ['admin', 'company'] }

@@ -6,30 +6,30 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { OverviewComponent } from './components/overview/overview.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ApiService } from './services/api.service';
 import { AuthService } from './services/auth.service';
 import { AuthGuard } from './guards/auth.guard';
-import { HomeComponent } from './components/home/home.component';
 import { AdminCompaniesComponent } from './components/admin-companies/admin-companies.component';
 import { AdminProjectComponent } from './components/admin-project/admin-project.component';
 import { SingleProjectComponent } from './components/single-project/single-project.component';
 import { TokenInterceptorService } from './services/token-interceptor.service';
 import { AdminUserComponent } from './components/admin-user/admin-user.component';
+import { NavComponent } from './components/nav/nav.component';
+import { ProjectsComponent } from './components/projects/projects.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    OverviewComponent,
+    ProjectsComponent,
     LoginComponent,
     RegisterComponent,
-    HomeComponent,
     AdminCompaniesComponent,
     AdminProjectComponent,
     SingleProjectComponent,
-    AdminUserComponent
+    AdminUserComponent,
+    NavComponent
   ],
   imports: [
     BrowserModule,
