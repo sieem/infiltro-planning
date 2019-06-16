@@ -29,6 +29,11 @@
             "styles": [
               "src/assets/sass/styles.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/assets/sass"
+              ]
+            },
             "scripts": []
           },
           "configurations": {
@@ -89,6 +94,11 @@
             "styles": [
               "src/assets/sass/styles.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/assets/sass"
+              ]
+            },
             "scripts": []
           }
         },

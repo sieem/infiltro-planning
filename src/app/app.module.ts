@@ -18,6 +18,7 @@ import { TokenInterceptorService } from './services/token-interceptor.service';
 import { AdminUserComponent } from './components/admin-user/admin-user.component';
 import { NavComponent } from './components/nav/nav.component';
 import { ProjectsComponent } from './components/projects/projects.component';
+import { MapComponent } from './components/map/map.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { ProjectsComponent } from './components/projects/projects.component';
     AdminProjectComponent,
     SingleProjectComponent,
     AdminUserComponent,
-    NavComponent
+    NavComponent,
+    MapComponent
   ],
   imports: [
     BrowserModule,

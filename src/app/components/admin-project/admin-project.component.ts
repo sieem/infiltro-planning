@@ -150,7 +150,7 @@ export class AdminProjectComponent implements OnInit {
 
     this.api.saveProject(formData).subscribe(
       (res: any) => {
-        // this.router.navigate(['/projects'])
+        this.router.navigate(['/projects', res.projectId])
       },
       err => console.log(err)
     )

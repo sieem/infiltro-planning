@@ -1,19 +1,27 @@
+<ng-container *ngIf="projectId; else elseTemplate">
+  <a [routerLink]="[ '/projects', projectId ]">back</a>
+</ng-container>
+<ng-template #elseTemplate>
+  <a routerLink="/projects">back</a>
+</ng-template>
+
+
 <form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
-  <div class="fromSection">
+  <div class="formSection">
     <div class="inputGroup">
       <label for="company">company</label>
       <select name="company" id="company" formControlName="company">
         <option value="">select company</option>
         <option *ngFor="let company of companyService.getCompanies()" [value]="company._id">{{company.name}}</option>
       </select>
-      <p *ngIf="formService.checkInputField(projectForm, 'company')" class="error">company is invalid</p>
+      <p *ngIf="formService.checkInputField(projectForm, 'company')" class="error">!</p>
     </div>
   </div>
-  <div class="fromSection">
+  <div class="formSection">
     <div class="inputGroup">
       <label for="dateCreated">dateCreated</label>
       <input type="date" name="dateCreated" id="dateCreated" formControlName="dateCreated">
-      <p *ngIf="formService.checkInputField(projectForm, 'dateCreated')" class="error">dateCreated is invalid</p>
+      <p *ngIf="formService.checkInputField(projectForm, 'dateCreated')" class="error">!</p>
     </div>
 
     <div class="inputGroup">
@@ -22,51 +30,51 @@
         <option value="">select projectType</option>
         <option *ngFor="let projectType of formService.projectTypes" [value]="projectType.type">{{projectType.name}}</option>
       </select>
-      <p *ngIf="formService.checkInputField(projectForm, 'projectType')" class="error">projectType is invalid</p>
+      <p *ngIf="formService.checkInputField(projectForm, 'projectType')" class="error">!</p>
     </div>
 
     <div class="inputGroup">
       <label for="houseAmount">houseAmount</label>
       <input type="number" name="houseAmount" id="houseAmount" formControlName="houseAmount">
-      <p *ngIf="formService.checkInputField(projectForm, 'houseAmount')" class="error">houseAmount is invalid</p>
+      <p *ngIf="formService.checkInputField(projectForm, 'houseAmount')" class="error">!</p>
     </div>
 
     <div class="inputGroup">
       <label for="projectName">projectName</label>
       <input type="text" name="projectName" id="projectName" formControlName="projectName">
-      <p *ngIf="formService.checkInputField(projectForm, 'projectName')" class="error">projectName is invalid</p>
+      <p *ngIf="formService.checkInputField(projectForm, 'projectName')" class="error">!</p>
     </div>
 
     <div class="inputGroup">
       <label for="client">client</label>
       <input type="text" name="client" id="client" formControlName="client">
-      <p *ngIf="formService.checkInputField(projectForm, 'client')" class="error">client is invalid</p>
+      <p *ngIf="formService.checkInputField(projectForm, 'client')" class="error">!</p>
     </div>
   </div>
 
-    <div class="fromSection">
+    <div class="formSection">
       <div class="inputGroup">
         <label for="street">street</label>
         <input type="text" name="street" id="street" formControlName="street">
-        <p *ngIf="formService.checkInputField(projectForm, 'street')" class="error">street is invalid</p>
+        <p *ngIf="formService.checkInputField(projectForm, 'street')" class="error">!</p>
       </div>
 
       <div class="inputGroup">
         <label for="city">city</label>
         <input type="text" name="city" id="city" formControlName="city">
-        <p *ngIf="formService.checkInputField(projectForm, 'city')" class="error">city is invalid</p>
+        <p *ngIf="formService.checkInputField(projectForm, 'city')" class="error">!</p>
       </div>
 
       <div class="inputGroup">
         <label for="postalCode">postalCode</label>
         <input type="text" name="postalCode" id="postalCode" formControlName="postalCode">
-        <p *ngIf="formService.checkInputField(projectForm, 'postalCode')" class="error">postalCode is invalid</p>
+        <p *ngIf="formService.checkInputField(projectForm, 'postalCode')" class="error">!</p>
       </div>
 
       <div class="inputGroup">
         <label for="extraInfoAddress">extraInfoAddress</label>
         <textarea name="extraInfoAddress" id="extraInfoAddress" formControlName="extraInfoAddress" cols="30" rows="10"></textarea>
-        <p *ngIf="formService.checkInputField(projectForm, 'extraInfoAddress')" class="error">extraInfoAddress is invalid</p>
+        <p *ngIf="formService.checkInputField(projectForm, 'extraInfoAddress')" class="error">!</p>
       </div>
     </div>
 
@@ -74,32 +82,32 @@
       <div class="inputGroup">
         <label for="name">name</label>
         <input type="text" name="name" id="name" formControlName="name">
-        <p *ngIf="formService.checkInputField(projectForm, 'name')" class="error">name is invalid</p>
+        <p *ngIf="formService.checkInputField(projectForm, 'name')" class="error">!</p>
       </div>
 
       <div class="inputGroup">
         <label for="tel">tel</label>
         <input type="text" name="tel" id="tel" formControlName="tel">
-        <p *ngIf="formService.checkInputField(projectForm, 'tel')" class="error">tel is invalid</p>
+        <p *ngIf="formService.checkInputField(projectForm, 'tel')" class="error">!</p>
       </div>
 
       <div class="inputGroup">
         <label for="email">email</label>
         <input type="email" name="email" id="email" formControlName="email">
-        <p *ngIf="formService.checkInputField(projectForm, 'email')" class="error">email is invalid</p>
+        <p *ngIf="formService.checkInputField(projectForm, 'email')" class="error">!</p>
       </div>
 
       <div class="inputGroup">
         <label for="extraInfoContact">extraInfoContact</label>
         <textarea name="extraInfoContact" id="extraInfoContact" formControlName="extraInfoContact" cols="30"
           rows="10"></textarea>
-        <p *ngIf="formService.checkInputField(projectForm, 'extraInfoContact')" class="error">extraInfoContact is invalid</p>
+        <p *ngIf="formService.checkInputField(projectForm, 'extraInfoContact')" class="error">!</p>
       </div>
 
       <div class="inputGroup">
         <label for="EpbReporter">EpbReporter</label>
         <input type="text" name="EpbReporter" id="EpbReporter" formControlName="EpbReporter">
-        <p *ngIf="formService.checkInputField(projectForm, 'EpbReporter')" class="error">EpbReporter is invalid</p>
+        <p *ngIf="formService.checkInputField(projectForm, 'EpbReporter')" class="error">!</p>
       </div>
     </div>
 
@@ -107,19 +115,19 @@
       <div class="inputGroup">
         <label for="ATest">ATest</label>
         <input type="text" name="ATest" id="ATest" formControlName="ATest">
-        <p *ngIf="formService.checkInputField(projectForm, 'ATest')" class="error">ATest is invalid</p>
+        <p *ngIf="formService.checkInputField(projectForm, 'ATest')" class="error">!</p>
       </div>
 
       <div class="inputGroup">
         <label for="v50Value">v50Value</label>
         <input type="text" name="v50Value" id="v50Value" formControlName="v50Value">
-        <p *ngIf="formService.checkInputField(projectForm, 'v50Value')" class="error">v50Value is invalid</p>
+        <p *ngIf="formService.checkInputField(projectForm, 'v50Value')" class="error">!</p>
       </div>
 
       <div class="inputGroup">
         <label for="protectedVolume">protectedVolume</label>
         <input type="text" name="protectedVolume" id="protectedVolume" formControlName="protectedVolume">
-        <p *ngIf="formService.checkInputField(projectForm, 'protectedVolume')" class="error">protectedVolume is invalid</p>
+        <p *ngIf="formService.checkInputField(projectForm, 'protectedVolume')" class="error">!</p>
       </div>
     </div>
 
@@ -130,19 +138,19 @@
           <option value="">select executor</option>
           <option *ngFor="let executor of formService.executors" [value]="executor.type">{{executor.name}}</option>
         </select>
-        <p *ngIf="formService.checkInputField(projectForm, 'executor')" class="error">executor is invalid</p>
+        <p *ngIf="formService.checkInputField(projectForm, 'executor')" class="error">!</p>
       </div>
 
       <div class="inputGroup">
         <label for="datePlanned">datePlanned</label>
         <input type="date" name="datePlanned" id="datePlanned" formControlName="datePlanned">
-        <p *ngIf="formService.checkInputField(projectForm, 'datePlanned')" class="error">datePlanned is invalid</p>
+        <p *ngIf="formService.checkInputField(projectForm, 'datePlanned')" class="error">!</p>
       </div>
 
       <div class="inputGroup">
         <label for="hourPlanned">hourPlanned</label>
         <input type="time" name="hourPlanned" id="hourPlanned" formControlName="hourPlanned">
-        <p *ngIf="formService.checkInputField(projectForm, 'hourPlanned')" class="error">hourPlanned is invalid</p>
+        <p *ngIf="formService.checkInputField(projectForm, 'hourPlanned')" class="error">!</p>
       </div>
 
       <div class="inputGroup">
@@ -151,7 +159,7 @@
           <option value="">select status</option>
           <option *ngFor="let status of formService.statuses" [value]="status.type">{{status.name}}</option>
         </select>
-        <p *ngIf="formService.checkInputField(projectForm, 'status')" class="error">status is invalid</p>
+        <p *ngIf="formService.checkInputField(projectForm, 'status')" class="error">!</p>
       </div>
     </div>
 
@@ -159,7 +167,7 @@
       <div class="inputGroup">
         <label for="comments">comments</label>
         <textarea name="comments" id="comments" formControlName="comments" cols="30" rows="10"></textarea>
-        <p *ngIf="formService.checkInputField(projectForm, 'comments')" class="error">comments is invalid</p>
+        <p *ngIf="formService.checkInputField(projectForm, 'comments')" class="error">!</p>
       </div>
     </div>
 
@@ -167,14 +175,14 @@
       <div class="inputGroup">
         <label for="invoiced">invoiced</label>
         <input type="checkbox" name="invoiced" id="invoiced" formControlName="invoiced">
-        <p *ngIf="formService.checkInputField(projectForm, 'invoiced')" class="error">invoiced is invalid</p>
+        <p *ngIf="formService.checkInputField(projectForm, 'invoiced')" class="error">!</p>
       </div>
     </div>
 
   <div class="formSection">
     <div class="inputGroup">
-      <label for="register">register</label>
-      <input type="submit" value="register">
+      <label for="save"></label>
+      <input type="submit" value="save">
     </div>
   </div>
 </form>

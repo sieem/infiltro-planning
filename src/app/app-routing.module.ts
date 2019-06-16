@@ -8,6 +8,7 @@ import { AdminCompaniesComponent } from './components/admin-companies/admin-comp
 import { AdminProjectComponent } from './components/admin-project/admin-project.component';
 import { SingleProjectComponent } from './components/single-project/single-project.component';
 import { AdminUserComponent } from './components/admin-user/admin-user.component';
+import { MapComponent } from './components/map/map.component';
 
 const routes: Routes = [
   {
@@ -26,8 +27,17 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'map',
+    component: MapComponent
+  },
+  {
     path: 'login',
     component: LoginComponent
+  },
+  {
+    path: 'register',
+    redirectTo: '/login',
+    pathMatch: 'full'
   },
   {
     path: 'register/:userId',

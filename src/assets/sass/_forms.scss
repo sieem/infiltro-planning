@@ -1,0 +1,73 @@
+@import 'variables';
+
+input,
+textarea,
+select,
+option {
+    font-family: 'Open Sans', Tahoma, Helvetica;
+    font-size: 13px;
+    color: $infiltro-grey;
+    line-height: 1.5;
+
+    border: none;
+    border-bottom: 1px solid $infiltro-grey;
+    background: inherit;
+    text-align: right;
+    padding: 5px;
+}
+
+textarea {
+    border: 1px solid $infiltro-grey;
+}
+
+form,
+.projectFiche {
+    margin: 15px auto;
+    padding: 0;
+    max-width: 600px;
+    border: 1px solid $infiltro-border-grey;
+}
+
+.formSection,
+.projectSection {
+    margin-bottom: 50px;
+
+    &:last-child {
+        margin: 0;
+    }
+}
+
+.inputGroup,
+.item {
+    padding: 5px 15px;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+
+    .label {
+        font-weight: 700;
+    }
+
+    .value {
+        font-size: inherit; // just to fill in
+    }
+
+    &:nth-child(odd) {
+        background-color: $infiltro-border-grey;
+    }
+
+    p.error {
+        $size: 14px;
+        position: absolute;
+        right: -1px;
+        top: 15px;
+        border-radius: 100%;
+        color: #fff;
+        background-color: $infiltro-red;
+        height: $size;
+        width: $size;
+        text-align: center;
+        line-height: $size;
+        font-size: $size/2;
+    }
+}
