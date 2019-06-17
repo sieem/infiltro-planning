@@ -18,7 +18,6 @@ export class AdminProjectComponent implements OnInit {
   submitted = false
   projectId: string
   user: any
-  dateFormat: string = 'YYYY-DD-MM'
   
 
   constructor(
@@ -38,7 +37,7 @@ export class AdminProjectComponent implements OnInit {
       _id: [''],
 
       company: [{ value: this.user.company, disabled: !this.auth.isAdmin() }, Validators.required],
-      dateCreated: [{ value: moment().format(this.dateFormat), disabled: !this.auth.isAdmin()}, Validators.required],
+      dateCreated: [{ value: moment().format(this.formService.dateFormat), disabled: !this.auth.isAdmin() }, Validators.required],
       projectType: ['house', Validators.required],
       houseAmount: [1, Validators.required],
       projectName: ['', Validators.required],
@@ -78,7 +77,7 @@ export class AdminProjectComponent implements OnInit {
             this.projectForm.setValue({
               _id: res._id,
               company: res.company,
-              dateCreated: moment(res.dateCreated).format(this.dateFormat),
+              dateCreated: moment(res.dateCreated).format(this.formService.dateFormat),
               projectType: res.projectType,
               houseAmount: res.houseAmount,
               projectName: res.projectName,
@@ -96,7 +95,7 @@ export class AdminProjectComponent implements OnInit {
               v50Value: res.v50Value,
               protectedVolume: res.protectedVolume,
               executor: res.executor,
-              datePlanned: moment(res.datePlanned).format(this.dateFormat),
+              datePlanned: moment(res.datePlanned).format(this.formService.dateFormat),
               hourPlanned: res.hourPlanned,
               status: res.status,
               comments: res.comments,

@@ -10,7 +10,9 @@ export class FormService {
   public passwordRegex: string = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$"
   public postalCodeRegex: string = "B-[0-9]{4}"
 
-  projectTypes: any = [
+  public dateFormat: string = 'YYYY-MM-DD'
+
+  public projectTypes: any = [
     {
       "type": "house",
       "name": "Woning"
@@ -25,7 +27,7 @@ export class FormService {
     }
   ]
 
-  executors: any = [
+  public executors: any = [
     {
       "type": "roel",
       "name": "Roel"
@@ -40,7 +42,7 @@ export class FormService {
     }
   ]
 
-  statuses: any = [
+  public statuses: any = [
     {
       "type": "toContact",
       "name": "Te contacteren"
@@ -77,7 +79,7 @@ export class FormService {
 
   constructor() { }
 
-  checkInputField(form: any, field: string, submitted: boolean) {
+  public checkInputField(form: any, field: string, submitted: boolean) {
     return form.get(field).invalid && (form.get(field).dirty || form.get(field).touched || submitted)
   }
 }
