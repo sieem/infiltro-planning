@@ -80,7 +80,7 @@
 
       <div class="inputGroup textarea">
         <label for="extraInfoAddress">extraInfoAddress <span *ngIf="projectForm.controls.extraInfoAddress.validator !== null">*</span></label>
-        <textarea name="extraInfoAddress" id="extraInfoAddress" formControlName="extraInfoAddress" cols="30" rows="10"></textarea>
+        <textarea name="extraInfoAddress" id="extraInfoAddress" formControlName="extraInfoAddress" rows="3"></textarea>
         <p *ngIf="formService.checkInputField(projectForm, 'extraInfoAddress', submitted)" class="error">!</p>
       </div>
     </div>
@@ -107,8 +107,8 @@
 
       <div class="inputGroup textarea">
         <label for="extraInfoContact">extraInfoContact <span *ngIf="projectForm.controls.extraInfoContact.validator !== null">*</span></label>
-        <textarea name="extraInfoContact" id="extraInfoContact" formControlName="extraInfoContact" cols="30"
-          rows="10"></textarea>
+        <textarea name="extraInfoContact" id="extraInfoContact" formControlName="extraInfoContact"
+          rows="3"></textarea>
         <p *ngIf="formService.checkInputField(projectForm, 'extraInfoContact', submitted)" class="error">!</p>
       </div>
 
@@ -121,21 +121,22 @@
 
     <div class="formSection">
       <h2>Technische gegevens</h2>
-      <div class="inputGroup">
+      <div class="inputGroup textarea">
         <label for="ATest">ATest <span *ngIf="projectForm.controls.ATest.validator !== null">*</span></label>
-        <input type="text" name="ATest" id="ATest" formControlName="ATest">
+        <textarea name="ATest" id="ATest" formControlName="ATest"
+          rows="3"></textarea>
         <p *ngIf="formService.checkInputField(projectForm, 'ATest', submitted)" class="error">!</p>
       </div>
 
-      <div class="inputGroup">
+      <div class="inputGroup textarea">
         <label for="v50Value">v50Value <span *ngIf="projectForm.controls.v50Value.validator !== null">*</span></label>
-        <input type="text" name="v50Value" id="v50Value" formControlName="v50Value">
+        <textarea name="v50Value" id="v50Value" formControlName="v50Value" rows="3"></textarea>
         <p *ngIf="formService.checkInputField(projectForm, 'v50Value', submitted)" class="error">!</p>
       </div>
 
-      <div class="inputGroup">
+      <div class="inputGroup textarea">
         <label for="protectedVolume">protectedVolume <span *ngIf="projectForm.controls.protectedVolume.validator !== null">*</span></label>
-        <input type="text" name="protectedVolume" id="protectedVolume" formControlName="protectedVolume">
+        <textarea name="protectedVolume" id="protectedVolume" formControlName="protectedVolume" rows="3"></textarea>
         <p *ngIf="formService.checkInputField(projectForm, 'protectedVolume', submitted)" class="error">!</p>
       </div>
     </div>
@@ -176,7 +177,7 @@
     <div class="formSection">
       <div class="inputGroup textarea">
         <label for="comments">comments <span *ngIf="projectForm.controls.comments.validator !== null">*</span></label>
-        <textarea name="comments" id="comments" formControlName="comments" cols="30" rows="10"></textarea>
+        <textarea name="comments" id="comments" formControlName="comments" rows="3"></textarea>
         <p *ngIf="formService.checkInputField(projectForm, 'comments', submitted)" class="error">!</p>
       </div>
     </div>
