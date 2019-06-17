@@ -34,6 +34,7 @@ export class AdminCompaniesComponent implements OnInit {
     this.submitted = true
 
     if (this.companyForm.invalid) {
+      alert('form invalid');
       return;
     }
 
