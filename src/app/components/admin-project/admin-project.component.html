@@ -12,6 +12,7 @@
 
 <form [formGroup]="projectForm" (ngSubmit)="onSubmit()" class="striped">
   <div class="formSection">
+    <h2>Bedrijf</h2>
     <div class="inputGroup">
       <label for="company">company <span *ngIf="projectForm.controls.company.validator !== null">*</span></label>
       <select name="company" id="company" formControlName="company">
@@ -22,6 +23,7 @@
     </div>
   </div>
   <div class="formSection">
+    <h2>Project</h2>
     <div class="inputGroup">
       <label for="dateCreated">dateCreated <span *ngIf="projectForm.controls.dateCreated.validator !== null">*</span></label>
       <input type="date" name="dateCreated" id="dateCreated" formControlName="dateCreated">
@@ -57,6 +59,7 @@
   </div>
 
     <div class="formSection">
+      <h2>Adres</h2>
       <div class="inputGroup">
         <label for="street">street <span *ngIf="projectForm.controls.street.validator !== null">*</span></label>
         <input type="text" name="street" id="street" formControlName="street">
@@ -83,6 +86,7 @@
     </div>
 
     <div class="formSection">
+      <h2>Contactpersoon</h2>
       <div class="inputGroup">
         <label for="name">name <span *ngIf="projectForm.controls.name.validator !== null">*</span></label>
         <input type="text" name="name" id="name" formControlName="name">
@@ -116,6 +120,7 @@
     </div>
 
     <div class="formSection">
+      <h2>Technische gegevens</h2>
       <div class="inputGroup">
         <label for="ATest">ATest <span *ngIf="projectForm.controls.ATest.validator !== null">*</span></label>
         <input type="text" name="ATest" id="ATest" formControlName="ATest">
@@ -136,6 +141,7 @@
     </div>
 
     <div class="formSection">
+      <h2>Infiltro</h2>
       <div class="inputGroup">
         <label for="executor">executor <span *ngIf="projectForm.controls.executor.validator !== null">*</span></label>
         <select name="executor" id="executor" formControlName="executor">
