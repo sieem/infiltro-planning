@@ -13,7 +13,7 @@
     <h2>Project</h2>
     <div class="item">
       <div class="label">dateCreated</div>
-      <div class="value">{{project.dateCreated}}</div>
+      <div class="value">{{formatDate(project.dateCreated)}}</div>
     </div>
     <div class="item">
       <div class="label">projectType</div>
@@ -48,7 +48,7 @@
     </div>
     <div class="item textarea">
       <div class="label">extraInfoAddress</div>
-      <div class="value">{{project.extraInfoAddress}}</div>
+      <div class="value" [innerHTML]="newlineToBr(project.extraInfoAddress)"></div>
     </div>
   </div>
   <div class="projectSection">
@@ -67,7 +67,7 @@
     </div>
     <div class="item textarea">
       <div class="label">extraInfoContact</div>
-      <div class="value">{{project.extraInfoContact}}</div>
+      <div class="value" [innerHTML]="newlineToBr(project.extraInfoContact)"></div>
     </div>
     <div class="item">
       <div class="label">EpbReporter</div>
@@ -78,15 +78,15 @@
     <h2>Technische gegevens</h2>
     <div class="item textarea">
       <div class="label">ATest</div>
-      <div class="value">{{project.ATest}}</div>
+      <div class="value" [innerHTML]="newlineToBr(project.ATest)"></div>
     </div>
     <div class="item textarea">
       <div class="label">v50Value</div>
-      <div class="value">{{project.v50Value}}</div>
+      <div class="value" [innerHTML]="newlineToBr(project.v50Value)"></div>
     </div>
     <div class="item textarea">
       <div class="label">protectedVolume</div>
-      <div class="value">{{project.protectedVolume}}</div>
+      <div class="value" [innerHTML]="newlineToBr(project.protectedVolume)"></div>
     </div>
   </div>
   <div class="projectSection">
@@ -97,7 +97,7 @@
     </div>
     <div class="item">
       <div class="label">datePlanned</div>
-      <div class="value">{{project.datePlanned}}</div>
+      <div class="value">{{formatDate(project.datePlanned)}}</div>
     </div>
     <div class="item">
       <div class="label">hourPlanned</div>
@@ -111,7 +111,7 @@
   <div class="projectSection">
     <div class="item textarea">
       <div class="label">comments</div>
-      <div class="value">{{project.comments}}</div>
+      <div class="value" [innerHTML]="newlineToBr(project.comments)"></div>
     </div>
   </div>
   <div class="projectSection">

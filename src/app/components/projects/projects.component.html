@@ -2,12 +2,10 @@
 
 <div class="project" *ngFor="let project of projects">
     <div class="title">{{ project.projectName }} - {{ project.projectType }}</div>
-    <div>{{ project.city }}</div>
-    <div>
-      {{ project.excecutor }} - 
-      {{ project.datePlanned }} - 
-      {{ project.hourPlanned }} - 
-      {{ project.status }}
-    </div>
+    <div>City: {{ project.city }}</div>
+    <div>Excecutor: {{ project.excecutor }}</div>
+    <div>datePlanned: {{ formatDate(project.datePlanned) }}</div>
+    <div>hourPlanned: {{ project.hourPlanned }}</div>
+    <div>Status: {{ project.status }}</div>
     <a [routerLink]="[ '/projects', project._id ]">meer info</a>
 </div>

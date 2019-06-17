@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { ActivatedRoute } from '@angular/router';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-single-project',
@@ -19,8 +20,16 @@ export class SingleProjectComponent implements OnInit {
       this.projectId = params['projectId'];
       this.getProject(this.projectId)
     });
+  }
 
-    
+  formatDate(value) {
+    if(value)
+    return moment(value).format("DD-MM-YYYY")
+  }
+
+  newlineToBr(value) {
+    if(value)
+    return value.replace(/\n/g,"<br>")
   }
 
   getProject(projectId: string) {

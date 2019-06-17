@@ -7,7 +7,9 @@ import { ApiService } from './api.service';
 export class CompanyService {
   companies: any
 
-  constructor(private api: ApiService) { }
+  constructor(private api: ApiService) {
+    this.getCompanies()
+  }
 
   getCompanies() {
     if (!this.companies) {
