@@ -6,6 +6,7 @@ import { FormService } from 'src/app/services/form.service';
 import { CompanyService } from 'src/app/services/company.service';
 import { AuthService } from 'src/app/services/auth.service';
 import * as moment from 'moment';
+import { ProjectService } from 'src/app/services/project.service';
 
 @Component({
   selector: 'app-admin-project',
@@ -27,7 +28,8 @@ export class AdminProjectComponent implements OnInit {
     public formService: FormService, 
     public companyService: CompanyService, 
     public auth: AuthService, 
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    public projectService: ProjectService) { }
 
   ngOnInit() {
 

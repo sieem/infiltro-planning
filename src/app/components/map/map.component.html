@@ -1,15 +1,18 @@
 <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [disableDefaultUI]="true" [zoomControl]="true">
 
-  <agm-marker *ngFor="let m of markers" [latitude]="m.lat"
-    [longitude]="m.lng" [label]="m.executor.substring(0,1).toUpperCase()">
+  <agm-marker *ngFor="let m of markers"
+    [latitude]="m.lat"
+    [longitude]="m.lng" 
+    [label]="projectService.executorName(m.executor).substring(0,1).toUpperCase()"
+    [iconUrl]="'assets/images/map/' + m.pointerUrl">
 
     <agm-info-window>
       <h2>{{m.title}}</h2>
       <p>Adres: {{m.street}}, {{m.postalCode}} {{m.city}}</p>
-      <p>Datum: {{formatDate(m.datePlanned)}}</p>
+      <p>Datum: {{projectService.formatDate(m.datePlanned)}}</p>
       <p>Uur: {{m.hourPlanned}}</p>
-      <p>Status: {{m.status}}</p>
-      <p>Uitvoerder: {{m.executor}}</p>
+      <p>Status: {{projectService.statusName(m.status)}}</p>
+      <p>Uitvoerder: {{projectService.executorName(m.executor)}}</p>
     </agm-info-window>
 
   </agm-marker>

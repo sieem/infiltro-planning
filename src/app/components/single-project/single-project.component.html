@@ -13,11 +13,11 @@
     <h2>Project</h2>
     <div class="item">
       <div class="label">dateCreated</div>
-      <div class="value">{{formatDate(project.dateCreated)}}</div>
+      <div class="value">{{projectService.formatDate(project.dateCreated)}}</div>
     </div>
     <div class="item">
       <div class="label">projectType</div>
-      <div class="value">{{project.projectType}}</div>
+      <div class="value">{{projectService.projectTypeName(project.projectType)}}</div>
     </div>
     <div class="item">
       <div class="label">houseAmount</div>
@@ -93,11 +93,11 @@
     <h2>Infiltro</h2>
     <div class="item">
       <div class="label">executor</div>
-      <div class="value">{{project.executor}}</div>
+      <div class="value">{{projectService.executorName(project.executor)}}</div>
     </div>
     <div class="item">
       <div class="label">datePlanned</div>
-      <div class="value">{{formatDate(project.datePlanned)}}</div>
+      <div class="value">{{projectService.formatDate(project.datePlanned)}}</div>
     </div>
     <div class="item">
       <div class="label">hourPlanned</div>
@@ -105,7 +105,7 @@
     </div>
     <div class="item">
       <div class="label">status</div>
-      <div class="value">{{project.status}}</div>
+      <div class="value">{{projectService.statusName(project.status)}}</div>
     </div>
   </div>
   <div class="projectSection">

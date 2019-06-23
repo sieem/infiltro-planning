@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,74 +13,15 @@ export class FormService {
 
   public dateFormat: string = 'YYYY-MM-DD'
 
-  public projectTypes: any = [
-    {
-      "type": "house",
-      "name": "Woning"
-    },
-    {
-      "type": "stairs",
-      "name": "Traphal"
-    },
-    {
-      "type": "apartment",
-      "name": "Individueel appartement"
-    }
-  ]
-
-  public executors: any = [
-    {
-      "type": "roel",
-      "name": "Roel"
-    },
-    {
-      "type": "david",
-      "name": "David"
-    },
-    {
-      "type": "together",
-      "name": "Samen"
-    }
-  ]
-
-  public statuses: any = [
-    {
-      "type": "toContact",
-      "name": "Te contacteren"
-    },
-    {
-      "type": "toPlan",
-      "name": "Te plannen"
-    },
-    {
-      "type": "planned",
-      "name": "Ingepland"
-    },
-    {
-      "type": "proposalSent",
-      "name": "Voorstel doorgegeven"
-    },
-    {
-      "type": "onHold",
-      "name": "On - Hold"
-    },
-    {
-      "type": "executed",
-      "name": "Uitgevoerd"
-    },
-    {
-      "type": "reportAvailable",
-      "name": "Rapport beschikbaar"
-    },
-    {
-      "type": "conformityAvailable",
-      "name": "Conformiteit beschikbaar"
-    }
-  ]
-
   constructor() { }
 
   public checkInputField(form: any, field: string, submitted: boolean) {
     return form.get(field).invalid && (form.get(field).dirty || form.get(field).touched || submitted)
+  }
+
+  public formatDate(value) {
+    let returnDate = moment(value).format(this.dateFormat)
+    if (returnDate === 'Invalid date') return 'Onbekende dag'
+    else return returnDate
   }
 }

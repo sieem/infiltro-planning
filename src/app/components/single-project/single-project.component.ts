@@ -3,6 +3,7 @@ import { ApiService } from 'src/app/services/api.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
+import { ProjectService } from 'src/app/services/project.service';
 
 @Component({
   selector: 'app-single-project',
@@ -13,18 +14,13 @@ export class SingleProjectComponent implements OnInit {
   project: any = []
   projectId: string
 
-  constructor(private api: ApiService, private auth: AuthService, private route: ActivatedRoute) { }
+  constructor(private api: ApiService, private auth: AuthService, private route: ActivatedRoute, public projectService:ProjectService) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.projectId = params['projectId'];
       this.getProject(this.projectId)
     });
-  }
-
-  formatDate(value) {
-    if(value)
-    return moment(value).format("DD-MM-YYYY")
   }
 
   newlineToBr(value) {

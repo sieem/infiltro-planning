@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 import * as moment from 'moment';
+import { ProjectService } from 'src/app/services/project.service';
 
 @Component({
   selector: 'app-map',
@@ -22,36 +23,58 @@ export class MapComponent implements OnInit {
 
   markers: marker[] = []
 
-  constructor(private api: ApiService) { }
+  pointers: any = {
+    "david": {
+      "planned": "david-planned.png",
+      "default": "david-faded.png"
+    },
+    "roel": {
+      "planned": "roel-planned.png",
+      "default": "roel-faded.png"
+    },
+    "together": {
+      "planned": "default-planned.png",
+      "default": "default-faded.png"
+    }
+  }
+
+  constructor(private api: ApiService, public projectService: ProjectService) { }
 
   ngOnInit() {
     this.getProjects()
   }
 
-  formatDate(value) {
-    return moment(value).format("DD-MM-YYYY")
-  }
-
   getProjects() {
     this.api.getProjects().subscribe(
       (res: any) => {
-        console.log(res)
+        const now = new Date()
         res.forEach(project => {
-          this.markers.push(
-            {
-              lat: project.lat,
-              lng: project.lng,
-              title: project.projectName,
-              street: project.street,
-              city: project.city,
-              postalCode: project.postalCode,
-              datePlanned: project.datePlanned,
-              hourPlanned: project.hourPlanned,
-              status: project.status,
-              executor: project.executor,
+          if ((new Date(project.datePlanned) > now || !project.datePlanned) && project.status !== "onHold") {
+            let pointerUrl = this.pointers.together.default
+
+            if (project.executor) {
+              pointerUrl = this.pointers[project.executor][project.status] || this.pointers[project.executor]['default']
+            } else {
+              pointerUrl = this.pointers['together'][project.status] || this.pointers['together']['default']
             }
-          )
-        });
+
+            this.markers.push(
+              {
+                lat: project.lat,
+                lng: project.lng,
+                title: project.projectName,
+                street: project.street,
+                city: project.city,
+                postalCode: project.postalCode,
+                datePlanned: project.datePlanned,
+                hourPlanned: project.hourPlanned,
+                status: project.status,
+                executor: project.executor,
+                pointerUrl: pointerUrl
+              }
+            )
+          }
+        })
       },
       err => console.log(err)
     )
@@ -70,4 +93,5 @@ interface marker {
   hourPlanned: Date;
   status: string;
   executor: string;
+  pointerUrl: string;
 }

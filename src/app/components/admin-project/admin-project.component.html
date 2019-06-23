@@ -1,5 +1,3 @@
-
-
 <ng-container *ngIf="projectId; else elseTemplate">
   <h1>Edit project - {{projectForm.value.projectName}}</h1>
   <a [routerLink]="[ '/projects', projectId ]">back to project</a>
@@ -34,7 +32,7 @@
       <label for="projectType">projectType <span *ngIf="projectForm.controls.projectType.validator !== null">*</span></label>
       <select name="projectType" id="projectType" formControlName="projectType">
         <option value="">select projectType</option>
-        <option *ngFor="let projectType of formService.projectTypes" [value]="projectType.type">{{projectType.name}}</option>
+        <option *ngFor="let projectType of projectService.projectTypes" [value]="projectType.type">{{projectType.name}}</option>
       </select>
       <p *ngIf="formService.checkInputField(projectForm, 'projectType', submitted)" class="error">!</p>
     </div>
@@ -147,7 +145,7 @@
         <label for="executor">executor <span *ngIf="projectForm.controls.executor.validator !== null">*</span></label>
         <select name="executor" id="executor" formControlName="executor">
           <option value="">select executor</option>
-          <option *ngFor="let executor of formService.executors" [value]="executor.type">{{executor.name}}</option>
+          <option *ngFor="let executor of projectService.executors" [value]="executor.type">{{executor.name}}</option>
         </select>
         <p *ngIf="formService.checkInputField(projectForm, 'executor', submitted)" class="error">!</p>
       </div>
@@ -168,7 +166,7 @@
         <label for="status">status <span *ngIf="projectForm.controls.status.validator !== null">*</span></label>
         <select name="status" id="status" formControlName="status">
           <option value="">select status</option>
-          <option *ngFor="let status of formService.statuses" [value]="status.type">{{status.name}}</option>
+          <option *ngFor="let status of projectService.statuses" [value]="status.type">{{status.name}}</option>
         </select>
         <p *ngIf="formService.checkInputField(projectForm, 'status', submitted)" class="error">!</p>
       </div>

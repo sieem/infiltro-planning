@@ -54,7 +54,8 @@ export class AuthService {
   }
 
   isAdmin() {
-    return this.getUserDetails().role === 'admin'
+    if (this.loggedIn) return this.getUserDetails().role === 'admin'
+    else return false
   }
 
   getUserRoles() {

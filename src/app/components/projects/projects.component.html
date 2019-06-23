@@ -1,11 +1,12 @@
 <a [routerLink]="[ '/admin/projects' ]">New project</a>
 
 <div class="project" *ngFor="let project of projects">
-    <div class="title">{{ project.projectName }} - {{ project.projectType }}</div>
+    <div class="title">{{ project.projectName }} - {{ projectService.projectTypeName(project.projectType) }} ({{project.houseAmount}})</div>
     <div>City: {{ project.city }}</div>
-    <div>Excecutor: {{ project.excecutor }}</div>
-    <div>datePlanned: {{ formatDate(project.datePlanned) }}</div>
+    <div>Excecutor: {{ projectService.executorName(project.executor) }}</div>
+    <div>datePlanned: {{ projectService.formatDate(project.datePlanned) }}</div>
     <div>hourPlanned: {{ project.hourPlanned }}</div>
-    <div>Status: {{ project.status }}</div>
-    <a [routerLink]="[ '/projects', project._id ]">meer info</a>
+    <div>Status: {{ projectService.statusName(project.status) }}</div>
+    <a [routerLink]="[ '/projects', project._id ]">meer info</a><br>
+    <a [routerLink]="[ '/admin/projects', project._id ]">edit</a>
 </div>
