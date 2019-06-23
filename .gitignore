@@ -45,3 +45,6 @@ testem.log
 .DS_Store
 Thumbs.db
 commands.txt
+
+# production environment file
+/src/environments/environment.prod.ts
