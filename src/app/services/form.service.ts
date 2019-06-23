@@ -8,7 +8,7 @@ export class FormService {
   public emailRegex: string = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
   // source: https://stackoverflow.com/a/19605207
   public passwordRegex: string = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$"
-  public postalCodeRegex: string = "B-[0-9]{4}"
+  public postalCodeRegex: string = "[0-9]{4}"
 
   public dateFormat: string = 'YYYY-MM-DD'
 
