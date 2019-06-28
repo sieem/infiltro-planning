@@ -25,8 +25,7 @@ h2 {
     margin-left: 15px;
 }
 
-form,
-.projectFiche {
+form {
     margin: 15px auto;
     padding: 0;
     max-width: 600px;
@@ -43,8 +42,7 @@ form,
     }
 }
 
-.formSection,
-.projectSection {
+.formSection {
     margin-bottom: 50px;
 
     &:last-child {
@@ -52,8 +50,7 @@ form,
     }
 }
 
-.inputGroup,
-.item {
+.inputGroup {
     padding: 5px 15px;
     display: flex;
     justify-content: space-between;
@@ -63,8 +60,8 @@ form,
         font-weight: 700;
     }
 
-    .value {
-        font-size: inherit; // just to fill in
+    .read {
+        line-height: 31px;
     }
 
     p.error {
@@ -86,7 +83,7 @@ form,
         display: block;
 
         textarea,
-        .value {
+        .read {
             display: block;
             margin: 15px 0;
             width: 100%;

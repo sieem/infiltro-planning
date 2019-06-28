@@ -1,123 +1,383 @@
-<h1>project - {{project.projectName}}</h1>
-<a [routerLink]="[ '/projects' ]">back to overview</a><br>
-<a [routerLink]="[ '/admin/projects', project._id ]">edit</a>
-<div class="projectFiche striped">
-  <div class="projectSection">
+<ng-container *ngIf="projectId; else elseTemplate">
+  <h1>Edit project - {{projectForm.value.projectName}}</h1>
+  
+</ng-container>
+<ng-template #elseTemplate>
+  <h1>Add project</h1>
+ 
+</ng-template>
+
+ <a routerLink="/projects">back to overview</a>
+
+
+<form [formGroup]="projectForm" (ngSubmit)="onSubmit()" class="striped">
+  <div class="formSection">
     <h2>Bedrijf</h2>
-    <div class="item">
-      <div class="label">company</div>
-      <div class="value">{{project.company}}</div>
+    <div class="inputGroup">
+      <label for="company">company <span *ngIf="projectForm.controls.company.validator !== null">*</span></label>
+      <div class="inputField">
+        <div class="read" (click)="changeEditState('company', true)" *ngIf="!projectEditStates.company">
+          {{projectForm.value.company}}
+        </div>
+        <div class="write" *ngIf="projectEditStates.company">
+          <select name="company" id="company" formControlName="company">
+            <option value="">select company</option>
+            <option *ngFor="let company of companyService.getCompanies()" [value]="company._id">{{company.name}}
+            </option>
+          </select>
+          <p *ngIf="formService.checkInputField(projectForm, 'company', submitted)" class="error">!</p>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="projectSection">
+  <div class="formSection">
     <h2>Project</h2>
-    <div class="item">
-      <div class="label">dateCreated</div>
-      <div class="value">{{projectService.formatDate(project.dateCreated)}}</div>
+    <div class="inputGroup">
+      <label for="dateCreated">dateCreated <span
+          *ngIf="projectForm.controls.dateCreated.validator !== null">*</span></label>
+      <div class="inputField">
+        <div class="read" (click)="changeEditState('dateCreated', true)" *ngIf="!projectEditStates.dateCreated">
+          {{projectService.formatDate(projectForm.value.dateCreated)}}
+        </div>
+        <div class="write" *ngIf="projectEditStates.dateCreated">
+          <input type="date" name="dateCreated" id="dateCreated" formControlName="dateCreated">
+          <p *ngIf="formService.checkInputField(projectForm, 'dateCreated', submitted)" class="error">!</p>
+        </div>
+      </div>
     </div>
-    <div class="item">
-      <div class="label">projectType</div>
-      <div class="value">{{projectService.projectTypeName(project.projectType)}}</div>
+
+    <div class="inputGroup">
+      <label for="projectType">projectType <span
+          *ngIf="projectForm.controls.projectType.validator !== null">*</span></label>
+      <div class="inputField">
+        <div class="read" (click)="changeEditState('projectType', true)" *ngIf="!projectEditStates.projectType">
+          {{projectService.projectTypeName(projectForm.value.projectType)}}
+        </div>
+        <div class="write" *ngIf="projectEditStates.projectType">
+          <select name="projectType" id="projectType" formControlName="projectType">
+            <option value="">select projectType</option>
+            <option *ngFor="let projectType of projectService.projectTypes" [value]="projectType.type">
+              {{projectType.name}}</option>
+          </select>
+          <p *ngIf="formService.checkInputField(projectForm, 'projectType', submitted)" class="error">!</p>
+        </div>
+      </div>
     </div>
-    <div class="item">
-      <div class="label">houseAmount</div>
-      <div class="value">{{project.houseAmount}}</div>
+
+    <div class="inputGroup">
+      <label for="houseAmount">houseAmount <span
+          *ngIf="projectForm.controls.houseAmount.validator !== null">*</span></label>
+      <div class="inputField">
+        <div class="read" (click)="changeEditState('houseAmount', true)" *ngIf="!projectEditStates.houseAmount">
+          {{projectForm.value.houseAmount}}
+        </div>
+        <div class="write" *ngIf="projectEditStates.houseAmount">
+          <input type="number" name="houseAmount" id="houseAmount" formControlName="houseAmount">
+          <p *ngIf="formService.checkInputField(projectForm, 'houseAmount', submitted)" class="error">!</p>
+        </div>
+      </div>
     </div>
-    <div class="item">
-      <div class="label">projectName</div>
-      <div class="value">{{project.projectName}}</div>
+
+    <div class="inputGroup">
+      <label for="projectName">projectName <span
+          *ngIf="projectForm.controls.projectName.validator !== null">*</span></label>
+      <div class="inputField">
+        <div class="read" (click)="changeEditState('projectName', true)" *ngIf="!projectEditStates.projectName">
+          {{projectForm.value.projectName}}
+        </div>
+        <div class="write" *ngIf="projectEditStates.projectName">
+          <input type="text" name="projectName" id="projectName" formControlName="projectName">
+          <p *ngIf="formService.checkInputField(projectForm, 'projectName', submitted)" class="error">!</p>
+        </div>
+      </div>
     </div>
-    <div class="item">
-      <div class="label">client</div>
-      <div class="value">{{project.client}}</div>
+
+    <div class="inputGroup">
+      <label for="client">client <span *ngIf="projectForm.controls.client.validator !== null">*</span></label>
+      <div class="inputField">
+        <div class="read" (click)="changeEditState('client', true)" *ngIf="!projectEditStates.client">
+          {{projectForm.value.client}}
+        </div>
+        <div class="write" *ngIf="projectEditStates.client">
+          <input type="text" name="client" id="client" formControlName="client">
+          <p *ngIf="formService.checkInputField(projectForm, 'client', submitted)" class="error">!</p>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="projectSection">
+
+  <div class="formSection">
     <h2>Adres</h2>
-    <div class="item">
-      <div class="label">street</div>
-      <div class="value">{{project.street}}</div>
+    <div class="inputGroup">
+      <label for="street">street <span *ngIf="projectForm.controls.street.validator !== null">*</span></label>
+      <div class="inputField">
+        <div class="read" (click)="changeEditState('street', true)" *ngIf="!projectEditStates.street">
+          {{projectForm.value.street}}
+        </div>
+        <div class="write" *ngIf="projectEditStates.street">
+          <input type="text" name="street" id="street" formControlName="street">
+          <p *ngIf="formService.checkInputField(projectForm, 'street', submitted)" class="error">!</p>
+        </div>
+      </div>
     </div>
-    <div class="item">
-      <div class="label">city</div>
-      <div class="value">{{project.city}}</div>
+
+    <div class="inputGroup">
+      <label for="city">city <span *ngIf="projectForm.controls.city.validator !== null">*</span></label>
+      <div class="inputField">
+        <div class="read" (click)="changeEditState('city', true)" *ngIf="!projectEditStates.city">
+          {{projectForm.value.city}}
+        </div>
+        <div class="write" *ngIf="projectEditStates.city">
+          <input type="text" name="city" id="city" formControlName="city">
+          <p *ngIf="formService.checkInputField(projectForm, 'city', submitted)" class="error">!</p>
+        </div>
+      </div>
     </div>
-    <div class="item">
-      <div class="label">postalCode</div>
-      <div class="value">{{project.postalCode}}</div>
+
+    <div class="inputGroup">
+      <label for="postalCode">postalCode <span
+          *ngIf="projectForm.controls.postalCode.validator !== null">*</span></label>
+      <div class="inputField">
+        <div class="read" (click)="changeEditState('postalCode', true)" *ngIf="!projectEditStates.postalCode">
+          {{projectForm.value.postalCode}}
+        </div>
+        <div class="write" *ngIf="projectEditStates.postalCode">
+          <input type="text" name="postalCode" id="postalCode" formControlName="postalCode">
+          <p *ngIf="formService.checkInputField(projectForm, 'postalCode', submitted)" class="error">!</p>
+        </div>
+      </div>
     </div>
-    <div class="item textarea">
-      <div class="label">extraInfoAddress</div>
-      <div class="value" [innerHTML]="newlineToBr(project.extraInfoAddress)"></div>
+
+    <div class="inputGroup textarea">
+      <label for="extraInfoAddress">extraInfoAddress <span
+          *ngIf="projectForm.controls.extraInfoAddress.validator !== null">*</span></label>
+      <div class="inputField">
+        <div class="read" (click)="changeEditState('extraInfoAddress', true)"
+          *ngIf="!projectEditStates.extraInfoAddress" [innerHTML]="newlineToBr(projectForm.value.extraInfoAddress)">
+        </div>
+        <div class="write" *ngIf="projectEditStates.extraInfoAddress">
+          <textarea name="extraInfoAddress" id="extraInfoAddress" formControlName="extraInfoAddress"
+            rows="3"></textarea>
+          <p *ngIf="formService.checkInputField(projectForm, 'extraInfoAddress', submitted)" class="error">!</p>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="projectSection">
+
+  <div class="formSection">
     <h2>Contactpersoon</h2>
-    <div class="item">
-      <div class="label">name</div>
-      <div class="value">{{project.name}}</div>
+    <div class="inputGroup">
+      <label for="name">name <span *ngIf="projectForm.controls.name.validator !== null">*</span></label>
+      <div class="inputField">
+        <div class="read" (click)="changeEditState('name', true)" *ngIf="!projectEditStates.name">
+          {{projectForm.value.name}}
+        </div>
+        <div class="write" *ngIf="projectEditStates.name">
+          <input type="text" name="name" id="name" formControlName="name">
+          <p *ngIf="formService.checkInputField(projectForm, 'name', submitted)" class="error">!</p>
+        </div>
+      </div>
     </div>
-    <div class="item">
-      <div class="label">tel</div>
-      <div class="value">{{project.tel}}</div>
+
+    <div class="inputGroup">
+      <label for="tel">tel <span *ngIf="projectForm.controls.tel.validator !== null">*</span></label>
+      <div class="inputField">
+        <div class="read" (click)="changeEditState('tel', true)" *ngIf="!projectEditStates.tel">
+          {{projectForm.value.tel}}
+        </div>
+        <div class="write" *ngIf="projectEditStates.tel">
+          <input type="text" name="tel" id="tel" formControlName="tel">
+          <p *ngIf="formService.checkInputField(projectForm, 'tel', submitted)" class="error">!</p>
+        </div>
+      </div>
     </div>
-    <div class="item">
-      <div class="label">email</div>
-      <div class="value">{{project.email}}</div>
+
+    <div class="inputGroup">
+      <label for="email">email <span *ngIf="projectForm.controls.email.validator !== null">*</span></label>
+      <div class="inputField">
+        <div class="read" (click)="changeEditState('email', true)" *ngIf="!projectEditStates.email">
+          {{projectForm.value.email}}
+        </div>
+        <div class="write" *ngIf="projectEditStates.email">
+          <input type="email" name="email" id="email" formControlName="email">
+          <p *ngIf="formService.checkInputField(projectForm, 'email', submitted)" class="error">!</p>
+        </div>
+      </div>
     </div>
-    <div class="item textarea">
-      <div class="label">extraInfoContact</div>
-      <div class="value" [innerHTML]="newlineToBr(project.extraInfoContact)"></div>
+
+    <div class="inputGroup textarea">
+      <label for="extraInfoContact">extraInfoContact <span
+          *ngIf="projectForm.controls.extraInfoContact.validator !== null">*</span></label>
+      <div class="inputField">
+        <div class="read" (click)="changeEditState('extraInfoContact', true)"
+          *ngIf="!projectEditStates.extraInfoContact" [innerHTML]="newlineToBr(projectForm.value.extraInfoContact)">
+        </div>
+        <div class="write" *ngIf="projectEditStates.extraInfoContact">
+          <textarea name="extraInfoContact" id="extraInfoContact" formControlName="extraInfoContact"
+            rows="3"></textarea>
+          <p *ngIf="formService.checkInputField(projectForm, 'extraInfoContact', submitted)" class="error">!</p>
+        </div>
+      </div>
     </div>
-    <div class="item">
-      <div class="label">EpbReporter</div>
-      <div class="value">{{project.EpbReporter}}</div>
+
+    <div class="inputGroup">
+      <label for="EpbReporter">EpbReporter <span
+          *ngIf="projectForm.controls.EpbReporter.validator !== null">*</span></label>
+      <div class="inputField">
+        <div class="read" (click)="changeEditState('EpbReporter', true)" *ngIf="!projectEditStates.EpbReporter">
+          {{projectForm.value.EpbReporter}}
+        </div>
+        <div class="write" *ngIf="projectEditStates.EpbReporter">
+          <input type="text" name="EpbReporter" id="EpbReporter" formControlName="EpbReporter">
+          <p *ngIf="formService.checkInputField(projectForm, 'EpbReporter', submitted)" class="error">!</p>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="projectSection">
+
+  <div class="formSection">
     <h2>Technische gegevens</h2>
-    <div class="item textarea">
-      <div class="label">ATest</div>
-      <div class="value" [innerHTML]="newlineToBr(project.ATest)"></div>
+    <div class="inputGroup textarea">
+      <label for="ATest">ATest <span *ngIf="projectForm.controls.ATest.validator !== null">*</span></label>
+      <div class="inputField">
+        <div class="read" (click)="changeEditState('ATest', true)" *ngIf="!projectEditStates.ATest"
+          [innerHTML]="newlineToBr(projectForm.value.ATest)"></div>
+        <div class="write" *ngIf="projectEditStates.ATest">
+          <textarea name="ATest" id="ATest" formControlName="ATest" rows="3"></textarea>
+          <p *ngIf="formService.checkInputField(projectForm, 'ATest', submitted)" class="error">!</p>
+        </div>
+      </div>
     </div>
-    <div class="item textarea">
-      <div class="label">v50Value</div>
-      <div class="value" [innerHTML]="newlineToBr(project.v50Value)"></div>
+
+    <div class="inputGroup textarea">
+      <label for="v50Value">v50Value <span *ngIf="projectForm.controls.v50Value.validator !== null">*</span></label>
+      <div class="inputField">
+        <div class="read" (click)="changeEditState('v50Value', true)" *ngIf="!projectEditStates.v50Value"
+          [innerHTML]="newlineToBr(projectForm.value.v50Value)"></div>
+        <div class="write" *ngIf="projectEditStates.v50Value">  
+          <textarea name="v50Value" id="v50Value" formControlName="v50Value" rows="3"></textarea>
+          <p *ngIf="formService.checkInputField(projectForm, 'v50Value', submitted)" class="error">!</p>
+        </div>
+      </div>
     </div>
-    <div class="item textarea">
-      <div class="label">protectedVolume</div>
-      <div class="value" [innerHTML]="newlineToBr(project.protectedVolume)"></div>
+
+    <div class="inputGroup textarea">
+      <div class="inputField">
+        <label for="protectedVolume">protectedVolume <span
+            *ngIf="projectForm.controls.protectedVolume.validator !== null">*</span></label>
+        <div class="read" (click)="changeEditState('protectedVolume', true)" *ngIf="!projectEditStates.protectedVolume"
+          [innerHTML]="newlineToBr(projectForm.value.protectedVolume)"></div>
+        <div class="write" *ngIf="projectEditStates.protectedVolume">
+          <textarea name="protectedVolume" id="protectedVolume" formControlName="protectedVolume" rows="3"></textarea>
+          <p *ngIf="formService.checkInputField(projectForm, 'protectedVolume', submitted)" class="error">!</p>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="projectSection">
+
+  <div class="formSection">
     <h2>Infiltro</h2>
-    <div class="item">
-      <div class="label">executor</div>
-      <div class="value">{{projectService.executorName(project.executor)}}</div>
+    <div class="inputGroup">
+      <label for="executor">executor <span *ngIf="projectForm.controls.executor.validator !== null">*</span></label>
+      <div class="inputField">
+        <div class="read" (click)="changeEditState('executor', true)" *ngIf="!projectEditStates.executor">
+          {{projectService.executorName(projectForm.value.executor)}}
+        </div>
+        <div class="write" *ngIf="projectEditStates.executor">
+          <select name="executor" id="executor" formControlName="executor">
+            <option value="">select executor</option>
+            <option *ngFor="let executor of projectService.executors" [value]="executor.type">{{executor.name}}</option>
+          </select>
+          <p *ngIf="formService.checkInputField(projectForm, 'executor', submitted)" class="error">!</p>
+        </div>
+      </div>
     </div>
-    <div class="item">
-      <div class="label">datePlanned</div>
-      <div class="value">{{projectService.formatDate(project.datePlanned)}}</div>
+
+    <div class="inputGroup">
+      <label for="datePlanned">datePlanned <span
+          *ngIf="projectForm.controls.datePlanned.validator !== null">*</span></label>
+      <div class="inputField">
+        <div class="read" (click)="changeEditState('datePlanned', true)" *ngIf="!projectEditStates.datePlanned">
+          {{projectService.formatDate(projectForm.value.datePlanned)}}
+        </div>
+        <div class="write" *ngIf="projectEditStates.datePlanned">
+          <input type="date" name="datePlanned" id="datePlanned" formControlName="datePlanned">
+          <p *ngIf="formService.checkInputField(projectForm, 'datePlanned', submitted)" class="error">!</p>
+        </div>
+      </div>
     </div>
-    <div class="item">
-      <div class="label">hourPlanned</div>
-      <div class="value">{{project.hourPlanned}}</div>
+
+    <div class="inputGroup">
+      <label for="hourPlanned">hourPlanned <span
+          *ngIf="projectForm.controls.hourPlanned.validator !== null">*</span></label>
+      <div class="inputField">
+        <div class="read" (click)="changeEditState('hourPlanned', true)" *ngIf="!projectEditStates.hourPlanned">
+          {{projectForm.value.hourPlanned}}
+        </div>
+        <div class="write" *ngIf="projectEditStates.hourPlanned">
+          <input type="time" name="hourPlanned" id="hourPlanned" formControlName="hourPlanned">
+          <p *ngIf="formService.checkInputField(projectForm, 'hourPlanned', submitted)" class="error">!</p>
+        </div>
+      </div>
     </div>
-    <div class="item">
-      <div class="label">status</div>
-      <div class="value">{{projectService.statusName(project.status)}}</div>
+
+    <div class="inputGroup">
+      <label for="status">status <span *ngIf="projectForm.controls.status.validator !== null">*</span></label>
+      <div class="inputField">
+        <div class="read" (click)="changeEditState('status', true)" *ngIf="!projectEditStates.status">
+          {{projectService.statusName(projectForm.value.status)}}
+        </div>
+        <div class="write" *ngIf="projectEditStates.status">
+          <select name="status" id="status" formControlName="status">
+            <option value="">select status</option>
+            <option *ngFor="let status of projectService.statuses" [value]="status.type">{{status.name}}</option>
+          </select>
+          <p *ngIf="formService.checkInputField(projectForm, 'status', submitted)" class="error">!</p>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="projectSection">
-    <div class="item textarea">
-      <div class="label">comments</div>
-      <div class="value" [innerHTML]="newlineToBr(project.comments)"></div>
+
+  <div class="formSection">
+    <div class="inputGroup textarea">
+      <label for="comments">comments <span *ngIf="projectForm.controls.comments.validator !== null">*</span></label>
+      <div class="inputField">
+        <div class="read" (click)="changeEditState('comments', true)" *ngIf="!projectEditStates.comments"
+          [innerHTML]="newlineToBr(projectForm.value.comments)"></div>
+        <div class="write" *ngIf="projectEditStates.comments">
+          <textarea name="comments" id="comments" formControlName="comments" rows="3"></textarea>
+          <p *ngIf="formService.checkInputField(projectForm, 'comments', submitted)" class="error">!</p>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="projectSection">
-    <div class="item">
-      <div class="label">invoiced</div>
-      <div class="value">{{project.invoiced}}</div>
+
+  <div class="formSection">
+    <div class="inputGroup">
+      <label for="invoiced">invoiced <span *ngIf="projectForm.controls.invoiced.validator !== null">*</span></label>
+      <div class="inputField">
+        <div class="read" (click)="changeEditState('invoiced', true)" *ngIf="!projectEditStates.invoiced">
+          {{projectForm.value.invoiced}}
+        </div>
+        <div class="write" *ngIf="projectEditStates.invoiced">
+          <input type="checkbox" name="invoiced" id="invoiced" formControlName="invoiced">
+          <p *ngIf="formService.checkInputField(projectForm, 'invoiced', submitted)" class="error">!</p>
+        </div>
+      </div>
     </div>
   </div>
-</div>
+
+  <div class="formSection">
+    <div class="inputGroup temp">
+      <label for="save"></label>
+      <input type="submit" value="save">
+    </div>
+  </div>
+
+  <div class="formSection" *ngIf="projectId">
+    <div class="inputGroup temp">
+      <div></div>
+      <div (click)="removeProject()">delete this project</div>
+    </div>
+  </div>
+</form>

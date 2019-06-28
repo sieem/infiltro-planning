@@ -15,7 +15,6 @@ import { ApiService } from './services/api.service';
 import { AuthService } from './services/auth.service';
 import { AuthGuard } from './guards/auth.guard';
 import { AdminCompaniesComponent } from './components/admin-companies/admin-companies.component';
-import { AdminProjectComponent } from './components/admin-project/admin-project.component';
 import { SingleProjectComponent } from './components/single-project/single-project.component';
 import { TokenInterceptorService } from './services/token-interceptor.service';
 import { AdminUserComponent } from './components/admin-user/admin-user.component';
@@ -30,7 +29,6 @@ import { MapComponent } from './components/map/map.component';
     LoginComponent,
     RegisterComponent,
     AdminCompaniesComponent,
-    AdminProjectComponent,
     SingleProjectComponent,
     AdminUserComponent,
     NavComponent,
