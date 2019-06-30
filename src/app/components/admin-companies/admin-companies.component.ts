@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { FormService } from 'src/app/services/form.service';
 import { CompanyService } from 'src/app/services/company.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-admin-companies',
@@ -20,7 +21,8 @@ export class AdminCompaniesComponent implements OnInit {
     private api: ApiService,
     private router: Router,
     public formService: FormService,
-    public companyService: CompanyService) { }
+    public companyService: CompanyService,
+    private toastr: ToastrService) { }
 
   ngOnInit() {
     this.companyForm = this.formBuilder.group({
@@ -48,6 +50,7 @@ export class AdminCompaniesComponent implements OnInit {
       (res: any) => {
         this.companyService.companies.push(res)
         this.companyForm.reset()
+        this.toastr.success('Company saved');
       },
       err => console.log(err)
     )

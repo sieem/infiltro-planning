@@ -5,6 +5,7 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { FormService } from 'src/app/services/form.service';
 import { CompanyService } from 'src/app/services/company.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-admin-user',
@@ -20,7 +21,8 @@ export class AdminUserComponent implements OnInit {
     private router: Router,
     public formService: FormService,
     public companyService: CompanyService,
-    public auth: AuthService) { }
+    public auth: AuthService,
+    private toastr: ToastrService) { }
 
   ngOnInit() {
 
@@ -56,6 +58,7 @@ export class AdminUserComponent implements OnInit {
       (res: any) => {
         this.auth.users.push(res)
         this.registerForm.reset()
+        this.toastr.success('User saved', 'Sent mail to user!');
       },
       err => console.log(err)
     )

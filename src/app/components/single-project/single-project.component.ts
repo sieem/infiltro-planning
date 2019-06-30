@@ -5,8 +5,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormService } from 'src/app/services/form.service';
 import { CompanyService } from 'src/app/services/company.service';
 import { AuthService } from 'src/app/services/auth.service';
-import * as moment from 'moment';
 import { ProjectService } from 'src/app/services/project.service';
+import * as moment from 'moment';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-single-project',
@@ -30,7 +32,8 @@ export class SingleProjectComponent implements OnInit {
     public companyService: CompanyService,
     public auth: AuthService,
     private route: ActivatedRoute,
-    public projectService: ProjectService) { }
+    public projectService: ProjectService,
+    private toastr: ToastrService) { }
 
   ngOnInit() {
 
@@ -165,6 +168,7 @@ export class SingleProjectComponent implements OnInit {
 
     this.api.saveProject(formData).subscribe(
       (res: any) => {
+        this.toastr.success('Project saved');
         // this.router.navigate(['/projects', res.projectId])
         Object.keys(this.projectForm.controls).forEach(key => {
           this.projectEditStates[key] = false
