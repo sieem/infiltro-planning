@@ -44,11 +44,11 @@ export class SingleProjectComponent implements OnInit {
       projectType: ['house', Validators.required],
       houseAmount: [1, Validators.required],
       projectName: ['', Validators.required],
-      client: ['', Validators.required],
+      // client: ['', Validators.required],
 
       street: ['', Validators.required],
       city: ['', Validators.required],
-      postalCode: ['B-1000', [Validators.required, Validators.pattern(this.formService.postalCodeRegex)]],
+      postalCode: ['1000', [Validators.required, Validators.pattern(this.formService.postalCodeRegex)]],
       extraInfoAddress: [''],
 
       name: ['', Validators.required],
@@ -60,6 +60,7 @@ export class SingleProjectComponent implements OnInit {
       ATest: [''],
       v50Value: [''],
       protectedVolume: [''],
+      EpbNumber: [''],
 
       executor: [{ value: '', disabled: !this.auth.isAdmin() }],
       datePlanned: [{ value: '', disabled: !this.auth.isAdmin() }],
@@ -92,7 +93,7 @@ export class SingleProjectComponent implements OnInit {
               projectType: res.projectType,
               houseAmount: res.houseAmount,
               projectName: res.projectName,
-              client: res.client,
+              // client: res.client,
               street: res.street,
               city: res.city,
               postalCode: res.postalCode,
@@ -105,6 +106,7 @@ export class SingleProjectComponent implements OnInit {
               ATest: res.ATest,
               v50Value: res.v50Value,
               protectedVolume: res.protectedVolume,
+              EpbNumber: res.EpbNumber,
               executor: res.executor,
               datePlanned: moment(res.datePlanned).format(this.formService.dateFormat),
               hourPlanned: res.hourPlanned,
@@ -140,7 +142,7 @@ export class SingleProjectComponent implements OnInit {
     formData.append('projectType', this.projectForm.value.projectType)
     formData.append('houseAmount', this.projectForm.value.houseAmount)
     formData.append('projectName', this.projectForm.value.projectName)
-    formData.append('client', this.projectForm.value.client)
+    // formData.append('client', this.projectForm.value.client)
     formData.append('street', this.projectForm.value.street)
     formData.append('city', this.projectForm.value.city)
     formData.append('postalCode', this.projectForm.value.postalCode)
@@ -153,6 +155,7 @@ export class SingleProjectComponent implements OnInit {
     formData.append('ATest', this.projectForm.value.ATest)
     formData.append('v50Value', this.projectForm.value.v50Value)
     formData.append('protectedVolume', this.projectForm.value.protectedVolume)
+    formData.append('EpbNumber', this.projectForm.value.EpbNumber)
     formData.append('executor', this.projectForm.value.executor)
     formData.append('datePlanned', this.projectForm.value.datePlanned)
     formData.append('hourPlanned', this.projectForm.value.hourPlanned)
