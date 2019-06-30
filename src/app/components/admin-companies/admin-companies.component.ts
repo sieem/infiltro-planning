@@ -26,8 +26,6 @@ export class AdminCompaniesComponent implements OnInit {
     this.companyForm = this.formBuilder.group({
       name: ['', Validators.required],
     })
-
-    this.companyService.getCompanies()
   }
 
   onSubmit() {
