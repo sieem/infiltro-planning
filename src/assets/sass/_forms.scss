@@ -1,28 +1,33 @@
-@import 'variables';
+@import "variables";
+
+$input-padding: 3px;
+$input-lineheight: 18px;
+$input-fontsize: 13px;
 
 input,
 textarea,
 select,
-option {
+option,
+.read {
     font-family: 'Open Sans', Tahoma, Helvetica;
-    font-size: 13px;
+    font-size: $input-fontsize;
     color: $infiltro-grey;
-    line-height: 1.5;
-
+    line-height: $input-lineheight;
     border: none;
     border-bottom: 1px solid $infiltro-grey;
     background: inherit;
-    text-align: right;
-    padding: 5px;
+    text-align: left;
+    padding: $input-padding;
+    width: 100%;
+}
+
+.read {
+    border-color: transparent;
 }
 
 textarea {
     border: 1px solid $infiltro-grey;
     text-align: left;
-}
-
-h2 {
-    margin-left: 15px;
 }
 
 form {
@@ -32,7 +37,6 @@ form {
     border: 1px solid $infiltro-border-grey;
 
     &.striped {
-
         .inputGroup,
         .item {
             &:nth-child(odd) {
@@ -43,7 +47,7 @@ form {
 }
 
 .projectSection {
-    margin-bottom: 50px;
+    margin-bottom: 10px;
 
     &:last-child {
         margin: 0;
@@ -51,21 +55,59 @@ form {
 }
 
 .projectRow {
-    padding: 5px 15px;
+    padding: 2px 15px;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     position: relative;
 
-    .label {
-        font-weight: 700;
+    &.space-between {
+        justify-content: space-between;
+
+        label {
+            width: inherit
+        }
     }
 
-    .read {
-        line-height: 31px;
+    &.right {
+        justify-content: flex-end;
+        
+        label {
+            width: inherit;
+        }
+    }
+
+    .left,
+    .right {
+        display: flex;
+    }
+
+    label {
+        display: block;
+        font-weight: 700;
+        width: 40%;
+        text-align: right;
+        
+        font-size: $input-fontsize;
+        line-height: $input-lineheight;
+        padding: $input-padding;
+
+        padding-right: 30px;
+    }
+
+    .read.empty {
+        border: 1px solid $infiltro-border-grey;
+        min-width: 30px;
+        min-height: 31px;
+        cursor: pointer;
+    }
+
+    .inputField {
+        flex-grow: 1;
     }
 
     p.error {
         $size: 14px;
+
         position: absolute;
         right: -1px;
         top: 15px;
@@ -76,17 +118,6 @@ form {
         width: $size;
         text-align: center;
         line-height: $size;
-        font-size: $size/2;
-    }
-
-    &.textarea {
-        display: block;
-
-        textarea,
-        .read {
-            display: block;
-            margin: 15px 0;
-            width: 100%;
-        }
+        font-size: $size / 2;
     }
 }

@@ -186,8 +186,15 @@ export class SingleProjectComponent implements OnInit {
     }
   }
 
-  changeEditState(input, state) {
-    this.projectEditStates[input] = state
+  isEmpty(inputName) {
+    if (typeof this.projectForm.value[inputName] === 'string')
+      return this.projectForm.value[inputName].trim() == ""
+    else
+      return false
+  }
+
+  changeEditState(inputName, state) {
+    this.projectEditStates[inputName] = state
   }
 
   newlineToBr(value) {
