@@ -8,66 +8,74 @@ export class ProjectService {
 
   public projectTypes: any = [
     {
-      "type": "house",
-      "name": "Woning"
+      type: "house",
+      name: "Woning"
     },
     {
-      "type": "stairs",
-      "name": "Traphal"
+      type: "stairs",
+      name: "Traphal"
     },
     {
-      "type": "apartment",
-      "name": "Individueel appartement"
+      type: "apartment",
+      name: "Individueel appartement"
     }
   ]
 
   public executors: any = [
     {
-      "type": "roel",
-      "name": "Roel"
+      type: "roel",
+      name: "Roel"
     },
     {
-      "type": "david",
-      "name": "David"
+      type: "david",
+      name: "David"
     },
     {
-      "type": "together",
-      "name": "Samen"
+      type: "together",
+      name: "Samen"
     }
   ]
 
   public statuses: any = [
     {
-      "type": "toContact",
-      "name": "Te contacteren"
+      type: "contractSigned",
+      name: "Contract getekend"
     },
     {
-      "type": "toPlan",
-      "name": "Te plannen"
+      type: "toContact",
+      name: "Te contacteren"
     },
     {
-      "type": "planned",
-      "name": "Ingepland"
+      type: "toPlan",
+      name: "Te plannen"
     },
     {
-      "type": "proposalSent",
-      "name": "Voorstel doorgegeven"
+      type: "proposalSent",
+      name: "Voorstel doorgegeven"
     },
     {
-      "type": "onHold",
-      "name": "On - Hold"
+      type: "planned",
+      name: "Ingepland"
     },
     {
-      "type": "executed",
-      "name": "Uitgevoerd"
+      type: "onHold",
+      name: "On - Hold"
     },
     {
-      "type": "reportAvailable",
-      "name": "Rapport beschikbaar"
+      type: "executed",
+      name: "Uitgevoerd"
     },
     {
-      "type": "conformityAvailable",
-      "name": "Conformiteit beschikbaar"
+      type: "reportAvailable",
+      name: "Rapport beschikbaar"
+    },
+    {
+      type: "conformityAvailable",
+      name: "Conformiteit beschikbaar"
+    },
+    {
+      type: "completed",
+      name: "Afgerond"
     }
   ]
 

@@ -1,0 +1,46 @@
+$contractSigned: #6c6c6c;
+$toContact: #fb0007;
+$toPlan: #f38337;
+$proposalSent: #f38337;
+$planned: #2749ff;
+$onHold: #6c6c6c;
+$executed: #0f7001;
+$reportAvailable: #627c34;
+$conformityAvailable: #0f7001;
+$completed: #8ab047;
+
+.contractSigned {
+    background-color: $toContact;
+}
+
+.toContact {
+    background-color: $toContact;
+}
+
+.toPlan {
+    background-color: $toPlan;
+}
+
+.proposalSent {
+    background-color: $proposalSent;
+}
+
+.planned {
+    background-color: $planned;
+}
+
+.onHold {
+    background-color: $onHold;
+}
+
+.executed {
+    background-color: $executed;
+}
+
+.reportAvailable {
+    background-color: $reportAvailable;
+}
+
+.conformityAvailable {
+    background-color: $conformityAvailable;
+}
