@@ -5,23 +5,28 @@ import { ApiService } from './api.service';
   providedIn: 'root'
 })
 export class CompanyService {
-  companies: any
+  companies: any = []
 
   constructor(private api: ApiService) {
     this.getCompanies()
   }
 
   getCompanies() {
-    if (!this.companies) {
-      this.api.getCompanies().subscribe(
-        res => {
-          this.companies = res
-          return this.companies
-        },
-        err => console.log(err)
-      )
-    } else {
-      return this.companies
-    }
+    this.api.getCompanies().subscribe(
+      res => {
+        this.companies = res
+      },
+      err => console.log(err)
+    )
+  }
+
+  companyName(companyId) {
+    let returnVal = companyId
+    this.companies.forEach(company => {
+      if (company._id === companyId) {
+        returnVal = company.name
+      }
+    });
+    return returnVal
   }
 }

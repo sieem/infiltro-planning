@@ -20,7 +20,7 @@ export class ProjectsComponent implements OnInit {
   }
 
   getProjects() {
-    console.log(this.auth.getUserDetails())
+    // console.log(this.auth.getUserDetails())
     this.api.getProjects().subscribe(
       res => this.projects = res,
       err => console.log(err)
