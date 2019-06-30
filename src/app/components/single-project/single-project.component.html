@@ -21,13 +21,12 @@
               *ngIf="projectForm.controls.EpbReporter.validator !== null">*</span></label>
           <div class="inputField">
             <div class="read" (click)="changeEditState('company', true)" [ngClass]="{'empty': isEmpty('company')}" *ngIf="!projectEditStates.company">
-              {{projectForm.value.company}}
+              {{companyService.companyName(projectForm.value.company)}}
             </div>
             <div class="write" *ngIf="projectEditStates.company">
               <select name="company" id="company" formControlName="company">
                 <option value="">Selecteer bedrijf</option>
-                <option *ngFor="let company of companyService.getCompanies()" [value]="company._id">{{company.name}}
-                </option>
+                <option *ngFor="let company of companyService.companies" [value]="company._id">{{company.name}}</option>
               </select>
               <p *ngIf="formService.checkInputField(projectForm, 'company', submitted)" class="error">!</p>
             </div>
@@ -74,9 +73,8 @@
         </div>
         <div class="write" *ngIf="projectEditStates.projectType">
           <select name="projectType" id="projectType" formControlName="projectType">
-            <option value="">select projectType</option>
-            <option *ngFor="let projectType of projectService.projectTypes" [value]="projectType.type">
-              {{projectType.name}}</option>
+            <option value="">Selecteer type</option>
+            <option *ngFor="let projectType of projectService.projectTypes" [value]="projectType.type">{{projectType.name}}</option>
           </select>
           <p *ngIf="formService.checkInputField(projectForm, 'projectType', submitted)" class="error">!</p>
         </div>
@@ -354,7 +352,7 @@
         </div>
         <div class="write" *ngIf="projectEditStates.status">
           <select name="status" id="status" formControlName="status">
-            <option value="">select status</option>
+            <option value="">Selecteer status</option>
             <option *ngFor="let status of projectService.statuses" [value]="status.type">{{status.name}}</option>
           </select>
           <p *ngIf="formService.checkInputField(projectForm, 'status', submitted)" class="error">!</p>
