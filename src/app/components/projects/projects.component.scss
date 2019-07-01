@@ -1,9 +1,36 @@
 @import 'variables';
 
+.controls {
+    display: flex;
+    justify-content: flex-start;
+
+    .btn {
+        display: flex;
+        align-items: center;
+        background-color: $infiltro-red;
+        color: #fff;
+        text-decoration: none;
+        padding: 5px;
+        padding-right: 9px;
+
+        img {
+            width: 25px;
+            height: auto;
+        }
+
+        &:hover {
+            background-color: darken($infiltro-red, 10%);
+        }
+    }
+}
+
 .project {
-    margin: 15px;
     padding: 15px;
-    border: 1px solid $infiltro-border-grey;
+    border-bottom: 1px solid $infiltro-border-grey;
+
+    &:first-child {
+        border-top: 1px solid $infiltro-border-grey;
+    }
 }
 
 .title {

@@ -1,11 +1,16 @@
-<a [routerLink]="[ '/projects/add' ]">New project</a>
+<div class="controls">
+    <a [routerLink]="[ '/projects/add' ]" class="btn"><img src="/assets/images/icon-new.svg" alt=""> New project</a>
+</div>
 
-<div class="project" *ngFor="let project of projects">
-    <div class="title">{{ project.projectName }} - {{ projectService.projectTypeName(project.projectType) }} ({{project.houseAmount}})</div>
-    <div>City: {{ project.city }}</div>
-    <div>Excecutor: {{ projectService.executorName(project.executor) }}</div>
-    <div>datePlanned: {{ projectService.formatDate(project.datePlanned) }}</div>
-    <div>hourPlanned: {{ project.hourPlanned }}</div>
-    <div>Status: {{ projectService.statusName(project.status) }}</div>
-    <a [routerLink]="[ '/projects', project._id ]">meer info</a><br>
+<div class="projectList">
+    <div class="project" *ngFor="let project of projects">
+        <div class="title">{{ project.projectName }} - {{ projectService.projectTypeName(project.projectType) }}
+            ({{project.houseAmount}})</div>
+        <div>City: {{ project.city }}</div>
+        <div>Excecutor: {{ projectService.executorName(project.executor) }}</div>
+        <div>datePlanned: {{ projectService.formatDate(project.datePlanned) }}</div>
+        <div>hourPlanned: {{ project.hourPlanned }}</div>
+        <div>Status: {{ projectService.statusName(project.status) }}</div>
+        <a [routerLink]="[ '/projects', project._id ]">meer info</a><br>
+    </div>
 </div>
