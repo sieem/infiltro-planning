@@ -47,7 +47,7 @@ export class SingleProjectComponent implements OnInit {
       projectType: ['house', Validators.required],
       houseAmount: [1, Validators.required],
       projectName: ['', Validators.required],
-      // client: ['', Validators.required],
+      client: ['', Validators.required],
 
       street: ['', Validators.required],
       city: ['', Validators.required],
@@ -96,7 +96,7 @@ export class SingleProjectComponent implements OnInit {
               projectType: res.projectType,
               houseAmount: res.houseAmount,
               projectName: res.projectName,
-              // client: res.client,
+              client: res.client,
               street: res.street,
               city: res.city,
               postalCode: res.postalCode,
@@ -145,7 +145,7 @@ export class SingleProjectComponent implements OnInit {
     formData.append('projectType', this.projectForm.value.projectType)
     formData.append('houseAmount', this.projectForm.value.houseAmount)
     formData.append('projectName', this.projectForm.value.projectName)
-    // formData.append('client', this.projectForm.value.client)
+    formData.append('client', this.projectForm.value.client)
     formData.append('street', this.projectForm.value.street)
     formData.append('city', this.projectForm.value.city)
     formData.append('postalCode', this.projectForm.value.postalCode)
