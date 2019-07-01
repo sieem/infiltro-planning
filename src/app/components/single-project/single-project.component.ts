@@ -206,4 +206,8 @@ export class SingleProjectComponent implements OnInit {
       return value.replace(/\n/g, "<br>")
   }
 
+  changeInvoicedStatus() {
+    this.projectForm.value.invoiced = !this.projectForm.value.invoiced
+  }
+
 }

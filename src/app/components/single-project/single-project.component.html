@@ -10,11 +10,15 @@
  <a routerLink="/projects">back to overview</a> -->
 
 
-<form [formGroup]="projectForm" (ngSubmit)="onSubmit()" class="striped">
+<form [formGroup]="projectForm">
   <div class="projectSection">
       <div class="projectRow space-between">
-        <div class="left">
-          <a routerLink="/projects">back to overview</a>
+        <div class="left controls">
+          <a routerLink="/projects"><img src="/assets/images/icon-back.svg" alt=""></a>
+          <div *ngIf="projectId" (click)="removeProject()"><img src="/assets/images/icon-delete.svg" alt=""></div>
+          <div (click)="onSubmit()"><img src="/assets/images/icon-save.svg" alt=""></div>
+          <div *ngIf="projectForm.value.invoiced" (click)="changeInvoicedStatus()"><img src="/assets/images/icon-invoice.svg" alt=""></div>
+          <div *ngIf="!projectForm.value.invoiced" (click)="changeInvoicedStatus()"><img src="/assets/images/icon-invoiced.svg" alt=""></div>
         </div>
         <div class="right">
           <label for="EpbReporter">Contactpersoon binnen<span
@@ -378,7 +382,7 @@
     </div>
   </div>
 
-  <div class="projectSection">
+  <!-- <div class="projectSection">
     <div class="projectRow">
       <label for="invoiced">invoiced <span *ngIf="projectForm.controls.invoiced.validator !== null">*</span></label>
       <div class="inputField">
@@ -391,19 +395,5 @@
         </div>
       </div>
     </div>
-  </div>
-
-  <div class="projectSection">
-    <div class="projectRow temp">
-      <label for="save"></label>
-      <input type="submit" value="save">
-    </div>
-  </div>
-
-  <div class="projectSection" *ngIf="projectId">
-    <div class="projectRow temp">
-      <div></div>
-      <div (click)="removeProject()">delete this project</div>
-    </div>
-  </div>
+  </div> -->
 </form>
