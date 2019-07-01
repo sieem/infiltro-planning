@@ -128,7 +128,7 @@ export class SingleProjectComponent implements OnInit {
     this.submitted = true;
 
     if (this.projectForm.invalid) {
-      alert("form invalid");
+      this.toastr.error('Project invalid');
       return;
     }
 
