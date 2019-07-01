@@ -18,12 +18,12 @@ body {
 
 h1 {
     margin-top: 0;
-    color: #FF0000;
+    color: $infiltro-red;
     font-size: 1.2em;
 }
 
 h2 {
-    color: #FF0000;
+    color: $infiltro-red;
     font-size: 1em;
     font-weight: 800;
 }
@@ -32,17 +32,35 @@ h2 {
     width: 95%;
     max-width: 960px;
     margin: auto;
+
+    display: flex;
+    flex-direction: column;
 }
 
-.logo {
-    width: 350px;
+header {
+    border-bottom: 1px solid $infiltro-border-grey;
 
-    img {
+    .wrapper {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: row;
+
+        border: 1px solid $infiltro-border-grey;
+        border-top: none;
+        border-bottom: none;
+    }
+
+    .logo {
+        flex-shrink: 1;
+        width: 350px;
         cursor: pointer;
     }
 }
 
+
+
 main {
-    clear: both;
-    padding: 15px;
+    padding: 0 15px;
+    border-left: 1px solid $infiltro-border-grey;
+    border-right: 1px solid $infiltro-border-grey;
 }

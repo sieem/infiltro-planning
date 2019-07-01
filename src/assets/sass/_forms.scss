@@ -31,17 +31,32 @@ textarea {
 }
 
 form {
-    margin: 15px auto;
-    padding: 0;
+    margin: auto;
+    padding: 15px 0;
     max-width: 600px;
-    border: 1px solid $infiltro-border-grey;
+    border-left: 1px solid $infiltro-border-grey;
+    border-right: 1px solid $infiltro-border-grey;
 
-    &.striped {
-        .inputGroup,
-        .item {
-            &:nth-child(odd) {
-                background-color: $infiltro-border-grey;
-            }
+    // &.striped {
+
+    //     .inputGroup,
+    //     .item {
+    //         &:nth-child(odd) {
+    //             background-color: $infiltro-border-grey;
+    //         }
+    //     }
+    // }
+
+    .controls {
+
+        >* {
+            width: 25px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        img {
+            width: 100%;
         }
     }
 }
@@ -71,7 +86,7 @@ form {
 
     &.right {
         justify-content: flex-end;
-        
+
         label {
             width: inherit;
         }
@@ -87,7 +102,7 @@ form {
         font-weight: 700;
         width: 40%;
         text-align: right;
-        
+
         font-size: $input-fontsize;
         line-height: $input-lineheight;
         padding: $input-padding;
