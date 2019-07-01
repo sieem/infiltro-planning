@@ -40,7 +40,7 @@ export class AdminUserComponent implements OnInit {
     this.submitted = true;
 
     if (this.registerForm.invalid) {
-      alert('form invalid');
+      this.toastr.error('Form invalid');
       return;
     }
 
