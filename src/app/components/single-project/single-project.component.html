@@ -15,8 +15,8 @@
       <div class="projectRow space-between">
         <div class="left controls">
           <a routerLink="/projects"><img src="/assets/images/icon-back.svg" alt=""></a>
-          <div *ngIf="projectId" (click)="removeProject()"><img src="/assets/images/icon-delete.svg" alt=""></div>
           <div (click)="onSubmit()"><img src="/assets/images/icon-save.svg" alt=""></div>
+          <div *ngIf="projectId" (click)="removeProject()"><img src="/assets/images/icon-delete.svg" alt=""></div>
           <div *ngIf="projectForm.value.invoiced" (click)="changeInvoicedStatus()"><img src="/assets/images/icon-invoice.svg" alt=""></div>
           <div *ngIf="!projectForm.value.invoiced" (click)="changeInvoicedStatus()"><img src="/assets/images/icon-invoiced.svg" alt=""></div>
         </div>
