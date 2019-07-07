@@ -1,16 +1,58 @@
 <div class="controls">
-    <a [routerLink]="[ '/projects/add' ]" class="btn"><img src="/assets/images/icon-new.svg" alt=""> New project</a>
+    <a [routerLink]="[ '/projects/add' ]" class="btn red"><img src="/assets/images/icon-new.svg" alt=""> New project</a>
+    <div class="btn filter status">
+        <span class="title">Status</span>
+        <div class="dropdown">
+            <div class="item" *ngFor="let status of projectService.statuses" (click)="changeFilter('status', status.type)">
+                <img src="/assets/images/icon-unchecked.svg" alt="" *ngIf="!activeFilter.status.includes(status.type)">
+                <img src="/assets/images/icon-checked.svg" alt="" *ngIf="activeFilter.status.includes(status.type)">
+                <span>{{status.name}}</span>
+            </div>
+        </div>
+    </div>
+    <div class="btn filter projectType">
+        <span class="title">Type</span>
+        <div class="dropdown">
+            <div class="item" *ngFor="let projectType of projectService.projectTypes" (click)="changeFilter('projectType', projectType.type)">
+                <img src="/assets/images/icon-unchecked.svg" alt="" *ngIf="!activeFilter.projectType.includes(projectType.type)">
+                <img src="/assets/images/icon-checked.svg" alt="" *ngIf="activeFilter.projectType.includes(projectType.type)">
+                <span>{{projectType.name}}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="btn filter executor" *ngIf="auth.isAdmin()">
+        <span class="title">Uitvoerder</span>
+        <div class="dropdown">
+            <div class="item" *ngFor="let executor of projectService.executors"
+                (click)="changeFilter('executor', executor.type)">
+                <img src="/assets/images/icon-unchecked.svg" alt=""
+                    *ngIf="!activeFilter.executor.includes(executor.type)">
+                <img src="/assets/images/icon-checked.svg" alt=""
+                    *ngIf="activeFilter.executor.includes(executor.type)">
+                <span>{{executor.name}}</span>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="projectList">
-    <div class="project" *ngFor="let project of projects">
-        <div class="title">{{ project.projectName }} - {{ projectService.projectTypeName(project.projectType) }}
-            ({{project.houseAmount}})</div>
-        <div>City: {{ project.city }}</div>
-        <div>Excecutor: {{ projectService.executorName(project.executor) }}</div>
-        <div>datePlanned: {{ projectService.formatDate(project.datePlanned) }}</div>
-        <div>hourPlanned: {{ project.hourPlanned }}</div>
-        <div>Status: {{ projectService.statusName(project.status) }}</div>
-        <a [routerLink]="[ '/projects', project._id ]">meer info</a><br>
-    </div>
+    <ng-container *ngIf="projects.length > 0; else noProjectsFound">
+        <div class="project" *ngFor="let project of projects">
+            <div class="title">{{ project.projectName }} - {{ projectService.projectTypeName(project.projectType) }}
+                ({{project.houseAmount}})</div>
+            <div>City: {{ project.city }}</div>
+            <div>Excecutor: {{ projectService.executorName(project.executor) }}</div>
+            <div>datePlanned: {{ projectService.formatDate(project.datePlanned) }}</div>
+            <div>hourPlanned: {{ project.hourPlanned }}</div>
+            <div>Status: {{ projectService.statusName(project.status) }}</div>
+            <a [routerLink]="[ '/projects', project._id ]">meer info</a><br>
+        </div>
+    </ng-container>
+    <ng-template #noProjectsFound>
+        <div class="empty">
+            <img src="/assets/images/icon-broken-house.svg" alt="broken house">            
+            <span>No projects founds</span>
+        </div>
+    </ng-template>
 </div>
