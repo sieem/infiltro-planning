@@ -10,7 +10,7 @@
  <a routerLink="/projects">back to overview</a> -->
 
 
-<form [formGroup]="projectForm">
+<form [formGroup]="projectForm" [ngClass]="projectForm.value.status">
   <div class="projectSection">
       <div class="projectRow space-between">
         <div class="left controls">
@@ -47,10 +47,10 @@
           </div>
         </div>
       </div>
-          <div class="projectRow right" [ngClass]="projectForm.value.status">
+          <div class="projectRow right">
             <label for="status">Status: <span *ngIf="projectForm.controls.status.validator !== null">*</span></label>
             <div class="inputField">
-              <div class="read" (click)="changeEditState('status', true)" [ngClass]="{'empty': isEmpty('status')}" *ngIf="!projectEditStates.status || !auth.isAdmin()">
+              <div class="read status" (click)="changeEditState('status', true)" [ngClass]="{'empty': isEmpty('status')}" *ngIf="!projectEditStates.status || !auth.isAdmin()">
                 {{projectService.statusName(projectForm.value.status)}}
               </div>
               <div class="write" *ngIf="projectEditStates.status && auth.isAdmin()">

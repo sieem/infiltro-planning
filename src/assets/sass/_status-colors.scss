@@ -10,11 +10,14 @@ $conformityAvailable: #0f7001;
 $completed: #8ab047;
 
 @mixin status-color($color) {
-    .status, .read {
+    .status {
         color: $color;
     }
 
+    border-top: 3px solid $color;
+
     &.project {
+        border:none;
         border-left: 3px solid $color;
     }
 }
