@@ -90,6 +90,10 @@ form {
         label {
             width: inherit;
         }
+
+        .inputField {
+            flex-grow: 0;
+        }
     }
 
     .left,
