@@ -17,17 +17,17 @@
           <a routerLink="/projects"><img src="/assets/images/icon-back.svg" alt=""></a>
           <div (click)="onSubmit()"><img src="/assets/images/icon-save.svg" alt=""></div>
           <div *ngIf="projectId" (click)="removeProject()"><img src="/assets/images/icon-delete.svg" alt=""></div>
-          <div *ngIf="projectForm.value.invoiced" (click)="changeInvoicedStatus()"><img src="/assets/images/icon-invoice.svg" alt=""></div>
-          <div *ngIf="!projectForm.value.invoiced" (click)="changeInvoicedStatus()"><img src="/assets/images/icon-invoiced.svg" alt=""></div>
+          <div *ngIf="projectForm.value.invoiced && auth.isAdmin()" (click)="changeInvoicedStatus()"><img src="/assets/images/icon-invoice.svg" alt=""></div>
+          <div *ngIf="!projectForm.value.invoiced && auth.isAdmin()" (click)="changeInvoicedStatus()"><img src="/assets/images/icon-invoiced.svg" alt=""></div>
         </div>
         <div class="right">
           <label for="EpbReporter">Contactpersoon binnen<span
               *ngIf="projectForm.controls.EpbReporter.validator !== null">*</span></label>
           <div class="inputField">
-            <div class="read" (click)="changeEditState('company', true)" [ngClass]="{'empty': isEmpty('company')}" *ngIf="!projectEditStates.company">
+            <div class="read" (click)="changeEditState('company', true)" [ngClass]="{'empty': isEmpty('company')}" *ngIf="!projectEditStates.company || !auth.isAdmin()">
               {{companyService.companyName(projectForm.value.company)}}
             </div>
-            <div class="write" *ngIf="projectEditStates.company">
+            <div class="write" *ngIf="projectEditStates.company && auth.isAdmin()">
               <select name="company" id="company" formControlName="company">
                 <option value="">Selecteer bedrijf</option>
                 <option *ngFor="let company of companyService.companies" [value]="company._id">{{company.name}}</option>
@@ -47,7 +47,21 @@
           </div>
         </div>
       </div>
-      <div class="projectRow right" [ngClass]="projectForm.value.status">Status: {{projectService.statusName(projectForm.value.status)}}</div> 
+          <div class="projectRow right" [ngClass]="projectForm.value.status">
+            <label for="status">Status: <span *ngIf="projectForm.controls.status.validator !== null">*</span></label>
+            <div class="inputField">
+              <div class="read" (click)="changeEditState('status', true)" [ngClass]="{'empty': isEmpty('status')}" *ngIf="!projectEditStates.status || !auth.isAdmin()">
+                {{projectService.statusName(projectForm.value.status)}}
+              </div>
+              <div class="write" *ngIf="projectEditStates.status && auth.isAdmin()">
+                <select name="status" id="status" formControlName="status">
+                  <option value="">Selecteer status</option>
+                  <option *ngFor="let status of projectService.statuses" [value]="status.type">{{status.name}}</option>
+                </select>
+                <p *ngIf="formService.checkInputField(projectForm, 'status', submitted)" class="error">!</p>
+              </div>
+            </div>
+          </div>
   </div>
   <div class="projectSection">
     <div class="projectRow space-between">
@@ -57,10 +71,10 @@
       <div class="right">
         <label for="dateCreated">Datum aanvraag:&nbsp;</label>
         <div class="inputField">
-          <div class="read" (click)="changeEditState('dateCreated', true)" [ngClass]="{'empty': isEmpty('dateCreated')}" *ngIf="!projectEditStates.dateCreated">
+          <div class="read" (click)="changeEditState('dateCreated', true)" [ngClass]="{'empty': isEmpty('dateCreated')}" *ngIf="!projectEditStates.dateCreated || true">
             {{projectService.formatDate(projectForm.value.dateCreated)}}
           </div>
-          <div class="write" *ngIf="projectEditStates.dateCreated">
+          <div class="write" *ngIf="projectEditStates.dateCreated && false">
             <input type="date" name="dateCreated" id="dateCreated" formControlName="dateCreated">
             <p *ngIf="formService.checkInputField(projectForm, 'dateCreated', submitted)" class="error">!</p>
           </div>
@@ -308,10 +322,10 @@
     <div class="projectRow">
       <label for="executor">Uitvoerder <span *ngIf="projectForm.controls.executor.validator !== null">*</span></label>
       <div class="inputField">
-        <div class="read" (click)="changeEditState('executor', true)" [ngClass]="{'empty': isEmpty('executor')}" *ngIf="!projectEditStates.executor">
+        <div class="read" (click)="changeEditState('executor', true)" [ngClass]="{'empty': isEmpty('executor')}" *ngIf="!projectEditStates.executor || !auth.isAdmin()">
           {{projectService.executorName(projectForm.value.executor)}}
         </div>
-        <div class="write" *ngIf="projectEditStates.executor">
+        <div class="write" *ngIf="projectEditStates.executor && auth.isAdmin()">
           <select name="executor" id="executor" formControlName="executor">
             <option value="">Selecteer uitvoerder</option>
             <option *ngFor="let executor of projectService.executors" [value]="executor.type">{{executor.name}}</option>
@@ -325,10 +339,10 @@
       <label for="datePlanned">Datum ingepland <span
           *ngIf="projectForm.controls.datePlanned.validator !== null">*</span></label>
       <div class="inputField">
-        <div class="read" (click)="changeEditState('datePlanned', true)" [ngClass]="{'empty': isEmpty('datePlanned')}" *ngIf="!projectEditStates.datePlanned">
+        <div class="read" (click)="changeEditState('datePlanned', true)" [ngClass]="{'empty': isEmpty('datePlanned')}" *ngIf="!projectEditStates.datePlanned || !auth.isAdmin()">
           {{projectService.formatDate(projectForm.value.datePlanned)}}
         </div>
-        <div class="write" *ngIf="projectEditStates.datePlanned">
+        <div class="write" *ngIf="projectEditStates.datePlanned && auth.isAdmin()">
           <input type="date" name="datePlanned" id="datePlanned" formControlName="datePlanned">
           <p *ngIf="formService.checkInputField(projectForm, 'datePlanned', submitted)" class="error">!</p>
         </div>
@@ -339,27 +353,12 @@
       <label for="hourPlanned">Uur ingepland <span
           *ngIf="projectForm.controls.hourPlanned.validator !== null">*</span></label>
       <div class="inputField">
-        <div class="read" (click)="changeEditState('hourPlanned', true)" [ngClass]="{'empty': isEmpty('hourPlanned')}" *ngIf="!projectEditStates.hourPlanned">
+        <div class="read" (click)="changeEditState('hourPlanned', true)" [ngClass]="{'empty': isEmpty('hourPlanned')}" *ngIf="!projectEditStates.hourPlanned || !auth.isAdmin()">
           {{projectForm.value.hourPlanned}}
         </div>
-        <div class="write" *ngIf="projectEditStates.hourPlanned">
+        <div class="write" *ngIf="projectEditStates.hourPlanned && auth.isAdmin()">
           <input type="time" name="hourPlanned" id="hourPlanned" formControlName="hourPlanned">
           <p *ngIf="formService.checkInputField(projectForm, 'hourPlanned', submitted)" class="error">!</p>
-        </div>
-      </div>
-    </div>
-    <div class="projectRow" [ngClass]="projectForm.value.status">
-      <label for="status">Status <span *ngIf="projectForm.controls.status.validator !== null">*</span></label>
-      <div class="inputField">
-        <div class="read" (click)="changeEditState('status', true)" [ngClass]="{'empty': isEmpty('status')}" *ngIf="!projectEditStates.status">
-          {{projectService.statusName(projectForm.value.status)}}
-        </div>
-        <div class="write" *ngIf="projectEditStates.status">
-          <select name="status" id="status" formControlName="status">
-            <option value="">Selecteer status</option>
-            <option *ngFor="let status of projectService.statuses" [value]="status.type">{{status.name}}</option>
-          </select>
-          <p *ngIf="formService.checkInputField(projectForm, 'status', submitted)" class="error">!</p>
         </div>
       </div>
     </div>
@@ -381,19 +380,4 @@
       </div>
     </div>
   </div>
-
-  <!-- <div class="projectSection">
-    <div class="projectRow">
-      <label for="invoiced">invoiced <span *ngIf="projectForm.controls.invoiced.validator !== null">*</span></label>
-      <div class="inputField">
-        <div class="read" (click)="changeEditState('invoiced', true)" [ngClass]="{'empty': isEmpty('invoiced')}" *ngIf="!projectEditStates.invoiced">
-          {{projectForm.value.invoiced}}
-        </div>
-        <div class="write" *ngIf="projectEditStates.invoiced">
-          <input type="checkbox" name="invoiced" id="invoiced" formControlName="invoiced">
-          <p *ngIf="formService.checkInputField(projectForm, 'invoiced', submitted)" class="error">!</p>
-        </div>
-      </div>
-    </div>
-  </div> -->
 </form>

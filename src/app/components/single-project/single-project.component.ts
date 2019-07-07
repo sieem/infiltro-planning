@@ -42,8 +42,8 @@ export class SingleProjectComponent implements OnInit {
     this.projectForm = this.formBuilder.group({
       _id: [''],
 
-      company: [{ value: this.user.company, disabled: !this.auth.isAdmin() }, Validators.required],
-      dateCreated: [{ value: moment().format(this.formService.dateFormat), disabled: !this.auth.isAdmin() }, Validators.required],
+      company: [{ value: this.user.company }, Validators.required],
+      dateCreated: [{ value: moment().format(this.formService.dateFormat) }, Validators.required],
       projectType: ['house', Validators.required],
       houseAmount: [1, Validators.required],
       projectName: ['', Validators.required],
