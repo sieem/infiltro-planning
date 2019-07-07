@@ -82,7 +82,7 @@ export class ProjectService {
   constructor(private formService: FormService) { }
 
   public statusName(type: string) {
-    let name
+    let name: string
     this.statuses.forEach(status => {
       if (status.type === type) {
         name = status.name
@@ -91,8 +91,8 @@ export class ProjectService {
     return name || 'Onbekend'
   }
 
-  public  executorName(type: string) {
-    let name
+  public executorName(type: string) {
+    let name: string
     this.executors.forEach(executor => {
       if (executor.type === type) {
         name = executor.name
@@ -103,7 +103,7 @@ export class ProjectService {
   }
 
   public projectTypeName(type: string) {
-    let name
+    let name: string
     this.projectTypes.forEach(projectType => {
       if (projectType.type === type) {
         name = projectType.name
