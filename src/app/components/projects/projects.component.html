@@ -38,15 +38,13 @@
 
 <div class="projectList">
     <ng-container *ngIf="projects.length > 0; else noProjectsFound">
-        <div class="project" *ngFor="let project of projects">
-            <div class="title">{{ project.projectName }} - {{ projectService.projectTypeName(project.projectType) }}
-                ({{project.houseAmount}})</div>
-            <div>City: {{ project.city }}</div>
-            <div>Excecutor: {{ projectService.executorName(project.executor) }}</div>
-            <div>datePlanned: {{ projectService.formatDate(project.datePlanned) }}</div>
-            <div>hourPlanned: {{ project.hourPlanned }}</div>
-            <div>Status: {{ projectService.statusName(project.status) }}</div>
-            <a [routerLink]="[ '/projects', project._id ]">meer info</a><br>
+        <div class="project" *ngFor="let project of projects" [ngClass]="project.status">
+            <div class="title" [routerLink]="[ '/projects', project._id ]">{{ project.projectName }} / {{ projectService.projectTypeName(project.projectType) }} / {{project.houseAmount}}</div>
+            <div class="status">{{projectService.statusName(project.status)}}</div>
+            <div class="excecutor">{{ projectService.executorName(project.executor) }}</div>
+            <div class="address">{{project.street}}, {{project.postalCode}} {{project.city}}, <span class="extraInfoAddress">{{project.extraInfoAddress}}</span></div>
+            <div class="dateHourPlanned">{{ projectService.formatDate(project.datePlanned) }} {{ project.hourPlanned }}</div>
+            <div class="comments">{{project.comments}}</div>
         </div>
     </ng-container>
     <ng-template #noProjectsFound>

@@ -9,38 +9,24 @@ $reportAvailable: #627c34;
 $conformityAvailable: #0f7001;
 $completed: #8ab047;
 
-.contractSigned {
-    color: $toContact;
+@mixin status-color($color) {
+    .status, .read {
+        color: $color;
+    }
+
+    &.project {
+        border-left: 3px solid $color;
+    }
 }
 
-.toContact {
-    color: $toContact;
-}
-
-.toPlan {
-    color: $toPlan;
-}
-
-.proposalSent {
-    color: $proposalSent;
-}
-
-.planned {
-    color: $planned;
-}
-
-.onHold {
-    color: $onHold;
-}
-
-.executed {
-    color: $executed;
-}
-
-.reportAvailable {
-    color: $reportAvailable;
-}
-
-.conformityAvailable {
-    color: $conformityAvailable;
-}
+.contractSigned { @include status-color($toContact); }
+.toContact { @include status-color($toContact); }
+.toPlan { @include status-color($toPlan); }
+.proposalSent { @include status-color($proposalSent); }
+.planned { @include status-color($planned); }
+.onHold { @include status-color($onHold); }
+.executed { @include status-color($executed); }
+.reportAvailable { @include status-color($reportAvailable); }
+.conformityAvailable { @include status-color($conformityAvailable); }
+.completed { @include status-color($completed); } 
+.undefined { @include status-color($contractSigned); } 
