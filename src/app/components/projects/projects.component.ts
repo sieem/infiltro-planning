@@ -18,6 +18,10 @@ export class ProjectsComponent implements OnInit {
     projectType: [],
     executor: []
   }
+  sortOptions: any = {
+    field: 'datePlanned',
+    order: 'asc'
+  }
 
   constructor(private api:ApiService, public auth:AuthService, public projectService: ProjectService) { }
 
@@ -30,7 +34,7 @@ export class ProjectsComponent implements OnInit {
     this.api.getProjects().subscribe(
       res => {
         this.projects = this.allProjects = res
-        this.filterProjects()
+        this.sortProjects()
       },
       err => console.log(err)
     )
@@ -57,6 +61,21 @@ export class ProjectsComponent implements OnInit {
       }
 
       return !filterBooleans.includes(false)
+    })
+  }
+
+  sortProjects() {
+    this.projects = this.projects.sort( (a,b) => {
+      let x = a[this.sortOptions.field].toLowerCase()
+      let y = b[this.sortOptions.field].toLowerCase()
+
+      if (x == y) return 0
+
+      if(this.sortOptions.sort == 'asc') {
+        return (x < y) ? -1 : 1
+      } else {
+        return (x < y) ? 1 : -1
+      }
     })
   }
 }

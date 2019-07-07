@@ -79,6 +79,65 @@ export class ProjectService {
     }
   ]
 
+  public sortables: any = [
+    {
+      type: "company",
+      name: "Bedrijf"
+    },
+    {
+      type: "dateCreated",
+      name: "Datum aanvraag"
+    },
+    {
+      type: "projectType",
+      name: "Type"
+    },
+    {
+      type: "projectName",
+      name: "Referentie"
+    },
+    {
+      type: "street",
+      name: "Straat + Nr"
+    },
+    {
+      type: "city",
+      name: "Gemeente"
+    },
+    {
+      type: "postalCode",
+      name: "Postcode"
+    },
+    {
+      type: "name",
+      name: "Naam contactpersoon"
+    },
+    {
+      type: "tel",
+      name: "Telefoonnummer contactpersoon"
+    },
+    {
+      type: "email",
+      name: "E-mail contactpersoon"
+    },
+    {
+      type: "executor",
+      name: "Uitvoerder"
+    },
+    {
+      type: "datePlanned",
+      name: "Datum ingepland"
+    },
+    {
+      type: "hourPlanned",
+      name: "Uur ingepland"
+    },
+    {
+      type: "status",
+      name: "Status"
+    }
+  ]
+
   constructor(private formService: FormService) { }
 
   public statusName(type: string) {
