@@ -33,6 +33,8 @@
                 <img src="/assets/images/icon-unchecked.svg" alt="" *ngIf="sortOptions.field !== sortable.type">
                 <img src="/assets/images/icon-checked.svg" alt="" *ngIf="sortOptions.field === sortable.type">
                 <span>{{sortable.name}}</span>
+                <span *ngIf="sortOptions.field === sortable.type && sortOptions.order == 'desc'"> | desc</span>
+                <span *ngIf="sortOptions.field === sortable.type && sortOptions.order == 'asc'"> | asc</span>
             </div>
         </div>
     </div>
