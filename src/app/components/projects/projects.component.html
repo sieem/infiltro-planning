@@ -11,17 +11,6 @@
         </div>
     </div>
 
-    <div class="btn filter projectType">
-        <span class="title">Type</span>
-        <div class="dropdown">
-            <div class="item" *ngFor="let projectType of projectService.projectTypes" (click)="changeFilter('projectType', projectType.type)">
-                <img src="/assets/images/icon-unchecked.svg" alt="" *ngIf="!activeFilter.projectType.includes(projectType.type)">
-                <img src="/assets/images/icon-checked.svg" alt="" *ngIf="activeFilter.projectType.includes(projectType.type)">
-                <span>{{projectType.name}}</span>
-            </div>
-        </div>
-    </div>
-
     <div class="btn filter sort" [ngClass]="sortOptions.order">
         <span class="title">Sorteer</span>
         <!-- <img src="/assets/images/icon-unchecked.svg" alt=""> -->
