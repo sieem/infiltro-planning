@@ -19,7 +19,7 @@ export class ProjectsComponent implements OnInit {
     executor: []
   }
   sortOptions: any = {
-    field: 'datePlanned',
+    field: '',
     order: 'asc'
   }
 
@@ -34,7 +34,6 @@ export class ProjectsComponent implements OnInit {
     this.api.getProjects().subscribe(
       res => {
         this.projects = this.allProjects = res
-        this.sortProjects()
       },
       err => console.log(err)
     )
@@ -48,6 +47,7 @@ export class ProjectsComponent implements OnInit {
     }
 
     this.filterProjects()
+    this.sortProjects()
   }
 
   filterProjects() {
@@ -64,18 +64,26 @@ export class ProjectsComponent implements OnInit {
     })
   }
 
-  sortProjects() {
+  sortProjects(sortType = '') {
+    if (sortType !== '') {
+      if (this.sortOptions.field === sortType) {
+        this.sortOptions.order = (this.sortOptions.order === 'asc') ? 'desc' : 'asc'
+      }
+      this.sortOptions.field = sortType
+    }
+
+
     this.projects = this.projects.sort( (a,b) => {
       let x = a[this.sortOptions.field].toLowerCase()
       let y = b[this.sortOptions.field].toLowerCase()
 
       if (x == y) return 0
 
-      if(this.sortOptions.sort == 'asc') {
-        return (x < y) ? -1 : 1
-      } else {
-        return (x < y) ? 1 : -1
-      }
+      return (x < y) ? -1 : 1
     })
+
+    if (this.sortOptions.order == 'desc') {
+      this.projects = this.projects.reverse()
+    }
   }
 }
