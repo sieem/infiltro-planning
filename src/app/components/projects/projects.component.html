@@ -11,21 +11,6 @@
         </div>
     </div>
 
-    <div class="btn filter sort" [ngClass]="sortOptions.order">
-        <span class="title">Sorteer</span>
-        <!-- <img src="/assets/images/icon-unchecked.svg" alt=""> -->
-        <div class="dropdown">
-            <div class="item" *ngFor="let sortable of projectService.sortables"
-                (click)="sortProjects(sortable.type)">
-                <img src="/assets/images/icon-unchecked.svg" alt=""
-                    *ngIf="sortOptions.field !== sortable.type">
-                <img src="/assets/images/icon-checked.svg" alt=""
-                    *ngIf="sortOptions.field === sortable.type">
-                <span>{{sortable.name}}</span>
-            </div>
-        </div>
-    </div>
-
     <div class="btn filter executor" *ngIf="auth.isAdmin()">
         <span class="title">Uitvoerder</span>
         <div class="dropdown">
@@ -36,6 +21,18 @@
                 <img src="/assets/images/icon-checked.svg" alt=""
                     *ngIf="activeFilter.executor.includes(executor.type)">
                 <span>{{executor.name}}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="btn filter sort" [ngClass]="sortOptions.order">
+        <span class="title">Sorteer</span>
+        <!-- <img src="/assets/images/icon-unchecked.svg" alt=""> -->
+        <div class="dropdown">
+            <div class="item" *ngFor="let sortable of projectService.sortables" (click)="sortProjects(sortable.type)">
+                <img src="/assets/images/icon-unchecked.svg" alt="" *ngIf="sortOptions.field !== sortable.type">
+                <img src="/assets/images/icon-checked.svg" alt="" *ngIf="sortOptions.field === sortable.type">
+                <span>{{sortable.name}}</span>
             </div>
         </div>
     </div>
