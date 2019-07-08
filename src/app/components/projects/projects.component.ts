@@ -14,12 +14,11 @@ export class ProjectsComponent implements OnInit {
   projects: any = []
   allProjects: any = []
   activeFilter: any = {
-    status: [],
-    projectType: [],
-    executor: []
+    status: ['contractSigned', 'toContact', 'toPlan', 'proposalSent', 'planned', 'onHold', 'executed', 'reportAvailable','conformityAvailable'],
+    executor: ['david','roel', 'together']
   }
   sortOptions: any = {
-    field: '',
+    field: 'datePlanned',
     order: 'asc'
   }
 
@@ -34,6 +33,7 @@ export class ProjectsComponent implements OnInit {
     this.api.getProjects().subscribe(
       res => {
         this.projects = this.allProjects = res
+        this.sortProjects()
       },
       err => console.log(err)
     )
