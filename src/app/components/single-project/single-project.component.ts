@@ -47,7 +47,7 @@ export class SingleProjectComponent implements OnInit {
       projectType: ['house', Validators.required],
       houseAmount: [1, Validators.required],
       projectName: ['', Validators.required],
-      client: ['', Validators.required],
+      client: [''],
 
       street: ['', Validators.required],
       city: ['', Validators.required],
@@ -126,7 +126,7 @@ export class SingleProjectComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-
+    console.table(this.projectForm.controls)
     if (this.projectForm.invalid) {
       this.toastr.error('Project invalid');
       return;
