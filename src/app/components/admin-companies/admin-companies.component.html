@@ -1,6 +1,14 @@
-<div *ngFor="let company of companyService.companies">
-  <div>{{company.name}} <span (click)="removeCompany(company)">(delete)</span></div>
+<div class="list companies">
+  <h1>Company admin</h1>
+  <div class="item" *ngFor="let company of companyService.companies">
+    <div>{{company.name}}</div>
+    <div>{{company.email}}</div>
+    <div></div>
+    <div class="icon" (click)="editCompany(company)"><img src="assets/images/icon-edit.svg" alt=""></div>
+    <div class="icon" (click)="removeCompany(company)"><img src="assets/images/icon-delete.svg" alt=""></div>
+  </div>
 </div>
+
 
 <form [formGroup]="companyForm" (ngSubmit)="onSubmit()">
   <div class="inputGroup">
@@ -8,11 +16,21 @@
     <input type="text" name="name" formControlName="name">
     <p *ngIf="formService.checkInputField(companyForm, 'name', submitted)" class="error">!</p>
   </div>
-  
 
   <div class="inputGroup">
-    <div></div>
-    <input type="submit" value="add company">
+    <label for="email">email</label>
+    <input type="email" name="email" formControlName="email">
+    <p *ngIf="formService.checkInputField(companyForm, 'email', submitted)" class="error">!</p>
+  </div>
+  
+
+  <div class="inputGroup right">
+    <ng-container *ngIf="editState; else elseTemplate">
+      <input type="submit" value="edit company">
+    </ng-container>
+    <ng-template #elseTemplate>
+      <input type="submit" value="add company">
+    </ng-template>
   </div>
   
 </form>

@@ -14,6 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 export class AdminCompaniesComponent implements OnInit {
   companyForm: FormGroup
   submitted = false
+  editState = false
 
 
   constructor(
@@ -26,7 +27,9 @@ export class AdminCompaniesComponent implements OnInit {
 
   ngOnInit() {
     this.companyForm = this.formBuilder.group({
+      _id: [''],
       name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email, Validators.pattern(this.formService.emailRegex)]],
     })
   }
 
@@ -44,35 +47,64 @@ export class AdminCompaniesComponent implements OnInit {
   saveCompany() {
 
     const formData = new FormData()
+    formData.append('_id', this.companyForm.value._id)
     formData.append('name', this.companyForm.value.name)
+    formData.append('email', this.companyForm.value.email)
 
     this.api.saveCompany(formData).subscribe(
       (res: any) => {
-        this.companyService.companies.push(res)
+        if (!this.companyForm.value._id) {
+          this.companyService.companies.push(res)
+        } else {
+          this.companyService.companies = this.updateElementInArray(this.companyService.companies, res)
+        }
+        
         this.companyForm.reset()
+        this.editState = false
         this.toastr.success('Company saved');
       },
       err => console.log(err)
     )
   }
 
+  editCompany(company) {
+    this.editState = true
+
+    this.companyForm.setValue({
+      _id: company._id || "",
+      name: company.name || "",
+      email: company.email || ""
+    })
+  }
+
   removeCompany(company: any) {
     if (confirm(`Are you sure to delete ${company.name}?`)) {
       this.api.removeCompany(company._id).subscribe(
         (res: any) => {
-          this.companyService.companies = this.removeElementFromArray(this.companyService.companies, company._id)
+          this.companyService.companies = this.removeElementInArray(this.companyService.companies, company._id)
         },
         err => console.log(err)
       )
     }
   }
 
-  removeElementFromArray(array:any , id:string) {
+  removeElementInArray(array:any , id:string) {
     for (const key in array) {
         if (array[key]._id === id) {
           array.splice(key,1)
           return array
         }
     }
+    return array
+  }
+
+  updateElementInArray(array: any, element: any) {
+    for (const key in array) {
+      if (array[key]._id === element._id) {
+        array[key] = element
+        return array
+      }
+    }
+    return array
   }
 }

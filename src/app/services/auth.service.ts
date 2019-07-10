@@ -62,6 +62,17 @@ export class AuthService {
     return this.userRoles
   }
 
+  public roleName(type: string) {
+    let name: string
+    this.userRoles.forEach(role => {
+      if (role.type === type) {
+        name = role.name
+      }
+    })
+    return name || 'Onbekend'
+
+  }
+
   getUsers() {
     if (!this.users) {
       this.api.getUsers().subscribe(
@@ -75,5 +86,6 @@ export class AuthService {
       return this.users
     }
   }
+  
   
 }
