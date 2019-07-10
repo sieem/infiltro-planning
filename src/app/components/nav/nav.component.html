@@ -1,7 +1,7 @@
 <nav>
   <a routerLink="/projects" routerLinkActive="active">Projects</a>
   <a routerLink="/map" *ngIf="auth.isAdmin()" routerLinkActive="active">Map</a>
-  <a routerLink="/admin" *ngIf="auth.isAdmin()" routerLinkActive="active">Admin
+  <a *ngIf="auth.isAdmin()" routerLinkActive="active">Admin
     <div class="submenu">
       <a routerLink="/admin/users" routerLinkActive="active">Users</a>
       <a routerLink="/admin/companies" routerLinkActive="active">Companies</a>
