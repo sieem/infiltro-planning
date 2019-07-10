@@ -65,7 +65,7 @@ export class AdminUserComponent implements OnInit {
   }
 
   editUser() {
-    alert("Dienst onbereikbaar, hier worden renovatie uitgevoerd. We hopen u zo snel mogelijk van dienst te zijn.")
+    alert("Dienst onbereikbaar, hier worden grondige renovaties uitgevoerd. We hopen u zo snel mogelijk van dienst te zijn.")
   }
 
   removeUser() {
