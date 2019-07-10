@@ -21,6 +21,11 @@ option,
     width: 100%;
 }
 
+input[type='submit'] {
+    width: inherit;
+    cursor: pointer;
+}
+
 .read {
     border-color: transparent;
 }

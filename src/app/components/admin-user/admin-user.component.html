@@ -1,8 +1,11 @@
-<h1>User admin</h1>
-
-<div class="users">
-  <div class="user" *ngFor="let user of auth.users">
-    - {{user.email}}
+<div class="list users">
+  <h1>User admin</h1>
+  <div class="item" *ngFor="let user of auth.users">
+    <div>{{user.email}}</div>
+    <div>{{companyService.companyName(user.company)}}</div>
+    <div>{{auth.roleName(user.role)}}</div>
+    <div class="icon" (click)="editUser(user)"><img src="assets/images/icon-edit.svg" alt=""></div>
+    <div class="icon" (click)="removeUser(user)"><img src="assets/images/icon-delete.svg" alt=""></div>
   </div>
 </div>
 
@@ -31,7 +34,7 @@
     <p *ngIf="formService.checkInputField(registerForm, 'role', submitted)" class="error">!</p>
   </div>
 
-  <div class="inputGroup">
+  <div class="inputGroup right">
     <div></div>
     <input type="submit" value="add user">
   </div>

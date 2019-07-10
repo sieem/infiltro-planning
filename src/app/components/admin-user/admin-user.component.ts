@@ -63,4 +63,12 @@ export class AdminUserComponent implements OnInit {
       err => console.log(err)
     )
   }
+
+  editUser() {
+    alert("Dienst onbereikbaar, hier worden renovatie uitgevoerd. We hopen u zo snel mogelijk van dienst te zijn.")
+  }
+
+  removeUser() {
+    alert("Zeker dat je eigenlijk deze functie wilt hebben?")
+  }
 }
