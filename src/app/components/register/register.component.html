@@ -1,12 +1,11 @@
 <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
   <div class="inputGroup">
-    <label for="password"></label>
+    <label for="password">Wachtwoord</label>
     <input type="password" name="password" formControlName="password">
     <p *ngIf="formService.checkInputField(registerForm, 'password', submitted)" class="error">!</p>
   </div>
 
-  <div class="inputGroup">
-    <div></div>
-    <input type="submit" value="register">
+  <div class="inputGroup right">
+    <input type="submit" value="Registreren">
   </div>
 </form>
