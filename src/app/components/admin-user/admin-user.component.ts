@@ -15,6 +15,7 @@ import { ToastrService } from 'ngx-toastr';
 export class AdminUserComponent implements OnInit {
   registerForm: FormGroup;
   submitted = false;
+  editState = false;
 
   constructor(private formBuilder: FormBuilder,
     private api: ApiService,
@@ -27,6 +28,7 @@ export class AdminUserComponent implements OnInit {
   ngOnInit() {
 
     this.registerForm = this.formBuilder.group({
+      _id: [''],
       email: ['', [Validators.required, Validators.pattern(this.formService.emailRegex)]],
       company: ['', Validators.required],
       role: ['', Validators.required],
@@ -50,25 +52,77 @@ export class AdminUserComponent implements OnInit {
   registerUser() {
 
     const formData = new FormData();
+    
     formData.append('email', this.registerForm.value.email)
     formData.append('company', this.registerForm.value.company)
     formData.append('role', this.registerForm.value.role)
 
-    this.api.addUser(formData).subscribe(
-      (res: any) => {
-        this.auth.users.push(res)
-        this.registerForm.reset()
-        this.toastr.success('User saved', 'Sent mail to user!');
-      },
-      err => console.log(err)
-    )
+    if (!this.registerForm.value._id) {
+      this.api.addUser(formData).subscribe(
+        (res: any) => {
+          this.auth.users.push(res)
+          this.registerForm.reset()
+          this.toastr.success('User saved', 'Sent mail to user!');
+        },
+        err => console.log(err)
+      )
+    } else {
+      formData.append('_id', this.registerForm.value._id)
+      this.editState = false
+      this.api.editUser(formData).subscribe(
+        (res: any) => {
+          this.auth.users = this.updateElementInArray(this.auth.users, res)
+          this.registerForm.reset()
+          this.toastr.success('User saved');
+        },
+        err => console.log(err)
+      )
+    }
+
+    
   }
 
-  editUser() {
-    alert("Dienst onbereikbaar, hier worden grondige renovaties uitgevoerd. We hopen u zo snel mogelijk van dienst te zijn.")
+  editUser(user) {
+    this.editState = true
+
+    this.registerForm.setValue({
+      _id: user._id || "",
+      email: user.email || "",
+      company: user.company || "",
+      role: user.role || ""
+    })
   }
 
-  removeUser() {
-    alert("Zeker dat je eigenlijk deze functie wilt hebben?")
+  removeUser(user: any) {
+    if (confirm(`Are you sure to delete ${user.email}?`)) {
+      if (confirm(`Are you really sure you want to delete ${user.email}???`)) {
+        this.api.removeUser(user._id).subscribe(
+          (res: any) => {
+            this.auth.users = this.removeElementInArray(this.auth.users, user._id)
+          },
+          err => console.log(err)
+        )
+      }
+    }
+  }
+
+  removeElementInArray(array: any, id: string) {
+    for (const key in array) {
+      if (array[key]._id === id) {
+        array.splice(key, 1)
+        return array
+      }
+    }
+    return array
+  }
+
+  updateElementInArray(array: any, element: any) {
+    for (const key in array) {
+      if (array[key]._id === element._id) {
+        array[key] = element
+        return array
+      }
+    }
+    return array
   }
 }

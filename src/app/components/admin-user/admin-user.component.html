@@ -35,8 +35,12 @@
   </div>
 
   <div class="inputGroup right">
-    <div></div>
-    <input type="submit" value="add user">
+    <ng-container *ngIf="editState; else elseTemplate">
+      <input type="submit" value="edit user">
+    </ng-container>
+    <ng-template #elseTemplate>
+      <input type="submit" value="add user">
+    </ng-template>
   </div>
 
 </form>
