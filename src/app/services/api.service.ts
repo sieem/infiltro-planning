@@ -6,7 +6,6 @@ import { environment } from '../../environments/environment';
   providedIn: 'root'
 })
 export class ApiService {
-  
   private baseUrl: string = environment.apiUrl
 
   constructor(private http: HttpClient) { }
@@ -29,6 +28,14 @@ export class ApiService {
 
   loginUser(user: FormData) {
     return this.http.post(this.baseUrl + '/login', user)
+  }
+
+  editUser(user: FormData) {
+    return this.http.post(this.baseUrl + '/edit-user/', user)
+  }
+
+  removeUser(userId: any) {
+    return this.http.delete(this.baseUrl + '/remove-user/' + userId)
   }
 
   getCompanies() {
