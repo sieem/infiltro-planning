@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from 'src/app/services/api.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -126,7 +126,6 @@ export class SingleProjectComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    console.table(this.projectForm.controls)
     if (this.projectForm.invalid) {
       this.toastr.error('Project invalid');
       return;
@@ -173,6 +172,12 @@ export class SingleProjectComponent implements OnInit {
         Object.keys(this.projectForm.controls).forEach(key => {
           this.projectEditStates[key] = false
         })
+
+        // reset and refill form so the form isn't touched anymore
+        this.projectForm.reset()
+        let formElement = {}
+        formData.forEach((el, key) => formElement[key] = el)
+        this.projectForm.setValue(formElement)
       },
       err => console.log(err)
     )
@@ -189,6 +194,18 @@ export class SingleProjectComponent implements OnInit {
       )
     }
   }
+
+  goToOverview() {
+    if (this.projectForm.touched) {
+      if (confirm(`Ben je zeker dat je terug wilt? Je aanpassingen zullen niet opgeslagen worden.`)) {
+        this.router.navigate(['/projects'])
+      } else {
+        return
+      }
+    } else {
+      this.router.navigate(['/projects'])
+    }
+  } 
 
   isEmpty(inputName) {
     if (typeof this.projectForm.value[inputName] === 'string')
