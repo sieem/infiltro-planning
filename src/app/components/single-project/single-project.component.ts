@@ -168,7 +168,6 @@ export class SingleProjectComponent implements OnInit {
     this.api.saveProject(formData).subscribe(
       (res: any) => {
         this.toastr.success('Project saved');
-        // this.router.navigate(['/projects', res.projectId])
         Object.keys(this.projectForm.controls).forEach(key => {
           this.projectEditStates[key] = false
         })
@@ -188,7 +187,7 @@ export class SingleProjectComponent implements OnInit {
     if (confirm(`Are you sure to delete ${this.projectForm.value.projectName}?`)) {
       this.api.removeProject(this.projectId).subscribe(
         (res: any) => {
-          this.router.navigate(['/projects'])
+          this.router.navigate(['/projecten'])
         },
         err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
       )
@@ -198,12 +197,12 @@ export class SingleProjectComponent implements OnInit {
   goToOverview() {
     if (this.projectForm.touched) {
       if (confirm(`Ben je zeker dat je terug wilt? Je aanpassingen zullen niet opgeslagen worden.`)) {
-        this.router.navigate(['/projects'])
+        this.router.navigate(['/projecten'])
       } else {
         return
       }
     } else {
-      this.router.navigate(['/projects'])
+      this.router.navigate(['/projecten'])
     }
   } 
 

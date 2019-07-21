@@ -45,7 +45,7 @@ export class AuthService {
 
   logoutUser() {
     localStorage.removeItem('token')
-    this.router.navigate(['/login'])
+    this.router.navigate(['/inloggen'])
   }
 
   getUserDetails() {

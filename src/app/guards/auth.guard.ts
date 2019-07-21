@@ -16,14 +16,14 @@ export class AuthGuard implements CanActivate {
         if (route.data.roles.includes(this.auth.getUserDetails().role)) {
           return true
         } else {
-          this.router.navigate(['/login'])
+          this.router.navigate(['/inloggen'])
           return false
         }
       } else {
         return true
       }
     } else {
-      this.router.navigate(['/login'])
+      this.router.navigate(['/inloggen'])
       return false
     }
   }

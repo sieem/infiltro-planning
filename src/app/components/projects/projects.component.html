@@ -1,5 +1,5 @@
 <div class="controls">
-    <a [routerLink]="[ '/projects/add' ]" class="btn red"><img src="/assets/images/icon-new.svg" alt=""> New project</a>
+    <a [routerLink]="[ '/project/toevoegen' ]" class="btn red"><img src="/assets/images/icon-new.svg" alt=""> New project</a>
     <div class="btn filter status">
         <span class="title">Status</span>
         <div class="dropdown">
@@ -43,7 +43,7 @@
 <div class="projectList">
     <ng-container *ngIf="projects.length > 0; else noProjectsFound">
         <div class="project" *ngFor="let project of projects" [ngClass]="project.status">
-            <div class="title" [routerLink]="[ '/projects', project._id ]">{{ project.projectName }} / {{ projectService.projectTypeName(project.projectType) }} / {{project.houseAmount}}</div>
+            <div class="title" [routerLink]="[ '/project', project._id ]">{{ project.projectName }} / {{ projectService.projectTypeName(project.projectType) }} / {{project.houseAmount}}</div>
             <div class="status">{{projectService.statusName(project.status)}}</div>
             <div class="excecutor">{{ projectService.executorName(project.executor) }}</div>
             <div class="address">{{project.street}}, {{project.postalCode}} {{project.city}}, <span class="extraInfoAddress">{{project.extraInfoAddress}}</span></div>
