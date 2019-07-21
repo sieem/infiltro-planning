@@ -15,7 +15,6 @@ import { ToastrService } from 'ngx-toastr';
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
   submitted: boolean = false;
-  userId: string;
   user: any;
 
   constructor(
@@ -36,8 +35,8 @@ export class RegisterComponent implements OnInit {
     })
 
     this.activatedRoute.params.subscribe(params => {
-      this.userId = params['userId'];
-      this.getUser(this.userId)
+      let userId = params['userId'];
+      this.getUser(userId)
     });
     
   }
