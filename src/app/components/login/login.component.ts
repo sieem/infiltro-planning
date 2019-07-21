@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { FormService } from 'src/app/services/form.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,13 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   submitted = false;
 
-  constructor(private formBuilder: FormBuilder, private api: ApiService, private router: Router, public formService: FormService, private auth:AuthService) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private api: ApiService, 
+    private router: Router, 
+    public formService: FormService, 
+    private auth: AuthService,
+    private toastr: ToastrService) { }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
@@ -44,7 +51,7 @@ export class LoginComponent implements OnInit {
         this.auth.saveToken(res.token)
         this.router.navigate(['/projects'])
       },
-      err => console.log(err)
+      err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
     )
   }
 }

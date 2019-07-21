@@ -3,6 +3,7 @@ import { ApiService } from 'src/app/services/api.service';
 import { AuthService } from 'src/app/services/auth.service';
 import * as moment from 'moment';
 import { ProjectService } from 'src/app/services/project.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-projects',
@@ -22,7 +23,11 @@ export class ProjectsComponent implements OnInit {
     order: 'asc'
   }
 
-  constructor(private api:ApiService, public auth:AuthService, public projectService: ProjectService) { }
+  constructor(
+    private api: ApiService,
+    public auth: AuthService,
+    public projectService: ProjectService,
+    private toastr: ToastrService) { }
 
   ngOnInit() {
     this.getProjects()
@@ -35,7 +40,7 @@ export class ProjectsComponent implements OnInit {
         this.projects = this.allProjects = res
         this.sortProjects()
       },
-      err => console.log(err)
+      err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
     )
   }
 

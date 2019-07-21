@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import * as jwt_decode from "jwt-decode";
 import { ApiService } from './api.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +26,10 @@ export class AuthService {
 
   users: any
 
-  constructor(private router: Router, private api:ApiService) { }
+  constructor(
+    private router: Router,
+    private api: ApiService,
+    private toastr: ToastrService) { }
 
   saveToken(token) {
     localStorage.setItem('token', token)
@@ -80,7 +84,7 @@ export class AuthService {
           this.users = res
           return this.users
         },
-        err => console.log(err)
+        err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
       )
     } else {
       return this.users

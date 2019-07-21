@@ -118,7 +118,7 @@ export class SingleProjectComponent implements OnInit {
               invoiced: (res.invoiced == undefined) ? false : res.invoiced
             })
           },
-          err => console.log(err)
+          err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
         )
       }
     })
@@ -179,7 +179,7 @@ export class SingleProjectComponent implements OnInit {
         formData.forEach((el, key) => formDataAsObj = {...formDataAsObj, [key]: el})
         this.projectForm.setValue(formDataAsObj)
       },
-      err => console.log(err)
+      err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
     )
   }
 
@@ -190,7 +190,7 @@ export class SingleProjectComponent implements OnInit {
         (res: any) => {
           this.router.navigate(['/projects'])
         },
-        err => console.log(err)
+        err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
       )
     }
   }

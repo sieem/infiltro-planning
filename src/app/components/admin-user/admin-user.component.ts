@@ -64,7 +64,7 @@ export class AdminUserComponent implements OnInit {
           this.registerForm.reset()
           this.toastr.success('User saved', 'Sent mail to user!');
         },
-        err => console.log(err)
+        err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
       )
     } else {
       formData.append('_id', this.registerForm.value._id)
@@ -75,7 +75,7 @@ export class AdminUserComponent implements OnInit {
           this.registerForm.reset()
           this.toastr.success('User saved');
         },
-        err => console.log(err)
+        err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
       )
     }
 
@@ -100,7 +100,7 @@ export class AdminUserComponent implements OnInit {
           (res: any) => {
             this.auth.users = this.removeElementInArray(this.auth.users, user._id)
           },
-          err => console.log(err)
+          err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
         )
       }
     }
