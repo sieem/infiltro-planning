@@ -8,6 +8,7 @@ import { AdminCompaniesComponent } from './components/admin-companies/admin-comp
 import { SingleProjectComponent } from './components/single-project/single-project.component';
 import { AdminUserComponent } from './components/admin-user/admin-user.component';
 import { MapComponent } from './components/map/map.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 const routes: Routes = [
   {
@@ -37,6 +38,10 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent
+  },
+  {
+    path: 'reset-password',
+    component: ResetPasswordComponent
   },
   {
     path: 'register',

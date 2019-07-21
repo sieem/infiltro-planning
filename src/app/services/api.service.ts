@@ -38,6 +38,10 @@ export class ApiService {
     return this.http.delete(this.baseUrl + '/remove-user/' + userId)
   }
 
+  resetUser(user: FormData) {
+    return this.http.post(this.baseUrl + '/reset-password', user)
+  }
+
   getCompanies() {
     return this.http.get(this.baseUrl + '/get-companies/')
   }
