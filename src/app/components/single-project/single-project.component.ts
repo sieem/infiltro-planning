@@ -175,9 +175,9 @@ export class SingleProjectComponent implements OnInit {
 
         // reset and refill form so the form isn't touched anymore
         this.projectForm.reset()
-        let formElement = {}
-        formData.forEach((el, key) => formElement[key] = el)
-        this.projectForm.setValue(formElement)
+        let formDataAsObj = {}
+        formData.forEach((el, key) => formDataAsObj = {...formDataAsObj, [key]: el})
+        this.projectForm.setValue(formDataAsObj)
       },
       err => console.log(err)
     )
