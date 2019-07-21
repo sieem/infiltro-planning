@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 import * as moment from 'moment';
 import { ProjectService } from 'src/app/services/project.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-map',
@@ -38,7 +39,10 @@ export class MapComponent implements OnInit {
     }
   }
 
-  constructor(private api: ApiService, public projectService: ProjectService) { }
+  constructor(
+    private api: ApiService,
+    public projectService: ProjectService,
+    private toastr: ToastrService) { }
 
   ngOnInit() {
     this.getProjects()
@@ -76,7 +80,7 @@ export class MapComponent implements OnInit {
           }
         })
       },
-      err => console.log(err)
+      err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
     )
   }
 

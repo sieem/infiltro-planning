@@ -63,7 +63,7 @@ export class AdminCompaniesComponent implements OnInit {
         this.editState = false
         this.toastr.success('Company saved');
       },
-      err => console.log(err)
+      err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
     )
   }
 
@@ -83,7 +83,7 @@ export class AdminCompaniesComponent implements OnInit {
         (res: any) => {
           this.companyService.companies = this.removeElementInArray(this.companyService.companies, company._id)
         },
-        err => console.log(err)
+        err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
       )
     }
   }

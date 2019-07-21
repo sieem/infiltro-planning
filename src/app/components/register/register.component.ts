@@ -5,6 +5,7 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { FormService } from 'src/app/services/form.service';
 import { CompanyService } from 'src/app/services/company.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-register',
@@ -17,13 +18,15 @@ export class RegisterComponent implements OnInit {
   userId: string;
   user: any;
 
-  constructor(private formBuilder: FormBuilder, 
+  constructor(
+    private formBuilder: FormBuilder, 
     private api: ApiService, 
     private router: Router, 
     private activatedRoute: ActivatedRoute,
     public formService: FormService, 
     public companyService: CompanyService, 
-    public auth:AuthService) { }
+    public auth: AuthService,
+    private toastr: ToastrService) { }
 
   ngOnInit() {
 
@@ -47,7 +50,7 @@ export class RegisterComponent implements OnInit {
           password: '',
         })
       },
-      err => console.log(err)
+      err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
     )
   }
 
@@ -72,7 +75,7 @@ export class RegisterComponent implements OnInit {
         this.auth.saveToken(res.token)
         this.router.navigate(['/projects'])
       },
-      err => console.log(err)
+      err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
     )
   }
 }
