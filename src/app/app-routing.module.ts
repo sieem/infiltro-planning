@@ -13,53 +13,53 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/projects',
+    redirectTo: '/projecten',
     pathMatch: 'full'
   },
   {
-    path: 'projects',
+    path: 'projecten',
     component: ProjectsComponent,
     canActivate: [AuthGuard]
   },
   {
-    path: 'projects/add',
+    path: 'project/toevoegen',
     component: SingleProjectComponent,
     canActivate: [AuthGuard]
   },
   {
-    path: 'projects/:projectId',
+    path: 'project/:projectId',
     component: SingleProjectComponent,
     canActivate: [AuthGuard]
   },
   {
-    path: 'map',
+    path: 'kaart',
     component: MapComponent
   },
   {
-    path: 'login',
+    path: 'inloggen',
     component: LoginComponent
   },
   {
-    path: 'reset-password',
+    path: 'herstel-wachtwoord',
     component: ResetPasswordComponent
   },
   {
-    path: 'register',
+    path: 'registreer',
     redirectTo: '/login',
     pathMatch: 'full'
   },
   {
-    path: 'register/:userId',
+    path: 'registreer/:userId',
     component: RegisterComponent
   },
   {
-    path: 'admin/users',
+    path: 'admin/gebruikers',
     component: AdminUserComponent,
     canActivate: [AuthGuard],
     data: { roles: ['admin'] }
   },
   {
-    path: 'admin/companies',
+    path: 'admin/bedrijven',
     component: AdminCompaniesComponent,
     canActivate: [AuthGuard],
     data: { roles: ['admin'] }

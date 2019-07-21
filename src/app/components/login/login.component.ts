@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
     this.api.loginUser(formData).subscribe(
       (res: any) => {
         this.auth.saveToken(res.token)
-        this.router.navigate(['/projects'])
+        this.router.navigate(['/projecten'])
       },
       err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
     )

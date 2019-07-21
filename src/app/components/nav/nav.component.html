@@ -1,12 +1,12 @@
 <nav>
-  <a routerLink="/projects" routerLinkActive="active">Projects</a>
-  <a routerLink="/map" *ngIf="auth.isAdmin()" routerLinkActive="active">Map</a>
-  <a *ngIf="auth.isAdmin()" routerLinkActive="active">Admin
+  <a routerLink="/projecten" routerLinkActive="active">Projecten</a>
+  <a routerLink="/kaart" *ngIf="auth.isAdmin()" routerLinkActive="active">Kaart</a>
+  <a *ngIf="auth.isAdmin()" routerLinkActive="active">Administratie
     <div class="submenu">
-      <a routerLink="/admin/users" routerLinkActive="active">Users</a>
-      <a routerLink="/admin/companies" routerLinkActive="active">Companies</a>
+      <a routerLink="/admin/gebruikers" routerLinkActive="active">Gebruikers</a>
+      <a routerLink="/admin/bedrijven" routerLinkActive="active">Bedrijven</a>
     </div>
   </a>
-  <a routerLink="/login" *ngIf="!auth.loggedIn()" routerLinkActive="active">Login</a>
-  <a *ngIf="auth.loggedIn()" (click)="auth.logoutUser()">Logout</a>
+  <a routerLink="/inloggen" *ngIf="!auth.loggedIn()" routerLinkActive="active">Inloggen</a>
+  <a *ngIf="auth.loggedIn()" (click)="auth.logoutUser()">Uitloggen</a>
 </nav>

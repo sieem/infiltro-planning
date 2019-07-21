@@ -73,7 +73,7 @@ export class RegisterComponent implements OnInit {
     this.api.registerUser(formData).subscribe(
       (res: any) => {
         this.auth.saveToken(res.token)
-        this.router.navigate(['/projects'])
+        this.router.navigate(['/projecten'])
       },
       err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
     )
