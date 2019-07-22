@@ -26,6 +26,10 @@ export class ApiService {
     return this.http.get(this.baseUrl + '/get-user/' + userId)
   }
 
+  getUserByResetToken(resetToken: string) {
+    return this.http.get(this.baseUrl + '/get-user-by-resettoken/' + resetToken)
+  }
+
   loginUser(user: FormData) {
     return this.http.post(this.baseUrl + '/login', user)
   }

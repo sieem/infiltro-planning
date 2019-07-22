@@ -40,6 +40,10 @@ const routes: Routes = [
     component: LoginComponent
   },
   {
+    path: 'herstel-wachtwoord/:resetToken',
+    component: RegisterComponent
+  },
+  {
     path: 'herstel-wachtwoord',
     component: ResetPasswordComponent
   },
@@ -49,7 +53,7 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'registreer/:userId',
+    path: 'registreer/:resetToken',
     component: RegisterComponent
   },
   {
