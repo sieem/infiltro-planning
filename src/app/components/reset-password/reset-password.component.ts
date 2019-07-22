@@ -16,6 +16,7 @@ export class ResetPasswordComponent implements OnInit {
   submitted: boolean = false;
   userId: string;
   user: any;
+  resetDone = false
 
   constructor(
     private formBuilder: FormBuilder,
@@ -52,6 +53,7 @@ export class ResetPasswordComponent implements OnInit {
     this.api.resetUser(formData).subscribe(
       (res: any) => {
         console.log(res)
+        this.resetDone = true
       },
       err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
     )
