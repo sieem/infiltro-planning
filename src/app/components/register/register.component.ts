@@ -23,7 +23,6 @@ export class RegisterComponent implements OnInit {
     private router: Router, 
     private activatedRoute: ActivatedRoute,
     public formService: FormService, 
-    public companyService: CompanyService, 
     public auth: AuthService,
     private toastr: ToastrService) { }
 
@@ -35,17 +34,17 @@ export class RegisterComponent implements OnInit {
     })
 
     this.activatedRoute.params.subscribe(params => {
-      let userId = params['userId'];
-      this.getUser(userId)
+      let resetToken = params['resetToken'];
+      this.getUserByResetToken(resetToken)
     });
     
   }
 
-  getUser(userId: string) {
-    this.api.getUser(userId).subscribe(
-      (res:any) => {
+  getUserByResetToken(resetToken: string) {
+    this.api.getUserByResetToken(resetToken).subscribe(
+      (userId:string) => {
         this.registerForm.setValue({
-          _id: res._id,
+          _id: userId,
           password: '',
         })
       },
