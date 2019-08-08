@@ -65,10 +65,10 @@ export class SingleProjectComponent implements OnInit {
       protectedVolume: [''],
       EpbNumber: [''],
 
-      executor: [{ value: '', disabled: !this.auth.isAdmin() }],
-      datePlanned: [{ value: '', disabled: !this.auth.isAdmin() }],
-      hourPlanned: [{ value: '', disabled: !this.auth.isAdmin() }],
-      status: [{ value: '', disabled: !this.auth.isAdmin() }],
+      executor: [{ value: '' }],
+      datePlanned: [{ value: '' }],
+      hourPlanned: [{ value: '' }],
+      status: [{ value: '' }],
 
       comments: [''],
 
