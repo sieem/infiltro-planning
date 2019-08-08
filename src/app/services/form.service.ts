@@ -14,7 +14,9 @@ export class FormService {
   public dateFormat: string = 'YYYY-MM-DD'
   public visualDateFormat: string = 'dddd DD-MM-YYYY'
 
-  constructor() { }
+  constructor() {
+    moment.locale('nl-be')
+  }
 
   public checkInputField(form: any, field: string, submitted: boolean) {
     return form.get(field).invalid && (form.get(field).dirty || form.get(field).touched || submitted)
