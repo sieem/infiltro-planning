@@ -127,7 +127,7 @@ export class SingleProjectComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
     if (this.projectForm.invalid) {
-      this.toastr.error('Project invalid');
+      this.toastr.error('Nog niet alle verplichte velden zijn ingevuld.');
       return;
     }
 
