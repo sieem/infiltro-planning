@@ -56,6 +56,7 @@ export class RegisterComponent implements OnInit {
     this.submitted = true;
 
     if (this.registerForm.invalid) {
+      this.toastr.error('Wachtwoord is niet moeilijk genoeg. Gelieve een wachtwoord te kiezen met minstens een hoofdletter en een cijfer.');
       return;
     }
 
