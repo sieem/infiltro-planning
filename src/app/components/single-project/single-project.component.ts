@@ -42,8 +42,8 @@ export class SingleProjectComponent implements OnInit {
     this.projectForm = this.formBuilder.group({
       _id: [''],
 
-      company: [{ value: this.user.company }, Validators.required],
-      dateCreated: [{ value: moment().format(this.formService.dateFormat) }, Validators.required],
+      company: [ this.user.company , Validators.required],
+      dateCreated: [ moment().format(this.formService.dateFormat) , Validators.required],
       projectType: ['house', Validators.required],
       houseAmount: [1, Validators.required],
       projectName: ['', Validators.required],
@@ -65,10 +65,10 @@ export class SingleProjectComponent implements OnInit {
       protectedVolume: [''],
       EpbNumber: [''],
 
-      executor: [{ value: '' }],
-      datePlanned: [{ value: '' }],
-      hourPlanned: [{ value: '' }],
-      status: [{ value: '' }],
+      executor: [''],
+      datePlanned: [''],
+      hourPlanned: [''],
+      status: [''],
 
       comments: [''],
 
