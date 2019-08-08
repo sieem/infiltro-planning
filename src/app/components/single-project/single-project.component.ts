@@ -54,7 +54,7 @@ export class SingleProjectComponent implements OnInit {
       postalCode: ['1000', [Validators.required, Validators.pattern(this.formService.postalCodeRegex)]],
       extraInfoAddress: [''],
 
-      name: ['', Validators.required],
+      name: [''],
       tel: ['', Validators.required],
       email: ['', [Validators.required, Validators.email, Validators.pattern(this.formService.emailRegex)]],
       extraInfoContact: [''],
