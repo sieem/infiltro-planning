@@ -12,6 +12,7 @@ export class FormService {
   public postalCodeRegex: string = "[0-9]{4}"
 
   public dateFormat: string = 'YYYY-MM-DD'
+  public visualDateFormat: string = 'dddd DD-MM-YYYY'
 
   constructor() { }
 
@@ -20,7 +21,7 @@ export class FormService {
   }
 
   public formatDate(value) {
-    let returnDate = moment(value).format(this.dateFormat)
+    let returnDate = moment(value).format(this.visualDateFormat)
     if (returnDate === 'Invalid date') return 'Onbekende dag'
     else return returnDate
   }
