@@ -24,12 +24,12 @@ export class CompanyService {
   }
 
   companyName(companyId) {
-    let returnVal = companyId
-    this.companies.forEach(company => {
+    for (const company of this.companies) {
       if (company._id === companyId) {
-        returnVal = company.name
+        return company.name
       }
-    });
-    return returnVal
+    }
+
+    return companyId
   }
 }
