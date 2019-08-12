@@ -196,7 +196,7 @@ export class SingleProjectComponent implements OnInit {
 
   goToOverview() {
     if (this.projectForm.touched) {
-      if (confirm('Ben je zeker dat je de pagina wil verlaten...?')) {
+      if (confirm('Ben je zeker dat je de pagina wil verlaten?')) {
         this.router.navigate(['/projecten'])
       } else {
         return
