@@ -51,7 +51,7 @@ export class SingleProjectComponent implements OnInit {
 
       street: ['', Validators.required],
       city: ['', Validators.required],
-      postalCode: ['1000', [Validators.required, Validators.pattern(this.formService.postalCodeRegex)]],
+      postalCode: ['', [Validators.required, Validators.pattern(this.formService.postalCodeRegex)]],
       extraInfoAddress: [''],
 
       name: [''],
@@ -68,7 +68,7 @@ export class SingleProjectComponent implements OnInit {
       executor: [''],
       datePlanned: [''],
       hourPlanned: [''],
-      status: [''],
+      status: ['toPlan'],
 
       comments: [''],
 
