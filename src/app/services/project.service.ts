@@ -17,7 +17,15 @@ export class ProjectService {
     },
     {
       type: "apartment",
-      name: "Individueel appartement"
+      name: "Appartement"
+    },
+    {
+      type: "mixed",
+      name: "Gemengd"
+    },
+    {
+      type: "other",
+      name: "Andere"
     }
   ]
 
