@@ -184,7 +184,7 @@ export class SingleProjectComponent implements OnInit {
 
 
   removeProject() {
-    if (confirm(`Are you sure to delete ${this.projectForm.value.projectName}?`)) {
+    if (confirm(`Ben je zeker dat je het project '${this.projectForm.value.projectName}' wil verwijderen?`)) {
       this.api.removeProject(this.projectId).subscribe(
         (res: any) => {
           this.router.navigate(['/projecten'])
@@ -196,7 +196,7 @@ export class SingleProjectComponent implements OnInit {
 
   goToOverview() {
     if (this.projectForm.touched) {
-      if (confirm(`Ben je zeker dat je terug wilt? Je aanpassingen zullen niet opgeslagen worden.`)) {
+      if (confirm('Ben je zeker dat je de pagina wil verlaten...?')) {
         this.router.navigate(['/projecten'])
       } else {
         return
