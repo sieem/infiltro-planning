@@ -42,8 +42,8 @@ export class SingleProjectComponent implements OnInit {
     this.projectForm = this.formBuilder.group({
       _id: [''],
 
-      company: [{ value: this.user.company }, Validators.required],
-      dateCreated: [{ value: moment().format(this.formService.dateFormat) }, Validators.required],
+      company: [ this.user.company , Validators.required],
+      dateCreated: [ moment().format(this.formService.dateFormat) , Validators.required],
       projectType: ['house', Validators.required],
       houseAmount: [1, Validators.required],
       projectName: ['', Validators.required],
@@ -51,10 +51,10 @@ export class SingleProjectComponent implements OnInit {
 
       street: ['', Validators.required],
       city: ['', Validators.required],
-      postalCode: ['1000', [Validators.required, Validators.pattern(this.formService.postalCodeRegex)]],
+      postalCode: ['', [Validators.required, Validators.pattern(this.formService.postalCodeRegex)]],
       extraInfoAddress: [''],
 
-      name: ['', Validators.required],
+      name: [''],
       tel: ['', Validators.required],
       email: ['', [Validators.required, Validators.email, Validators.pattern(this.formService.emailRegex)]],
       extraInfoContact: [''],
@@ -65,10 +65,10 @@ export class SingleProjectComponent implements OnInit {
       protectedVolume: [''],
       EpbNumber: [''],
 
-      executor: [{ value: '', disabled: !this.auth.isAdmin() }],
-      datePlanned: [{ value: '', disabled: !this.auth.isAdmin() }],
-      hourPlanned: [{ value: '', disabled: !this.auth.isAdmin() }],
-      status: [{ value: '', disabled: !this.auth.isAdmin() }],
+      executor: [''],
+      datePlanned: [''],
+      hourPlanned: [''],
+      status: ['toPlan'],
 
       comments: [''],
 
@@ -127,7 +127,7 @@ export class SingleProjectComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
     if (this.projectForm.invalid) {
-      this.toastr.error('Project invalid');
+      this.toastr.error('Nog niet alle verplichte velden zijn ingevuld.');
       return;
     }
 
@@ -184,7 +184,7 @@ export class SingleProjectComponent implements OnInit {
 
 
   removeProject() {
-    if (confirm(`Are you sure to delete ${this.projectForm.value.projectName}?`)) {
+    if (confirm(`Ben je zeker dat je het project '${this.projectForm.value.projectName}' wil verwijderen?`)) {
       this.api.removeProject(this.projectId).subscribe(
         (res: any) => {
           this.router.navigate(['/projecten'])
@@ -196,7 +196,7 @@ export class SingleProjectComponent implements OnInit {
 
   goToOverview() {
     if (this.projectForm.touched) {
-      if (confirm(`Ben je zeker dat je terug wilt? Je aanpassingen zullen niet opgeslagen worden.`)) {
+      if (confirm('Ben je zeker dat je de pagina wil verlaten?')) {
         this.router.navigate(['/projecten'])
       } else {
         return

@@ -100,14 +100,14 @@
     </div>
 
     <div class="projectRow">
-      <label for="houseAmount">Aantal <span
+      <label for="houseAmount">Aantal/omschrijving <span
           *ngIf="projectForm.controls.houseAmount.validator !== null">*</span></label>
       <div class="inputField">
         <div class="read" (click)="changeEditState('houseAmount', true)" [ngClass]="{'empty': isEmpty('houseAmount')}" *ngIf="!projectEditStates.houseAmount">
           {{projectForm.value.houseAmount}}
         </div>
         <div class="write" *ngIf="projectEditStates.houseAmount">
-          <input type="number" name="houseAmount" id="houseAmount" formControlName="houseAmount">
+          <input type="text" name="houseAmount" id="houseAmount" formControlName="houseAmount">
           <p *ngIf="formService.checkInputField(projectForm, 'houseAmount', submitted)" class="error">!</p>
         </div>
       </div>

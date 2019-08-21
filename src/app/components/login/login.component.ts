@@ -34,6 +34,7 @@ export class LoginComponent implements OnInit {
     this.submitted = true;
 
     if (this.loginForm.invalid) {
+      this.toastr.error('Ongeldig e-mailadres of wachtwoord');
       return;
     }
 
