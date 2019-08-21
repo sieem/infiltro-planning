@@ -44,8 +44,10 @@ export class AuthService {
   }
 
   logoutUser() {
-    localStorage.removeItem('token')
-    this.router.navigate(['/inloggen'])
+    if(confirm("Zeker dat je wilt uitloggen?")) {
+      localStorage.removeItem('token')
+      this.router.navigate(['/inloggen'])
+    }
   }
 
   getUserDetails() {

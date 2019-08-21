@@ -12,15 +12,18 @@ export class FormService {
   public postalCodeRegex: string = "[0-9]{4}"
 
   public dateFormat: string = 'YYYY-MM-DD'
+  public visualDateFormat: string = 'dddd DD-MM-YYYY'
 
-  constructor() { }
+  constructor() {
+    moment.locale('nl-be')
+  }
 
   public checkInputField(form: any, field: string, submitted: boolean) {
     return form.get(field).invalid && (form.get(field).dirty || form.get(field).touched || submitted)
   }
 
   public formatDate(value) {
-    let returnDate = moment(value).format(this.dateFormat)
+    let returnDate = moment(value).format(this.visualDateFormat)
     if (returnDate === 'Invalid date') return 'Onbekende dag'
     else return returnDate
   }

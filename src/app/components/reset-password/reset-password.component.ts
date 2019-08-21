@@ -39,6 +39,7 @@ export class ResetPasswordComponent implements OnInit {
     this.submitted = true;
 
     if (this.resetForm.invalid) {
+      this.toastr.error('Ongeldig e-mailadres');
       return;
     }
 
