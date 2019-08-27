@@ -12,7 +12,7 @@ export class FormService {
   public postalCodeRegex: string = "[0-9]{4}"
 
   public dateFormat: string = 'YYYY-MM-DD'
-  public visualDateFormat: string = 'dddd DD-MM-YYYY'
+  public visualDateFormat: string = 'dd DD-MM-YYYY'
 
   constructor() {
     moment.locale('nl-be')

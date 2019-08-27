@@ -4,6 +4,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import * as moment from 'moment';
 import { ProjectService } from 'src/app/services/project.service';
 import { ToastrService } from 'ngx-toastr';
+import { CompanyService } from 'src/app/services/company.service';
 
 @Component({
   selector: 'app-projects',
@@ -26,6 +27,7 @@ export class ProjectsComponent implements OnInit {
   constructor(
     private api: ApiService,
     public auth: AuthService,
+    public companyService: CompanyService,
     public projectService: ProjectService,
     private toastr: ToastrService) { }
 
