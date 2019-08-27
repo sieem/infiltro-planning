@@ -1,7 +1,7 @@
 <div class="list users">
   <h1>User admin</h1>
   <div class="item" *ngFor="let user of auth.users">
-    <div>{{user.email}}</div>
+    <div>{{user.name}} ({{user.email}})</div>
     <div>{{companyService.companyName(user.company)}}</div>
     <div>{{auth.roleName(user.role)}}</div>
     <div class="icon" (click)="editUser(user)"><img src="assets/images/icon-edit.svg" alt=""></div>
@@ -10,6 +10,11 @@
 </div>
 
 <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+  <div class="inputGroup">
+    <label for="name">name</label>
+    <input type="text" name="name" formControlName="name">
+    <p *ngIf="formService.checkInputField(registerForm, 'name', submitted)" class="error">!</p>
+  </div>
   <div class="inputGroup">
     <label for="email">email</label>
     <input type="email" name="email" formControlName="email">
