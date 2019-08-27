@@ -29,6 +29,7 @@ export class AdminUserComponent implements OnInit {
 
     this.registerForm = this.formBuilder.group({
       _id: [''],
+      name: ['', Validators.required],
       email: ['', [Validators.required, Validators.pattern(this.formService.emailRegex)]],
       company: ['', Validators.required],
       role: ['', Validators.required],
@@ -53,6 +54,7 @@ export class AdminUserComponent implements OnInit {
 
     const formData = new FormData();
     
+    formData.append('name', this.registerForm.value.name)
     formData.append('email', this.registerForm.value.email)
     formData.append('company', this.registerForm.value.company)
     formData.append('role', this.registerForm.value.role)
@@ -87,6 +89,7 @@ export class AdminUserComponent implements OnInit {
 
     this.registerForm.setValue({
       _id: user._id || "",
+      name: user.name || "",
       email: user.email || "",
       company: user.company || "",
       role: user.role || ""
