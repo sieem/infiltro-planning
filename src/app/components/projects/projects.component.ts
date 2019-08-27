@@ -16,7 +16,7 @@ export class ProjectsComponent implements OnInit {
   projects: any = []
   allProjects: any = []
   activeFilter: any = {
-    status: ['contractSigned', 'toContact', 'toPlan', 'proposalSent', 'planned', 'onHold', 'executed', 'reportAvailable','conformityAvailable'],
+    status: ['toContact', 'toPlan', 'proposalSent', 'planned', 'executed', 'reportAvailable', 'conformityAvailable'],
     executor: ['david','roel', 'together']
   }
   sortOptions: any = {
@@ -40,6 +40,7 @@ export class ProjectsComponent implements OnInit {
     this.api.getProjects().subscribe(
       res => {
         this.projects = this.allProjects = res
+        this.filterProjects()
         this.sortProjects()
       },
       err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
@@ -59,14 +60,17 @@ export class ProjectsComponent implements OnInit {
 
   filterProjects() {
     this.projects = this.allProjects.filter(row => {
-      let filterBooleans = []
+      let filterBooleans = [true]
 
       for (let [key, values] of Object.entries(this.activeFilter)) {
         let filterArr: any = values
-        if (filterArr.length > 0) filterBooleans.push(filterArr.includes(row[key]))
-        else filterBooleans.push(true)
+        if (filterArr.length > 0 && row[key] !== '') {
+          filterBooleans.push(filterArr.includes(row[key]))
+        }
+        else {
+          filterBooleans.push(true)
+        }
       }
-
       return !filterBooleans.includes(false)
     })
   }
@@ -80,7 +84,10 @@ export class ProjectsComponent implements OnInit {
     }
 
 
-    this.projects = this.projects.sort( (a,b) => {
+    this.projects = this.projects.sort((a, b) => {
+      if (!a[this.sortOptions.field]) return 1;
+      if (!b[this.sortOptions.field]) return -1;
+
       let x = a[this.sortOptions.field].toLowerCase()
       let y = b[this.sortOptions.field].toLowerCase()
 
