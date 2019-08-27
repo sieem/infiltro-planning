@@ -50,6 +50,10 @@
                 padding: 1px 10px 1px 2px;
                 cursor: pointer;
 
+                &:empty {
+                    display: none;
+                }
+
                 img {
                     margin-right: 5px;
                 }

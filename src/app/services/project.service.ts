@@ -47,102 +47,126 @@ export class ProjectService {
   public statuses: any = [
     {
       type: "contractSigned",
-      name: "Contract getekend"
+      name: "Offerte getekend",
+      filter: true
     },
     {
       type: "toContact",
-      name: "Te contacteren"
+      name: "Te contacteren",
+      filter: false
     },
     {
       type: "toPlan",
-      name: "Te plannen"
+      name: "Te plannen",
+      filter: false
     },
     {
       type: "proposalSent",
-      name: "Voorstel doorgegeven"
+      name: "Voorstel doorgegeven",
+      filter: false
     },
     {
       type: "planned",
-      name: "Ingepland"
+      name: "Ingepland",
+      filter: false
     },
     {
       type: "onHold",
-      name: "On - Hold"
+      name: "On - Hold",
+      filter: true
     },
     {
       type: "executed",
-      name: "Uitgevoerd"
+      name: "Uitgevoerd",
+      filter: false
     },
     {
       type: "reportAvailable",
-      name: "Rapport beschikbaar"
+      name: "Rapport beschikbaar",
+      filter: false
     },
     {
       type: "conformityAvailable",
-      name: "Conformiteit beschikbaar"
+      name: "Conformiteit beschikbaar",
+      filter: false
     },
     {
       type: "completed",
-      name: "Afgerond"
+      name: "Afgerond",
+      filter: true
     }
   ]
 
   public sortables: any = [
     {
       type: "company",
-      name: "Bedrijf"
+      name: "Bedrijf",
+      sort: true
     },
     {
       type: "dateCreated",
-      name: "Datum aanvraag"
+      name: "Datum aanvraag",
+      sort: true
     },
     {
       type: "projectType",
-      name: "Type"
+      name: "Type",
+      sort: false
     },
     {
       type: "projectName",
-      name: "Referentie"
+      name: "Referentie",
+      sort: false
     },
     {
       type: "street",
-      name: "Straat + Nr"
+      name: "Straat + Nr",
+      sort: false
     },
     {
       type: "city",
-      name: "Gemeente"
+      name: "Gemeente",
+      sort: false
     },
     {
       type: "postalCode",
-      name: "Postcode"
+      name: "Postcode",
+      sort: false
     },
     {
       type: "name",
-      name: "Naam contactpersoon"
+      name: "Naam contactpersoon",
+      sort: false
     },
     {
       type: "tel",
-      name: "Telefoonnummer contactpersoon"
+      name: "Telefoonnummer contactpersoon",
+      sort: false
     },
     {
       type: "email",
-      name: "E-mail contactpersoon"
+      name: "E-mail contactpersoon",
+      sort: false
     },
     {
       type: "executor",
-      name: "Uitvoerder"
+      name: "Uitvoerder",
+      sort: true
     },
     {
       type: "datePlanned",
-      name: "Datum ingepland"
+      name: "Datum ingepland",
+      sort: true
     },
     {
       type: "hourPlanned",
-      name: "Uur ingepland"
+      name: "Uur ingepland",
+      sort: true
     },
     {
       type: "status",
-      name: "Status"
+      name: "Status",
+      sort: true
     }
   ]
 
