@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 import { AuthService } from 'src/app/services/auth.service';
-import * as moment from 'moment';
 import { ProjectService } from 'src/app/services/project.service';
 import { ToastrService } from 'ngx-toastr';
 import { CompanyService } from 'src/app/services/company.service';
+import { ModalService } from 'src/app/services/modal.service';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { FormService } from 'src/app/services/form.service';
 
 @Component({
   selector: 'app-projects',
@@ -25,16 +27,24 @@ export class ProjectsComponent implements OnInit {
   }
   batchMode: boolean = false
   selectedProjects: any = []
+  batchForm: FormGroup;
+  submitted: boolean = false;
 
   constructor(
     private api: ApiService,
     public auth: AuthService,
     public companyService: CompanyService,
     public projectService: ProjectService,
-    private toastr: ToastrService) { }
+    private formBuilder: FormBuilder,
+    public formService: FormService,
+    private toastr: ToastrService,
+    private modalService: ModalService) { }
 
   ngOnInit() {
     this.getProjects()
+    this.batchForm = this.formBuilder.group({
+      status: ['', Validators.required]
+    })
   }
 
   getProjects() {
@@ -105,7 +115,7 @@ export class ProjectsComponent implements OnInit {
 
   toggleBatchMode() {
     if (this.batchMode && this.selectedProjects.length > 0) {
-      //TODO: modal openen om status te kiezen
+      this.modalService.open("batchmode-modal");
     }
     this.batchMode = !this.batchMode
   }
@@ -124,5 +134,26 @@ export class ProjectsComponent implements OnInit {
 
   isSelected(project) {
     return (this.selectedProjects.includes(project)) ? 'selected' : '';
+  }
+
+  onSubmit() {
+    this.submitted = true;
+
+    if (this.batchForm.invalid) {
+      this.toastr.error('Gelieve een status te kiezen');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('status', this.batchForm.value.status)
+
+    this.api.batchProjects(formData).subscribe(
+      (res: any) => {
+        console.log(res)
+        this.batchMode = false
+        this.submitted = false
+      },
+      err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
+    )
   }
 }

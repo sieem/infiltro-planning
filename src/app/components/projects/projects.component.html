@@ -54,7 +54,7 @@
     </div>
 </div>
 
-<div class="projectList">
+<div class="projectList" [ngClass]="{'batchMode': batchMode}">
     <ng-container *ngIf="projects.length > 0; else noProjectsFound">
         <div class="project" *ngFor="let project of projects" [ngClass]="[project.status, isSelected(project)]" (click)="selectProject(project)">
             <div class="company">{{companyService.companyName(project.company)}} </div>
@@ -90,3 +90,16 @@
         </div>
     </ng-template>
 </div>
+<infiltro-modal id="batchmode-modal">
+    <form [formGroup]="batchForm" (ngSubmit)="onSubmit()">
+        <select name="status" id="status" formControlName="status">
+            <option value="">Selecteer status</option>
+            <option *ngFor="let status of projectService.statuses" [value]="status.type">{{status.name}}</option>
+        </select>
+        <p *ngIf="formService.checkInputField(batchForm, 'status', submitted)" class="error">!</p>
+    
+        <div class="inputGroup right">
+            <input type="submit" value="Batch verwerken">
+        </div>
+    </form>
+</infiltro-modal>
