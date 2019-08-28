@@ -161,7 +161,7 @@ export class ProjectService {
     {
       type: "hourPlanned",
       name: "Uur ingepland",
-      sort: true
+      sort: false
     },
     {
       type: "status",
