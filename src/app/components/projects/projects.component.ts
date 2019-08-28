@@ -17,14 +17,6 @@ export class ProjectsComponent implements OnInit {
 
   projects: any = []
   allProjects: any = []
-  activeFilter: any = {
-    status: ['toContact', 'toPlan', 'proposalSent', 'planned', 'executed', 'reportAvailable', 'conformityAvailable', 'onHold'],
-    executor: ['david','roel', 'together']
-  }
-  sortOptions: any = {
-    field: 'datePlanned',
-    order: 'asc'
-  }
   batchMode: boolean = false
   selectedProjects: any = []
   batchForm: FormGroup;
@@ -60,10 +52,10 @@ export class ProjectsComponent implements OnInit {
   }
 
   changeFilter(filterCat, filterVal) {
-    if (!this.activeFilter[filterCat].includes(filterVal)) {
-      this.activeFilter[filterCat] = [...this.activeFilter[filterCat], filterVal]
+    if (!this.projectService.activeFilter[filterCat].includes(filterVal)) {
+      this.projectService.activeFilter[filterCat] = [...this.projectService.activeFilter[filterCat], filterVal]
     } else {
-      this.activeFilter[filterCat] = this.activeFilter[filterCat].filter( val => {return val !== filterVal}) 
+      this.projectService.activeFilter[filterCat] = this.projectService.activeFilter[filterCat].filter( val => {return val !== filterVal}) 
     }
 
     this.filterProjects()
@@ -74,7 +66,7 @@ export class ProjectsComponent implements OnInit {
     this.projects = this.allProjects.filter(row => {
       let filterBooleans = [true]
 
-      for (let [key, values] of Object.entries(this.activeFilter)) {
+      for (let [key, values] of Object.entries(this.projectService.activeFilter)) {
         let filterArr: any = values
         if (filterArr.length > 0 && row[key] !== '') {
           filterBooleans.push(filterArr.includes(row[key]))
@@ -89,26 +81,26 @@ export class ProjectsComponent implements OnInit {
 
   sortProjects(sortType = '') {
     if (sortType !== '') {
-      if (this.sortOptions.field === sortType) {
-        this.sortOptions.order = (this.sortOptions.order === 'asc') ? 'desc' : 'asc'
+      if (this.projectService.sortOptions.field === sortType) {
+        this.projectService.sortOptions.order = (this.projectService.sortOptions.order === 'asc') ? 'desc' : 'asc'
       }
-      this.sortOptions.field = sortType
+      this.projectService.sortOptions.field = sortType
     }
 
 
     this.projects = this.projects.sort((a, b) => {
-      if (!a[this.sortOptions.field]) return 1;
-      if (!b[this.sortOptions.field]) return -1;
+      if (!a[this.projectService.sortOptions.field]) return 1;
+      if (!b[this.projectService.sortOptions.field]) return -1;
 
-      let x = a[this.sortOptions.field].toLowerCase()
-      let y = b[this.sortOptions.field].toLowerCase()
+      let x = a[this.projectService.sortOptions.field].toLowerCase()
+      let y = b[this.projectService.sortOptions.field].toLowerCase()
 
       if (x == y) return 0
 
       return (x < y) ? -1 : 1
     })
 
-    if (this.sortOptions.order == 'desc') {
+    if (this.projectService.sortOptions.order == 'desc') {
       this.projects = this.projects.reverse()
     }
   }

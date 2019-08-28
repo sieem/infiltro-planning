@@ -170,6 +170,15 @@ export class ProjectService {
     }
   ]
 
+  public activeFilter: any = {
+    status: ['toContact', 'toPlan', 'proposalSent', 'planned', 'executed', 'reportAvailable', 'conformityAvailable', 'onHold'],
+    executor: ['david', 'roel', 'together']
+  }
+  public sortOptions: any = {
+    field: 'datePlanned',
+    order: 'asc'
+  }
+
   private technicalFields = ["ATest", "v50Value", "protectedVolume", "EpbNumber"]
 
   constructor(private formService: FormService) { }
