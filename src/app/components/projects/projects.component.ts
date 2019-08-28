@@ -115,7 +115,7 @@ export class ProjectsComponent implements OnInit {
 
   toggleBatchMode() {
     if (this.batchMode && this.selectedProjects.length > 0) {
-      this.modalService.open("batchmode-modal");
+      this.modalService.open("batchmode-modal")
     }
     this.batchMode = !this.batchMode
   }
@@ -129,11 +129,16 @@ export class ProjectsComponent implements OnInit {
       }
       
     }
-    console.log(this.selectedProjects)
   }
 
   isSelected(project) {
     return (this.selectedProjects.includes(project)) ? 'selected' : '';
+  }
+
+  cancelBatchMode() {
+    this.batchMode = false
+    this.selectedProjects = []
+    this.modalService.close("batchmode-modal")
   }
 
   onSubmit() {
@@ -144,14 +149,13 @@ export class ProjectsComponent implements OnInit {
       return;
     }
 
-    const formData = new FormData();
-    formData.append('status', this.batchForm.value.status)
-
-    this.api.batchProjects(formData).subscribe(
+    this.api.batchProjects({ status: this.batchForm.value.status, projects: this.selectedProjects }).subscribe(
       (res: any) => {
-        console.log(res)
         this.batchMode = false
         this.submitted = false
+        this.getProjects()
+        this.modalService.close("batchmode-modal")
+        this.selectedProjects = []
       },
       err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
     )

@@ -74,7 +74,7 @@ export class ApiService {
     return this.http.delete(this.baseUrl + '/remove-project/' + projectId)
   }
 
-  batchProjects(formData: FormData) {
+  batchProjects(formData: any) {
     return this.http.post(this.baseUrl + '/batch-projects', formData)
   }
   
