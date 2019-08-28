@@ -5,8 +5,8 @@
         <div class="dropdown">
             <div class="item" *ngFor="let status of projectService.statuses" (click)="changeFilter('status', status.type)">
                 <ng-container *ngIf="status.filter">
-                    <img src="/assets/images/icon-unchecked.svg" alt="" *ngIf="!activeFilter.status.includes(status.type)">
-                    <img src="/assets/images/icon-checked.svg" alt="" *ngIf="activeFilter.status.includes(status.type)">
+                    <img src="/assets/images/icon-unchecked.svg" alt="" *ngIf="!projectService.activeFilter.status.includes(status.type)">
+                    <img src="/assets/images/icon-checked.svg" alt="" *ngIf="projectService.activeFilter.status.includes(status.type)">
                     <span>{{status.name}}</span>
                 </ng-container>
             </div>
@@ -19,25 +19,25 @@
             <div class="item" *ngFor="let executor of projectService.executors"
                 (click)="changeFilter('executor', executor.type)">
                 <img src="/assets/images/icon-unchecked.svg" alt=""
-                    *ngIf="!activeFilter.executor.includes(executor.type)">
+                    *ngIf="!projectService.activeFilter.executor.includes(executor.type)">
                 <img src="/assets/images/icon-checked.svg" alt=""
-                    *ngIf="activeFilter.executor.includes(executor.type)">
+                    *ngIf="projectService.activeFilter.executor.includes(executor.type)">
                 <span>{{executor.name}}</span>
             </div>
         </div>
     </div>
 
-    <div class="btn filter sort" [ngClass]="sortOptions.order">
+    <div class="btn filter sort" [ngClass]="projectService.sortOptions.order">
         <span class="title">Sorteer</span>
         <!-- <img src="/assets/images/icon-unchecked.svg" alt=""> -->
         <div class="dropdown">
             <div class="item" *ngFor="let sortable of projectService.sortables" (click)="sortProjects(sortable.type)">
                 <ng-container *ngIf="sortable.sort">
-                    <img src="/assets/images/icon-unchecked.svg" alt="" *ngIf="sortOptions.field !== sortable.type">
-                    <img src="/assets/images/icon-checked.svg" alt="" *ngIf="sortOptions.field === sortable.type">
+                    <img src="/assets/images/icon-unchecked.svg" alt="" *ngIf="projectService.sortOptions.field !== sortable.type">
+                    <img src="/assets/images/icon-checked.svg" alt="" *ngIf="projectService.sortOptions.field === sortable.type">
                     <span>{{sortable.name}}</span>
-                    <span *ngIf="sortOptions.field === sortable.type && sortOptions.order == 'desc'"> | desc</span>
-                    <span *ngIf="sortOptions.field === sortable.type && sortOptions.order == 'asc'"> | asc</span>
+                    <span *ngIf="projectService.sortOptions.field === sortable.type && projectService.sortOptions.order == 'desc'"> | desc</span>
+                    <span *ngIf="projectService.sortOptions.field === sortable.type && projectService.sortOptions.order == 'asc'"> | asc</span>
                 </ng-container>      
             </div>
         </div>
