@@ -1,0 +1,112 @@
+/* MODAL STYLES
+-------------------------------*/
+infiltro-modal {
+    /* modals are hidden by default */
+    display: none;
+
+    // set button color to black for wysiwyg (content) editor
+    .angular-editor-button {
+        color: #000;
+        font-size: 11pt;
+    }
+
+    .infiltro-modal {
+        /* modal container fixed across whole screen */
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+
+        /* z-index must be higher than .infiltro-modal-background */
+        z-index: 1000;
+
+        /* enables scrolling for tall modals */
+        overflow: auto;
+
+        .infiltro-modal-body {
+            padding: 20px;
+            background: #fff;
+            position: relative;
+            border: 1px solid #000;
+
+            /* margin exposes part of the modal background */
+            margin: 20px;
+        }
+
+        form {
+            label {
+                display: inline-block;
+                margin-top: 10px;
+                text-transform: uppercase;
+            }
+
+            p {
+                &.error {
+                    color: crimson;
+                    font-size: 12pt;
+                }
+            }
+        }
+
+        input, select {
+            height: 30px;
+            width: 100%;
+            margin-top: 10px;
+            padding: 2px 4px;
+            font-size: 16pt;
+        }
+
+        input {
+            &.submit {
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                width: 30%;
+                background-color: #967DFF;
+                margin-top: 20px;
+                border: none;
+                cursor: pointer;
+                text-transform: uppercase;
+            }
+
+            &[type="file"] {
+                font-size: 11pt;
+                padding-left: 0;
+            }
+
+            &[type="checkbox"] {
+                width: auto;
+                font-size: 11pt;
+                padding-left: 0;
+                display: inline-block;
+            }
+        }
+
+        textarea {
+            font-size: 14pt;
+            padding: 8px;
+        }
+    }
+
+    .infiltro-modal-background {
+        /* modal background fixed across whole screen */
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+
+        /* semi-transparent black  */
+        background-color: #000;
+        opacity: 0.75;
+
+        /* z-index must be below .infiltro-modal and above everything else  */
+        z-index: 900;
+    }
+}
+
+body.infiltro-modal-open {
+    /* body overflow is hidden to hide main scrollbar when modal window is open */
+    overflow: hidden;
+}
