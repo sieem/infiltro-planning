@@ -84,14 +84,6 @@
     border-bottom: 1px solid $infiltro-border-grey;
     display: grid;
     grid-template-columns: 100px 1fr 100px 150px 15px;
-    
-    &:first-child {
-        margin-top: 0;
-    }
-
-    &:last-child {
-        margin-bottom: 0;
-    }
 
     .company {
         grid-column-start: 1;
