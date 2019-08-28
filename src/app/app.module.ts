@@ -25,7 +25,7 @@ import { NavComponent } from './components/nav/nav.component';
 import { ProjectsComponent } from './components/projects/projects.component';
 import { MapComponent } from './components/map/map.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
-
+import { ModalDirective } from './directives/modal.directive';
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,7 +37,8 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
     AdminUserComponent,
     NavComponent,
     MapComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    ModalDirective
   ],
   imports: [
     BrowserModule,
