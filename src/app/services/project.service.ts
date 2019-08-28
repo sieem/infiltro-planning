@@ -170,6 +170,8 @@ export class ProjectService {
     }
   ]
 
+  private technicalFields = ["ATest", "v50Value", "protectedVolume", "EpbNumber"]
+
   constructor(private formService: FormService) { }
 
   public statusName(type: string) {
@@ -205,5 +207,14 @@ export class ProjectService {
 
   public formatDate(value) {
     return this.formService.formatDate(value)
+  }
+
+  public isTechnicalDataFilledIn(projectData) {
+    for (const technicalField of this.technicalFields) {
+      if (projectData[technicalField] === "") {
+        return false
+      }
+    }
+    return true
   }
 }

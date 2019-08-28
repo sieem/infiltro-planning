@@ -53,7 +53,15 @@
             <div class="address">{{project.street}}, {{project.postalCode}} {{project.city}}, <span class="extraInfoAddress">{{project.extraInfoAddress}}</span></div>
             <div class="dateHourCreated">{{ projectService.formatDate(project.dateCreated) }}</div>
             <div class="dateHourPlanned">{{ projectService.executorName(project.executor) }} op<br>{{ projectService.formatDate(project.datePlanned) }}<br>om {{ project.hourPlanned }}</div>
-            <div class="projectComplete">v</div>
+            <div class="technicalDataFilledIn">
+                <ng-container *ngIf="projectService.isTechnicalDataFilledIn(project); else technicalDataNotFilledIn">
+                    <img src="/assets/images/icon-okay.svg" alt="">
+                </ng-container>
+                <ng-template #technicalDataNotFilledIn>
+                    <img src="/assets/images/icon-not-okay.svg" alt="">
+                </ng-template>
+                
+            </div>
         </div>
     </ng-container>
     <ng-template #noProjectsFound>
