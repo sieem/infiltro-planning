@@ -23,6 +23,8 @@ export class ProjectsComponent implements OnInit {
     field: 'datePlanned',
     order: 'asc'
   }
+  batchMode: boolean = false
+  selectedProjects: any = []
 
   constructor(
     private api: ApiService,
@@ -99,5 +101,28 @@ export class ProjectsComponent implements OnInit {
     if (this.sortOptions.order == 'desc') {
       this.projects = this.projects.reverse()
     }
+  }
+
+  toggleBatchMode() {
+    if (this.batchMode && this.selectedProjects.length > 0) {
+      //TODO: modal openen om status te kiezen
+    }
+    this.batchMode = !this.batchMode
+  }
+
+  selectProject(project) {
+    if (this.batchMode) {
+      if (!this.selectedProjects.includes(project)) {
+        this.selectedProjects = [...this.selectedProjects, project]
+      } else {
+        this.selectedProjects = this.selectedProjects.filter(val => { return val !== project })
+      }
+      
+    }
+    console.log(this.selectedProjects)
+  }
+
+  isSelected(project) {
+    return (this.selectedProjects.includes(project)) ? 'selected' : '';
   }
 }

@@ -84,6 +84,14 @@
     border-bottom: 1px solid $infiltro-border-grey;
     display: grid;
     grid-template-columns: 100px 1fr 100px 150px 15px;
+    transition: 0.5s ease;
+
+    &.selected {
+        transform: scale(1.03);
+        color: #fff;
+        background-color: $infiltro-red;
+        box-shadow: 0px 10px 14px -4px rgba(0, 0, 0, 0.43);
+    }
 
     .company {
         grid-column-start: 1;
@@ -119,7 +127,6 @@
     .technicalDataFilledIn {
         grid-column-start: 5;
         grid-row-start: span 2;
-
         display: flex;
         flex-direction: column;
         justify-content: center;
