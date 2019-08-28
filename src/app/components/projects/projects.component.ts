@@ -18,7 +18,7 @@ export class ProjectsComponent implements OnInit {
   projects: any = []
   allProjects: any = []
   activeFilter: any = {
-    status: ['toContact', 'toPlan', 'proposalSent', 'planned', 'executed', 'reportAvailable', 'conformityAvailable'],
+    status: ['toContact', 'toPlan', 'proposalSent', 'planned', 'executed', 'reportAvailable', 'conformityAvailable', 'onHold'],
     executor: ['david','roel', 'together']
   }
   sortOptions: any = {
