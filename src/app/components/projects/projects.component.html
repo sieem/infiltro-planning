@@ -43,14 +43,9 @@
         </div>
     </div>
     <div class="btn filter batch" *ngIf="auth.isAdmin()" (click)="toggleBatchMode()">
-        <ng-container *ngIf="!batchMode; else elseTemplate">
-            <span class="title">Batch mode</span>
-        </ng-container>
-        <ng-template #elseTemplate>
-            <span class="title">Pas projecten aan</span>
-        </ng-template>
-        
-        
+            <span *ngIf="!batchMode" class="title">Batch status</span>
+            <span *ngIf="batchMode && selectedProjects.length == 0" class="title">Stop batch status</span>
+            <span *ngIf="batchMode && selectedProjects.length > 0" class="title">Pas projecten aan</span>        
     </div>
 </div>
 
@@ -101,5 +96,6 @@
         <div class="inputGroup right">
             <input type="submit" value="Batch verwerken">
         </div>
+        <button (click)="cancelBatchMode()">Annuleer</button>
     </form>
 </infiltro-modal>
