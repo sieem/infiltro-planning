@@ -219,7 +219,7 @@
     </div>
 
     <div class="projectRow">
-      <label for="tel">Telefoonnummer <span *ngIf="projectForm.controls.tel.validator !== null">*</span></label>
+      <label for="tel">Telefoonnummer(s) <span *ngIf="projectForm.controls.tel.validator !== null">*</span></label>
       <div class="inputField">
         <div class="read" (click)="changeEditState('tel', true)" [ngClass]="{'empty': isEmpty('tel')}" *ngIf="!projectEditStates.tel">
           {{projectForm.value.tel}}
