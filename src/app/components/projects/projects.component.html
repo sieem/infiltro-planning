@@ -42,13 +42,32 @@
             </div>
         </div>
     </div>
+    <div class="btn filter batch" *ngIf="auth.isAdmin()" (click)="toggleBatchMode()">
+        <ng-container *ngIf="!batchMode; else elseTemplate">
+            <span class="title">Batch mode</span>
+        </ng-container>
+        <ng-template #elseTemplate>
+            <span class="title">Pas projecten aan</span>
+        </ng-template>
+        
+        
+    </div>
 </div>
 
 <div class="projectList">
     <ng-container *ngIf="projects.length > 0; else noProjectsFound">
-        <div class="project" *ngFor="let project of projects" [ngClass]="project.status">
+        <div class="project" *ngFor="let project of projects" [ngClass]="[project.status, isSelected(project)]" (click)="selectProject(project)">
             <div class="company">{{companyService.companyName(project.company)}} </div>
-            <div class="title" [routerLink]="[ '/project', project._id ]">{{ project.projectName }} / {{ projectService.projectTypeName(project.projectType) }} / {{project.houseAmount}}</div>
+            <ng-container *ngIf="!batchMode; else noBatchMode">
+                <div class="title" [routerLink]="[ '/project', project._id ]">{{ project.projectName }} /
+                    {{ projectService.projectTypeName(project.projectType) }} / {{project.houseAmount}}</div>
+            </ng-container>
+            <ng-template #noBatchMode>
+                <div class="title">{{ project.projectName }} /
+                    {{ projectService.projectTypeName(project.projectType) }} / {{project.houseAmount}}</div>
+            </ng-template>
+            
+            
             <div class="status">{{projectService.statusName(project.status)}}</div>
             <div class="address">{{project.street}}, {{project.postalCode}} {{project.city}}, <span class="extraInfoAddress">{{project.extraInfoAddress}}</span></div>
             <div class="dateHourCreated">{{ projectService.formatDate(project.dateCreated) }}</div>
