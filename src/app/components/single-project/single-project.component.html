@@ -1,16 +1,3 @@
-<!-- <ng-container *ngIf="projectId; else elseTemplate">
-  <h1>Edit project - {{projectForm.value.projectName}}</h1>
-  
-</ng-container>
-<ng-template #elseTemplate>
-  <h1>Add project</h1>
- 
-</ng-template>
-
- <a routerLink="/projects">back to overview</a> -->
-
-
-<form [formGroup]="projectForm" [ngClass]="projectForm.value.status">
   <div class="projectSection">
       <div class="projectRow space-between">
         <div class="left controls">
