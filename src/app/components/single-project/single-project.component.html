@@ -253,7 +253,7 @@
       <h2>Technische gegevens</h2>
     </div>
     <div class="projectRow textarea">
-      <label for="ATest">A-test (m<sup>3</sup>) <span *ngIf="projectForm.controls.ATest.validator !== null">*</span></label>
+      <label for="ATest">A-test (m<sup>2</sup>) <span *ngIf="projectForm.controls.ATest.validator !== null">*</span></label>
       <div class="inputField">
         <div class="read" (click)="changeEditState('ATest', true)" [ngClass]="{'empty': isEmpty('ATest')}" *ngIf="!projectEditStates.ATest"
           [innerHTML]="newlineToBr(projectForm.value.ATest)"></div>
