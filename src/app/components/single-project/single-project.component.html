@@ -12,10 +12,10 @@
           <label for="EpbReporter">Contactpersoon binnen<span
               *ngIf="projectForm.controls.EpbReporter.validator !== null">*</span></label>
           <div class="inputField">
-            <div class="read" (click)="changeEditState('company', true)" [ngClass]="{'empty': isEmpty('company')}" *ngIf="!projectEditStates.company">
+            <div class="read" (click)="changeEditState('company', true)" [ngClass]="{'empty': isEmpty('company')}" *ngIf="!projectEditStates.company || !auth.isAdmin()">
               {{companyService.companyName(projectForm.value.company)}}
             </div>
-            <div class="write" *ngIf="projectEditStates.company">
+            <div class="write" *ngIf="projectEditStates.company && auth.isAdmin()">
               <select name="company" id="company" formControlName="company">
                 <option value="">Selecteer bedrijf</option>
                 <option *ngFor="let company of companyService.companies" [value]="company._id">{{company.name}}</option>
@@ -38,10 +38,10 @@
           <div class="projectRow right">
             <label for="status">Status: <span *ngIf="projectForm.controls.status.validator !== null">*</span></label>
             <div class="inputField">
-              <div class="read status" (click)="changeEditState('status', true)" [ngClass]="{'empty': isEmpty('status')}" *ngIf="!projectEditStates.status || !auth.isAdmin()">
+              <div class="read status" (click)="changeEditState('status', true)" [ngClass]="{'empty': isEmpty('status')}" *ngIf="!projectEditStates.status">
                 {{projectService.statusName(projectForm.value.status)}}
               </div>
-              <div class="write" *ngIf="projectEditStates.status && auth.isAdmin()">
+              <div class="write" *ngIf="projectEditStates.status">
                 <select name="status" id="status" formControlName="status">
                   <option value="">Selecteer status</option>
                   <option *ngFor="let status of projectService.statuses" [value]="status.type">{{status.name}}</option>
