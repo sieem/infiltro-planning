@@ -265,7 +265,7 @@
     </div>
 
     <div class="projectRow textarea">
-      <label for="v50Value">v50-waarde <span *ngIf="projectForm.controls.v50Value.validator !== null">*</span></label>
+      <label for="v50Value">v50-waarde (m<sup>3</sup>/h.m<sup>2</sup>) <span *ngIf="projectForm.controls.v50Value.validator !== null">*</span></label>
       <div class="inputField">
         <div class="read" (click)="changeEditState('v50Value', true)" [ngClass]="{'empty': isEmpty('v50Value')}" *ngIf="!projectEditStates.v50Value"
           [innerHTML]="newlineToBr(projectForm.value.v50Value)"></div>
@@ -277,7 +277,7 @@
     </div>
 
     <div class="projectRow textarea">
-        <label for="protectedVolume">Beschermd volume <span
+        <label for="protectedVolume">Beschermd volume (m<sup>3</sup>) <span
             *ngIf="projectForm.controls.protectedVolume.validator !== null">*</span></label>
         <div class="inputField">
           <div class="read" (click)="changeEditState('protectedVolume', true)" [ngClass]="{'empty': isEmpty('protectedVolume')}" *ngIf="!projectEditStates.protectedVolume"
