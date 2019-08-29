@@ -12,10 +12,10 @@
           <label for="EpbReporter">Contactpersoon binnen<span
               *ngIf="projectForm.controls.EpbReporter.validator !== null">*</span></label>
           <div class="inputField">
-            <div class="read" (click)="changeEditState('company', true)" [ngClass]="{'empty': isEmpty('company')}" *ngIf="!projectEditStates.company || !auth.isAdmin()">
+            <div class="read" (click)="changeEditState('company', true)" [ngClass]="{'empty': isEmpty('company')}" *ngIf="!projectEditStates.company">
               {{companyService.companyName(projectForm.value.company)}}
             </div>
-            <div class="write" *ngIf="projectEditStates.company && auth.isAdmin()">
+            <div class="write" *ngIf="projectEditStates.company">
               <select name="company" id="company" formControlName="company">
                 <option value="">Selecteer bedrijf</option>
                 <option *ngFor="let company of companyService.companies" [value]="company._id">{{company.name}}</option>
