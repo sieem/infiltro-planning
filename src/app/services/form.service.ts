@@ -24,7 +24,7 @@ export class FormService {
 
   public formatDate(value) {
     let returnDate = moment(value).format(this.visualDateFormat)
-    if (returnDate === 'Invalid date') return 'Onbekende dag'
+    if (returnDate === 'Invalid date') return 'Nog te plannen'
     else return returnDate
   }
 }

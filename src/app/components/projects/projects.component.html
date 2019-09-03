@@ -64,9 +64,13 @@
             
             
             <div class="status">{{projectService.statusName(project.status)}}</div>
-            <div class="address">{{project.street}}, {{project.postalCode}} {{project.city}}, <span class="extraInfoAddress">{{project.extraInfoAddress}}</span></div>
+            <div class="address">{{project.street}}, {{project.postalCode}} {{project.city}}<span *ngIf="project.extraInfoAddress" class="extraInfoAddress">, {{project.extraInfoAddress}}</span></div>
             <div class="dateHourCreated">{{ projectService.formatDate(project.dateCreated) }}</div>
-            <div class="dateHourPlanned">{{ projectService.executorName(project.executor) }} op<br>{{ projectService.formatDate(project.datePlanned) }}<br>om {{ project.hourPlanned }}</div>
+            <div class="dateHourPlanned">
+                <b>{{ projectService.executorName(project.executor) }}</b><br>
+                {{ projectService.formatDate(project.datePlanned) }}
+                <ng-container *ngIf="project.hourPlanned"><br> om {{ project.hourPlanned }}</ng-container>
+            </div>
             <div class="technicalDataFilledIn">
                 <ng-container *ngIf="projectService.isTechnicalDataFilledIn(project); else technicalDataNotFilledIn">
                     <img src="/assets/images/icon-okay.svg" alt="">

@@ -200,7 +200,7 @@ export class ProjectService {
         name = executor.name
       }
     })
-    return name || 'Onbekend'
+    return name || 'Onbeslist'
 
   }
 
