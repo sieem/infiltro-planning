@@ -53,7 +53,7 @@ export class MapComponent implements OnInit {
       (res: any) => {
         const now = new Date()
         res.forEach(project => {
-          if ((new Date(project.datePlanned) > now || !project.datePlanned) && project.status !== "onHold") {
+          if ((new Date(project.datePlanned) > now || !project.datePlanned) && project.status !== "onHold" && project.status !== "contractSigned") {
             let pointerUrl = this.pointers.together.default
 
             if (project.executor) {
