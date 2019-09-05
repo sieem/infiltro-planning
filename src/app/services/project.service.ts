@@ -47,7 +47,7 @@ export class ProjectService {
   public statuses: any = [
     {
       type: "contractSigned",
-      name: "Offerte getekend",
+      name: "Nog niet actief",
       filter: true
     },
     {
