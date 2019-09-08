@@ -238,6 +238,7 @@ export class SingleProjectComponent implements OnInit {
       }
       
     } else {
+      return // not yet ready
       this.modalService.open("mail-project-modal")
     }
   }
