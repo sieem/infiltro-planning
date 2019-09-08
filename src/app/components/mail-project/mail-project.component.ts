@@ -62,7 +62,7 @@ export class MailProjectComponent implements OnInit {
             `.replace(/\n */g,"\n").trim();
             this.mailForm.setValue({
               _id: res._id,
-              to: '',
+              to: res.email,
               subject: mailSubject,
               body: mailBody
             })
@@ -110,7 +110,7 @@ export class MailProjectComponent implements OnInit {
         return
       }
     } else {
-      this.router.navigate(['/project' + this.projectId])
+      this.router.navigate(['/project/' + this.projectId])
     }
   }
 
