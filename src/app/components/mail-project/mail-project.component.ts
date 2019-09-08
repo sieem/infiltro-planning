@@ -6,6 +6,7 @@ import { CompanyService } from 'src/app/services/company.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-mail-project',
@@ -24,8 +25,8 @@ export class MailProjectComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private api: ApiService,
-    private toastr: ToastrService,
-  ) { }
+    private toastr: ToastrService
+    ) { }
 
   ngOnInit() {
     this.mailForm = this.formBuilder.group({
@@ -58,6 +59,7 @@ export class MailProjectComponent implements OnInit {
               Indien er nog vragen zijn, bel of mail gerust. 
 
               Met vriendelijke groeten/Bien cordialement,
+              David Lasseel
             `;
             this.mailForm.setValue({
               _id: res._id,
@@ -95,7 +97,7 @@ export class MailProjectComponent implements OnInit {
     this.api.sendMail(formData).subscribe(
       (res: any) => {
         this.toastr.success('Mail sent');
-        this.router.navigate(['/project' + this.projectId])
+        this.router.navigate(['/project/' + this.projectId])
       },
       err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
     )
@@ -104,7 +106,7 @@ export class MailProjectComponent implements OnInit {
   goBack() {
     if (this.mailForm.touched) {
       if (confirm('Ben je zeker dat je de pagina wil verlaten?')) {
-        this.router.navigate(['/project' + this.projectId])
+        this.router.navigate(['/project/' + this.projectId])
       } else {
         return
       }
