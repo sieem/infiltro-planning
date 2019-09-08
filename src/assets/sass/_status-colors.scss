@@ -14,22 +14,55 @@ $completed: #8ab047;
         color: $color;
     }
 
-    border-top: 3px solid $color;
+    &:not(.project) {
+        border-top: 3px solid $color;
+    }
 
     &.project {
-        border:none;
         border-left: 3px solid $color;
     }
 }
 
-.contractSigned { @include status-color($toContact); }
-.toContact { @include status-color($toContact); }
-.toPlan { @include status-color($toPlan); }
-.proposalSent { @include status-color($proposalSent); }
-.planned { @include status-color($planned); }
-.onHold { @include status-color($onHold); }
-.executed { @include status-color($executed); }
-.reportAvailable { @include status-color($reportAvailable); }
-.conformityAvailable { @include status-color($conformityAvailable); }
-.completed { @include status-color($completed); } 
-.undefined { @include status-color($contractSigned); } 
+.contractSigned {
+    @include status-color($toContact);
+}
+
+.toContact {
+    @include status-color($toContact);
+}
+
+.toPlan {
+    @include status-color($toPlan);
+}
+
+.proposalSent {
+    @include status-color($proposalSent);
+}
+
+.planned {
+    @include status-color($planned);
+}
+
+.onHold {
+    @include status-color($onHold);
+}
+
+.executed {
+    @include status-color($executed);
+}
+
+.reportAvailable {
+    @include status-color($reportAvailable);
+}
+
+.conformityAvailable {
+    @include status-color($conformityAvailable);
+}
+
+.completed {
+    @include status-color($completed);
+}
+
+.undefined {
+    @include status-color($contractSigned);
+}
