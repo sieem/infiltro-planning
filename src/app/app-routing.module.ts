@@ -10,6 +10,7 @@ import { AdminUserComponent } from './components/admin-user/admin-user.component
 import { MapComponent } from './components/map/map.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { MailProjectComponent } from './components/mail-project/mail-project.component';
+import { PricesComponent } from './components/prices/prices.component';
 
 const routes: Routes = [
   {
@@ -41,6 +42,11 @@ const routes: Routes = [
   {
     path: 'kaart',
     component: MapComponent
+  },
+  {
+    path: 'staffel',
+    component: PricesComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'inloggen',
