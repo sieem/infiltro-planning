@@ -8,6 +8,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { ProjectService } from 'src/app/services/project.service';
 import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
+import { ModalService } from 'src/app/services/modal.service';
 
 
 @Component({
@@ -33,7 +34,8 @@ export class SingleProjectComponent implements OnInit {
     public auth: AuthService,
     private route: ActivatedRoute,
     public projectService: ProjectService,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService,
+    private modalService: ModalService) { }
 
   ngOnInit() {
 
@@ -224,6 +226,10 @@ export class SingleProjectComponent implements OnInit {
 
   changeInvoicedStatus() {
     this.projectForm.value.invoiced = !this.projectForm.value.invoiced
+  }
+
+  openMailModal() {
+    this.modalService.open("mail-project-modal")
   }
 
 }
