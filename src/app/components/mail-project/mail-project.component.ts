@@ -17,6 +17,7 @@ export class MailProjectComponent implements OnInit {
   mailForm: FormGroup
   projectId: string
   submitted: boolean = false
+  project: any
 
   constructor(
     private formBuilder: FormBuilder,
@@ -42,12 +43,13 @@ export class MailProjectComponent implements OnInit {
 
         this.api.getProject(this.projectId).subscribe(
           (res: any) => {
+            this.project = res
 
-            const mailSubject = `Bevestiging afspraak luchtdichtheidstest op ${res.street}`;
+            const mailSubject = `Bevestiging afspraak luchtdichtheidstest op ${this.project.street}`;
             const mailBody = `
               Beste,
 
-              Bij deze de bevestiging van onze afspraak voor de luchtdichtheidstest (via ${this.companyService.companyName(res.company)}) op ${moment(res.datePlanned).format(this.formService.dateFormat)} om +/- ${res.hourPlanned}h
+              Bij deze de bevestiging van onze afspraak voor de luchtdichtheidstest (via ${this.companyService.companyName(this.project.company)}) op ${moment(this.project.datePlanned).format(this.formService.dateFormat)} om +/- ${this.project.hourPlanned}h
               De luchtdichtheidstest neemt ongeveer 1h30 in beslag.
 
               In principe moeten er voor een bewoonde woning geen voorbereidende werken gebeuren.
@@ -61,8 +63,8 @@ export class MailProjectComponent implements OnInit {
               Met vriendelijke groeten/Bien cordialement,
             `.replace(/\n */g,"\n").trim();
             this.mailForm.setValue({
-              _id: res._id,
-              to: res.email,
+              _id: this.project._id,
+              to: this.project.email,
               subject: mailSubject,
               body: mailBody
             })
