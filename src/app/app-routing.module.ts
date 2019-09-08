@@ -9,6 +9,7 @@ import { SingleProjectComponent } from './components/single-project/single-proje
 import { AdminUserComponent } from './components/admin-user/admin-user.component';
 import { MapComponent } from './components/map/map.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { MailProjectComponent } from './components/mail-project/mail-project.component';
 
 const routes: Routes = [
   {
@@ -30,6 +31,12 @@ const routes: Routes = [
     path: 'project/:projectId',
     component: SingleProjectComponent,
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'project/:projectId/mail',
+    component: MailProjectComponent,
+    canActivate: [AuthGuard],
+    data: { roles: ['admin'] }
   },
   {
     path: 'kaart',

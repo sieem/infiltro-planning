@@ -77,5 +77,9 @@ export class ApiService {
   batchProjects(formData: any) {
     return this.http.post(this.baseUrl + '/batch-projects', formData)
   }
+
+  sendMail(formData: FormData) {
+    return this.http.post(this.baseUrl + '/send-mail', formData)
+  }
   
 }
