@@ -1,3 +1,29 @@
-<p>
-  mail-project works!
-</p>
+<form [formGroup]="mailForm" (ngSubmit)="onSubmit()">
+  <div class="inputGroup">
+    <div class="left controls">
+      <div (click)="goBack()"><img src="/assets/images/icon-back.svg" alt=""></div>
+    </div>
+  </div>
+  
+  <div class="inputGroup">
+    <label for="to">Naar e-mailadres</label>
+    <input type="email" name="to" formControlName="to">
+    <p *ngIf="formService.checkInputField(mailForm, 'to', submitted)" class="error">!</p>
+  </div>
+
+  <div class="inputGroup">
+    <label for="subject">Onderwerp</label>
+    <input type="email" name="subject" formControlName="subject">
+    <p *ngIf="formService.checkInputField(mailForm, 'subject', submitted)" class="error">!</p>
+  </div>
+
+  <div class="inputGroup textarea">
+    <label for="body">Onderwerp</label>
+    <textarea name="body" id="body" formControlName="body" rows="3"></textarea>
+    <p *ngIf="formService.checkInputField(mailForm, 'body', submitted)" class="error">!</p>
+  </div>
+
+  <div class="inputGroup right">
+    <input type="submit" value="Mail verzenden">
+  </div>
+</form>

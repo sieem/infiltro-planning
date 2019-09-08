@@ -23,6 +23,7 @@ export class SingleProjectComponent implements OnInit {
   submitted = false
   projectId: string
   user: any
+  mailModalOpened:boolean = false
 
 
   constructor(
@@ -228,8 +229,17 @@ export class SingleProjectComponent implements OnInit {
     this.projectForm.value.invoiced = !this.projectForm.value.invoiced
   }
 
-  openMailModal() {
-    this.modalService.open("mail-project-modal")
+  openProjectMail() {
+    if (this.auth.isAdmin()) {
+      if (this.projectForm.touched) {
+        this.toastr.error("Save the project first before you can go to the mailing tool.", "Project isn't saved yet")
+      } else {
+        this.router.navigate(['/project/' + this.projectId + '/mail'])
+      }
+      
+    } else {
+      this.modalService.open("mail-project-modal")
+    }
   }
 
 }
