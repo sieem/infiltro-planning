@@ -59,8 +59,7 @@ export class MailProjectComponent implements OnInit {
               Indien er nog vragen zijn, bel of mail gerust. 
 
               Met vriendelijke groeten/Bien cordialement,
-              David Lasseel
-            `;
+            `.replace(/\n */g,"\n").trim();
             this.mailForm.setValue({
               _id: res._id,
               to: '',
