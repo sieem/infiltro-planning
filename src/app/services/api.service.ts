@@ -79,7 +79,7 @@ export class ApiService {
   }
 
   sendMail(formData: FormData) {
-    return this.http.post(this.baseUrl + '/send-mail', formData)
+    return this.http.post(this.baseUrl + '/send-project-mail', formData)
   }
   
 }
