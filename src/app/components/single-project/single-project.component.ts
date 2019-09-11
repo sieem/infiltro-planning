@@ -63,7 +63,7 @@ export class SingleProjectComponent implements OnInit {
       tel: ['', Validators.required],
       email: ['', [Validators.required, Validators.email, Validators.pattern(this.formService.emailRegex)]],
       extraInfoContact: [''],
-      EpbReporter: ['', Validators.required],
+      EpbReporter: [this.user.id, Validators.required],
 
       ATest: [''],
       v50Value: [''],
