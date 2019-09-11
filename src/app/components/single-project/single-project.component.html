@@ -26,10 +26,10 @@
           </div>
           <span>:</span>
           <div class="inputField">
-            <div class="read" (click)="changeEditState('EpbReporter', true)" [ngClass]="{'empty': isEmpty('EpbReporter')}" *ngIf="!projectEditStates.EpbReporter || !auth.isAdmin()">
+            <div class="read" (click)="changeEditState('EpbReporter', true)" [ngClass]="{'empty': isEmpty('EpbReporter')}" *ngIf="!projectEditStates.EpbReporter">
               {{ userService.userToName(projectForm.value.EpbReporter)}}
             </div>
-            <div class="write" *ngIf="projectEditStates.EpbReporter && auth.isAdmin()">
+            <div class="write" *ngIf="projectEditStates.EpbReporter">
               <select name="EpbReporter" id="EpbReporter" formControlName="EpbReporter">
                 <option value="">Selecteer EPB verslaggever</option>
                 <ng-container *ngFor="let EpbReporter of userService.users">
