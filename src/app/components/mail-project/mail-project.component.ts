@@ -7,6 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-mail-project',
@@ -23,6 +24,7 @@ export class MailProjectComponent implements OnInit {
     private formBuilder: FormBuilder,
     public formService: FormService,
     private companyService: CompanyService,
+    private userService: UserService,
     private router: Router,
     private route: ActivatedRoute,
     private api: ApiService,
