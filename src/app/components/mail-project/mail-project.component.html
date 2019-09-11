@@ -29,7 +29,7 @@
 </form>
 <div class="wrapper mailList" *ngIf="project">
   <div class="mail" *ngFor="let mail of project.mails">
-    <div class="sender">{{mail.sender}}</div>
+    <div class="sender">{{auth.userToName(mail.sender)}}</div>
     <div class="receiver">{{mail.receiver}}</div>
     <div class="dateSent">{{mail.dateSent}}</div>
     <div class="mailBody" [innerHTML]="mail.body"></div>

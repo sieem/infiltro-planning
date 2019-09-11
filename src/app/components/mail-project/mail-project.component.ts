@@ -26,7 +26,8 @@ export class MailProjectComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private api: ApiService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    public auth: AuthService
     ) { }
 
   ngOnInit() {

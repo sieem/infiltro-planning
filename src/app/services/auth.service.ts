@@ -92,6 +92,16 @@ export class AuthService {
       return this.users
     }
   }
+
+  userToName(userId) {
+    for (const user of this.getUsers()) {
+      if (user._id === userId) {
+        return user.name
+      }
+    }
+
+    return userId
+  }
   
   
 }
