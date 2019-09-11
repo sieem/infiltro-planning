@@ -123,6 +123,11 @@ export class SingleProjectComponent implements OnInit {
           },
           err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
         )
+      } else {
+        this.api.generateProjectId().subscribe(
+          res => this.projectForm.controls._id.setValue(res),
+          err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
+        )
       }
     })
   }

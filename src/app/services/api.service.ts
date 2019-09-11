@@ -58,6 +58,10 @@ export class ApiService {
     return this.http.delete(this.baseUrl + '/remove-company/' + companyId)
   }
 
+  generateProjectId() {
+    return this.http.get(this.baseUrl + '/generate-project-id')
+  }
+
   getProjects() {
     return this.http.get(this.baseUrl + '/get-projects')
   }
