@@ -27,10 +27,15 @@
           <span>:</span>
           <div class="inputField">
             <div class="read" (click)="changeEditState('EpbReporter', true)" [ngClass]="{'empty': isEmpty('EpbReporter')}" *ngIf="!projectEditStates.EpbReporter">
-              {{projectForm.value.EpbReporter}}
+              {{ userService.userToName(projectForm.value.EpbReporter)}}
             </div>
             <div class="write" *ngIf="projectEditStates.EpbReporter">
-              <input type="text" name="EpbReporter" id="EpbReporter" formControlName="EpbReporter">
+              <select name="EpbReporter" id="EpbReporter" formControlName="EpbReporter">
+                <option value="">Selecteer EPB verslaggever</option>
+                <ng-container *ngFor="let EpbReporter of userService.users">
+                  <option *ngIf="EpbReporter.company === projectForm.value.company" [value]="EpbReporter._id">{{EpbReporter.name || EpbReporter.email}}</option>
+                </ng-container>
+              </select>
               <p *ngIf="formService.checkInputField(projectForm, 'EpbReporter', submitted)" class="error">!</p>
             </div>
           </div>
