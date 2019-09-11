@@ -1,0 +1,16 @@
+{
+    "name": "Infiltro Planning",
+    "short_name": "Infiltro Planning",
+    "start_url": "/projects",
+    "display": "standalone",
+    "background_color": "#fff",
+    "description": "",
+    "theme_color": "#fff",
+    "icons": [
+        {
+            "src": "assets/images/infiltro_pwa.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
