@@ -37,12 +37,16 @@ textarea {
     text-align: left;
 }
 
-form {
+form,
+.wrapper {
     margin: auto;
     padding: 15px 0;
     max-width: 600px;
     border-left: 1px solid $infiltro-border-grey;
     border-right: 1px solid $infiltro-border-grey;
+}
+
+form {
 
     // &.striped {
 
@@ -55,7 +59,7 @@ form {
     // }
 
     .controls {
-        > * {
+        >* {
             height: 30px;
             margin-right: 10px;
             cursor: pointer;
