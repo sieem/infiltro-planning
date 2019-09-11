@@ -8,28 +8,10 @@ import { ToastrService } from 'ngx-toastr';
   providedIn: 'root'
 })
 export class AuthService {
-
-  userRoles: any = [
-    {
-      "type": "admin",
-      "name": "Administrator"
-    },
-    {
-      "type": "company",
-      "name": "Bedrijf"
-    },
-    {
-      "type": "client",
-      "name": "klant"
-    }
-  ]
-
-  users: any
-
   constructor(
-    private router: Router,
-    private api: ApiService,
-    private toastr: ToastrService) { }
+    private router: Router
+    ) {
+  }
 
   saveToken(token) {
     localStorage.setItem('token', token)
@@ -62,46 +44,5 @@ export class AuthService {
   isAdmin() {
     if (this.loggedIn) return this.getUserDetails().role === 'admin'
     else return false
-  }
-
-  getUserRoles() {
-    return this.userRoles
-  }
-
-  public roleName(type: string) {
-    let name: string
-    this.userRoles.forEach(role => {
-      if (role.type === type) {
-        name = role.name
-      }
-    })
-    return name || 'Onbekend'
-
-  }
-
-  getUsers() {
-    if (!this.users) {
-      this.api.getUsers().subscribe(
-        res => {
-          this.users = res
-          return this.users
-        },
-        err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
-      )
-    } else {
-      return this.users
-    }
-  }
-
-  userToName(userId) {
-    for (const user of this.getUsers()) {
-      if (user._id === userId) {
-        return user.name
-      }
-    }
-
-    return userId
-  }
-  
-  
+  }  
 }

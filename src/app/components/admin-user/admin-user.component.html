@@ -1,9 +1,9 @@
 <div class="list users">
   <h1>User admin</h1>
-  <div class="item" *ngFor="let user of auth.users">
+  <div class="item" *ngFor="let user of userService.users">
     <div>{{user.name}} ({{user.email}})</div>
     <div>{{companyService.companyName(user.company)}}</div>
-    <div>{{auth.roleName(user.role)}}</div>
+    <div>{{userService.roleName(user.role)}}</div>
     <div class="icon" (click)="editUser(user)"><img src="assets/images/icon-edit.svg" alt=""></div>
     <div class="icon" (click)="removeUser(user)"><img src="assets/images/icon-delete.svg" alt=""></div>
   </div>
@@ -34,7 +34,7 @@
     <label for="role">role</label>
     <select name="role" formControlName="role">
       <option value="">select role</option>
-      <option *ngFor="let role of auth.getUserRoles()" [value]="role.type">{{role.name}}</option>
+      <option *ngFor="let role of userService.getUserRoles()" [value]="role.type">{{role.name}}</option>
     </select>
     <p *ngIf="formService.checkInputField(registerForm, 'role', submitted)" class="error">!</p>
   </div>

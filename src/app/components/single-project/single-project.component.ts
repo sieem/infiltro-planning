@@ -9,6 +9,7 @@ import { ProjectService } from 'src/app/services/project.service';
 import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { ModalService } from 'src/app/services/modal.service';
+import { UserService } from 'src/app/services/user.service';
 
 
 @Component({
@@ -32,6 +33,7 @@ export class SingleProjectComponent implements OnInit {
     private router: Router,
     public formService: FormService,
     public companyService: CompanyService,
+    public userService: UserService,
     public auth: AuthService,
     private route: ActivatedRoute,
     public projectService: ProjectService,

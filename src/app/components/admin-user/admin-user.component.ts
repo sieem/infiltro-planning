@@ -6,6 +6,7 @@ import { FormService } from 'src/app/services/form.service';
 import { CompanyService } from 'src/app/services/company.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-admin-user',
@@ -22,6 +23,7 @@ export class AdminUserComponent implements OnInit {
     private router: Router,
     public formService: FormService,
     public companyService: CompanyService,
+    public userService: UserService,
     public auth: AuthService,
     private toastr: ToastrService) { }
 
@@ -34,9 +36,6 @@ export class AdminUserComponent implements OnInit {
       company: ['', Validators.required],
       role: ['', Validators.required],
     })
-
-    this.auth.getUsers()
-
   }
 
   onSubmit() {
@@ -62,7 +61,7 @@ export class AdminUserComponent implements OnInit {
     if (!this.registerForm.value._id) {
       this.api.addUser(formData).subscribe(
         (res: any) => {
-          this.auth.users.push(res)
+          this.userService.users.push(res)
           this.registerForm.reset()
           this.toastr.success('User saved', 'Sent mail to user!');
         },
@@ -73,7 +72,7 @@ export class AdminUserComponent implements OnInit {
       this.editState = false
       this.api.editUser(formData).subscribe(
         (res: any) => {
-          this.auth.users = this.updateElementInArray(this.auth.users, res)
+          this.userService.users = this.updateElementInArray(this.userService.users, res)
           this.registerForm.reset()
           this.toastr.success('User saved');
         },
@@ -101,7 +100,7 @@ export class AdminUserComponent implements OnInit {
       if (confirm(`Are you really sure you want to delete ${user.email}???`)) {
         this.api.removeUser(user._id).subscribe(
           (res: any) => {
-            this.auth.users = this.removeElementInArray(this.auth.users, user._id)
+            this.userService.users = this.removeElementInArray(this.userService.users, user._id)
           },
           err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
         )
