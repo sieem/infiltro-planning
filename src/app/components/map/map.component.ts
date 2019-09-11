@@ -3,6 +3,7 @@ import { ApiService } from 'src/app/services/api.service';
 import * as moment from 'moment';
 import { ProjectService } from 'src/app/services/project.service';
 import { ToastrService } from 'ngx-toastr';
+import { CompanyService } from 'src/app/services/company.service';
 
 @Component({
   selector: 'app-map',
@@ -17,10 +18,6 @@ export class MapComponent implements OnInit {
   // initial center position for the map
   lat: number = 51.023431
   lng: number = 4.261164
-
-  clickedMarker(label: string, index: number) {
-    console.log(`clicked the marker: ${label || index}`)
-  }
 
   markers: marker[] = []
 
@@ -42,7 +39,9 @@ export class MapComponent implements OnInit {
   constructor(
     private api: ApiService,
     public projectService: ProjectService,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService,
+    public companyService: CompanyService
+    ) { }
 
   ngOnInit() {
     this.getProjects()
@@ -74,7 +73,8 @@ export class MapComponent implements OnInit {
                 hourPlanned: project.hourPlanned,
                 status: project.status,
                 executor: project.executor,
-                pointerUrl: pointerUrl
+                pointerUrl: pointerUrl,
+                company: project.company
               }
             )
           }
@@ -98,4 +98,5 @@ interface marker {
   status: string;
   executor: string;
   pointerUrl: string;
+  company: string;
 }
