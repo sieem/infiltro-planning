@@ -1,2 +1,12 @@
 @import 'variables';
 @import 'forms';
+
+.mailList {
+
+
+    .mail {
+        margin: 10px 0;
+        padding: 10px 15px;
+        border-top: 1px solid $infiltro-border-grey;
+    }
+}
