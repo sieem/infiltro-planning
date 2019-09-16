@@ -20,12 +20,13 @@ option,
     background: inherit;
     text-align: left;
     padding: $input-padding;
-    width: 100%;
+    flex-grow: 1;
 }
 
 input[type='submit'] {
     width: inherit;
     cursor: pointer;
+    flex-grow: 0;
 }
 
 .read {
@@ -47,7 +48,6 @@ form,
 }
 
 form {
-
     // &.striped {
 
     //     .inputGroup,
@@ -59,7 +59,7 @@ form {
     // }
 
     .controls {
-        >* {
+        > * {
             height: 20px;
             margin-right: 10px;
             cursor: pointer;
@@ -115,7 +115,7 @@ form {
     label {
         display: block;
         font-weight: 700;
-        width: 40%;
+        width: 30%;
         text-align: right;
         font-size: $input-fontsize;
         line-height: $input-lineheight;

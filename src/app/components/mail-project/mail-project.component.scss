@@ -1,6 +1,19 @@
 @import 'variables';
 @import 'forms';
 
+.inputGroup.textarea {
+    display: block;
+    margin-top: 20px;
+
+    label {
+        text-align: left;
+    }
+    
+    textarea {
+        width: 100%;
+    }
+}
+
 .mailList {
 
 
