@@ -69,7 +69,7 @@
             <div class="dateHourPlanned">
                 <b>{{ projectService.executorName(project.executor) }}</b><br>
                 {{ projectService.formatDate(project.datePlanned) }}
-                <ng-container *ngIf="project.hourPlanned"><br> om {{ project.hourPlanned }}</ng-container>
+                <ng-container *ngIf="project.hourPlanned">om {{ project.hourPlanned }}</ng-container>
             </div>
             <div class="technicalDataFilledIn">
                 <ng-container *ngIf="projectService.isTechnicalDataFilledIn(project); else technicalDataNotFilledIn">
