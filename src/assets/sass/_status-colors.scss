@@ -10,7 +10,8 @@ $conformityAvailable: #25d00d;
 $completed: #8ab047;
 
 @mixin status-color($color) {
-    .status {
+    .status,
+    .read {
         color: $color;
     }
 
