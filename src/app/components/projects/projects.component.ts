@@ -120,17 +120,30 @@ export class ProjectsComponent implements OnInit {
         this.selectedProjects = this.selectedProjects.filter(val => { return val !== project })
       }
       
+    } else {
+      this.selectedProjects = [project]
     }
   }
 
   isSelected(project) {
-    return (this.selectedProjects.includes(project)) ? 'selected' : '';
+    return (this.selectedProjects.includes(project))
   }
 
   cancelBatchMode() {
     this.batchMode = false
     this.selectedProjects = []
     this.modalService.close("batchmode-modal")
+  }
+
+  changeStatus(event) {
+    const statusToChange = event.srcElement.selectedOptions[0].value;
+    this.api.batchProjects({ status: statusToChange, projects: this.selectedProjects }).subscribe(
+      (res: any) => {
+        this.getProjects()
+        this.selectedProjects = []
+      },
+      err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
+    )
   }
 
   onSubmit() {
