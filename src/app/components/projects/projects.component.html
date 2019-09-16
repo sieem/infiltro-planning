@@ -65,10 +65,10 @@
             
             <div class="status">
                 <div class="read" (click)="selectProject(project)"
-                    *ngIf="!isSelected(project)">
+                    *ngIf="!isSelected(project) || batchMode">
                     {{projectService.statusName(project.status)}}
                 </div>
-                <div class="write" *ngIf="isSelected(project) && auth.isAdmin()">
+                <div class="write" *ngIf="isSelected(project) && auth.isAdmin() && !batchMode">
                     <select name="status" id="status" (change)="changeStatus($event)">
                         <option value="">Selecteer status</option>
                         <option *ngFor="let status of projectService.statuses" [value]="status.type" [selected]="status.type === project.status">{{status.name}}</option>
