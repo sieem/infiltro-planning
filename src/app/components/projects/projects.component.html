@@ -51,7 +51,7 @@
 
 <div class="projectList" [ngClass]="{'batchMode': batchMode}">
     <ng-container *ngIf="projects.length > 0; else noProjectsFound">
-        <div class="project" *ngFor="let project of projects" [ngClass]="[project.status, isSelected(project)]" (click)="selectProject(project)">
+        <div class="project" *ngFor="let project of projects" [ngClass]="[project.status]" [class.selected]="isSelected(project) && batchMode" (click)="selectProject(project)">
             <div class="company">{{companyService.companyName(project.company)}} </div>
             <ng-container *ngIf="!batchMode; else noBatchMode">
                 <div class="title" [routerLink]="[ '/project', project._id ]">{{ project.projectName }} /
@@ -63,7 +63,18 @@
             </ng-template>
             
             
-            <div class="status">{{projectService.statusName(project.status)}}</div>
+            <div class="status">
+                <div class="read" (click)="selectProject(project)"
+                    *ngIf="!isSelected(project)">
+                    {{projectService.statusName(project.status)}}
+                </div>
+                <div class="write" *ngIf="isSelected(project) && auth.isAdmin()">
+                    <select name="status" id="status" (change)="changeStatus($event)">
+                        <option value="">Selecteer status</option>
+                        <option *ngFor="let status of projectService.statuses" [value]="status.type" [selected]="status.type === project.status">{{status.name}}</option>
+                    </select>
+                </div>
+            </div>
             <div class="address">{{project.street}}, {{project.postalCode}} {{project.city}}<span *ngIf="project.extraInfoAddress" class="extraInfoAddress">, {{project.extraInfoAddress}}</span></div>
             <div class="dateHourCreated">{{ projectService.formatDate(project.dateCreated) }}</div>
             <div class="dateHourPlanned">
