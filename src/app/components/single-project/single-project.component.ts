@@ -177,6 +177,7 @@ export class SingleProjectComponent implements OnInit {
 
     this.api.saveProject(formData).subscribe(
       (res: any) => {
+        this.projectId = res.projectId
         this.toastr.success('Project saved');
         Object.keys(this.projectForm.controls).forEach(key => {
           this.projectEditStates[key] = false
@@ -187,6 +188,7 @@ export class SingleProjectComponent implements OnInit {
         let formDataAsObj = {}
         formData.forEach((el, key) => formDataAsObj = {...formDataAsObj, [key]: el})
         this.projectForm.setValue(formDataAsObj)
+        this.router.navigate(['/project/' + this.projectId])
       },
       err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
     )
