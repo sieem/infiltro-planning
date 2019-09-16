@@ -23,6 +23,10 @@ option,
     flex-grow: 1;
 }
 
+input {
+    width: 100%;
+}
+
 input[type='submit'] {
     width: inherit;
     cursor: pointer;
