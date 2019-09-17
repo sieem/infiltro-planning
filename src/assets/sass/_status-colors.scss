@@ -11,7 +11,7 @@ $completed: #8ab047;
 
 @mixin status-color($color) {
     .status,
-    .read {
+    .status .read {
         color: $color;
     }
 
