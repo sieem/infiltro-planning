@@ -21,6 +21,7 @@ export class ProjectsComponent implements OnInit {
   selectedProjects: any = []
   batchForm: FormGroup;
   submitted: boolean = false;
+  ctrlKeyDown: boolean = false;
 
   constructor(
     private api: ApiService,
@@ -112,6 +113,14 @@ export class ProjectsComponent implements OnInit {
     this.batchMode = !this.batchMode
   }
 
+  registerCtrlKey(event) {
+    if (navigator.platform.match(/mac/gi)) {
+      this.ctrlKeyDown = (event.metaKey && event.type === "keydown")
+    } else {
+      this.ctrlKeyDown = (event.ctrlKey && event.type === "keydown")
+    }
+  }
+
   selectProject(project) {
     if (this.batchMode) {
       if (!this.selectedProjects.includes(project)) {
@@ -120,7 +129,7 @@ export class ProjectsComponent implements OnInit {
         this.selectedProjects = this.selectedProjects.filter(val => { return val !== project })
       }
       
-    } else {
+    } else if (this.ctrlKeyDown) {
       this.selectedProjects = [project]
     }
   }
