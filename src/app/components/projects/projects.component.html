@@ -65,6 +65,8 @@
             
             <div class="status">
                 <div class="read" (click)="selectProject(project)"
+                (window:keydown)="registerCtrlKey($event)"
+                (window:keyup)="registerCtrlKey($event)"
                     *ngIf="!isSelected(project) || batchMode">
                     {{projectService.statusName(project.status)}}
                 </div>
