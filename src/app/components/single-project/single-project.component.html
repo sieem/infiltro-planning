@@ -65,10 +65,10 @@
       <div class="right">
         <label for="dateCreated">Datum aanvraag:&nbsp;</label>
         <div class="inputField">
-          <div class="read" (click)="changeEditState('dateCreated', true)" [ngClass]="{'empty': isEmpty('dateCreated')}" *ngIf="!projectEditStates.dateCreated || true">
+          <div class="read" (click)="changeEditState('dateCreated', true)" [ngClass]="{'empty': isEmpty('dateCreated')}" *ngIf="!projectEditStates.dateCreated || !auth.isAdmin()">
             {{projectService.formatDate(projectForm.value.dateCreated)}}
           </div>
-          <div class="write" *ngIf="projectEditStates.dateCreated && false">
+          <div class="write" *ngIf="projectEditStates.dateCreated && auth.isAdmin()">
             <input type="date" name="dateCreated" id="dateCreated" formControlName="dateCreated">
             <p *ngIf="formService.checkInputField(projectForm, 'dateCreated', submitted)" class="error">!</p>
           </div>
