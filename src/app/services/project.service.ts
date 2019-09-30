@@ -76,6 +76,11 @@ export class ProjectService {
       filter: true
     },
     {
+      type: "onHoldByClient",
+      name: "On - Hold door klant",
+      filter: true
+    },
+    {
       type: "executed",
       name: "Uitgevoerd",
       filter: true
