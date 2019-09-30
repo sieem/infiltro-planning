@@ -53,22 +53,22 @@ export class ProjectService {
     {
       type: "toContact",
       name: "Te contacteren",
-      filter: false
+      filter: true
     },
     {
       type: "toPlan",
       name: "Te plannen",
-      filter: false
+      filter: true
     },
     {
       type: "proposalSent",
       name: "Voorstel doorgegeven",
-      filter: false
+      filter: true
     },
     {
       type: "planned",
       name: "Ingepland",
-      filter: false
+      filter: true
     },
     {
       type: "onHold",
@@ -78,17 +78,17 @@ export class ProjectService {
     {
       type: "executed",
       name: "Uitgevoerd",
-      filter: false
+      filter: true
     },
     {
       type: "reportAvailable",
       name: "Rapport beschikbaar",
-      filter: false
+      filter: true
     },
     {
       type: "conformityAvailable",
       name: "Conformiteit beschikbaar",
-      filter: false
+      filter: true
     },
     {
       type: "completed",
