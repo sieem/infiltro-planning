@@ -52,7 +52,7 @@ export class MailProjectComponent implements OnInit {
             const mailBody = `
               Beste,
 
-              Bij deze de bevestiging van onze afspraak voor de luchtdichtheidstest (via ${this.companyService.companyName(this.project.company)}) op ${moment(this.project.datePlanned).format(this.formService.dateFormat)} om +/- ${this.project.hourPlanned}h
+              Bij deze de bevestiging van onze afspraak voor de luchtdichtheidstest (via ${this.companyService.companyName(this.project.company)}) op ${moment(this.project.datePlanned).format(this.formService.mailDateFormat)} om +/- ${this.project.hourPlanned}h
               De luchtdichtheidstest neemt ongeveer 1h30 in beslag.
 
               In principe moeten er voor een bewoonde woning geen voorbereidende werken gebeuren.
