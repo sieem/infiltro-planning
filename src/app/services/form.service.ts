@@ -13,6 +13,7 @@ export class FormService {
 
   public dateFormat: string = 'YYYY-MM-DD'
   public visualDateFormat: string = 'dd DD-MM-YYYY'
+  public mailDateFormat: string = 'dddd DD-MM-YYYY'
 
   constructor() {
     moment.locale('nl-be')
