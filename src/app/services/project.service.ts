@@ -177,7 +177,8 @@ export class ProjectService {
 
   public activeFilter: any = {
     status: ['toContact', 'toPlan', 'proposalSent', 'planned', 'executed', 'reportAvailable', 'conformityAvailable', 'onHold'],
-    executor: ['david', 'roel', 'together']
+    executor: ['david', 'roel', 'together'],
+    company: []
   }
   public sortOptions: any = {
     field: 'datePlanned',
