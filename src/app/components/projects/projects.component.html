@@ -27,6 +27,20 @@
         </div>
     </div>
 
+    <div class="btn filter compant" *ngIf="auth.isAdmin()">
+        <span class="title">Bedrijf</span>
+        <div class="dropdown">
+            <div class="item" *ngFor="let company of companyService.companies"
+                (click)="changeFilter('company', company._id)">
+                <img src="/assets/images/icon-unchecked.svg" alt=""
+                    *ngIf="!projectService.activeFilter.company.includes(company._id)">
+                <img src="/assets/images/icon-checked.svg" alt=""
+                    *ngIf="projectService.activeFilter.company.includes(company._id)">
+                <span>{{company.name}}</span>
+            </div>
+        </div>
+    </div>
+
     <div class="btn filter sort" [ngClass]="projectService.sortOptions.order">
         <span class="title">Sorteer</span>
         <!-- <img src="/assets/images/icon-unchecked.svg" alt=""> -->
