@@ -181,7 +181,7 @@ export class SingleProjectComponent implements OnInit {
 
         // reset and refill form so the form isn't touched anymore
         this.projectForm.reset()
-        let formDataAsObj = {}
+        let formDataAsObj:any = {}
         formData.forEach((el, key) => formDataAsObj = {...formDataAsObj, [key]: res[key]})
         formDataAsObj.datePlanned = formDataAsObj.datePlanned || 'Invalid Date'
         this.router.navigate(['/project/' + this.projectId])
