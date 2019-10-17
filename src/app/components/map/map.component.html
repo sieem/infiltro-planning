@@ -9,6 +9,8 @@
     <agm-info-window>
       <h2>{{m.title}}</h2>
       <p>Adres: {{m.street}}, {{m.postalCode}} {{m.city}}</p>
+      <p>Email: {{m.email}}</p>
+      <p>Tel: {{m.tel}}</p>
       <p>Datum: {{projectService.formatDate(m.datePlanned)}}</p>
       <p>Uur: {{m.hourPlanned}}</p>
       <p>Status: {{projectService.statusName(m.status)}}</p>

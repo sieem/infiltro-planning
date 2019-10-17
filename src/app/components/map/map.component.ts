@@ -22,17 +22,21 @@ export class MapComponent implements OnInit {
   markers: marker[] = []
 
   pointers: any = {
-    "david": {
-      "planned": "david-planned.png",
-      "default": "david-faded.png"
+    david: {
+      planned: "david-planned.png",
+      default: "david-faded.png"
     },
-    "roel": {
-      "planned": "roel-planned.png",
-      "default": "roel-faded.png"
+    roel: {
+      planned: "roel-planned.png",
+      default: "roel-faded.png"
     },
-    "together": {
-      "planned": "default-planned.png",
-      "default": "default-faded.png"
+    together: {
+      planned: "default-planned.png",
+      default: "default-faded.png"
+    },
+    warning: {
+      planned: "warning-planned.png",
+      default: "warning-faded.png"
     }
   }
 
@@ -52,7 +56,7 @@ export class MapComponent implements OnInit {
       (res: any) => {
         const now = new Date()
         res.forEach(project => {
-          if ((new Date(project.datePlanned) > now || !project.datePlanned) && project.status !== "onHold" && project.status !== "contractSigned") {
+          if (!project.datePlanned && (project.status === "toPlan" || project.status === "planned" || project.status === "toContact" || project.status === "proposalSent")) {
             let pointerUrl = this.pointers.together.default
 
             if (project.executor) {
@@ -60,12 +64,19 @@ export class MapComponent implements OnInit {
             } else {
               pointerUrl = this.pointers['together'][project.status] || this.pointers['together']['default']
             }
+            
+            // always show red if it's to contact
+            if (project.status === "toContact") {
+              pointerUrl = this.pointers['warning'][project.status] || this.pointers['warning']['default']
+            }
 
             this.markers.push(
               {
                 lat: project.lat,
                 lng: project.lng,
                 title: project.projectName,
+                email: project.email,
+                tel: project.tel,
                 street: project.street,
                 city: project.city,
                 postalCode: project.postalCode,
@@ -92,6 +103,8 @@ interface marker {
   title: string;
   street: string;
   city: string;
+  email: string;
+  tel: string;
   postalCode: number;
   datePlanned: Date;
   hourPlanned: Date;
