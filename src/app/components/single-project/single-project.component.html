@@ -333,10 +333,10 @@
       <label for="datePlanned">Datum ingepland <span
           *ngIf="projectForm.controls.datePlanned.validator !== null">*</span></label>
       <div class="inputField">
-        <div class="read" (click)="changeEditState('datePlanned', true)" [ngClass]="{'empty': isEmpty('datePlanned')}" *ngIf="!projectEditStates.datePlanned || !auth.isAdmin()">
+        <div class="read" (click)="changeEditState('datePlanned', true)" [ngClass]="{'empty': isEmpty('datePlanned')}" *ngIf="!projectEditStates.datePlanned || !auth.isAdmin() || hasCalendarItem">
           {{projectService.formatDate(projectForm.value.datePlanned)}}
         </div>
-        <div class="write" *ngIf="projectEditStates.datePlanned && auth.isAdmin()">
+        <div class="write" *ngIf="projectEditStates.datePlanned && auth.isAdmin() && !hasCalendarItem">
           <input type="date" name="datePlanned" id="datePlanned" formControlName="datePlanned">
           <p *ngIf="formService.checkInputField(projectForm, 'datePlanned', submitted)" class="error">!</p>
         </div>
@@ -347,10 +347,10 @@
       <label for="hourPlanned">Uur ingepland <span
           *ngIf="projectForm.controls.hourPlanned.validator !== null">*</span></label>
       <div class="inputField">
-        <div class="read" (click)="changeEditState('hourPlanned', true)" [ngClass]="{'empty': isEmpty('hourPlanned')}" *ngIf="!projectEditStates.hourPlanned || !auth.isAdmin()">
+        <div class="read" (click)="changeEditState('hourPlanned', true)" [ngClass]="{'empty': isEmpty('hourPlanned')}" *ngIf="!projectEditStates.hourPlanned || !auth.isAdmin() || hasCalendarItem">
           {{projectForm.value.hourPlanned}}
         </div>
-        <div class="write" *ngIf="projectEditStates.hourPlanned && auth.isAdmin()">
+        <div class="write" *ngIf="projectEditStates.hourPlanned && auth.isAdmin() && !hasCalendarItem">
           <input type="time" name="hourPlanned" id="hourPlanned" formControlName="hourPlanned">
           <p *ngIf="formService.checkInputField(projectForm, 'hourPlanned', submitted)" class="error">!</p>
         </div>

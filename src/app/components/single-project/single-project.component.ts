@@ -25,6 +25,7 @@ export class SingleProjectComponent implements OnInit {
   projectId: string
   user: any
   mailModalOpened:boolean = false
+  hasCalendarItem:boolean = false
 
 
   constructor(
@@ -119,6 +120,8 @@ export class SingleProjectComponent implements OnInit {
               status: res.status,
               comments: res.comments,
             })
+
+            this.hasCalendarItem = (res.eventId && res.calendarId)
           },
           err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
         )
