@@ -76,8 +76,6 @@ export class SingleProjectComponent implements OnInit {
       status: ['toPlan'],
 
       comments: [''],
-
-      invoiced: [{ value: '', disabled: !this.auth.isAdmin() }],
     })
 
     Object.keys(this.projectForm.controls).forEach(key => {
@@ -120,7 +118,6 @@ export class SingleProjectComponent implements OnInit {
               hourPlanned: res.hourPlanned,
               status: res.status,
               comments: res.comments,
-              invoiced: (res.invoiced == undefined) ? false : res.invoiced
             })
           },
           err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
@@ -173,7 +170,6 @@ export class SingleProjectComponent implements OnInit {
     formData.append('hourPlanned', this.projectForm.value.hourPlanned)
     formData.append('status', this.projectForm.value.status)
     formData.append('comments', this.projectForm.value.comments)
-    formData.append('invoiced', this.projectForm.value.invoiced)
 
     this.api.saveProject(formData).subscribe(
       (res: any) => {
@@ -187,7 +183,7 @@ export class SingleProjectComponent implements OnInit {
         this.projectForm.reset()
         let formDataAsObj = {}
         formData.forEach((el, key) => formDataAsObj = {...formDataAsObj, [key]: res[key]})
-        this.projectForm.setValue(formDataAsObj)
+        formDataAsObj.datePlanned = formDataAsObj.datePlanned || 'Invalid Date'
         this.router.navigate(['/project/' + this.projectId])
       },
       err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
