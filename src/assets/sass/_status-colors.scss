@@ -44,7 +44,8 @@ $completed: #8ab047;
     @include status-color($planned);
 }
 
-.onHold {
+.onHold,
+.onHoldByClient {
     @include status-color($onHold);
 }
 
