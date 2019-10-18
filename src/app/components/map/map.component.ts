@@ -72,6 +72,7 @@ export class MapComponent implements OnInit {
 
             this.markers.push(
               {
+                id: project._id,
                 lat: project.lat,
                 lng: project.lng,
                 title: project.projectName,
@@ -85,7 +86,8 @@ export class MapComponent implements OnInit {
                 status: project.status,
                 executor: project.executor,
                 pointerUrl: pointerUrl,
-                company: project.company
+                company: project.company,
+                calendarId: project.calendarId
               }
             )
           }
@@ -98,6 +100,7 @@ export class MapComponent implements OnInit {
 }
 // just an interface for type safety.
 interface marker {
+  id: string,
   lat: number;
   lng: number;
   title: string;
@@ -112,4 +115,5 @@ interface marker {
   executor: string;
   pointerUrl: string;
   company: string;
+  calendarId: string;
 }
