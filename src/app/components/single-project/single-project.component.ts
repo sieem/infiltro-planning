@@ -206,6 +206,15 @@ export class SingleProjectComponent implements OnInit {
     }
   }
 
+  duplicateProject() {
+    this.api.duplicateProject(this.projectId).subscribe(
+      (res: any) => {
+        this.router.navigate(['/project/' + res.projectId])
+      },
+      err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
+    )
+  }
+
   goToOverview() {
     if (this.projectForm.touched) {
       if (confirm('Ben je zeker dat je de pagina wil verlaten?')) {

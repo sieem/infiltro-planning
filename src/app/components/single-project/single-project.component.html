@@ -6,6 +6,7 @@
           <div (click)="onSubmit()"><img src="/assets/images/icon-save.svg" alt=""></div>
           <div *ngIf="projectId" (click)="removeProject()"><img src="/assets/images/icon-delete.svg" alt=""></div>
           <div (click)="openProjectMail()"><img src="/assets/images/icon-mail.svg" alt=""></div>
+          <div *ngIf="auth.isAdmin" (click)="duplicateProject()"><img src="/assets/images/icon-duplicate.svg" alt=""></div>
           <!-- <div *ngIf="projectForm.value.invoiced && auth.isAdmin()" (click)="changeInvoicedStatus()"><img src="/assets/images/icon-invoice.svg" alt=""></div> -->
           <!-- <div *ngIf="!projectForm.value.invoiced && auth.isAdmin()" (click)="changeInvoicedStatus()"><img src="/assets/images/icon-invoiced.svg" alt=""></div> -->
         </div>
