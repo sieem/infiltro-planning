@@ -13,7 +13,7 @@
       <p>Tel: <a href="tel:{{m.tel}}">{{m.tel}}</a></p>
       <p>Tijdstip: 
         <ng-container *ngIf="m.calendarLink">
-          <a href="https://www.google.com/calendar/event?eid={{m.calendarLink}}" target="_blank">{{projectService.formatDate(m.datePlanned)}} om
+          <a href="{{m.calendarLink}}" target="_blank">{{projectService.formatDate(m.datePlanned)}} om
             {{m.hourPlanned}}</a>
         </ng-container>
         <ng-container *ngIf="!m.calendarLink">
