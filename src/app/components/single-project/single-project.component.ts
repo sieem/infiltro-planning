@@ -267,7 +267,7 @@ export class SingleProjectComponent implements OnInit {
 
   calendarWarning(hasCalendarItem) {
     if(hasCalendarItem) {
-      this.toastr.warning("Google Agenda evenement is aangemaakt. Als je tijd en datum wilt aanpassen, moet je dat daar doen", "Datum ingepland en uur ingepland zijn vergrendeld")
+      this.toastr.warning("Google Agenda evenement is aangemaakt. Tijd en datum kunnen enkel nog in Google Agenda aangepast worden.", "Datum ingepland en uur ingepland zijn vergrendeld")
     }
   }
 
