@@ -187,6 +187,7 @@ export class SingleProjectComponent implements OnInit {
         let formDataAsObj:any = {}
         formData.forEach((el, key) => formDataAsObj = {...formDataAsObj, [key]: res[key]})
         formDataAsObj.datePlanned = formDataAsObj.datePlanned || 'Invalid Date'
+        this.projectForm.setValue(formDataAsObj)
         this.router.navigate(['/project/' + this.projectId])
       },
       err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
