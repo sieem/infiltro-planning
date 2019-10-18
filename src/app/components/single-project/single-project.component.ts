@@ -252,4 +252,8 @@ export class SingleProjectComponent implements OnInit {
     }
   }
 
+  updateStatusDropdowns() {
+    this.projectForm.setValue(this.projectForm.value)
+  }
+
 }
