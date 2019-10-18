@@ -12,11 +12,11 @@
       <p>Email: <a href="mailto:{{m.email}}">{{m.email}}</a></p>
       <p>Tel: <a href="tel:{{m.tel}}">{{m.tel}}</a></p>
       <p>Tijdstip: 
-        <ng-container *ngIf="m.eventId">
-          <a href="https://www.google.com/calendar/event?eid={{m.eventId}}" target="_blank">{{projectService.formatDate(m.datePlanned)}} om
+        <ng-container *ngIf="m.calendarLink">
+          <a href="https://www.google.com/calendar/event?eid={{m.calendarLink}}" target="_blank">{{projectService.formatDate(m.datePlanned)}} om
             {{m.hourPlanned}}</a>
         </ng-container>
-        <ng-container *ngIf="!m.eventId">
+        <ng-container *ngIf="!m.calendarLink">
           {{projectService.formatDate(m.datePlanned)}} om
             {{m.hourPlanned}}
         </ng-container>
