@@ -48,7 +48,7 @@
                 {{projectService.statusName(projectForm.value.status)}}
               </div>
               <div class="write" *ngIf="projectEditStates.status">
-                <select name="status" id="status" formControlName="status">
+                <select name="status" id="status" formControlName="status" (change)="updateStatusDropdowns()">
                   <option value="">Selecteer status</option>
                   <option *ngFor="let status of projectService.statuses" [value]="status.type">{{status.name}}</option>
                 </select>
@@ -356,7 +356,7 @@
         </div>
       </div>
     </div>
-    <!-- <div class="projectRow">
+    <div class="projectRow">
       <label for="status">Status: <span *ngIf="projectForm.controls.status.validator !== null">*</span></label>
       <div class="inputField">
         <div class="read status" (click)="changeEditState('status', true)" [ngClass]="{'empty': isEmpty('status')}"
@@ -364,14 +364,14 @@
           {{projectService.statusName(projectForm.value.status)}}
         </div>
         <div class="write" *ngIf="projectEditStates.status">
-          <select name="status" id="status" formControlName="status">
+          <select name="status" id="status" formControlName="status" (change)="updateStatusDropdowns()">
             <option value="">Selecteer status</option>
             <option *ngFor="let status of projectService.statuses" [value]="status.type">{{status.name}}</option>
           </select>
           <p *ngIf="formService.checkInputField(projectForm, 'status', submitted)" class="error">!</p>
         </div>
       </div>
-    </div> -->
+    </div>
   </div>
   
 
