@@ -121,7 +121,7 @@ export class SingleProjectComponent implements OnInit {
               comments: res.comments,
             })
 
-            this.hasCalendarItem = (res.eventId && res.calendarId)
+            this.hasCalendarItem = (res.eventId && res.calendarId) ? true : false
           },
           err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
         )
@@ -263,6 +263,12 @@ export class SingleProjectComponent implements OnInit {
 
   updateStatusDropdowns() {
     this.projectForm.setValue(this.projectForm.value)
+  }
+
+  calendarWarning(hasCalendarItem) {
+    if(hasCalendarItem) {
+      this.toastr.warning("Google Agenda evenement is aangemaakt. Als je tijd en datum wilt aanpassen, moet je dat daar doen", "Datum ingepland en uur ingepland zijn vergrendeld")
+    }
   }
 
 }
