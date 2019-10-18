@@ -7,12 +7,21 @@
     [iconUrl]="'assets/images/map/' + m.pointerUrl">
 
     <agm-info-window>
-      <h2>{{m.title}}</h2>
-      <p>Adres: {{m.street}}, {{m.postalCode}} {{m.city}}</p>
-      <p>Email: {{m.email}}</p>
-      <p>Tel: {{m.tel}}</p>
-      <p>Datum: {{projectService.formatDate(m.datePlanned)}}</p>
-      <p>Uur: {{m.hourPlanned}}</p>
+      <h2><a routerLink="/project/{{m.id}}" routerLinkActive="active">{{m.title}}</a></h2>
+      <p>Adres: <a href="https://www.google.be/maps/search/{{m.street}}+{{m.postalCode}}+{{m.city}}">{{m.street}}, {{m.postalCode}} {{m.city}}</a></p>
+      <p>Email: <a href="mailto:{{m.email}}">{{m.email}}</a></p>
+      <p>Tel: <a href="tel:{{m.tel}}">{{m.tel}}</a></p>
+      <p>Tijdstip: 
+        <ng-container *ngIf="m.calendarId">
+          <a href="https://www.google.com/calendar/event?eid={{m.calendarId}}">{{projectService.formatDate(m.datePlanned)}} om
+            {{m.hourPlanned}}</a>
+        </ng-container>
+        <ng-container *ngIf="!m.calendarId">
+          {{projectService.formatDate(m.datePlanned)}} om
+            {{m.hourPlanned}}
+        </ng-container>
+        
+        </p>
       <p>Status: {{projectService.statusName(m.status)}}</p>
       <p>Bedrijf: {{companyService.companyName(m.company)}}</p>
     </agm-info-window>
