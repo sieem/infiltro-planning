@@ -334,7 +334,7 @@
       <label for="datePlanned">Datum ingepland <span
           *ngIf="projectForm.controls.datePlanned.validator !== null">*</span></label>
       <div class="inputField">
-        <div class="read" (click)="changeEditState('datePlanned', true)" [ngClass]="{'empty': isEmpty('datePlanned')}" *ngIf="!projectEditStates.datePlanned || !auth.isAdmin() || hasCalendarItem">
+        <div class="read" (click)="changeEditState('datePlanned', true)" (click)="calendarWarning(hasCalendarItem)" [ngClass]="{'empty': isEmpty('datePlanned')}" *ngIf="!projectEditStates.datePlanned || !auth.isAdmin() || hasCalendarItem">
           {{projectService.formatDate(projectForm.value.datePlanned)}}
         </div>
         <div class="write" *ngIf="projectEditStates.datePlanned && auth.isAdmin() && !hasCalendarItem">
@@ -348,7 +348,7 @@
       <label for="hourPlanned">Uur ingepland <span
           *ngIf="projectForm.controls.hourPlanned.validator !== null">*</span></label>
       <div class="inputField">
-        <div class="read" (click)="changeEditState('hourPlanned', true)" [ngClass]="{'empty': isEmpty('hourPlanned')}" *ngIf="!projectEditStates.hourPlanned || !auth.isAdmin() || hasCalendarItem">
+        <div class="read" (click)="changeEditState('hourPlanned', true)" (click)="calendarWarning(hasCalendarItem)" [ngClass]="{'empty': isEmpty('hourPlanned')}" *ngIf="!projectEditStates.hourPlanned || !auth.isAdmin() || hasCalendarItem">
           {{projectForm.value.hourPlanned}}
         </div>
         <div class="write" *ngIf="projectEditStates.hourPlanned && auth.isAdmin() && !hasCalendarItem">
