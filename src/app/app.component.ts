@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router, NavigationEnd, NavigationStart, Scroll, ActivationStart, ResolveStart } from '@angular/router';
+import { Router, NavigationStart, Scroll } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -12,14 +12,13 @@ export class AppComponent {
 
   constructor(private router: Router) {
     this.router.events.subscribe(async (ev) => {
-      // console.log(ev)
       if (ev instanceof Scroll) {
         if (ev.routerEvent.url == '/projecten') {
           await this.delay(250)
           window.scrollTo({ top: this.projectPageScrollPos })
         }
       }
-      if (ev instanceof NavigationEnd) {        
+      if (ev instanceof NavigationStart) {        
         if (this.projectsPageActive) {
           this.projectPageScrollPos = window.scrollY
         }
