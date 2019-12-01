@@ -68,7 +68,7 @@ export class ProjectsComponent implements OnInit {
       if (filterCat === 'company') {
         this.projectService.activeFilter[filterCat] = this.companyService.companies.map(el => el._id)
       } else {
-        this.projectService.activeFilter[filterCat] = this.projectService[filterCatArray].map(el => el.type)
+        this.projectService.activeFilter[filterCat] = this.projectService[filterCatArray].map(el => el.filter ? el.type : null)
       }
     } else {
       this.projectService.activeFilter[filterCat] = []
