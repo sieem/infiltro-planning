@@ -71,7 +71,7 @@ export class ProjectsComponent implements OnInit {
   }
 
   isFuturePlanned(project) {
-    return (this.projectService.sortOptions.field === "datePlanned" && new Date(project.datePlanned) > new Date())
+    return (this.projectService.sortOptions.field === "datePlanned" && this.projectService.sortOptions.order === "asc" && new Date(project.datePlanned) > new Date())
   }
 
   cancelBatchMode() {
