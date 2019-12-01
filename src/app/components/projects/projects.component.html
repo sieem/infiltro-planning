@@ -1,7 +1,7 @@
 <div class="controls">
     <a [routerLink]="[ '/project/toevoegen' ]" class="btn red"><img src="/assets/images/icon-new.svg" alt=""> New project</a>
     <div class="btn filter status">
-        <span class="title">Toon ook</span>
+        <span class="title">Toon ook <span class="error" *ngIf="projectService.activeFilter.status.length == 0"><span>!</span></span></span>
         <div class="dropdown">
             <div class="select-options">
                 <div>Selecteer</div>
@@ -19,7 +19,7 @@
     </div>
 
     <div class="btn filter executor" *ngIf="auth.isAdmin()">
-        <span class="title">Uitvoerder</span>
+        <span class="title">Uitvoerder <span class="error" *ngIf="projectService.activeFilter.executor.length == 0"><span>!</span></span></span>
         <div class="dropdown">
             <div class="select-options">
                 <div>Selecteer</div>
@@ -38,7 +38,7 @@
     </div>
 
     <div class="btn filter company" *ngIf="auth.isAdmin()">
-        <span class="title">Bedrijf</span>
+        <span class="title">Bedrijf <span class="error" *ngIf="projectService.activeFilter.company.length == 0"><span>!</span></span></span>
         <div class="dropdown">
             <div class="select-options">
                 <div>Selecteer</div>
