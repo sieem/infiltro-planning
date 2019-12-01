@@ -8,6 +8,10 @@
     border-bottom: 1px solid $infiltro-border-grey;
     height: 40px;
 
+    * {
+        user-select: none;
+    }
+
     .btn {
         display: flex;
         align-items: center;
