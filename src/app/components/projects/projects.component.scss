@@ -44,6 +44,28 @@
             background-color: #fff;
             border: 1px solid $infiltro-border-grey;
 
+            .select-options {
+                display: flex;
+                justify-content: space-between;
+                border-bottom: 1px solid $infiltro-border-grey;
+
+                div {
+                    border-right: 1px solid $infiltro-border-grey;
+                    padding: 5px 0;
+                    text-align: center;
+                    flex-grow: 1;
+                    display: block;
+
+                    &:last-child {
+                        border: none;
+                    }
+
+                    &.btn:hover {
+                        background-color: darken(#fff, 10%);
+                    }
+                }
+            }
+
             .item {
                 display: flex;
                 align-content: center;

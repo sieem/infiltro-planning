@@ -99,6 +99,11 @@ export class ProjectService {
       type: "completed",
       name: "Afgerond",
       filter: true
+    },
+    {
+      type: "deleted",
+      name: "Verwijderd",
+      filter: false
     }
   ]
 
