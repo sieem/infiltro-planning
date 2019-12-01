@@ -80,7 +80,12 @@
 
 <div class="projectList" [ngClass]="{'batchMode': batchMode}">
     <ng-container *ngIf="projectService.projects.length > 0; else noProjectsFound">
-        <div class="project" *ngFor="let project of projectService.projects" [ngClass]="[project.status]" [class.selected]="isSelected(project) && batchMode" (click)="selectProject(project)">
+        <div class="project" 
+        *ngFor="let project of projectService.projects"
+        [ngClass]="[project.status]"
+        [class.isFuturePlanned]="isFuturePlanned(project)"
+        [class.selected]="isSelected(project) && batchMode"
+        (click)="selectProject(project)">
             <div class="company">{{companyService.companyName(project.company)}} </div>
             <ng-container *ngIf="!batchMode; else noBatchMode">
                 <div class="title" [routerLink]="[ '/project', project._id ]">{{ project.projectName }} /
