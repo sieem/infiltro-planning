@@ -34,6 +34,10 @@ export class MapComponent implements OnInit {
       planned: "together-planned.png",
       default: "together-faded.png"
     },
+    default: {
+      planned: "default-planned.png",
+      default: "default-faded.png"
+    },
     warning: {
       planned: "warning-planned.png",
       default: "warning-faded.png"
@@ -62,7 +66,7 @@ export class MapComponent implements OnInit {
             if (project.executor) {
               pointerUrl = this.pointers[project.executor][project.status] || this.pointers[project.executor]['default']
             } else {
-              pointerUrl = this.pointers['together'][project.status] || this.pointers['together']['default']
+              pointerUrl = this.pointers['default'][project.status] || this.pointers['default']['default']
             }
             
             // always show red if it's to contact
