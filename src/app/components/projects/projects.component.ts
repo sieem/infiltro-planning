@@ -15,8 +15,6 @@ import { FormService } from 'src/app/services/form.service';
 })
 export class ProjectsComponent implements OnInit {
 
-  projects: any = []
-  allProjects: any = []
   batchMode: boolean = false
   selectedProjects: any = []
   batchForm: FormGroup;
@@ -34,91 +32,10 @@ export class ProjectsComponent implements OnInit {
     private modalService: ModalService) { }
 
   ngOnInit() {
-    this.getProjects()
+    this.projectService.getProjects()
     this.batchForm = this.formBuilder.group({
       status: ['', Validators.required]
     })
-  }
-
-  getProjects() {
-    // console.log(this.auth.getUserDetails())
-    this.api.getProjects().subscribe(
-      res => {
-        this.projects = this.allProjects = res
-        this.filterProjects()
-        this.sortProjects()
-      },
-      err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
-    )
-  }
-
-  changeFilter(filterCat, filterVal) {
-    if (!this.projectService.activeFilter[filterCat].includes(filterVal)) {
-      this.projectService.activeFilter[filterCat] = [...this.projectService.activeFilter[filterCat], filterVal]
-    } else {
-      this.projectService.activeFilter[filterCat] = this.projectService.activeFilter[filterCat].filter( val => {return val !== filterVal}) 
-    }
-
-    this.filterProjects()
-    this.sortProjects()
-  }
-
-  selectAllFilter(filterCat: string, selectAll: boolean, filterCatArray:string) {
-    if (selectAll) {
-      if (filterCat === 'company') {
-        this.projectService.activeFilter[filterCat] = this.companyService.companies.map(el => el._id)
-      } else {
-        this.projectService.activeFilter[filterCat] = this.projectService[filterCatArray].map(el => el.filter ? el.type : null)
-      }
-    } else {
-      this.projectService.activeFilter[filterCat] = []
-    }
-
-    this.filterProjects()
-    this.sortProjects()
-  }
-
-  filterProjects() {
-    this.projects = this.allProjects.filter(row => {
-      let filterBooleans = [true]
-
-      for (let [key, values] of Object.entries(this.projectService.activeFilter)) {
-        let filterArr: any = values
-        if (filterArr.length > 0 && row[key] !== '') {
-          filterBooleans.push(filterArr.includes(row[key]))
-        }
-        else {
-          filterBooleans.push(true)
-        }
-      }
-      return !filterBooleans.includes(false)
-    })
-  }
-
-  sortProjects(sortType = '') {
-    if (sortType !== '') {
-      if (this.projectService.sortOptions.field === sortType) {
-        this.projectService.sortOptions.order = (this.projectService.sortOptions.order === 'asc') ? 'desc' : 'asc'
-      }
-      this.projectService.sortOptions.field = sortType
-    }
-
-
-    this.projects = this.projects.sort((a, b) => {
-      if (!a[this.projectService.sortOptions.field]) return 1;
-      if (!b[this.projectService.sortOptions.field]) return -1;
-
-      let x = a[this.projectService.sortOptions.field].toLowerCase()
-      let y = b[this.projectService.sortOptions.field].toLowerCase()
-
-      if (x == y) return 0
-
-      return (x < y) ? -1 : 1
-    })
-
-    if (this.projectService.sortOptions.order == 'desc') {
-      this.projects = this.projects.reverse()
-    }
   }
 
   toggleBatchMode() {
@@ -163,7 +80,7 @@ export class ProjectsComponent implements OnInit {
     const statusToChange = event.srcElement.selectedOptions[0].value;
     this.api.batchProjects({ status: statusToChange, projects: this.selectedProjects }).subscribe(
       (res: any) => {
-        this.getProjects()
+        this.projectService.getProjects()
         this.selectedProjects = []
       },
       err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
@@ -182,7 +99,7 @@ export class ProjectsComponent implements OnInit {
       (res: any) => {
         this.batchMode = false
         this.submitted = false
-        this.getProjects()
+        this.projectService.getProjects()
         this.modalService.close("batchmode-modal")
         this.selectedProjects = []
       },
