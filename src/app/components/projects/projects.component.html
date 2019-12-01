@@ -8,7 +8,7 @@
                 <div class="btn" (click)="projectService.selectAllFilter('status', true, 'statuses')">Alles</div>
                 <div class="btn" (click)="projectService.selectAllFilter('status', false)">Niets</div>
             </div>
-            <div class="item" *ngFor="let status of projectService.statuses" (click)="changeFilter('status', status.type)">
+            <div class="item" *ngFor="let status of projectService.statuses" (click)="projectService.changeFilter('status', status.type)">
                 <ng-container *ngIf="status.filter">
                     <img src="/assets/images/icon-unchecked.svg" alt="" *ngIf="!projectService.activeFilter.status.includes(status.type)">
                     <img src="/assets/images/icon-checked.svg" alt="" *ngIf="projectService.activeFilter.status.includes(status.type)">
@@ -27,7 +27,7 @@
                 <div class="btn" (click)="projectService.selectAllFilter('executor', false)">Niets</div>
             </div>
             <div class="item" *ngFor="let executor of projectService.executors"
-                (click)="changeFilter('executor', executor.type)">
+                (click)="projectService.changeFilter('executor', executor.type)">
                 <img src="/assets/images/icon-unchecked.svg" alt=""
                     *ngIf="!projectService.activeFilter.executor.includes(executor.type)">
                 <img src="/assets/images/icon-checked.svg" alt=""
@@ -46,7 +46,7 @@
                 <div class="btn" (click)="projectService.selectAllFilter('company', false)">Niets</div>
             </div>
             <div class="item" *ngFor="let company of companyService.companies"
-                (click)="changeFilter('company', company._id)">
+                (click)="projectService.changeFilter('company', company._id)">
                 <img src="/assets/images/icon-unchecked.svg" alt=""
                     *ngIf="!projectService.activeFilter.company.includes(company._id)">
                 <img src="/assets/images/icon-checked.svg" alt=""
@@ -60,11 +60,12 @@
         <span class="title">Sorteer</span>
         <!-- <img src="/assets/images/icon-unchecked.svg" alt=""> -->
         <div class="dropdown">
-            <div class="item" *ngFor="let sortable of projectService.sortables" (click)="sortProjects(sortable.type)">
+            <div class="item" *ngFor="let sortable of projectService.sortables" (click)="projectService.sortProjects(sortable.type)">
                 <ng-container *ngIf="sortable.sort">
                     <img src="/assets/images/icon-unchecked.svg" alt="" *ngIf="projectService.sortOptions.field !== sortable.type">
                     <img src="/assets/images/icon-checked.svg" alt="" *ngIf="projectService.sortOptions.field === sortable.type">
                     <span>{{sortable.name}}</span>
+                    <span class="arrow desc" *ngIf="projectService.sortOptions.field === sortable.type && projectService.sortOptions.order == 'desc'"><img src="/assets/images/icon-arrow.svg" alt=""></span>
                     <span class="arrow asc" *ngIf="projectService.sortOptions.field === sortable.type && projectService.sortOptions.order == 'asc'"><img src="/assets/images/icon-arrow.svg" alt=""></span>
                 </ng-container>      
             </div>
