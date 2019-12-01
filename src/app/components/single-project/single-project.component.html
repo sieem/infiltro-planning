@@ -43,7 +43,7 @@
         </div>
       </div>
           <div class="projectRow right">
-            <label for="status">Status: <span *ngIf="projectForm.controls.status.validator !== null">*</span></label>
+            <label for="status">Status:&nbsp;<span *ngIf="projectForm.controls.status.validator !== null">*</span></label>
             <div class="inputField">
               <div class="read status" (click)="changeEditState('status', true)" [ngClass]="{'empty': isEmpty('status')}" *ngIf="!projectEditStates.status">
                 {{projectService.statusName(projectForm.value.status)}}
@@ -78,8 +78,7 @@
     </div>
 
     <div class="projectRow">
-      <label for="projectType">Type<span
-          *ngIf="projectForm.controls.projectType.validator !== null">*</span></label>
+      <label for="projectType">Type&nbsp;<span *ngIf="projectForm.controls.projectType.validator !== null">*</span></label>
       <div class="inputField">
         <div class="read" (click)="changeEditState('projectType', true)" [ngClass]="{'empty': isEmpty('projectType')}" *ngIf="!projectEditStates.projectType">
           {{projectService.projectTypeName(projectForm.value.projectType)}}
@@ -95,8 +94,7 @@
     </div>
 
     <div class="projectRow">
-      <label for="houseAmount">Aantal/omschrijving <span
-          *ngIf="projectForm.controls.houseAmount.validator !== null">*</span></label>
+      <label for="houseAmount">Aantal / omschrijving&nbsp;<span *ngIf="projectForm.controls.houseAmount.validator !== null">*</span></label>
       <div class="inputField">
         <div class="read" (click)="changeEditState('houseAmount', true)" [ngClass]="{'empty': isEmpty('houseAmount')}" *ngIf="!projectEditStates.houseAmount">
           {{projectForm.value.houseAmount}}
@@ -109,8 +107,7 @@
     </div>
 
     <div class="projectRow">
-      <label for="projectName">Referentie <span
-          *ngIf="projectForm.controls.projectName.validator !== null">*</span></label>
+      <label for="projectName">Referentie&nbsp;<span *ngIf="projectForm.controls.projectName.validator !== null">*</span></label>
       <div class="inputField">
         <div class="read" (click)="changeEditState('projectName', true)" [ngClass]="{'empty': isEmpty('projectName')}" *ngIf="!projectEditStates.projectName">
           {{projectForm.value.projectName}}
@@ -123,7 +120,7 @@
     </div>
 
     <!-- <div class="projectRow">
-      <label for="client">client <span *ngIf="projectForm.controls.client.validator !== null">*</span></label>
+      <label for="client">client&nbsp;<span *ngIf="projectForm.controls.client.validator !== null">*</span></label>
       <div class="inputField">
         <div class="read" (click)="changeEditState('client', true)" [ngClass]="{'empty': isEmpty('client')}" *ngIf="!projectEditStates.client">
           {{projectForm.value.client}}
@@ -141,7 +138,7 @@
       <h2>Adres</h2>
     </div>
     <div class="projectRow">
-      <label for="street">Straat + Nr <span *ngIf="projectForm.controls.street.validator !== null">*</span></label>
+      <label for="street">Straat + Nr&nbsp;<span *ngIf="projectForm.controls.street.validator !== null">*</span></label>
       <div class="inputField">
         <div class="read" (click)="changeEditState('street', true)" [ngClass]="{'empty': isEmpty('street')}" *ngIf="!projectEditStates.street">
           {{projectForm.value.street}}
@@ -154,7 +151,7 @@
     </div>
 
     <div class="projectRow">
-      <label for="city">Gemeente <span *ngIf="projectForm.controls.city.validator !== null">*</span></label>
+      <label for="city">Gemeente&nbsp;<span *ngIf="projectForm.controls.city.validator !== null">*</span></label>
       <div class="inputField">
         <div class="read" (click)="changeEditState('city', true)" [ngClass]="{'empty': isEmpty('city')}" *ngIf="!projectEditStates.city">
           {{projectForm.value.city}}
@@ -167,8 +164,7 @@
     </div>
 
     <div class="projectRow">
-      <label for="postalCode">Postcode <span
-          *ngIf="projectForm.controls.postalCode.validator !== null">*</span></label>
+      <label for="postalCode">Postcode&nbsp;<span *ngIf="projectForm.controls.postalCode.validator !== null">*</span></label>
       <div class="inputField">
         <div class="read" (click)="changeEditState('postalCode', true)" [ngClass]="{'empty': isEmpty('postalCode')}" *ngIf="!projectEditStates.postalCode">
           {{projectForm.value.postalCode}}
@@ -181,8 +177,7 @@
     </div>
 
     <div class="projectRow textarea">
-      <label for="extraInfoAddress">Bijkomende aanwijzingen <span
-          *ngIf="projectForm.controls.extraInfoAddress.validator !== null">*</span></label>
+      <label for="extraInfoAddress">Bijkomende aanwijzingen&nbsp;<span *ngIf="projectForm.controls.extraInfoAddress.validator !== null">*</span></label>
       <div class="inputField">
         <div class="read" (click)="changeEditState('extraInfoAddress', true)" [ngClass]="{'empty': isEmpty('extraInfoAddress')}"
           *ngIf="!projectEditStates.extraInfoAddress" [innerHTML]="newlineToBr(projectForm.value.extraInfoAddress)">
@@ -201,7 +196,7 @@
       <h2>Contactgegevens</h2>
     </div>
     <div class="projectRow">
-      <label for="name">Naam <span *ngIf="projectForm.controls.name.validator !== null">*</span></label>
+      <label for="name">Naam&nbsp;<span *ngIf="projectForm.controls.name.validator !== null">*</span></label>
       <div class="inputField">
         <div class="read" (click)="changeEditState('name', true)" [ngClass]="{'empty': isEmpty('name')}" *ngIf="!projectEditStates.name">
           {{projectForm.value.name}}
@@ -214,7 +209,7 @@
     </div>
 
     <div class="projectRow">
-      <label for="tel">Telefoonnummer(s) <span *ngIf="projectForm.controls.tel.validator !== null">*</span></label>
+      <label for="tel"><span class="desktop-only">Telefoonnummer(s)</span><span class="mobile-only">Tel(s)</span>&nbsp;<span *ngIf="projectForm.controls.tel.validator !== null">*</span></label>
       <div class="inputField">
         <div class="read" (click)="changeEditState('tel', true)" [ngClass]="{'empty': isEmpty('tel')}" *ngIf="!projectEditStates.tel">
           {{projectForm.value.tel}}
@@ -227,7 +222,7 @@
     </div>
 
     <div class="projectRow">
-      <label for="email">E-mail <span *ngIf="projectForm.controls.email.validator !== null">*</span></label>
+      <label for="email">E-mail&nbsp;<span *ngIf="projectForm.controls.email.validator !== null">*</span></label>
       <div class="inputField">
         <div class="read" (click)="changeEditState('email', true)" [ngClass]="{'empty': isEmpty('email')}" *ngIf="!projectEditStates.email">
           {{projectForm.value.email}}
@@ -240,8 +235,7 @@
     </div>
 
     <div class="projectRow textarea">
-      <label for="extraInfoContact">Bijkomende gegevens <span
-          *ngIf="projectForm.controls.extraInfoContact.validator !== null">*</span></label>
+      <label for="extraInfoContact">Bijkomende gegevens&nbsp;<span *ngIf="projectForm.controls.extraInfoContact.validator !== null">*</span></label>
       <div class="inputField">
         <div class="read" (click)="changeEditState('extraInfoContact', true)" [ngClass]="{'empty': isEmpty('extraInfoContact')}"
           *ngIf="!projectEditStates.extraInfoContact" [innerHTML]="newlineToBr(projectForm.value.extraInfoContact)">
@@ -260,7 +254,7 @@
       <h2>Technische gegevens</h2>
     </div>
     <div class="projectRow textarea">
-      <label for="ATest">A-test (m<sup>2</sup>) <span *ngIf="projectForm.controls.ATest.validator !== null">*</span></label>
+      <label for="ATest">A-test (m<sup>2</sup>)&nbsp;<span *ngIf="projectForm.controls.ATest.validator !== null">*</span></label>
       <div class="inputField">
         <div class="read" (click)="changeEditState('ATest', true)" [ngClass]="{'empty': isEmpty('ATest')}" *ngIf="!projectEditStates.ATest"
           [innerHTML]="newlineToBr(projectForm.value.ATest)"></div>
@@ -272,7 +266,7 @@
     </div>
 
     <div class="projectRow textarea">
-      <label for="v50Value">v50-waarde (m<sup>3</sup>/h.m<sup>2</sup>) <span *ngIf="projectForm.controls.v50Value.validator !== null">*</span></label>
+      <label for="v50Value">v50-waarde (m<sup>3</sup>/h.m<sup>2</sup>)&nbsp;<span *ngIf="projectForm.controls.v50Value.validator !== null">*</span></label>
       <div class="inputField">
         <div class="read" (click)="changeEditState('v50Value', true)" [ngClass]="{'empty': isEmpty('v50Value')}" *ngIf="!projectEditStates.v50Value"
           [innerHTML]="newlineToBr(projectForm.value.v50Value)"></div>
@@ -284,8 +278,7 @@
     </div>
 
     <div class="projectRow textarea">
-        <label for="protectedVolume">Beschermd volume (m<sup>3</sup>) <span
-            *ngIf="projectForm.controls.protectedVolume.validator !== null">*</span></label>
+        <label for="protectedVolume">Beschermd volume (m<sup>3</sup>)&nbsp;<span *ngIf="projectForm.controls.protectedVolume.validator !== null">*</span></label>
         <div class="inputField">
           <div class="read" (click)="changeEditState('protectedVolume', true)" [ngClass]="{'empty': isEmpty('protectedVolume')}" *ngIf="!projectEditStates.protectedVolume"
             [innerHTML]="newlineToBr(projectForm.value.protectedVolume)"></div>
@@ -298,7 +291,7 @@
   </div>
 
   <div class="projectRow">
-    <label for="EpbNumber">EPB Dossiernummer <span *ngIf="projectForm.controls.EpbNumber.validator !== null">*</span></label>
+    <label for="EpbNumber">EPB Dossiernummer&nbsp;<span *ngIf="projectForm.controls.EpbNumber.validator !== null">*</span></label>
     <div class="inputField">
       <div class="read" (click)="changeEditState('EpbNumber', true)" [ngClass]="{'empty': isEmpty('EpbNumber')}" *ngIf="!projectEditStates.EpbNumber">
         {{projectForm.value.EpbNumber}}
@@ -315,7 +308,7 @@
       <h2>Uitvoergegevens</h2>
     </div>
     <div class="projectRow">
-      <label for="executor">Uitvoerder <span *ngIf="projectForm.controls.executor.validator !== null">*</span></label>
+      <label for="executor">Uitvoerder&nbsp;<span *ngIf="projectForm.controls.executor.validator !== null">*</span></label>
       <div class="inputField">
         <div class="read" (click)="changeEditState('executor', true)" [ngClass]="{'empty': isEmpty('executor')}" *ngIf="!projectEditStates.executor || !auth.isAdmin()">
           {{projectService.executorName(projectForm.value.executor)}}
@@ -358,7 +351,7 @@
       </div>
     </div>
     <div class="projectRow">
-      <label for="status">Status: <span *ngIf="projectForm.controls.status.validator !== null">*</span></label>
+      <label for="status">Status:&nbsp;<span *ngIf="projectForm.controls.status.validator !== null">*</span></label>
       <div class="inputField">
         <div class="read status" (click)="changeEditState('status', true)" [ngClass]="{'empty': isEmpty('status')}"
           *ngIf="!projectEditStates.status">
@@ -381,7 +374,7 @@
       <h2>Opmerkingen</h2>
     </div>
     <div class="projectRow textarea">
-      <!-- <label for="comments">Opmerkingen <span *ngIf="projectForm.controls.comments.validator !== null">*</span></label> -->
+      <!-- <label for="comments">Opmerkingen&nbsp;<span *ngIf="projectForm.controls.comments.validator !== null">*</span></label> -->
       <div class="inputField">
         <div class="read" (click)="changeEditState('comments', true)" [ngClass]="{'empty': isEmpty('comments')}" *ngIf="!projectEditStates.comments"
           [innerHTML]="newlineToBr(projectForm.value.comments)"></div>
