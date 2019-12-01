@@ -231,7 +231,7 @@ export class ProjectService {
     this.sortProjects()
   }
 
-  selectAllFilter(filterCat: string, selectAll: boolean, filterCatArray: string) {
+  selectAllFilter(filterCat: string, selectAll: boolean, filterCatArray: string = '') {
     if (selectAll) {
       if (filterCat === 'company') {
         this.activeFilter[filterCat] = this.companyService.companies.map(el => el._id)
