@@ -70,6 +70,10 @@ export class ProjectsComponent implements OnInit {
     return (this.selectedProjects.includes(project))
   }
 
+  isFuturePlanned(project) {
+    return (this.projectService.sortOptions.field === "datePlanned" && new Date(project.datePlanned) > new Date())
+  }
+
   cancelBatchMode() {
     this.batchMode = false
     this.selectedProjects = []
