@@ -236,7 +236,7 @@ export class ProjectService {
       if (filterCat === 'company') {
         this.activeFilter[filterCat] = this.companyService.companies.map(el => el._id)
       } else {
-        this.activeFilter[filterCat] = this[filterCatArray].map(el => el.filter ? el.type : null)
+        this.activeFilter[filterCat] = this[filterCatArray].map(el => el.filter === undefined || el.filter ? el.type : null)
       }
     } else {
       this.activeFilter[filterCat] = []
