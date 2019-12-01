@@ -65,8 +65,7 @@
                     <img src="/assets/images/icon-unchecked.svg" alt="" *ngIf="projectService.sortOptions.field !== sortable.type">
                     <img src="/assets/images/icon-checked.svg" alt="" *ngIf="projectService.sortOptions.field === sortable.type">
                     <span>{{sortable.name}}</span>
-                    <span *ngIf="projectService.sortOptions.field === sortable.type && projectService.sortOptions.order == 'desc'"> | desc</span>
-                    <span *ngIf="projectService.sortOptions.field === sortable.type && projectService.sortOptions.order == 'asc'"> | asc</span>
+                    <span class="arrow asc" *ngIf="projectService.sortOptions.field === sortable.type && projectService.sortOptions.order == 'asc'"><img src="/assets/images/icon-arrow.svg" alt=""></span>
                 </ng-container>      
             </div>
         </div>

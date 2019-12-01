@@ -65,6 +65,7 @@
             left: 0;
             background-color: #fff;
             border: 1px solid $infiltro-border-grey;
+            min-width: 150px;
 
             .select-options {
                 display: flex;
@@ -118,6 +119,26 @@
 
             .dropdown {
                 display: block;
+            }
+        }
+
+        &.sort {
+            .arrow {
+                height: 20px;
+                padding: 4px 4px 0 4px;
+
+                img {
+                    height: 100%;
+                    width: auto;
+
+                    margin: 0;
+                }
+
+                &.desc {
+                    img {
+                        transform: scaleY(-1);
+                    }
+                }
             }
         }
     }
