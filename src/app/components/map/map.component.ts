@@ -31,8 +31,8 @@ export class MapComponent implements OnInit {
       default: "roel-faded.png"
     },
     together: {
-      planned: "default-planned.png",
-      default: "default-faded.png"
+      planned: "together-planned.png",
+      default: "together-faded.png"
     },
     warning: {
       planned: "warning-planned.png",
