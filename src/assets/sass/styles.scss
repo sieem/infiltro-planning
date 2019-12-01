@@ -66,3 +66,15 @@ main {
     border-right: 1px solid $infiltro-border-grey;
     min-height: calc(100vh - 130px)
 }
+
+@media only screen and (max-width: 600px) {
+    .desktop-only {
+        display: none;
+    }
+}
+
+@media only screen and (min-width: 601px) {
+    .mobile-only {
+        display: none;
+    }
+}

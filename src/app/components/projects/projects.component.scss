@@ -226,3 +226,15 @@
         margin-right: 20px;
     }
 }
+
+@media only screen and (max-width: 600px) {
+    .controls {
+        .filter {
+            padding: 0 5px;
+            font-size: 10px;
+        }
+    }
+    .project {
+        grid-template-columns: 15% 1fr 18% 24% 3.5%;
+    }
+}
