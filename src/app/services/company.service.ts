@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
 import { ToastrService } from 'ngx-toastr';
+import { resolve } from 'url';
 
 @Injectable({
   providedIn: 'root'
@@ -11,16 +12,22 @@ export class CompanyService {
   constructor(
     private api: ApiService,
     private toastr: ToastrService) {
-    this.getCompanies()
   }
 
   getCompanies() {
-    this.api.getCompanies().subscribe(
-      res => {
-        this.companies = res
-      },
-      err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
-    )
+    return new Promise((resolve,reject) => {
+      this.api.getCompanies().subscribe(
+        res => {
+          this.companies = res
+          return resolve()
+        },
+        err => {
+          this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
+          return reject()
+        }
+      )
+    })
+    
   }
 
   companyName(companyId) {

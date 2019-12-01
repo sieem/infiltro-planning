@@ -5,8 +5,8 @@
         <div class="dropdown">
             <div class="select-options">
                 <div>Selecteer</div>
-                <div class="btn" (click)="selectAllFilter('status', true, 'statuses')">Alles</div>
-                <div class="btn" (click)="selectAllFilter('status', false)">Niets</div>
+                <div class="btn" (click)="projectService.selectAllFilter('status', true, 'statuses')">Alles</div>
+                <div class="btn" (click)="projectService.selectAllFilter('status', false)">Niets</div>
             </div>
             <div class="item" *ngFor="let status of projectService.statuses" (click)="changeFilter('status', status.type)">
                 <ng-container *ngIf="status.filter">
@@ -23,8 +23,8 @@
         <div class="dropdown">
             <div class="select-options">
                 <div>Selecteer</div>
-                <div class="btn" (click)="selectAllFilter('executor', true, 'executors')">Alles</div>
-                <div class="btn" (click)="selectAllFilter('executor', false)">Niets</div>
+                <div class="btn" (click)="projectService.selectAllFilter('executor', true, 'executors')">Alles</div>
+                <div class="btn" (click)="projectService.selectAllFilter('executor', false)">Niets</div>
             </div>
             <div class="item" *ngFor="let executor of projectService.executors"
                 (click)="changeFilter('executor', executor.type)">
@@ -42,8 +42,8 @@
         <div class="dropdown">
             <div class="select-options">
                 <div>Selecteer</div>
-                <div class="btn" (click)="selectAllFilter('company', true, 'companies')">Alles</div>
-                <div class="btn" (click)="selectAllFilter('company', false)">Niets</div>
+                <div class="btn" (click)="projectService.selectAllFilter('company', true, 'companies')">Alles</div>
+                <div class="btn" (click)="projectService.selectAllFilter('company', false)">Niets</div>
             </div>
             <div class="item" *ngFor="let company of companyService.companies"
                 (click)="changeFilter('company', company._id)">
@@ -79,8 +79,8 @@
 </div>
 
 <div class="projectList" [ngClass]="{'batchMode': batchMode}">
-    <ng-container *ngIf="projects.length > 0; else noProjectsFound">
-        <div class="project" *ngFor="let project of projects" [ngClass]="[project.status]" [class.selected]="isSelected(project) && batchMode" (click)="selectProject(project)">
+    <ng-container *ngIf="projectService.projects.length > 0; else noProjectsFound">
+        <div class="project" *ngFor="let project of projectService.projects" [ngClass]="[project.status]" [class.selected]="isSelected(project) && batchMode" (click)="selectProject(project)">
             <div class="company">{{companyService.companyName(project.company)}} </div>
             <ng-container *ngIf="!batchMode; else noBatchMode">
                 <div class="title" [routerLink]="[ '/project', project._id ]">{{ project.projectName }} /

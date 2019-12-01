@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import { FormService } from './form.service';
+import { ToastrService } from 'ngx-toastr';
+import { ApiService } from './api.service';
+import { CompanyService } from './company.service';
 
 @Injectable({
   providedIn: 'root'
@@ -190,9 +193,101 @@ export class ProjectService {
     order: 'asc'
   }
 
+  public projects: any = []
+  public allProjects: any = []
+
   private technicalFields = ["ATest", "v50Value", "protectedVolume", "EpbNumber"]
 
-  constructor(private formService: FormService) { }
+  constructor(
+    private api: ApiService,
+    private formService: FormService,
+    private toastr: ToastrService,
+    private companyService: CompanyService) {
+      
+    }
+
+  async getProjects() {
+    await this.companyService.getCompanies()
+    this.selectAllFilter('company', true, 'companies')
+    
+    this.api.getProjects().subscribe(
+      res => {
+        this.projects = this.allProjects = res
+        this.filterProjects()
+        this.sortProjects()
+      },
+      err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
+    )
+  }
+
+  changeFilter(filterCat, filterVal) {
+    if (!this.activeFilter[filterCat].includes(filterVal)) {
+      this.activeFilter[filterCat] = [...this.activeFilter[filterCat], filterVal]
+    } else {
+      this.activeFilter[filterCat] = this.activeFilter[filterCat].filter(val => { return val !== filterVal })
+    }
+
+    this.filterProjects()
+    this.sortProjects()
+  }
+
+  selectAllFilter(filterCat: string, selectAll: boolean, filterCatArray: string) {
+    if (selectAll) {
+      if (filterCat === 'company') {
+        this.activeFilter[filterCat] = this.companyService.companies.map(el => el._id)
+      } else {
+        this.activeFilter[filterCat] = this[filterCatArray].map(el => el.filter ? el.type : null)
+      }
+    } else {
+      this.activeFilter[filterCat] = []
+    }
+
+    this.filterProjects()
+    this.sortProjects()
+  }
+
+  filterProjects() {
+    this.projects = this.allProjects.filter(row => {
+      let filterBooleans = []
+
+      for (let [key, values] of Object.entries(this.activeFilter)) {
+        let filterArr: any = values
+        if (filterArr.length == 0) {
+          return false
+        } else if (row[key] !== '') {
+          filterBooleans.push(filterArr.includes(row[key]))
+        }
+      }
+      return !filterBooleans.includes(false)
+    })
+  }
+
+  sortProjects(sortType = '') {
+    if (sortType !== '') {
+      if (this.sortOptions.field === sortType) {
+        this.sortOptions.order = (this.sortOptions.order === 'asc') ? 'desc' : 'asc'
+      }
+      this.sortOptions.field = sortType
+    }
+
+
+    this.projects = this.projects.sort((a, b) => {
+      if (!a[this.sortOptions.field]) return 1;
+      if (!b[this.sortOptions.field]) return -1;
+
+      let x = a[this.sortOptions.field].toLowerCase()
+      let y = b[this.sortOptions.field].toLowerCase()
+
+      if (x == y) return 0
+
+      return (x < y) ? -1 : 1
+    })
+
+    if (this.sortOptions.order == 'desc') {
+      this.projects = this.projects.reverse()
+    }
+  }
+
 
   public statusName(type: string) {
     let name: string
