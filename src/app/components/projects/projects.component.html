@@ -3,6 +3,11 @@
     <div class="btn filter status">
         <span class="title">Toon ook</span>
         <div class="dropdown">
+            <div class="select-options">
+                <div>Selecteer</div>
+                <div class="btn" (click)="selectAllFilter('status', true, 'statuses')">Alles</div>
+                <div class="btn" (click)="selectAllFilter('status', false)">Niets</div>
+            </div>
             <div class="item" *ngFor="let status of projectService.statuses" (click)="changeFilter('status', status.type)">
                 <ng-container *ngIf="status.filter">
                     <img src="/assets/images/icon-unchecked.svg" alt="" *ngIf="!projectService.activeFilter.status.includes(status.type)">
@@ -16,6 +21,11 @@
     <div class="btn filter executor" *ngIf="auth.isAdmin()">
         <span class="title">Uitvoerder</span>
         <div class="dropdown">
+            <div class="select-options">
+                <div>Selecteer</div>
+                <div class="btn" (click)="selectAllFilter('executor', true, 'executors')">Alles</div>
+                <div class="btn" (click)="selectAllFilter('executor', false)">Niets</div>
+            </div>
             <div class="item" *ngFor="let executor of projectService.executors"
                 (click)="changeFilter('executor', executor.type)">
                 <img src="/assets/images/icon-unchecked.svg" alt=""
@@ -30,6 +40,11 @@
     <div class="btn filter company" *ngIf="auth.isAdmin()">
         <span class="title">Bedrijf</span>
         <div class="dropdown">
+            <div class="select-options">
+                <div>Selecteer</div>
+                <div class="btn" (click)="selectAllFilter('company', true, 'companies')">Alles</div>
+                <div class="btn" (click)="selectAllFilter('company', false)">Niets</div>
+            </div>
             <div class="item" *ngFor="let company of companyService.companies"
                 (click)="changeFilter('company', company._id)">
                 <img src="/assets/images/icon-unchecked.svg" alt=""

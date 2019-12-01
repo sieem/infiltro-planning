@@ -63,6 +63,21 @@ export class ProjectsComponent implements OnInit {
     this.sortProjects()
   }
 
+  selectAllFilter(filterCat: string, selectAll: boolean, filterCatArray:string) {
+    if (selectAll) {
+      if (filterCat === 'company') {
+        this.projectService.activeFilter[filterCat] = this.companyService.companies.map(el => el._id)
+      } else {
+        this.projectService.activeFilter[filterCat] = this.projectService[filterCatArray].map(el => el.type)
+      }
+    } else {
+      this.projectService.activeFilter[filterCat] = []
+    }
+
+    this.filterProjects()
+    this.sortProjects()
+  }
+
   filterProjects() {
     this.projects = this.allProjects.filter(row => {
       let filterBooleans = [true]
