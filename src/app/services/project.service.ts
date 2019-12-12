@@ -208,7 +208,9 @@ export class ProjectService {
 
   async getProjects() {
     await this.companyService.getCompanies()
-    this.selectAllFilter('company', true, 'companies')
+    if (!this.activeFilter.company.length) {
+      this.selectAllFilter('company', true, 'companies')
+    }
     
     this.api.getProjects().subscribe(
       res => {
