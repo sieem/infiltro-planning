@@ -35,7 +35,7 @@ export class MailProjectComponent implements OnInit {
   ngOnInit() {
     this.mailForm = this.formBuilder.group({
       _id: [''],
-      to: ['', [Validators.required, Validators.email, Validators.pattern(this.formService.emailRegex)]],
+      to: ['', [Validators.required]],
       subject: [''],
       body: ['']
     })
