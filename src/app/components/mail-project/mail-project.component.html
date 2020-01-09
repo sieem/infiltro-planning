@@ -12,6 +12,12 @@
   </div>
 
   <div class="inputGroup">
+    <label for="cc">cc</label>
+    <input type="email" name="cc" formControlName="cc">
+    <p *ngIf="formService.checkInputField(mailForm, 'cc', submitted)" class="error">!</p>
+  </div>
+
+  <div class="inputGroup">
     <label for="subject">Onderwerp</label>
     <input type="email" name="subject" formControlName="subject">
     <p *ngIf="formService.checkInputField(mailForm, 'subject', submitted)" class="error">!</p>
@@ -31,6 +37,7 @@
   <div class="mail" *ngFor="let mail of project.mails">
     <div class="sender">{{userService.userToName(mail.sender)}}</div>
     <div class="receiver">{{mail.receiver}}</div>
+    <div class="cc">{{mail.cc}}</div>
     <div class="dateSent">{{mail.dateSent}}</div>
     <div class="mailBody" [innerHTML]="mail.body"></div>
   </div>
