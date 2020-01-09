@@ -227,6 +227,10 @@
     .status {
         grid-column-start: 3;
         grid-row-start: span 2;
+
+        .read {
+            padding: 0;
+        }
     }
 
     .address {
