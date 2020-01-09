@@ -36,6 +36,7 @@ export class MailProjectComponent implements OnInit {
     this.mailForm = this.formBuilder.group({
       _id: [''],
       to: ['', [Validators.required]],
+      cc: [''],
       subject: [''],
       body: ['']
     })
@@ -68,6 +69,7 @@ export class MailProjectComponent implements OnInit {
             this.mailForm.setValue({
               _id: this.project._id,
               to: this.project.email,
+              cc: '',
               subject: mailSubject,
               body: mailBody
             })
@@ -95,6 +97,7 @@ export class MailProjectComponent implements OnInit {
 
     formData.append('_id', this.mailForm.value._id)
     formData.append('to', this.mailForm.value.to)
+    formData.append('cc', this.mailForm.value.cc)
     formData.append('subject', this.mailForm.value.subject)
     formData.append('body', this.mailForm.value.body)
 
