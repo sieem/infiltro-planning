@@ -125,7 +125,11 @@
                 <ng-template #technicalDataNotFilledIn>
                     <img src="/assets/images/icon-not-okay.svg" alt="">
                 </ng-template>
-                
+            </div>
+            <div class="mailsSent">
+                <ng-container *ngIf="project.mails.length > 0">
+                    <img src="/assets/images/icon-mail.svg" alt="">
+                </ng-container>
             </div>
         </div>
     </ng-container>
