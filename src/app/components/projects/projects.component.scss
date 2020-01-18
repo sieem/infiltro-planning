@@ -176,7 +176,7 @@
             width: calc(100% + 3px);
             top: -17px;
             left: -3px;
-            border-top: 1px dotted $infiltro-grey;
+            border-top: 1px dotted $infiltro-red;
         }
 
         &:after {
@@ -187,7 +187,7 @@
             padding: 0 5px 0 5px;
             background-color: #fff;
             font-style: italic;
-            color: $infiltro-grey;
+            color: $infiltro-red;
         }
 
         &~& {
