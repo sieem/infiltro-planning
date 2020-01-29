@@ -11,6 +11,7 @@ import { MapComponent } from './components/map/map.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { MailProjectComponent } from './components/mail-project/mail-project.component';
 import { PricesComponent } from './components/prices/prices.component';
+import { PricePageGuard } from './guards/price-page.guard';
 
 const routes: Routes = [
   {
@@ -46,7 +47,7 @@ const routes: Routes = [
   {
     path: 'staffel',
     component: PricesComponent,
-    canActivate: [AuthGuard],
+    canActivate: [PricePageGuard],
   },
   {
     path: 'inloggen',
