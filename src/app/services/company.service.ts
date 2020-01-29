@@ -40,4 +40,12 @@ export class CompanyService {
 
     return companyId
   }
+
+  pricePageVisible(user) {
+    for (const company of this.companies) {
+      if (company._id === user.company) {
+        return company.pricePageVisible
+      }
+    }
+  }
 }

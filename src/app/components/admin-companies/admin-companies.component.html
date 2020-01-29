@@ -3,7 +3,11 @@
   <div class="item" *ngFor="let company of companyService.companies">
     <div>{{company.name}}</div>
     <div>{{company.email}}</div>
-    <div></div>
+    <div>
+      <ng-container *ngIf="company.pricePageVisible">
+        Staffel zichtbaar
+      </ng-container>
+    </div>
     <div class="icon" (click)="editCompany(company)"><img src="assets/images/icon-edit.svg" alt=""></div>
     <div class="icon" (click)="removeCompany(company)"><img src="assets/images/icon-delete.svg" alt=""></div>
   </div>
@@ -12,15 +16,21 @@
 
 <form [formGroup]="companyForm" (ngSubmit)="onSubmit()">
   <div class="inputGroup">
-    <label for="name">company name</label>
+    <label for="name">Bedrijfsnaam</label>
     <input type="text" name="name" formControlName="name">
     <p *ngIf="formService.checkInputField(companyForm, 'name', submitted)" class="error">!</p>
   </div>
 
   <div class="inputGroup">
-    <label for="email">email</label>
+    <label for="email">Emailadres</label>
     <input type="email" name="email" formControlName="email">
     <p *ngIf="formService.checkInputField(companyForm, 'email', submitted)" class="error">!</p>
+  </div>
+
+  <div class="inputGroup">
+    <label for="pricePageVisible">Staffel pagina zichtbaar</label>
+    <input type="checkbox" name="pricePageVisible" formControlName="pricePageVisible">
+    <p *ngIf="formService.checkInputField(companyForm, 'pricePageVisible', submitted)" class="error">!</p>
   </div>
   
 

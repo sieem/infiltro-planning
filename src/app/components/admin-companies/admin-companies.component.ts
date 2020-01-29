@@ -29,6 +29,7 @@ export class AdminCompaniesComponent implements OnInit {
     this.companyForm = this.formBuilder.group({
       _id: [''],
       name: ['', Validators.required],
+      pricePageVisible: [''],
       email: ['', [Validators.required, Validators.email, Validators.pattern(this.formService.emailRegex)]],
     })
   }
@@ -49,6 +50,7 @@ export class AdminCompaniesComponent implements OnInit {
     const formData = new FormData()
     formData.append('_id', this.companyForm.value._id)
     formData.append('name', this.companyForm.value.name)
+    formData.append('pricePageVisible', this.companyForm.value.pricePageVisible)
     formData.append('email', this.companyForm.value.email)
 
     this.api.saveCompany(formData).subscribe(
@@ -73,7 +75,8 @@ export class AdminCompaniesComponent implements OnInit {
     this.companyForm.setValue({
       _id: company._id || "",
       name: company.name || "",
-      email: company.email || ""
+      email: company.email || "",
+      pricePageVisible: company.pricePageVisible || "",
     })
   }
 
