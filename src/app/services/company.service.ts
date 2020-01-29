@@ -12,6 +12,7 @@ export class CompanyService {
   constructor(
     private api: ApiService,
     private toastr: ToastrService) {
+      this.getCompanies()
   }
 
   getCompanies() {
