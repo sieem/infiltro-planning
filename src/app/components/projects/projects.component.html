@@ -128,7 +128,7 @@
             </div>
             <div class="mailsSent">
                 <ng-container *ngIf="project.mails.length > 0 && auth.isAdmin(); else notAnAdminForMail">
-                    <a [routerLink]="['/project/' + project.id + '/mail']">
+                    <a [routerLink]="['/project/' + project._id + '/mail']">
                         <img src="/assets/images/icon-mail.svg" alt="">
                     </a>
                 </ng-container>
