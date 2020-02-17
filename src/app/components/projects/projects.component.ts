@@ -7,6 +7,7 @@ import { CompanyService } from 'src/app/services/company.service';
 import { ModalService } from 'src/app/services/modal.service';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { FormService } from 'src/app/services/form.service';
+import { R3TargetBinder } from '@angular/compiler';
 
 @Component({
   selector: 'app-projects',
@@ -20,6 +21,9 @@ export class ProjectsComponent implements OnInit {
   batchForm: FormGroup;
   submitted: boolean = false;
   ctrlKeyDown: boolean = false;
+  hoverComment: string;
+  hoverX: number;
+  hoverY: number;
 
   constructor(
     private api: ApiService,
@@ -72,6 +76,20 @@ export class ProjectsComponent implements OnInit {
 
   isFuturePlanned(project) {
     return (this.projectService.sortOptions.field === "datePlanned" && this.projectService.sortOptions.order === "asc" && new Date(project.datePlanned) > new Date())
+  }
+
+  showComment(event, comment:string) {
+    if (this.hoverComment) {
+      this.hideComment()
+      return
+    }
+    this.hoverComment = comment
+    this.hoverX = event.target.offsetLeft + event.target.width
+    this.hoverY = event.target.offsetTop
+  }
+
+  hideComment() {
+    this.hoverComment = ''
   }
 
   cancelBatchMode() {
