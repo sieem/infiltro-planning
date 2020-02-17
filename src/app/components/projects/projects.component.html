@@ -136,6 +136,12 @@
                     <img src="/assets/images/icon-mail.svg" alt="">
                 </ng-template>
             </div>
+
+            <div class="commentGiven">
+                <ng-container *ngIf="project.comments">
+                    <img src="/assets/images/icon-comment.svg" alt="" (mouseenter)="showComment($event, project.comments)" (mouseleave)="hideComment()" (click)="showComment($event, project.comments)">
+                </ng-container>
+            </div>
         </div>
     </ng-container>
     <ng-template #noProjectsFound>
@@ -159,3 +165,7 @@
         <button (click)="cancelBatchMode()">Annuleer</button>
     </form>
 </infiltro-modal>
+
+<div class="hoverComment" *ngIf="hoverComment" [style.top]="hoverY + 'px'" [style.left]="hoverX + 'px'">
+    {{hoverComment}}
+</div>
