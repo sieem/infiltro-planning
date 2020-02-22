@@ -30,13 +30,7 @@ export class FormService {
   }
 
   public removeElementInArray(array: any, id: string) {
-    for (const key in array) {
-      if (array[key]._id === id) {
-        array.splice(key, 1)
-        return array
-      }
-    }
-    return array
+    return array.filter(el => el._id !== id)
   }
 
   public updateElementInArray(array: any, element: any) {
