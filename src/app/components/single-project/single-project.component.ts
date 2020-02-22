@@ -122,7 +122,10 @@ export class SingleProjectComponent implements OnInit {
 
             this.hasCalendarItem = (res.eventId && res.calendarId) ? true : false
           },
-          err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
+          err => {
+            this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
+            this.router.navigate(['/'])
+          }
         )
       } else {
         this.newProject = true
