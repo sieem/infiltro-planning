@@ -5,8 +5,8 @@
       <div class="createdDateTime">{{formService.formatDateTime(comment.createdDateTime)}}</div>
       <div class="modifiedDateTime">{{formService.formatDateTime(comment.modifiedDateTime)}}</div>
       <div class="content">{{comment.content}}</div>
-      <div class="icon" (click)="editComment(comment)"><img src="assets/images/icon-edit.svg" alt=""></div>
-      <div class="icon" (click)="removeComment(comment)"><img src="assets/images/icon-delete.svg" alt=""></div>
+      <div class="icon" *ngIf="auth.getUserDetails().id == comment.user" (click)="editComment(comment)"><img src="assets/images/icon-edit.svg" alt=""></div>
+      <div class="icon" *ngIf="auth.isAdmin()" (click)="removeComment(comment)"><img src="assets/images/icon-delete.svg" alt=""></div>
     </div>
   </div>
   
