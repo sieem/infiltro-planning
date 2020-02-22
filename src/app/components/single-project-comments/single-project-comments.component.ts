@@ -82,7 +82,7 @@ export class SingleProjectCommentsComponent implements OnInit {
         this.comments = res
         this.commentForm.reset()
         this.commentForm.controls.user.setValue(this.auth.getUserDetails().id)
-        this.toastr.success('Comment saved');
+        this.toastr.success('Opmerking opgeslagen');
       },
       err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
     )
@@ -101,7 +101,7 @@ export class SingleProjectCommentsComponent implements OnInit {
   }
 
   removeComment(comment: any) {
-    if (confirm(`Are you sure to delete this comment?`)) {
+    if (confirm(`Zeker dat je deze opmerking wilt verwijderen?`)) {
       this.api.removeComment(this._projectId, comment._id).subscribe(
         (res: any) => this.comments = res,
         err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
