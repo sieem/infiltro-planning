@@ -370,13 +370,11 @@
   
 
   <div class="projectSection">
-    
     <div class="projectRow">
       <h2>Opmerkingen</h2>
     </div>
     <div class="projectRow textarea">
-      <app-single-project-comments [projectId]="projectForm.value._id"></app-single-project-comments>
-      
+      <app-single-project-comments [projectId]="projectForm.value._id" [newProject]="newProject"></app-single-project-comments>
     </div>
   </div>
 </form>
