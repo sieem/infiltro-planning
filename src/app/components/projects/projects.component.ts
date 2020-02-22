@@ -7,7 +7,7 @@ import { CompanyService } from 'src/app/services/company.service';
 import { ModalService } from 'src/app/services/modal.service';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { FormService } from 'src/app/services/form.service';
-import { R3TargetBinder } from '@angular/compiler';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-projects',
@@ -33,6 +33,7 @@ export class ProjectsComponent implements OnInit {
     private formBuilder: FormBuilder,
     public formService: FormService,
     private toastr: ToastrService,
+    public userService: UserService,
     private modalService: ModalService) { }
 
   ngOnInit() {
