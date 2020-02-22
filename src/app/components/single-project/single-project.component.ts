@@ -26,6 +26,7 @@ export class SingleProjectComponent implements OnInit {
   user: any
   mailModalOpened:boolean = false
   hasCalendarItem:boolean = false
+  newProject: boolean = true
 
 
   constructor(
@@ -83,6 +84,7 @@ export class SingleProjectComponent implements OnInit {
 
     this.route.params.subscribe(params => {
       if (params['projectId']) {
+        this.newProject = false
         this.projectId = params['projectId'];
 
         Object.keys(this.projectForm.controls).forEach(key => {
@@ -123,6 +125,7 @@ export class SingleProjectComponent implements OnInit {
           err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
         )
       } else {
+        this.newProject = true
         this.api.generateProjectId().subscribe(
           res => this.projectForm.controls._id.setValue(res),
           err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
@@ -172,6 +175,7 @@ export class SingleProjectComponent implements OnInit {
 
     this.api.saveProject(formData).subscribe(
       (res: any) => {
+        this.newProject = false
         this.projectId = res._id
         this.toastr.success('Project saved');
         Object.keys(this.projectForm.controls).forEach(key => {

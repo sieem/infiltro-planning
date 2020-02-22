@@ -14,6 +14,7 @@ import { UserService } from 'src/app/services/user.service';
 export class SingleProjectCommentsComponent implements OnInit {
 
   _projectId: string;
+  @Input('newProject') newProject: boolean;
   @Input() set projectId(projectId: string) {
     this._projectId = (projectId && projectId.trim());
     if (this._projectId) this.getComments(this._projectId)
