@@ -108,4 +108,8 @@ export class SingleProjectCommentsComponent implements OnInit {
       )
     }
   }
+
+  commentModified(comment: any) {
+    return comment.createdDateTime !== comment.modifiedDateTime
+  }
 }

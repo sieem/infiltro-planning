@@ -238,11 +238,6 @@ export class SingleProjectComponent implements OnInit {
     this.projectEditStates[inputName] = state
   }
 
-  newlineToBr(value) {
-    if (value && typeof value == "string")
-      return value.replace(/\n/g, "<br>")
-  }
-
   changeInvoicedStatus() {
     this.projectForm.value.invoiced = !this.projectForm.value.invoiced
   }
