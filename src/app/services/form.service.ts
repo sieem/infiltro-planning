@@ -28,4 +28,24 @@ export class FormService {
     if (returnDate === 'Invalid date') return 'Nog te plannen'
     else return returnDate
   }
+
+  public removeElementInArray(array: any, id: string) {
+    for (const key in array) {
+      if (array[key]._id === id) {
+        array.splice(key, 1)
+        return array
+      }
+    }
+    return array
+  }
+
+  public updateElementInArray(array: any, element: any) {
+    for (const key in array) {
+      if (array[key]._id === element._id) {
+        array[key] = element
+        return array
+      }
+    }
+    return array
+  }
 }

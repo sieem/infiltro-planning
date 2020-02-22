@@ -72,7 +72,7 @@ export class AdminUserComponent implements OnInit {
       this.editState = false
       this.api.editUser(formData).subscribe(
         (res: any) => {
-          this.userService.users = this.updateElementInArray(this.userService.users, res)
+          this.userService.users = this.formService.updateElementInArray(this.userService.users, res)
           this.registerForm.reset()
           this.toastr.success('User saved');
         },
@@ -100,31 +100,11 @@ export class AdminUserComponent implements OnInit {
       if (confirm(`Are you really sure you want to delete ${user.email}???`)) {
         this.api.removeUser(user._id).subscribe(
           (res: any) => {
-            this.userService.users = this.removeElementInArray(this.userService.users, user._id)
+            this.userService.users = this.formService.removeElementInArray(this.userService.users, user._id)
           },
           err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
         )
       }
     }
-  }
-
-  removeElementInArray(array: any, id: string) {
-    for (const key in array) {
-      if (array[key]._id === id) {
-        array.splice(key, 1)
-        return array
-      }
-    }
-    return array
-  }
-
-  updateElementInArray(array: any, element: any) {
-    for (const key in array) {
-      if (array[key]._id === element._id) {
-        array[key] = element
-        return array
-      }
-    }
-    return array
   }
 }

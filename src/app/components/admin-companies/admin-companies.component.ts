@@ -58,7 +58,7 @@ export class AdminCompaniesComponent implements OnInit {
         if (!this.companyForm.value._id) {
           this.companyService.companies.push(res)
         } else {
-          this.companyService.companies = this.updateElementInArray(this.companyService.companies, res)
+          this.companyService.companies = this.formService.updateElementInArray(this.companyService.companies, res)
         }
         
         this.companyForm.reset()
@@ -84,30 +84,10 @@ export class AdminCompaniesComponent implements OnInit {
     if (confirm(`Are you sure to delete ${company.name}?`)) {
       this.api.removeCompany(company._id).subscribe(
         (res: any) => {
-          this.companyService.companies = this.removeElementInArray(this.companyService.companies, company._id)
+          this.companyService.companies = this.formService.removeElementInArray(this.companyService.companies, company._id)
         },
         err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
       )
     }
-  }
-
-  removeElementInArray(array:any , id:string) {
-    for (const key in array) {
-        if (array[key]._id === id) {
-          array.splice(key,1)
-          return array
-        }
-    }
-    return array
-  }
-
-  updateElementInArray(array: any, element: any) {
-    for (const key in array) {
-      if (array[key]._id === element._id) {
-        array[key] = element
-        return array
-      }
-    }
-    return array
   }
 }
