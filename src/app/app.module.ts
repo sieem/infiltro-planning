@@ -28,6 +28,7 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
 import { ModalDirective } from './directives/modal.directive';
 import { MailProjectComponent } from './components/mail-project/mail-project.component';
 import { PricesComponent } from './components/prices/prices.component';
+import { SingleProjectCommentsComponent } from './components/single-project-comments/single-project-comments.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,7 +43,8 @@ import { PricesComponent } from './components/prices/prices.component';
     ResetPasswordComponent,
     ModalDirective,
     MailProjectComponent,
-    PricesComponent
+    PricesComponent,
+    SingleProjectCommentsComponent
   ],
   imports: [
     BrowserModule,

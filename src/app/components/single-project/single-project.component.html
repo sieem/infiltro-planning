@@ -370,19 +370,13 @@
   
 
   <div class="projectSection">
+    
     <div class="projectRow">
       <h2>Opmerkingen</h2>
     </div>
     <div class="projectRow textarea">
-      <!-- <label for="comments">Opmerkingen&nbsp;<span *ngIf="projectForm.controls.comments.validator !== null">*</span></label> -->
-      <div class="inputField">
-        <div class="read" (click)="changeEditState('comments', true)" [ngClass]="{'empty': isEmpty('comments')}" *ngIf="!projectEditStates.comments"
-          [innerHTML]="newlineToBr(projectForm.value.comments)"></div>
-        <div class="write" *ngIf="projectEditStates.comments">
-          <textarea name="comments" id="comments" formControlName="comments" rows="3"></textarea>
-          <p *ngIf="formService.checkInputField(projectForm, 'comments', submitted)" class="error">!</p>
-        </div>
-      </div>
+      <app-single-project-comments [projectId]="projectForm.value._id"></app-single-project-comments>
+      
     </div>
   </div>
 </form>

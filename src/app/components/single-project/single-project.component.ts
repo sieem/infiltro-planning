@@ -75,8 +75,6 @@ export class SingleProjectComponent implements OnInit {
       datePlanned: [''],
       hourPlanned: [''],
       status: ['toPlan'],
-
-      comments: [''],
     })
 
     Object.keys(this.projectForm.controls).forEach(key => {
@@ -118,7 +116,6 @@ export class SingleProjectComponent implements OnInit {
               datePlanned: moment(res.datePlanned).format(this.formService.dateFormat),
               hourPlanned: res.hourPlanned,
               status: res.status,
-              comments: res.comments,
             })
 
             this.hasCalendarItem = (res.eventId && res.calendarId) ? true : false
@@ -172,7 +169,6 @@ export class SingleProjectComponent implements OnInit {
     formData.append('datePlanned', this.projectForm.value.datePlanned)
     formData.append('hourPlanned', this.projectForm.value.hourPlanned)
     formData.append('status', this.projectForm.value.status)
-    formData.append('comments', this.projectForm.value.comments)
 
     this.api.saveProject(formData).subscribe(
       (res: any) => {
@@ -239,7 +235,7 @@ export class SingleProjectComponent implements OnInit {
   }
 
   newlineToBr(value) {
-    if (value)
+    if (value && typeof value == "string")
       return value.replace(/\n/g, "<br>")
   }
 
