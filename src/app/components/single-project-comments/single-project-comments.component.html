@@ -1,31 +1,27 @@
 <ng-container *ngIf="!newProject;else newProjectContainer">
-  <div class="list comments">
-    <div class="item" *ngFor="let comment of comments">
-      <div class="user">{{userService.userToName(comment.user)}}</div>
-      <div class="createdDateTime">{{formService.formatDateTime(comment.createdDateTime)}}</div>
-      <div class="modifiedDateTime">{{formService.formatDateTime(comment.modifiedDateTime)}}</div>
-      <div class="content">{{comment.content}}</div>
-      <div class="icon" *ngIf="auth.getUserDetails().id == comment.user" (click)="editComment(comment)"><img src="assets/images/icon-edit.svg" alt=""></div>
-      <div class="icon" *ngIf="auth.isAdmin()" (click)="removeComment(comment)"><img src="assets/images/icon-delete.svg" alt=""></div>
-    </div>
-  </div>
-  
-  <form [formGroup]="commentForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="commentForm" (ngSubmit)="onSubmit()">
     <div class="inputGroup">
-      <label for="content">content</label>
-      <input type="text" name="content" formControlName="content">
-      <p *ngIf="formService.checkInputField(commentForm, 'content', submitted)" class="error">!</p>
+      <textarea name="content" id="content" formControlName="content" rows="3"></textarea>
     </div>
   
     <div class="inputGroup right">
       <ng-container *ngIf="editState; else elseTemplate">
-        <input type="submit" value="edit comment">
+        <input type="submit" value="Opmerking aanpassen">
       </ng-container>
       <ng-template #elseTemplate>
-        <input type="submit" value="add comment">
+        <input type="submit" value="Opmerking toevoegen">
       </ng-template>
     </div>
   </form>
+  <div class="list comments">
+    <div class="comment" *ngFor="let comment of _comments">
+      <div class="user">{{userService.userToName(comment.user)}}</div>
+      <div class="modifiedDateTime">{{formService.formatDateTime(comment.modifiedDateTime)}} <span *ngIf="commentModified(comment)">*</span></div>
+      <div class="content" [innerHTML]="formService.newlineToBr(comment.content)"></div>
+      <div class="icon edit" *ngIf="auth.getUserDetails().id == comment.user" (click)="editComment(comment)"><img src="assets/images/icon-edit.svg" alt=""></div>
+      <div class="icon delete" *ngIf="auth.isAdmin()" (click)="removeComment(comment)"><img src="assets/images/icon-delete.svg" alt=""></div>
+    </div>
+  </div>
 </ng-container>
 <ng-template #newProjectContainer>
   Opmerkingen kunnen niet toegevoegd worden op nieuwe projecten, gelieve eerst op te slaan.

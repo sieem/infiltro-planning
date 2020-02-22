@@ -180,7 +180,7 @@
       <label for="extraInfoAddress">Bijkomende aanwijzingen&nbsp;<span *ngIf="projectForm.controls.extraInfoAddress.validator !== null">*</span></label>
       <div class="inputField">
         <div class="read" (click)="changeEditState('extraInfoAddress', true)" [ngClass]="{'empty': isEmpty('extraInfoAddress')}"
-          *ngIf="!projectEditStates.extraInfoAddress" [innerHTML]="newlineToBr(projectForm.value.extraInfoAddress)">
+          *ngIf="!projectEditStates.extraInfoAddress" [innerHTML]="formService.newlineToBr(projectForm.value.extraInfoAddress)">
         </div>
         <div class="write" *ngIf="projectEditStates.extraInfoAddress">
           <textarea name="extraInfoAddress" id="extraInfoAddress" formControlName="extraInfoAddress"
@@ -238,7 +238,7 @@
       <label for="extraInfoContact">Bijkomende gegevens&nbsp;<span *ngIf="projectForm.controls.extraInfoContact.validator !== null">*</span></label>
       <div class="inputField">
         <div class="read" (click)="changeEditState('extraInfoContact', true)" [ngClass]="{'empty': isEmpty('extraInfoContact')}"
-          *ngIf="!projectEditStates.extraInfoContact" [innerHTML]="newlineToBr(projectForm.value.extraInfoContact)">
+          *ngIf="!projectEditStates.extraInfoContact" [innerHTML]="formService.newlineToBr(projectForm.value.extraInfoContact)">
         </div>
         <div class="write" *ngIf="projectEditStates.extraInfoContact">
           <textarea name="extraInfoContact" id="extraInfoContact" formControlName="extraInfoContact"
@@ -257,7 +257,7 @@
       <label for="ATest">A-test (m<sup>2</sup>)&nbsp;<span *ngIf="projectForm.controls.ATest.validator !== null">*</span></label>
       <div class="inputField">
         <div class="read" (click)="changeEditState('ATest', true)" [ngClass]="{'empty': isEmpty('ATest')}" *ngIf="!projectEditStates.ATest"
-          [innerHTML]="newlineToBr(projectForm.value.ATest)"></div>
+          [innerHTML]="formService.newlineToBr(projectForm.value.ATest)"></div>
         <div class="write" *ngIf="projectEditStates.ATest">
           <textarea name="ATest" id="ATest" formControlName="ATest" rows="3"></textarea>
           <p *ngIf="formService.checkInputField(projectForm, 'ATest', submitted)" class="error">!</p>
@@ -269,7 +269,7 @@
       <label for="v50Value">v50-waarde (m<sup>3</sup>/h.m<sup>2</sup>)&nbsp;<span *ngIf="projectForm.controls.v50Value.validator !== null">*</span></label>
       <div class="inputField">
         <div class="read" (click)="changeEditState('v50Value', true)" [ngClass]="{'empty': isEmpty('v50Value')}" *ngIf="!projectEditStates.v50Value"
-          [innerHTML]="newlineToBr(projectForm.value.v50Value)"></div>
+          [innerHTML]="formService.newlineToBr(projectForm.value.v50Value)"></div>
         <div class="write" *ngIf="projectEditStates.v50Value">  
           <textarea name="v50Value" id="v50Value" formControlName="v50Value" rows="3"></textarea>
           <p *ngIf="formService.checkInputField(projectForm, 'v50Value', submitted)" class="error">!</p>
@@ -281,7 +281,7 @@
         <label for="protectedVolume">Beschermd volume (m<sup>3</sup>)&nbsp;<span *ngIf="projectForm.controls.protectedVolume.validator !== null">*</span></label>
         <div class="inputField">
           <div class="read" (click)="changeEditState('protectedVolume', true)" [ngClass]="{'empty': isEmpty('protectedVolume')}" *ngIf="!projectEditStates.protectedVolume"
-            [innerHTML]="newlineToBr(projectForm.value.protectedVolume)"></div>
+            [innerHTML]="formService.newlineToBr(projectForm.value.protectedVolume)"></div>
           <div class="write" *ngIf="projectEditStates.protectedVolume">
             <textarea name="protectedVolume" id="protectedVolume" formControlName="protectedVolume" rows="3"></textarea>
             <p *ngIf="formService.checkInputField(projectForm, 'protectedVolume', submitted)" class="error">!</p>
