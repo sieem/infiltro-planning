@@ -13,6 +13,7 @@ export class FormService {
 
   public dateFormat: string = 'YYYY-MM-DD'
   public visualDateFormat: string = 'dd DD-MM-YYYY'
+  public visualDateTimeFormat: string = 'dd DD-MM-YYYY HH:mm'
   public mailDateFormat: string = 'dddd DD-MM-YYYY'
 
   constructor() {
@@ -26,6 +27,12 @@ export class FormService {
   public formatDate(value) {
     let returnDate = moment(value, "YYYY-MM-DD").format(this.visualDateFormat)
     if (returnDate === 'Invalid date') return 'Nog te plannen'
+    else return returnDate
+  }
+
+  public formatDateTime(value) {
+    let returnDate = moment(value).format(this.visualDateTimeFormat)
+    if (returnDate === 'Invalid date') return 'Ongeldige datum'
     else return returnDate
   }
 

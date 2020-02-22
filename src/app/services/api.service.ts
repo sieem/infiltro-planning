@@ -89,5 +89,17 @@ export class ApiService {
   sendMail(formData: FormData) {
     return this.http.post(this.baseUrl + '/send-project-mail', formData)
   }
+
+  getComments(projectId: string) {
+    return this.http.get(this.baseUrl + '/get-comments/' + projectId)
+  }
+
+  saveComment(projectId: string, comment: FormData) {
+    return this.http.post(this.baseUrl + '/save-comment/' + projectId, comment)
+  }
+
+  removeComment(projectId: string, commentId: string) {
+    return this.http.delete(this.baseUrl + '/remove-comment/' + projectId + '/' + commentId)
+  }
   
 }
