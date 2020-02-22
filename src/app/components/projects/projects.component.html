@@ -138,7 +138,7 @@
             </div>
 
             <div class="commentGiven">
-                <ng-container *ngIf="project.comments">
+                <ng-container *ngIf="project.comments.length > 0">
                     <img src="/assets/images/icon-comment.svg" alt="" (mouseenter)="showComment($event, project.comments)" (mouseleave)="hideComment()" (click)="showComment($event, project.comments)">
                 </ng-container>
             </div>
@@ -167,5 +167,11 @@
 </infiltro-modal>
 
 <div class="hoverComment" *ngIf="hoverComment" [style.top]="hoverY + 'px'" [style.left]="hoverX + 'px'">
-    {{hoverComment}}
+    <div class="list comments">
+        <div class="comment" *ngFor="let comment of hoverComment">
+            <div class="user">{{userService.userToName(comment.user)}}</div>
+            <div class="modifiedDateTime">{{formService.formatDateTime(comment.modifiedDateTime)}}</div>
+            <div class="content" [innerHTML]="formService.newlineToBr(comment.content)"></div>
+        </div>
+  </div>
 </div>
