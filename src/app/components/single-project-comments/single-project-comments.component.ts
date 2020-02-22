@@ -20,7 +20,11 @@ export class SingleProjectCommentsComponent implements OnInit {
     if (this._projectId) this.getComments(this._projectId)
   }
 
-  comments: any;
+  _comments: any;
+  @Input() set comments(comments: any) {
+    this._comments = comments.reverse();
+  }
+
   commentForm: FormGroup;
   submitted = false;
   editState = false;
@@ -36,11 +40,11 @@ export class SingleProjectCommentsComponent implements OnInit {
 
   ngOnInit() {
     this.commentForm = this.formBuilder.group({
-      _id: [''],
+      _id: [],
       content: ['', Validators.required],
       user: [this.auth.getUserDetails().id],
-      createdDateTime: [''],
-      modifiedDateTime: [''],
+      createdDateTime: [],
+      modifiedDateTime: [],
     })
   }
 
@@ -58,7 +62,7 @@ export class SingleProjectCommentsComponent implements OnInit {
     this.submitted = true;
 
     if (this.commentForm.invalid) {
-      this.toastr.error('Form invalid');
+      this.toastr.error('Lege opmerking');
       return;
     }
 
@@ -67,16 +71,17 @@ export class SingleProjectCommentsComponent implements OnInit {
 
   addComment() {
     const formData = new FormData();
-    formData.append('_id', this.commentForm.value._id)
+    formData.append('_id', this.commentForm.value._id || '')
     formData.append('user', this.commentForm.value.user)
-    formData.append('createdDateTime', this.commentForm.value.createdDateTime)
-    formData.append('modifiedDateTime', this.commentForm.value.modifiedDateTime)
+    formData.append('createdDateTime', this.commentForm.value.createdDateTime || '')
+    formData.append('modifiedDateTime', this.commentForm.value.modifiedDateTime || '')
     formData.append('content', this.commentForm.value.content)
 
     this.api.saveComment(this._projectId, formData).subscribe(
       (res: any) => {
         this.comments = res
         this.commentForm.reset()
+        this.commentForm.controls.user.setValue(this.auth.getUserDetails().id)
         this.toastr.success('Comment saved');
       },
       err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
@@ -98,9 +103,7 @@ export class SingleProjectCommentsComponent implements OnInit {
   removeComment(comment: any) {
     if (confirm(`Are you sure to delete this comment?`)) {
       this.api.removeComment(this._projectId, comment._id).subscribe(
-        (res: any) => {
-          this.comments = res
-        },
+        (res: any) => this.comments = res,
         err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
       )
     }
