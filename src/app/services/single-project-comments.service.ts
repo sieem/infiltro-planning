@@ -50,7 +50,6 @@ export class SingleProjectCommentsService {
     this.submitted = true;
 
     if (this.commentForm.invalid) {
-      this.toastr.error('Lege opmerking');
       return;
     }
 

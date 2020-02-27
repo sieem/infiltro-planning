@@ -187,7 +187,7 @@ export class SingleProjectComponent implements OnInit {
 
     this.api.saveProject(formData).subscribe(
       (res: any) => {
-        this.singleProjectCommentService.addComment();
+        this.singleProjectCommentService.onSubmit();
 
         this.newProject = false
         this.projectId = res._id
