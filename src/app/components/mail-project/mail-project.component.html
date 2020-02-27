@@ -1,10 +1,12 @@
-<form *ngIf="auth.isAdmin()" [formGroup]="mailForm" (ngSubmit)="onSubmit()">
-  <div class="inputGroup">
-    <div class="left controls">
-      <div (click)="goBack()"><img src="/assets/images/icon-back.svg" alt=""></div>
+<div class="goBackRow">
+  <div class="wrapper">
+    <div class="goBack" (click)="goBack()">
+      <img src="/assets/images/icon-back.svg" alt="">
     </div>
   </div>
-  
+</div>
+
+<form *ngIf="auth.isAdmin()" [formGroup]="mailForm" (ngSubmit)="onSubmit()">
   <div class="inputGroup">
     <label for="to">Naar e-mailadres</label>
     <input type="email" name="to" formControlName="to">
@@ -33,12 +35,14 @@
     <input type="submit" value="Mail verzenden">
   </div>
 </form>
-<div class="wrapper mailList" *ngIf="project">
+<div class="wrapper mailList noBorder" *ngIf="project">
   <div class="mail" *ngFor="let mail of project.mails">
-    <div class="sender">{{userService.userToName(mail.sender)}}</div>
-    <div class="receiver">{{mail.receiver}}</div>
-    <div class="cc">{{mail.cc}}</div>
-    <div class="dateSent">{{mail.dateSent}}</div>
-    <div class="mailBody" [innerHTML]="mail.body"></div>
+    <div class="header">
+      <div class="sender"><strong>Van:</strong> {{userService.userToName(mail.sender)}}</div>
+      <div class="receiver"><strong>Aan:</strong> {{mail.receiver}}</div>
+      <div class="cc" *ngIf="mail.cc"><strong>Cc:</strong> {{mail.cc}}</div>
+      <div class="dateSent"><strong>Datum:</strong> {{mail.dateSent}}</div>
+    </div>
+    <div class="body" [innerHTML]="mail.body"></div>
   </div>
 </div>
