@@ -258,17 +258,14 @@ export class SingleProjectComponent implements OnInit {
   }
 
   openProjectMail() {
-    if (this.auth.isAdmin()) {
       if (this.projectForm.touched) {
         this.toastr.error("Save the project first before you can go to the mailing tool.", "Project isn't saved yet")
       } else {
         this.router.navigate(['/project/' + this.projectId + '/mail'])
       }
-      
-    } else {
+
       return // not yet ready
       this.modalService.open("mail-project-modal")
-    }
   }
 
   updateStatusDropdowns() {
