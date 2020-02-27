@@ -29,6 +29,7 @@ import { ModalDirective } from './directives/modal.directive';
 import { MailProjectComponent } from './components/mail-project/mail-project.component';
 import { PricesComponent } from './components/prices/prices.component';
 import { SingleProjectCommentsComponent } from './components/single-project-comments/single-project-comments.component';
+import { ReversePipe } from './pipes/reverse.pipe';
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,7 +45,8 @@ import { SingleProjectCommentsComponent } from './components/single-project-comm
     ModalDirective,
     MailProjectComponent,
     PricesComponent,
-    SingleProjectCommentsComponent
+    SingleProjectCommentsComponent,
+    ReversePipe
   ],
   imports: [
     BrowserModule,

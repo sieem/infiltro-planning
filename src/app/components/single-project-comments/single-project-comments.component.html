@@ -1,5 +1,5 @@
 <ng-container *ngIf="!newProject;else newProjectContainer">
-    <form [formGroup]="commentForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="singleProjectCommentsService.commentForm" (ngSubmit)="singleProjectCommentsService.onSubmit()">
     <div class="inputGroup">
       <textarea name="content" id="content" formControlName="content" rows="3"></textarea>
     </div>
@@ -14,12 +14,12 @@
     </div>
   </form>
   <div class="list comments">
-    <div class="comment" *ngFor="let comment of _comments">
+    <div class="comment" *ngFor="let comment of singleProjectCommentsService.comments | reverse">
       <div class="user">{{userService.userToName(comment.user)}}</div>
       <div class="modifiedDateTime">{{formService.formatDateTime(comment.modifiedDateTime)}} <span *ngIf="commentModified(comment)">*</span></div>
       <div class="content" [innerHTML]="formService.newlineToBr(comment.content)"></div>
-      <div class="icon edit" *ngIf="auth.getUserDetails().id == comment.user" (click)="editComment(comment)"><img src="assets/images/icon-edit.svg" alt=""></div>
-      <div class="icon delete" *ngIf="auth.isAdmin()" (click)="removeComment(comment)"><img src="assets/images/icon-delete.svg" alt=""></div>
+      <div class="icon edit" *ngIf="auth.getUserDetails().id == comment.user" (click)="singleProjectCommentsService.editComment(comment)"><img src="assets/images/icon-edit.svg" alt=""></div>
+      <div class="icon delete" *ngIf="auth.isAdmin()" (click)="singleProjectCommentsService.removeComment(comment)"><img src="assets/images/icon-delete.svg" alt=""></div>
     </div>
   </div>
 </ng-container>

@@ -10,6 +10,7 @@ import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { ModalService } from 'src/app/services/modal.service';
 import { UserService } from 'src/app/services/user.service';
+import { SingleProjectCommentsService } from 'src/app/services/single-project-comments.service';
 
 
 @Component({
@@ -39,6 +40,7 @@ export class SingleProjectComponent implements OnInit {
     public auth: AuthService,
     private route: ActivatedRoute,
     public projectService: ProjectService,
+    public singleProjectCommentService: SingleProjectCommentsService,
     private toastr: ToastrService,
     private modalService: ModalService) { }
 
@@ -178,6 +180,8 @@ export class SingleProjectComponent implements OnInit {
 
     this.api.saveProject(formData).subscribe(
       (res: any) => {
+        this.singleProjectCommentService.addComment();
+
         this.newProject = false
         this.projectId = res._id
         this.toastr.success('Project saved');
