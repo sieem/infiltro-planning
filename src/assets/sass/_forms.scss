@@ -50,6 +50,10 @@ form,
     max-width: 600px;
     border-left: 1px solid $infiltro-border-grey;
     border-right: 1px solid $infiltro-border-grey;
+
+    &.noBorder {
+        border: none;
+    }
 }
 
 form {
