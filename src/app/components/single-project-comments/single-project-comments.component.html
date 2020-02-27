@@ -4,7 +4,7 @@
   </div>
 
   <div class="inputGroup right">
-    <ng-container *ngIf="editState; else elseTemplate">
+    <ng-container *ngIf="singleProjectCommentsService.editState; else elseTemplate">
       <input type="submit" value="Opmerking aanpassen">
     </ng-container>
     <ng-template #elseTemplate>
