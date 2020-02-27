@@ -38,7 +38,6 @@ const routes: Routes = [
     path: 'project/:projectId/mail',
     component: MailProjectComponent,
     canActivate: [AuthGuard],
-    data: { roles: ['admin'] }
   },
   {
     path: 'kaart',
