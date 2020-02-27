@@ -1,28 +1,23 @@
-<ng-container *ngIf="!newProject;else newProjectContainer">
-    <form [formGroup]="singleProjectCommentsService.commentForm" (ngSubmit)="singleProjectCommentsService.onSubmit()">
-    <div class="inputGroup">
-      <textarea name="content" id="content" formControlName="content" rows="3"></textarea>
-    </div>
-  
-    <div class="inputGroup right">
-      <ng-container *ngIf="editState; else elseTemplate">
-        <input type="submit" value="Opmerking aanpassen">
-      </ng-container>
-      <ng-template #elseTemplate>
-        <input type="submit" value="Opmerking toevoegen">
-      </ng-template>
-    </div>
-  </form>
-  <div class="list comments">
-    <div class="comment" *ngFor="let comment of singleProjectCommentsService.comments | reverse">
-      <div class="user">{{userService.userToName(comment.user)}}</div>
-      <div class="modifiedDateTime">{{formService.formatDateTime(comment.modifiedDateTime)}} <span *ngIf="commentModified(comment)">*</span></div>
-      <div class="content" [innerHTML]="formService.newlineToBr(comment.content)"></div>
-      <div class="icon edit" *ngIf="auth.getUserDetails().id == comment.user" (click)="singleProjectCommentsService.editComment(comment)"><img src="assets/images/icon-edit.svg" alt=""></div>
-      <div class="icon delete" *ngIf="auth.isAdmin()" (click)="singleProjectCommentsService.removeComment(comment)"><img src="assets/images/icon-delete.svg" alt=""></div>
-    </div>
+  <form [formGroup]="singleProjectCommentsService.commentForm" (ngSubmit)="singleProjectCommentsService.onSubmit()">
+  <div class="inputGroup">
+    <textarea name="content" id="content" formControlName="content" rows="3"></textarea>
   </div>
-</ng-container>
-<ng-template #newProjectContainer>
-  Opmerkingen kunnen niet toegevoegd worden op nieuwe projecten, gelieve eerst op te slaan.
-</ng-template>
+
+  <div class="inputGroup right">
+    <ng-container *ngIf="editState; else elseTemplate">
+      <input type="submit" value="Opmerking aanpassen">
+    </ng-container>
+    <ng-template #elseTemplate>
+      <input type="submit" *ngIf="!newProject" value="Opmerking toevoegen">
+    </ng-template>
+  </div>
+</form>
+<div class="list comments">
+  <div class="comment" *ngFor="let comment of singleProjectCommentsService.comments | reverse">
+    <div class="user">{{userService.userToName(comment.user)}}</div>
+    <div class="modifiedDateTime">{{formService.formatDateTime(comment.modifiedDateTime)}} <span *ngIf="commentModified(comment)">*</span></div>
+    <div class="content" [innerHTML]="formService.newlineToBr(comment.content)"></div>
+    <div class="icon edit" *ngIf="auth.getUserDetails().id == comment.user" (click)="singleProjectCommentsService.editComment(comment)"><img src="assets/images/icon-edit.svg" alt=""></div>
+    <div class="icon delete" *ngIf="auth.isAdmin()" (click)="singleProjectCommentsService.removeComment(comment)"><img src="assets/images/icon-delete.svg" alt=""></div>
+  </div>
+</div>
