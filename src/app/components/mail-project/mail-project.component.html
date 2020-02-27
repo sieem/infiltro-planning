@@ -41,7 +41,7 @@
       <div class="sender"><strong>Van:</strong> {{userService.userToName(mail.sender)}}</div>
       <div class="receiver"><strong>Aan:</strong> {{mail.receiver}}</div>
       <div class="cc" *ngIf="mail.cc"><strong>Cc:</strong> {{mail.cc}}</div>
-      <div class="dateSent"><strong>Datum:</strong> {{mail.dateSent}}</div>
+      <div class="dateSent"><strong>Datum:</strong> {{formService.formatDateTime(mail.dateSent)}}</div>
     </div>
     <div class="body" [innerHTML]="mail.body"></div>
   </div>
