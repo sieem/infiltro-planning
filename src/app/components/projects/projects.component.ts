@@ -21,7 +21,7 @@ export class ProjectsComponent implements OnInit {
   batchForm: FormGroup;
   submitted: boolean = false;
   ctrlKeyDown: boolean = false;
-  hoverComment: string;
+  currentHoverComment: string;
   hoverX: number;
   hoverY: number;
 
@@ -79,18 +79,17 @@ export class ProjectsComponent implements OnInit {
     return (this.projectService.sortOptions.field === "datePlanned" && this.projectService.sortOptions.order === "asc" && new Date(project.datePlanned) > new Date())
   }
 
-  showComment(event, comment:string) {
-    if (this.hoverComment) {
+  showComment(projectId:string) {
+    if (this.currentHoverComment) {
       this.hideComment()
       return
     }
-    this.hoverComment = comment
-    this.hoverX = event.target.offsetLeft + event.target.width
-    this.hoverY = event.target.offsetTop
+
+    this.currentHoverComment = projectId
   }
 
   hideComment() {
-    this.hoverComment = ''
+    this.currentHoverComment = ''
   }
 
   cancelBatchMode() {
