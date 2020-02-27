@@ -28,6 +28,7 @@ export class SingleProjectComponent implements OnInit {
   mailModalOpened:boolean = false
   hasCalendarItem:boolean = false
   newProject: boolean = true
+  projectIsSaving: boolean = false
 
 
   constructor(
@@ -146,10 +147,16 @@ export class SingleProjectComponent implements OnInit {
       return;
     }
 
+    if (this.projectIsSaving) {
+      this.toastr.error('Project is reeds aan het opslaan');
+      return;
+    }
+
     this.saveProject();
   }
 
   saveProject() {
+    this.projectIsSaving = true;
 
     const formData = new FormData();
 
@@ -195,6 +202,7 @@ export class SingleProjectComponent implements OnInit {
         formData.forEach((el, key) => formDataAsObj = {...formDataAsObj, [key]: res[key]})
         formDataAsObj.datePlanned = formDataAsObj.datePlanned || 'Invalid Date'
         this.projectForm.setValue(formDataAsObj)
+        this.projectIsSaving = false;
         this.router.navigate(['/project/' + this.projectId])
       },
       err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
