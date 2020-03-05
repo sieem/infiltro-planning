@@ -22,9 +22,9 @@ export class AdminCompaniesComponent implements OnInit {
     private formBuilder: FormBuilder,
     private api: ApiService,
     private router: Router,
-    private auth: AuthService,
-    private formService: FormService,
-    private companyService: CompanyService,
+    public auth: AuthService,
+    public formService: FormService,
+    public companyService: CompanyService,
     private toastr: ToastrService) { }
 
   ngOnInit() {
