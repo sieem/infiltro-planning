@@ -5,6 +5,7 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { FormService } from 'src/app/services/form.service';
 import { CompanyService } from 'src/app/services/company.service';
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-admin-companies',
@@ -21,8 +22,9 @@ export class AdminCompaniesComponent implements OnInit {
     private formBuilder: FormBuilder,
     private api: ApiService,
     private router: Router,
-    public formService: FormService,
-    public companyService: CompanyService,
+    private auth: AuthService,
+    private formService: FormService,
+    private companyService: CompanyService,
     private toastr: ToastrService) { }
 
   ngOnInit() {
