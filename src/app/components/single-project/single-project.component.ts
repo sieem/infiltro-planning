@@ -203,6 +203,7 @@ export class SingleProjectComponent implements OnInit {
         formDataAsObj.datePlanned = formDataAsObj.datePlanned || 'Invalid Date'
         this.projectForm.setValue(formDataAsObj)
         this.projectIsSaving = false;
+        this.hasCalendarItem = (res.eventId && res.calendarId) ? true : false
         this.router.navigate(['/project/' + this.projectId])
       },
       err => {
