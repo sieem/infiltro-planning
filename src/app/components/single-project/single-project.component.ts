@@ -205,7 +205,10 @@ export class SingleProjectComponent implements OnInit {
         this.projectIsSaving = false;
         this.router.navigate(['/project/' + this.projectId])
       },
-      err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
+      err => {
+        this.projectIsSaving = false;
+        this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
+      }
     )
   }
 
