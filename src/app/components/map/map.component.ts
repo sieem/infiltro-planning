@@ -73,26 +73,31 @@ export class MapComponent implements OnInit {
               pointerUrl = this.pointers['warning'][project.status] || this.pointers['warning']['default']
             }
 
-            this.markers.push(
-              {
-                id: project._id,
-                lat: project.lat,
-                lng: project.lng,
-                title: project.projectName,
-                email: project.email,
-                tel: project.tel,
-                street: project.street,
-                city: project.city,
-                postalCode: project.postalCode,
-                datePlanned: project.datePlanned,
-                hourPlanned: project.hourPlanned,
-                status: project.status,
-                executor: project.executor,
-                pointerUrl: pointerUrl,
-                company: project.company,
-                calendarLink: project.calendarLink
-              }
-            )
+            if (project.lat && project.lng) {
+              this.markers.push(
+                {
+                  id: project._id,
+                  lat: project.lat,
+                  lng: project.lng,
+                  title: project.projectName,
+                  email: project.email,
+                  tel: project.tel,
+                  street: project.street,
+                  city: project.city,
+                  postalCode: project.postalCode,
+                  datePlanned: project.datePlanned,
+                  hourPlanned: project.hourPlanned,
+                  status: project.status,
+                  executor: project.executor,
+                  pointerUrl: pointerUrl,
+                  company: project.company,
+                  calendarLink: project.calendarLink
+                }
+              )
+            } else {
+              this.toastr.warning(`Projectnaam: ${project.projectName}`, 'Coördinaten niet gevonden')
+            }
+            
           }
         })
       },
