@@ -58,7 +58,6 @@ export class MapComponent implements OnInit {
   getProjects() {
     this.api.getProjects().subscribe(
       (res: any) => {
-        const now = new Date()
         res.forEach(project => {
           if (project.status === "toPlan" || project.status === "planned" || project.status === "toContact" || project.status === "proposalSent") {
             let pointerUrl = this.pointers.together.default
