@@ -4,6 +4,7 @@ $toPlan: #f38337;
 $proposalSent: #f38337;
 $planned: #2749ff;
 $onHold: #6c6c6c;
+$onHoldCovid19: #BF00FF;
 $executed: #0f7001;
 $reportAvailable: #627c34;
 $conformityAvailable: #25d00d;
@@ -47,6 +48,10 @@ $completed: #8ab047;
 .onHold,
 .onHoldByClient {
     @include status-color($onHold);
+}
+
+.onHoldCovid19 {
+    @include status-color($onHoldCovid19);
 }
 
 .executed {
