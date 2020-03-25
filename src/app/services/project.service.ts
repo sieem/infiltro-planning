@@ -79,6 +79,11 @@ export class ProjectService {
       filter: true
     },
     {
+      type: "onHoldCovid19",
+      name: "On - Hold (COVID-19)",
+      filter: true
+    },
+    {
       type: "onHoldByClient",
       name: "On - Hold door klant",
       filter: true
@@ -184,7 +189,7 @@ export class ProjectService {
   ]
 
   public activeFilter: any = {
-    status: ['toContact', 'toPlan', 'proposalSent', 'planned', 'executed', 'reportAvailable', 'conformityAvailable', 'onHold'],
+    status: ['toContact', 'toPlan', 'proposalSent', 'planned', 'executed', 'reportAvailable', 'conformityAvailable', 'onHold', 'onHoldCovid19'],
     executor: ['david', 'roel', 'together'],
     company: []
   }
