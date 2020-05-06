@@ -59,7 +59,7 @@ export class MapComponent implements OnInit {
     this.api.getProjects().subscribe(
       (res: any) => {
         res.forEach(project => {
-          if (project.status === "toPlan" || project.status === "planned" || project.status === "toContact" || project.status === "proposalSent") {
+          if (project.status === "toPlan" || project.status === "planned" || project.status === "toContact" || project.status === "proposalSent" || project.status === "onHoldCovid19") {
             let pointerUrl = this.pointers.together.default
 
             if (project.executor) {
