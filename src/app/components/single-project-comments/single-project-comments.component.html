@@ -18,6 +18,6 @@
     <div class="modifiedDateTime">{{formService.formatDateTime(comment.modifiedDateTime)}} <span *ngIf="commentModified(comment)">*</span></div>
     <div class="content" [innerHTML]="formService.newlineToBr(comment.content)"></div>
     <div class="icon edit" *ngIf="auth.getUserDetails().id == comment.user" (click)="singleProjectCommentsService.editComment(comment)"><img src="assets/images/icon-edit.svg" alt=""></div>
-    <div class="icon delete" *ngIf="auth.isAdmin()" (click)="singleProjectCommentsService.removeComment(comment)"><img src="assets/images/icon-delete.svg" alt=""></div>
+    <div class="icon delete" (click)="singleProjectCommentsService.removeComment(comment)"><img src="assets/images/icon-delete.svg" alt=""></div>
   </div>
 </div>
