@@ -1,0 +1,57 @@
+<form [formGroup]="singleProjectService.projectForm">
+    <div class="projectRow" [class]="type">
+        <label [for]="field"><span [innerHTML]='label'></span>&nbsp;<span *ngIf="singleProjectService.projectForm.controls[field].validator !== null">*</span></label>
+        <div class="inputField">
+            <div class="read" (click)="changeEditState(field, true)" [ngClass]="{'empty': isEmpty(field)}"
+                *ngIf="!singleProjectService.projectEditStates[field]">
+                <ng-container *ngIf="type === 'textarea'" [innerHTML]="formService.newlineToBr(singleProjectService.projectForm.value[field])"></ng-container>
+                <ng-container *ngIf="type !== 'textarea'">
+                    <ng-container [ngSwitch]="field">
+                        <ng-container *ngSwitchCase="'projectType'">
+                            {{projectService.projectTypeName(singleProjectService.projectForm.value[field])}}
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'executor'">
+                            {{projectService.executorName(singleProjectService.projectForm.value[field])}}
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'datePlanned'">
+                            {{projectService.formatDate(singleProjectService.projectForm.value[field])}}
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'status'">
+                            {{projectService.statusName(singleProjectService.projectForm.value[field])}}
+                        </ng-container>
+                        <ng-container *ngSwitchDefault>
+                            {{singleProjectService.projectForm.value[field]}}
+                        </ng-container>
+                    </ng-container>
+                </ng-container>
+            </div>
+            
+
+            <div class="write" *ngIf="singleProjectService.projectEditStates[field]">
+                <ng-container *ngIf="type === 'input'">
+                    <input type="text" [name]="field" [id]="field" [formControlName]="field">
+                </ng-container>
+
+                <ng-container *ngIf="type === 'date'">
+                    <input type="date" [name]="field" [id]="field" [formControlName]="field">
+                </ng-container>
+
+                <ng-container *ngIf="type === 'time'">
+                    <input type="time" [name]="field" [id]="field" [formControlName]="field">
+                </ng-container>
+
+                <ng-container *ngIf="type === 'select'">
+                    <select [name]="field" [id]="field" [formControlName]="field">
+                        <option value="">Selecteer type</option>
+                        <option *ngFor="let item of dataSource" [value]="item.type">{{item.name}}</option>
+                    </select>
+                </ng-container>
+
+                <ng-container *ngIf="type === 'textarea'">
+                    <textarea name="extraInfoAddress" id="extraInfoAddress" formControlName="extraInfoAddress" rows="3"></textarea>
+                </ng-container>
+                <p *ngIf="formService.checkInputField(singleProjectService.projectForm, field, submitted)" class="error">!</p>
+            </div>
+        </div>
+    </div>
+</form>
