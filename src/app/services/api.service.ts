@@ -101,5 +101,9 @@ export class ApiService {
   removeComment(projectId: string, commentId: string) {
     return this.http.delete(this.baseUrl + '/remove-comment/' + projectId + '/' + commentId)
   }
-  
+
+  getProjectArchive(projectId: string) {
+    return this.http.get(this.baseUrl + '/get-archive/' + projectId)
+  }
+
 }

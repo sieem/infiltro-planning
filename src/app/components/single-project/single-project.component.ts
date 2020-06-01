@@ -1,4 +1,4 @@
-import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
+import { Component, OnInit, ComponentFactoryResolver, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from 'src/app/services/api.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -20,7 +20,7 @@ import { SingleProjectService } from 'src/app/services/single-project.service';
   styleUrls: ['./single-project.component.scss']
 })
 export class SingleProjectComponent implements OnInit {
-    
+
   constructor(
     private api: ApiService,
     public formService: FormService,
@@ -36,6 +36,10 @@ export class SingleProjectComponent implements OnInit {
   ngOnInit() {
 
     this.singleProjectService.initProject();
+
+    if (this.singleProjectService.archiveActive) {
+      return;
+    }
 
     this.route.params.subscribe(params => {
       if (params.projectId) {

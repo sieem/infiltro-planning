@@ -1,7 +1,7 @@
 <div class="wrapper" [ngClass]="singleProjectService.projectForm.value.status">
   <div class="projectSection">
       <div class="projectRow space-between">
-        <app-single-project-controls [projectForm]="singleProjectService.projectForm" [projectId]="singleProjectService.projectId" class="left controls"></app-single-project-controls>
+        <app-single-project-controls [projectForm]="singleProjectService.projectForm" [projectId]="singleProjectService.projectId" class="left controls" *ngIf="!singleProjectService.archiveActive"></app-single-project-controls>
         <div class="right">
           <app-single-project-row label="Contactpersoon binnen" field="company" type="select" [dataSource]="companyService.companies" valueKey="_id" [readOnly]="!auth.isAdmin()">
           </app-single-project-row>

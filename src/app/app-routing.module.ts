@@ -12,6 +12,7 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
 import { MailProjectComponent } from './components/mail-project/mail-project.component';
 import { PricesComponent } from './components/prices/prices.component';
 import { PricePageGuard } from './guards/price-page.guard';
+import { SingleProjectArchiveComponent } from './components/single-project-archive/single-project-archive.component';
 
 const routes: Routes = [
   {
@@ -37,6 +38,11 @@ const routes: Routes = [
   {
     path: 'project/:projectId/mail',
     component: MailProjectComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'project/:projectId/archief',
+    component: SingleProjectArchiveComponent,
     canActivate: [AuthGuard],
   },
   {
