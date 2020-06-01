@@ -1,5 +1,5 @@
 <form [formGroup]="singleProjectService.projectForm">
-    <div class="projectRow" [class]="type">
+    <div class="projectRow" [class]="[type, field]">
         <label [for]="field"><span [innerHTML]='label'></span>&nbsp;<span *ngIf="singleProjectService.projectForm.controls[field].validator !== null">*</span></label>
         <div class="inputField">
             <div class="read" (click)="changeEditState(field, true)" [ngClass]="{'empty': isEmpty(field)}"

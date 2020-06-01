@@ -134,3 +134,9 @@ textarea {
         font-size: $size / 2;
     }
 }
+
+.right {
+    display: flex;
+    justify-content: flex-end;
+    flex-grow: 1;
+}

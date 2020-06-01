@@ -1,2 +1,19 @@
 @import 'variables';
 @import 'forms';
+
+
+.company,
+.EpbReporter,
+.dateCreated {
+    padding: 0;
+
+    label {
+        width: inherit;
+        min-width: inherit;
+        padding-right: inherit;
+    }
+
+    .inputField {
+        flex-grow: 0;
+    }
+}
