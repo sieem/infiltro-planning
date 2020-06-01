@@ -58,7 +58,7 @@
                 <ng-container *ngIf="type === 'textarea'">
                     <textarea name="extraInfoAddress" id="extraInfoAddress" formControlName="extraInfoAddress" rows="3"></textarea>
                 </ng-container>
-                <p *ngIf="formService.checkInputField(singleProjectService.projectForm, field, submitted)" class="error">!</p>
+                <p *ngIf="formService.checkInputField(singleProjectService.projectForm, field, singleProjectService.submitted)" class="error">!</p>
             </div>
         </div>
     </div>

@@ -14,7 +14,6 @@ import { ToastrService } from 'ngx-toastr';
 export class SingleProjectControlsComponent implements OnInit {
   @Input('projectForm') projectForm: FormGroup;
   @Input('projectId') projectId: string;
-  submitted = false
   projectIsSaving: boolean = false
 
   constructor(
@@ -41,7 +40,7 @@ export class SingleProjectControlsComponent implements OnInit {
   }
 
   onSubmit() {
-    this.submitted = true;
+    this.singleProjectService.submitted = true;
     if (this.projectForm.invalid) {
       this.toastr.error('Nog niet alle verplichte velden zijn ingevuld.');
       return;
