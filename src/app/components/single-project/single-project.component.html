@@ -1,57 +1,51 @@
-<form [formGroup]="projectForm" [ngClass]="projectForm.value.status">
+<form [formGroup]="singleProjectService.projectForm" [ngClass]="singleProjectService.projectForm.value.status">
   <div class="projectSection">
       <div class="projectRow space-between">
-        <div class="left controls">
-          <div (click)="goToOverview()"><img src="/assets/images/icon-back.svg" alt=""></div>
-          <div (click)="onSubmit()"><img [src]="projectForm.touched ? '/assets/images/icon-save.svg' : '/assets/images/icon-save-disabled.svg'" alt=""></div>
-          <div *ngIf="projectId" (click)="removeProject()"><img src="/assets/images/icon-delete.svg" alt=""></div>
-          <div (click)="openProjectMail()"><img src="/assets/images/icon-mail.svg" alt=""></div>
-          <div *ngIf="auth.isAdmin" (click)="duplicateProject()"><img src="/assets/images/icon-duplicate.svg" alt=""></div>
-        </div>
+        <app-single-project-controls [projectForm]="singleProjectService.projectForm" [projectId]="singleProjectService.projectId" class="left controls"></app-single-project-controls>
         <div class="right">
           <label for="EpbReporter">Contactpersoon binnen<span
-              *ngIf="projectForm.controls.EpbReporter.validator !== null">*</span></label>
+              *ngIf="singleProjectService.projectForm.controls.EpbReporter.validator !== null">*</span></label>
           <div class="inputField">
-            <div class="read" (click)="changeEditState('company', true)" [ngClass]="{'empty': isEmpty('company')}" *ngIf="!projectEditStates.company || !auth.isAdmin()">
-              {{companyService.companyName(projectForm.value.company)}}
+            <div class="read" (click)="singleProjectForm.changeEditState('company', true)" [ngClass]="{'empty': isEmpty('company')}" *ngIf="!singleProjectService.projectEditStates.company || !auth.isAdmin()">
+              {{companyService.companyName(singleProjectService.projectForm.value.company)}}
             </div>
-            <div class="write" *ngIf="projectEditStates.company && auth.isAdmin()">
+            <div class="write" *ngIf="singleProjectService.projectEditStates.company && auth.isAdmin()">
               <select name="company" id="company" formControlName="company">
                 <option value="">Selecteer bedrijf</option>
                 <option *ngFor="let company of companyService.companies" [value]="company._id">{{company.name}}</option>
               </select>
-              <p *ngIf="formService.checkInputField(projectForm, 'company', submitted)" class="error">!</p>
+              <p *ngIf="formService.checkInputField(singleProjectService.projectForm, 'company', submitted)" class="error">!</p>
             </div>
           </div>
           <span>:</span>
           <div class="inputField">
-            <div class="read" (click)="changeEditState('EpbReporter', true)" [ngClass]="{'empty': isEmpty('EpbReporter')}" *ngIf="!projectEditStates.EpbReporter">
-              {{ userService.userToName(projectForm.value.EpbReporter)}}
+            <div class="read" (click)="singleProjectForm.changeEditState('EpbReporter', true)" [ngClass]="{'empty': isEmpty('EpbReporter')}" *ngIf="!singleProjectService.projectEditStates.EpbReporter">
+              {{ userService.userToName(singleProjectService.projectForm.value.EpbReporter)}}
             </div>
-            <div class="write" *ngIf="projectEditStates.EpbReporter">
+            <div class="write" *ngIf="singleProjectService.projectEditStates.EpbReporter">
               <select name="EpbReporter" id="EpbReporter" formControlName="EpbReporter">
                 <option value="">Selecteer EPB verslaggever</option>
                 <ng-container *ngFor="let EpbReporter of userService.users">
-                  <option *ngIf="EpbReporter.company === projectForm.value.company" [value]="EpbReporter._id">{{EpbReporter.name || EpbReporter.email}}</option>
+                  <option *ngIf="EpbReporter.company === singleProjectService.projectForm.value.company" [value]="EpbReporter._id">{{EpbReporter.name || EpbReporter.email}}</option>
                 </ng-container>
               </select>
-              <p *ngIf="formService.checkInputField(projectForm, 'EpbReporter', submitted)" class="error">!</p>
+              <p *ngIf="formService.checkInputField(singleProjectService.projectForm, 'EpbReporter', submitted)" class="error">!</p>
             </div>
           </div>
         </div>
       </div>
           <div class="projectRow right">
-            <label for="status">Status:&nbsp;<span *ngIf="projectForm.controls.status.validator !== null">*</span></label>
+            <label for="status">Status:&nbsp;<span *ngIf="singleProjectService.projectForm.controls.status.validator !== null">*</span></label>
             <div class="inputField">
-              <div class="read status" (click)="changeEditState('status', true)" [ngClass]="{'empty': isEmpty('status')}" *ngIf="!projectEditStates.status">
-                {{projectService.statusName(projectForm.value.status)}}
+              <div class="read status" (click)="singleProjectForm.changeEditState('status', true)" [ngClass]="{'empty': isEmpty('status')}" *ngIf="!singleProjectService.projectEditStates.status">
+                {{projectService.statusName(singleProjectService.projectForm.value.status)}}
               </div>
-              <div class="write" *ngIf="projectEditStates.status">
+              <div class="write" *ngIf="singleProjectService.projectEditStates.status">
                 <select name="status" id="status" formControlName="status" (change)="updateStatusDropdowns()">
                   <option value="">Selecteer status</option>
                   <option *ngFor="let status of projectService.statuses" [value]="status.type">{{status.name}}</option>
                 </select>
-                <p *ngIf="formService.checkInputField(projectForm, 'status', submitted)" class="error">!</p>
+                <p *ngIf="formService.checkInputField(singleProjectService.projectForm, 'status', submitted)" class="error">!</p>
               </div>
             </div>
           </div>
@@ -59,73 +53,73 @@
   <div class="projectSection">
     <div class="projectRow space-between">
       <div class="left">
-        <h2>{{projectForm.value.projectName}}</h2>
+        <h2>{{singleProjectService.projectForm.value.projectName}}</h2>
       </div>
       <div class="right">
         <label for="dateCreated">Datum aanvraag:&nbsp;</label>
         <div class="inputField">
-          <div class="read" (click)="changeEditState('dateCreated', true)" [ngClass]="{'empty': isEmpty('dateCreated')}" *ngIf="!projectEditStates.dateCreated || !auth.isAdmin()">
-            {{projectService.formatDate(projectForm.value.dateCreated)}}
+          <div class="read" (click)="singleProjectForm.changeEditState('dateCreated', true)" [ngClass]="{'empty': isEmpty('dateCreated')}" *ngIf="!singleProjectService.projectEditStates.dateCreated || !auth.isAdmin()">
+            {{projectService.formatDate(singleProjectService.projectForm.value.dateCreated)}}
           </div>
-          <div class="write" *ngIf="projectEditStates.dateCreated && auth.isAdmin()">
+          <div class="write" *ngIf="singleProjectService.projectEditStates.dateCreated && auth.isAdmin()">
             <input type="date" name="dateCreated" id="dateCreated" formControlName="dateCreated">
-            <p *ngIf="formService.checkInputField(projectForm, 'dateCreated', submitted)" class="error">!</p>
+            <p *ngIf="formService.checkInputField(singleProjectService.projectForm, 'dateCreated', submitted)" class="error">!</p>
           </div>
         </div>
       </div>
     </div>
 
     <div class="projectRow">
-      <label for="projectType">Type&nbsp;<span *ngIf="projectForm.controls.projectType.validator !== null">*</span></label>
+      <label for="projectType">Type&nbsp;<span *ngIf="singleProjectService.projectForm.controls.projectType.validator !== null">*</span></label>
       <div class="inputField">
-        <div class="read" (click)="changeEditState('projectType', true)" [ngClass]="{'empty': isEmpty('projectType')}" *ngIf="!projectEditStates.projectType">
-          {{projectService.projectTypeName(projectForm.value.projectType)}}
+        <div class="read" (click)="singleProjectForm.changeEditState('projectType', true)" [ngClass]="{'empty': isEmpty('projectType')}" *ngIf="!singleProjectService.projectEditStates.projectType">
+          {{projectService.projectTypeName(singleProjectService.projectForm.value.projectType)}}
         </div>
-        <div class="write" *ngIf="projectEditStates.projectType">
+        <div class="write" *ngIf="singleProjectService.projectEditStates.projectType">
           <select name="projectType" id="projectType" formControlName="projectType">
             <option value="">Selecteer type</option>
             <option *ngFor="let projectType of projectService.projectTypes" [value]="projectType.type">{{projectType.name}}</option>
           </select>
-          <p *ngIf="formService.checkInputField(projectForm, 'projectType', submitted)" class="error">!</p>
+          <p *ngIf="formService.checkInputField(singleProjectService.projectForm, 'projectType', submitted)" class="error">!</p>
         </div>
       </div>
     </div>
 
     <div class="projectRow">
-      <label for="houseAmount">Aantal / omschrijving&nbsp;<span *ngIf="projectForm.controls.houseAmount.validator !== null">*</span></label>
+      <label for="houseAmount">Aantal / omschrijving&nbsp;<span *ngIf="singleProjectService.projectForm.controls.houseAmount.validator !== null">*</span></label>
       <div class="inputField">
-        <div class="read" (click)="changeEditState('houseAmount', true)" [ngClass]="{'empty': isEmpty('houseAmount')}" *ngIf="!projectEditStates.houseAmount">
-          {{projectForm.value.houseAmount}}
+        <div class="read" (click)="singleProjectForm.changeEditState('houseAmount', true)" [ngClass]="{'empty': isEmpty('houseAmount')}" *ngIf="!singleProjectService.projectEditStates.houseAmount">
+          {{singleProjectService.projectForm.value.houseAmount}}
         </div>
-        <div class="write" *ngIf="projectEditStates.houseAmount">
+        <div class="write" *ngIf="singleProjectService.projectEditStates.houseAmount">
           <input type="text" name="houseAmount" id="houseAmount" formControlName="houseAmount">
-          <p *ngIf="formService.checkInputField(projectForm, 'houseAmount', submitted)" class="error">!</p>
+          <p *ngIf="formService.checkInputField(singleProjectService.projectForm, 'houseAmount', submitted)" class="error">!</p>
         </div>
       </div>
     </div>
 
     <div class="projectRow">
-      <label for="projectName">Referentie&nbsp;<span *ngIf="projectForm.controls.projectName.validator !== null">*</span></label>
+      <label for="projectName">Referentie&nbsp;<span *ngIf="singleProjectService.projectForm.controls.projectName.validator !== null">*</span></label>
       <div class="inputField">
-        <div class="read" (click)="changeEditState('projectName', true)" [ngClass]="{'empty': isEmpty('projectName')}" *ngIf="!projectEditStates.projectName">
-          {{projectForm.value.projectName}}
+        <div class="read" (click)="singleProjectForm.changeEditState('projectName', true)" [ngClass]="{'empty': isEmpty('projectName')}" *ngIf="!singleProjectService.projectEditStates.projectName">
+          {{singleProjectService.projectForm.value.projectName}}
         </div>
-        <div class="write" *ngIf="projectEditStates.projectName">
+        <div class="write" *ngIf="singleProjectService.projectEditStates.projectName">
           <input type="text" name="projectName" id="projectName" formControlName="projectName">
-          <p *ngIf="formService.checkInputField(projectForm, 'projectName', submitted)" class="error">!</p>
+          <p *ngIf="formService.checkInputField(singleProjectService.projectForm, 'projectName', submitted)" class="error">!</p>
         </div>
       </div>
     </div>
 
     <!-- <div class="projectRow">
-      <label for="client">client&nbsp;<span *ngIf="projectForm.controls.client.validator !== null">*</span></label>
+      <label for="client">client&nbsp;<span *ngIf="singleProjectService.projectForm.controls.client.validator !== null">*</span></label>
       <div class="inputField">
-        <div class="read" (click)="changeEditState('client', true)" [ngClass]="{'empty': isEmpty('client')}" *ngIf="!projectEditStates.client">
-          {{projectForm.value.client}}
+        <div class="read" (click)="singleProjectForm.changeEditState('client', true)" [ngClass]="{'empty': isEmpty('client')}" *ngIf="!singleProjectService.projectEditStates.client">
+          {{singleProjectService.projectForm.value.client}}
         </div>
-        <div class="write" *ngIf="projectEditStates.client">
+        <div class="write" *ngIf="singleProjectService.projectEditStates.client">
           <input type="text" name="client" id="client" formControlName="client">
-          <p *ngIf="formService.checkInputField(projectForm, 'client', submitted)" class="error">!</p>
+          <p *ngIf="formService.checkInputField(singleProjectService.projectForm, 'client', submitted)" class="error">!</p>
         </div>
       </div>
     </div> -->
@@ -136,54 +130,54 @@
       <h2>Adres</h2>
     </div>
     <div class="projectRow">
-      <label for="street">Straat + Nr&nbsp;<span *ngIf="projectForm.controls.street.validator !== null">*</span></label>
+      <label for="street">Straat + Nr&nbsp;<span *ngIf="singleProjectService.projectForm.controls.street.validator !== null">*</span></label>
       <div class="inputField">
-        <div class="read" (click)="changeEditState('street', true)" [ngClass]="{'empty': isEmpty('street')}" *ngIf="!projectEditStates.street">
-          {{projectForm.value.street}}
+        <div class="read" (click)="singleProjectForm.changeEditState('street', true)" [ngClass]="{'empty': isEmpty('street')}" *ngIf="!singleProjectService.projectEditStates.street">
+          {{singleProjectService.projectForm.value.street}}
         </div>
-        <div class="write" *ngIf="projectEditStates.street">
+        <div class="write" *ngIf="singleProjectService.projectEditStates.street">
           <input type="text" name="street" id="street" formControlName="street">
-          <p *ngIf="formService.checkInputField(projectForm, 'street', submitted)" class="error">!</p>
+          <p *ngIf="formService.checkInputField(singleProjectService.projectForm, 'street', submitted)" class="error">!</p>
         </div>
       </div>
     </div>
 
     <div class="projectRow">
-      <label for="city">Gemeente&nbsp;<span *ngIf="projectForm.controls.city.validator !== null">*</span></label>
+      <label for="city">Gemeente&nbsp;<span *ngIf="singleProjectService.projectForm.controls.city.validator !== null">*</span></label>
       <div class="inputField">
-        <div class="read" (click)="changeEditState('city', true)" [ngClass]="{'empty': isEmpty('city')}" *ngIf="!projectEditStates.city">
-          {{projectForm.value.city}}
+        <div class="read" (click)="singleProjectForm.changeEditState('city', true)" [ngClass]="{'empty': isEmpty('city')}" *ngIf="!singleProjectService.projectEditStates.city">
+          {{singleProjectService.projectForm.value.city}}
         </div>
-        <div class="write" *ngIf="projectEditStates.city">
+        <div class="write" *ngIf="singleProjectService.projectEditStates.city">
           <input type="text" name="city" id="city" formControlName="city">
-          <p *ngIf="formService.checkInputField(projectForm, 'city', submitted)" class="error">!</p>
+          <p *ngIf="formService.checkInputField(singleProjectService.projectForm, 'city', submitted)" class="error">!</p>
         </div>
       </div>
     </div>
 
     <div class="projectRow">
-      <label for="postalCode">Postcode&nbsp;<span *ngIf="projectForm.controls.postalCode.validator !== null">*</span></label>
+      <label for="postalCode">Postcode&nbsp;<span *ngIf="singleProjectService.projectForm.controls.postalCode.validator !== null">*</span></label>
       <div class="inputField">
-        <div class="read" (click)="changeEditState('postalCode', true)" [ngClass]="{'empty': isEmpty('postalCode')}" *ngIf="!projectEditStates.postalCode">
-          {{projectForm.value.postalCode}}
+        <div class="read" (click)="singleProjectForm.changeEditState('postalCode', true)" [ngClass]="{'empty': isEmpty('postalCode')}" *ngIf="!singleProjectService.projectEditStates.postalCode">
+          {{singleProjectService.projectForm.value.postalCode}}
         </div>
-        <div class="write" *ngIf="projectEditStates.postalCode">
+        <div class="write" *ngIf="singleProjectService.projectEditStates.postalCode">
           <input type="number" name="postalCode" id="postalCode" formControlName="postalCode" min="1000" max="9999">
-          <p *ngIf="formService.checkInputField(projectForm, 'postalCode', submitted)" class="error">!</p>
+          <p *ngIf="formService.checkInputField(singleProjectService.projectForm, 'postalCode', submitted)" class="error">!</p>
         </div>
       </div>
     </div>
 
     <div class="projectRow textarea">
-      <label for="extraInfoAddress">Bijkomende aanwijzingen&nbsp;<span *ngIf="projectForm.controls.extraInfoAddress.validator !== null">*</span></label>
+      <label for="extraInfoAddress">Bijkomende aanwijzingen&nbsp;<span *ngIf="singleProjectService.projectForm.controls.extraInfoAddress.validator !== null">*</span></label>
       <div class="inputField">
-        <div class="read" (click)="changeEditState('extraInfoAddress', true)" [ngClass]="{'empty': isEmpty('extraInfoAddress')}"
-          *ngIf="!projectEditStates.extraInfoAddress" [innerHTML]="formService.newlineToBr(projectForm.value.extraInfoAddress)">
+        <div class="read" (click)="singleProjectForm.changeEditState('extraInfoAddress', true)" [ngClass]="{'empty': isEmpty('extraInfoAddress')}"
+          *ngIf="!singleProjectService.projectEditStates.extraInfoAddress" [innerHTML]="formService.newlineToBr(singleProjectService.projectForm.value.extraInfoAddress)">
         </div>
-        <div class="write" *ngIf="projectEditStates.extraInfoAddress">
+        <div class="write" *ngIf="singleProjectService.projectEditStates.extraInfoAddress">
           <textarea name="extraInfoAddress" id="extraInfoAddress" formControlName="extraInfoAddress"
             rows="3"></textarea>
-          <p *ngIf="formService.checkInputField(projectForm, 'extraInfoAddress', submitted)" class="error">!</p>
+          <p *ngIf="formService.checkInputField(singleProjectService.projectForm, 'extraInfoAddress', submitted)" class="error">!</p>
         </div>
       </div>
     </div>
@@ -194,54 +188,54 @@
       <h2>Contactgegevens</h2>
     </div>
     <div class="projectRow">
-      <label for="name">Naam&nbsp;<span *ngIf="projectForm.controls.name.validator !== null">*</span></label>
+      <label for="name">Naam&nbsp;<span *ngIf="singleProjectService.projectForm.controls.name.validator !== null">*</span></label>
       <div class="inputField">
-        <div class="read" (click)="changeEditState('name', true)" [ngClass]="{'empty': isEmpty('name')}" *ngIf="!projectEditStates.name">
-          {{projectForm.value.name}}
+        <div class="read" (click)="singleProjectForm.changeEditState('name', true)" [ngClass]="{'empty': isEmpty('name')}" *ngIf="!singleProjectService.projectEditStates.name">
+          {{singleProjectService.projectForm.value.name}}
         </div>
-        <div class="write" *ngIf="projectEditStates.name">
+        <div class="write" *ngIf="singleProjectService.projectEditStates.name">
           <input type="text" name="name" id="name" formControlName="name">
-          <p *ngIf="formService.checkInputField(projectForm, 'name', submitted)" class="error">!</p>
+          <p *ngIf="formService.checkInputField(singleProjectService.projectForm, 'name', submitted)" class="error">!</p>
         </div>
       </div>
     </div>
 
     <div class="projectRow">
-      <label for="tel"><span class="desktop-only">Telefoonnummer(s)</span><span class="mobile-only">Tel(s)</span>&nbsp;<span *ngIf="projectForm.controls.tel.validator !== null">*</span></label>
+      <label for="tel"><span class="desktop-only">Telefoonnummer(s)</span><span class="mobile-only">Tel(s)</span>&nbsp;<span *ngIf="singleProjectService.projectForm.controls.tel.validator !== null">*</span></label>
       <div class="inputField">
-        <div class="read" (click)="changeEditState('tel', true)" [ngClass]="{'empty': isEmpty('tel')}" *ngIf="!projectEditStates.tel">
-          {{projectForm.value.tel}}
+        <div class="read" (click)="singleProjectForm.changeEditState('tel', true)" [ngClass]="{'empty': isEmpty('tel')}" *ngIf="!singleProjectService.projectEditStates.tel">
+          {{singleProjectService.projectForm.value.tel}}
         </div>
-        <div class="write" *ngIf="projectEditStates.tel">
+        <div class="write" *ngIf="singleProjectService.projectEditStates.tel">
           <input type="text" name="tel" id="tel" formControlName="tel">
-          <p *ngIf="formService.checkInputField(projectForm, 'tel', submitted)" class="error">!</p>
+          <p *ngIf="formService.checkInputField(singleProjectService.projectForm, 'tel', submitted)" class="error">!</p>
         </div>
       </div>
     </div>
 
     <div class="projectRow">
-      <label for="email">E-mail&nbsp;<span *ngIf="projectForm.controls.email.validator !== null">*</span></label>
+      <label for="email">E-mail&nbsp;<span *ngIf="singleProjectService.projectForm.controls.email.validator !== null">*</span></label>
       <div class="inputField">
-        <div class="read" (click)="changeEditState('email', true)" [ngClass]="{'empty': isEmpty('email')}" *ngIf="!projectEditStates.email">
-          {{projectForm.value.email}}
+        <div class="read" (click)="singleProjectForm.changeEditState('email', true)" [ngClass]="{'empty': isEmpty('email')}" *ngIf="!singleProjectService.projectEditStates.email">
+          {{singleProjectService.projectForm.value.email}}
         </div>
-        <div class="write" *ngIf="projectEditStates.email">
+        <div class="write" *ngIf="singleProjectService.projectEditStates.email">
           <input type="email" name="email" id="email" formControlName="email">
-          <p *ngIf="formService.checkInputField(projectForm, 'email', submitted)" class="error">!</p>
+          <p *ngIf="formService.checkInputField(singleProjectService.projectForm, 'email', submitted)" class="error">!</p>
         </div>
       </div>
     </div>
 
     <div class="projectRow textarea">
-      <label for="extraInfoContact">Bijkomende gegevens&nbsp;<span *ngIf="projectForm.controls.extraInfoContact.validator !== null">*</span></label>
+      <label for="extraInfoContact">Bijkomende gegevens&nbsp;<span *ngIf="singleProjectService.projectForm.controls.extraInfoContact.validator !== null">*</span></label>
       <div class="inputField">
-        <div class="read" (click)="changeEditState('extraInfoContact', true)" [ngClass]="{'empty': isEmpty('extraInfoContact')}"
-          *ngIf="!projectEditStates.extraInfoContact" [innerHTML]="formService.newlineToBr(projectForm.value.extraInfoContact)">
+        <div class="read" (click)="singleProjectForm.changeEditState('extraInfoContact', true)" [ngClass]="{'empty': isEmpty('extraInfoContact')}"
+          *ngIf="!singleProjectService.projectEditStates.extraInfoContact" [innerHTML]="formService.newlineToBr(singleProjectService.projectForm.value.extraInfoContact)">
         </div>
-        <div class="write" *ngIf="projectEditStates.extraInfoContact">
+        <div class="write" *ngIf="singleProjectService.projectEditStates.extraInfoContact">
           <textarea name="extraInfoContact" id="extraInfoContact" formControlName="extraInfoContact"
             rows="3"></textarea>
-          <p *ngIf="formService.checkInputField(projectForm, 'extraInfoContact', submitted)" class="error">!</p>
+          <p *ngIf="formService.checkInputField(singleProjectService.projectForm, 'extraInfoContact', submitted)" class="error">!</p>
         </div>
       </div>
     </div>
@@ -252,51 +246,51 @@
       <h2>Technische gegevens</h2>
     </div>
     <div class="projectRow textarea">
-      <label for="ATest">A-test (m<sup>2</sup>)&nbsp;<span *ngIf="projectForm.controls.ATest.validator !== null">*</span></label>
+      <label for="ATest">A-test (m<sup>2</sup>)&nbsp;<span *ngIf="singleProjectService.projectForm.controls.ATest.validator !== null">*</span></label>
       <div class="inputField">
-        <div class="read" (click)="changeEditState('ATest', true)" [ngClass]="{'empty': isEmpty('ATest')}" *ngIf="!projectEditStates.ATest"
-          [innerHTML]="formService.newlineToBr(projectForm.value.ATest)"></div>
-        <div class="write" *ngIf="projectEditStates.ATest">
+        <div class="read" (click)="singleProjectForm.changeEditState('ATest', true)" [ngClass]="{'empty': isEmpty('ATest')}" *ngIf="!singleProjectService.projectEditStates.ATest"
+          [innerHTML]="formService.newlineToBr(singleProjectService.projectForm.value.ATest)"></div>
+        <div class="write" *ngIf="singleProjectService.projectEditStates.ATest">
           <textarea name="ATest" id="ATest" formControlName="ATest" rows="3"></textarea>
-          <p *ngIf="formService.checkInputField(projectForm, 'ATest', submitted)" class="error">!</p>
+          <p *ngIf="formService.checkInputField(singleProjectService.projectForm, 'ATest', submitted)" class="error">!</p>
         </div>
       </div>
     </div>
 
     <div class="projectRow textarea">
-      <label for="v50Value">v50-waarde (m<sup>3</sup>/h.m<sup>2</sup>)&nbsp;<span *ngIf="projectForm.controls.v50Value.validator !== null">*</span></label>
+      <label for="v50Value">v50-waarde (m<sup>3</sup>/h.m<sup>2</sup>)&nbsp;<span *ngIf="singleProjectService.projectForm.controls.v50Value.validator !== null">*</span></label>
       <div class="inputField">
-        <div class="read" (click)="changeEditState('v50Value', true)" [ngClass]="{'empty': isEmpty('v50Value')}" *ngIf="!projectEditStates.v50Value"
-          [innerHTML]="formService.newlineToBr(projectForm.value.v50Value)"></div>
-        <div class="write" *ngIf="projectEditStates.v50Value">  
+        <div class="read" (click)="singleProjectForm.changeEditState('v50Value', true)" [ngClass]="{'empty': isEmpty('v50Value')}" *ngIf="!singleProjectService.projectEditStates.v50Value"
+          [innerHTML]="formService.newlineToBr(singleProjectService.projectForm.value.v50Value)"></div>
+        <div class="write" *ngIf="singleProjectService.projectEditStates.v50Value">  
           <textarea name="v50Value" id="v50Value" formControlName="v50Value" rows="3"></textarea>
-          <p *ngIf="formService.checkInputField(projectForm, 'v50Value', submitted)" class="error">!</p>
+          <p *ngIf="formService.checkInputField(singleProjectService.projectForm, 'v50Value', submitted)" class="error">!</p>
         </div>
       </div>
     </div>
 
     <div class="projectRow textarea">
-        <label for="protectedVolume">Beschermd volume (m<sup>3</sup>)&nbsp;<span *ngIf="projectForm.controls.protectedVolume.validator !== null">*</span></label>
+        <label for="protectedVolume">Beschermd volume (m<sup>3</sup>)&nbsp;<span *ngIf="singleProjectService.projectForm.controls.protectedVolume.validator !== null">*</span></label>
         <div class="inputField">
-          <div class="read" (click)="changeEditState('protectedVolume', true)" [ngClass]="{'empty': isEmpty('protectedVolume')}" *ngIf="!projectEditStates.protectedVolume"
-            [innerHTML]="formService.newlineToBr(projectForm.value.protectedVolume)"></div>
-          <div class="write" *ngIf="projectEditStates.protectedVolume">
+          <div class="read" (click)="singleProjectForm.changeEditState('protectedVolume', true)" [ngClass]="{'empty': isEmpty('protectedVolume')}" *ngIf="!singleProjectService.projectEditStates.protectedVolume"
+            [innerHTML]="formService.newlineToBr(singleProjectService.projectForm.value.protectedVolume)"></div>
+          <div class="write" *ngIf="singleProjectService.projectEditStates.protectedVolume">
             <textarea name="protectedVolume" id="protectedVolume" formControlName="protectedVolume" rows="3"></textarea>
-            <p *ngIf="formService.checkInputField(projectForm, 'protectedVolume', submitted)" class="error">!</p>
+            <p *ngIf="formService.checkInputField(singleProjectService.projectForm, 'protectedVolume', submitted)" class="error">!</p>
         </div>
       </div>
     </div>
   </div>
 
   <div class="projectRow">
-    <label for="EpbNumber">EPB Dossiernummer&nbsp;<span *ngIf="projectForm.controls.EpbNumber.validator !== null">*</span></label>
+    <label for="EpbNumber">EPB Dossiernummer&nbsp;<span *ngIf="singleProjectService.projectForm.controls.EpbNumber.validator !== null">*</span></label>
     <div class="inputField">
-      <div class="read" (click)="changeEditState('EpbNumber', true)" [ngClass]="{'empty': isEmpty('EpbNumber')}" *ngIf="!projectEditStates.EpbNumber">
-        {{projectForm.value.EpbNumber}}
+      <div class="read" (click)="singleProjectForm.changeEditState('EpbNumber', true)" [ngClass]="{'empty': isEmpty('EpbNumber')}" *ngIf="!singleProjectService.projectEditStates.EpbNumber">
+        {{singleProjectService.projectForm.value.EpbNumber}}
       </div>
-      <div class="write" *ngIf="projectEditStates.EpbNumber">
+      <div class="write" *ngIf="singleProjectService.projectEditStates.EpbNumber">
         <input type="text" name="EpbNumber" id="EpbNumber" formControlName="EpbNumber">
-        <p *ngIf="formService.checkInputField(projectForm, 'EpbNumber', submitted)" class="error">!</p>
+        <p *ngIf="formService.checkInputField(singleProjectService.projectForm, 'EpbNumber', submitted)" class="error">!</p>
       </div>
     </div>
   </div>
@@ -306,61 +300,61 @@
       <h2>Uitvoergegevens</h2>
     </div>
     <div class="projectRow">
-      <label for="executor">Uitvoerder&nbsp;<span *ngIf="projectForm.controls.executor.validator !== null">*</span></label>
+      <label for="executor">Uitvoerder&nbsp;<span *ngIf="singleProjectService.projectForm.controls.executor.validator !== null">*</span></label>
       <div class="inputField">
-        <div class="read" (click)="changeEditState('executor', true)" [ngClass]="{'empty': isEmpty('executor')}" *ngIf="!projectEditStates.executor || !auth.isAdmin()">
-          {{projectService.executorName(projectForm.value.executor)}}
+        <div class="read" (click)="singleProjectForm.changeEditState('executor', true)" [ngClass]="{'empty': isEmpty('executor')}" *ngIf="!singleProjectService.projectEditStates.executor || !auth.isAdmin()">
+          {{projectService.executorName(singleProjectService.projectForm.value.executor)}}
         </div>
-        <div class="write" *ngIf="projectEditStates.executor && auth.isAdmin()">
+        <div class="write" *ngIf="singleProjectService.projectEditStates.executor && auth.isAdmin()">
           <select name="executor" id="executor" formControlName="executor">
             <option value="">Selecteer uitvoerder</option>
             <option *ngFor="let executor of projectService.executors" [value]="executor.type">{{executor.name}}</option>
           </select>
-          <p *ngIf="formService.checkInputField(projectForm, 'executor', submitted)" class="error">!</p>
+          <p *ngIf="formService.checkInputField(singleProjectService.projectForm, 'executor', submitted)" class="error">!</p>
         </div>
       </div>
     </div>
 
     <div class="projectRow">
       <label for="datePlanned">Datum ingepland <span
-          *ngIf="projectForm.controls.datePlanned.validator !== null">*</span></label>
+          *ngIf="singleProjectService.projectForm.controls.datePlanned.validator !== null">*</span></label>
       <div class="inputField">
-        <div class="read" (click)="changeEditState('datePlanned', true)" (click)="calendarWarning(hasCalendarItem)" [ngClass]="{'empty': isEmpty('datePlanned')}" *ngIf="!projectEditStates.datePlanned || !auth.isAdmin() || hasCalendarItem">
-          {{projectService.formatDate(projectForm.value.datePlanned)}}
+        <div class="read" (click)="singleProjectForm.changeEditState('datePlanned', true)" (click)="calendarWarning(singleProjectService.hasCalendarItem)" [ngClass]="{'empty': isEmpty('datePlanned')}" *ngIf="!singleProjectService.projectEditStates.datePlanned || !auth.isAdmin() || singleProjectService.hasCalendarItem">
+          {{projectService.formatDate(singleProjectService.projectForm.value.datePlanned)}}
         </div>
-        <div class="write" *ngIf="projectEditStates.datePlanned && auth.isAdmin() && !hasCalendarItem">
+        <div class="write" *ngIf="singleProjectService.projectEditStates.datePlanned && auth.isAdmin() && !singleProjectService.hasCalendarItem">
           <input type="date" name="datePlanned" id="datePlanned" formControlName="datePlanned">
-          <p *ngIf="formService.checkInputField(projectForm, 'datePlanned', submitted)" class="error">!</p>
+          <p *ngIf="formService.checkInputField(singleProjectService.projectForm, 'datePlanned', submitted)" class="error">!</p>
         </div>
       </div>
     </div>
 
     <div class="projectRow">
       <label for="hourPlanned">Uur ingepland <span
-          *ngIf="projectForm.controls.hourPlanned.validator !== null">*</span></label>
+          *ngIf="singleProjectService.projectForm.controls.hourPlanned.validator !== null">*</span></label>
       <div class="inputField">
-        <div class="read" (click)="changeEditState('hourPlanned', true)" (click)="calendarWarning(hasCalendarItem)" [ngClass]="{'empty': isEmpty('hourPlanned')}" *ngIf="!projectEditStates.hourPlanned || !auth.isAdmin() || hasCalendarItem">
-          {{projectForm.value.hourPlanned}}
+        <div class="read" (click)="singleProjectForm.changeEditState('hourPlanned', true)" (click)="calendarWarning(singleProjectService.hasCalendarItem)" [ngClass]="{'empty': isEmpty('hourPlanned')}" *ngIf="!singleProjectService.projectEditStates.hourPlanned || !auth.isAdmin() || singleProjectService.hasCalendarItem">
+          {{singleProjectService.projectForm.value.hourPlanned}}
         </div>
-        <div class="write" *ngIf="projectEditStates.hourPlanned && auth.isAdmin() && !hasCalendarItem">
+        <div class="write" *ngIf="singleProjectService.projectEditStates.hourPlanned && auth.isAdmin() && !singleProjectService.hasCalendarItem">
           <input type="time" name="hourPlanned" id="hourPlanned" formControlName="hourPlanned">
-          <p *ngIf="formService.checkInputField(projectForm, 'hourPlanned', submitted)" class="error">!</p>
+          <p *ngIf="formService.checkInputField(singleProjectService.projectForm, 'hourPlanned', submitted)" class="error">!</p>
         </div>
       </div>
     </div>
     <div class="projectRow">
-      <label for="status">Status:&nbsp;<span *ngIf="projectForm.controls.status.validator !== null">*</span></label>
+      <label for="status">Status:&nbsp;<span *ngIf="singleProjectService.projectForm.controls.status.validator !== null">*</span></label>
       <div class="inputField">
-        <div class="read status" (click)="changeEditState('status', true)" [ngClass]="{'empty': isEmpty('status')}"
-          *ngIf="!projectEditStates.status">
-          {{projectService.statusName(projectForm.value.status)}}
+        <div class="read status" (click)="singleProjectForm.changeEditState('status', true)" [ngClass]="{'empty': isEmpty('status')}"
+          *ngIf="!singleProjectService.projectEditStates.status">
+          {{projectService.statusName(singleProjectService.projectForm.value.status)}}
         </div>
-        <div class="write" *ngIf="projectEditStates.status">
+        <div class="write" *ngIf="singleProjectService.projectEditStates.status">
           <select name="status" id="status" formControlName="status" (change)="updateStatusDropdowns()">
             <option value="">Selecteer status</option>
             <option *ngFor="let status of projectService.statuses" [value]="status.type">{{status.name}}</option>
           </select>
-          <p *ngIf="formService.checkInputField(projectForm, 'status', submitted)" class="error">!</p>
+          <p *ngIf="formService.checkInputField(singleProjectService.projectForm, 'status', submitted)" class="error">!</p>
         </div>
       </div>
     </div>
@@ -372,7 +366,7 @@
       <h2>Opmerkingen</h2>
     </div>
     <div class="projectRow textarea">
-      <app-single-project-comments [projectId]="projectForm.value._id" [newProject]="newProject"></app-single-project-comments>
+      <app-single-project-comments [projectId]="singleProjectService.projectForm.value._id" [newProject]="singleProjectService.newProject"></app-single-project-comments>
     </div>
   </div>
 </form>

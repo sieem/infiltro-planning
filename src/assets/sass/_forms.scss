@@ -56,31 +56,6 @@ form,
     }
 }
 
-form {
-    // &.striped {
-
-    //     .inputGroup,
-    //     .item {
-    //         &:nth-child(odd) {
-    //             background-color: $infiltro-border-grey;
-    //         }
-    //     }
-    // }
-
-    .controls {
-        >* {
-            height: 20px;
-            margin-right: 10px;
-            cursor: pointer;
-        }
-
-        img {
-            height: 100%;
-            width: auto;
-        }
-    }
-}
-
 .projectSection {
     margin-bottom: 10px;
 
