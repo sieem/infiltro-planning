@@ -7,11 +7,20 @@
                 <ng-container *ngIf="type === 'textarea'" [innerHTML]="formService.newlineToBr(singleProjectService.projectForm.value[field])"></ng-container>
                 <ng-container *ngIf="type !== 'textarea'">
                     <ng-container [ngSwitch]="field">
+                        <ng-container *ngSwitchCase="'company'">
+                            {{companyService.companyName(singleProjectService.projectForm.value.company)}}
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'EpbReporter'">
+                            {{ userService.userToName(singleProjectService.projectForm.value.EpbReporter)}}
+                        </ng-container>
                         <ng-container *ngSwitchCase="'projectType'">
                             {{projectService.projectTypeName(singleProjectService.projectForm.value[field])}}
                         </ng-container>
                         <ng-container *ngSwitchCase="'executor'">
                             {{projectService.executorName(singleProjectService.projectForm.value[field])}}
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'dateCreated'">
+                            {{projectService.formatDate(singleProjectService.projectForm.value[field])}}
                         </ng-container>
                         <ng-container *ngSwitchCase="'datePlanned'">
                             {{projectService.formatDate(singleProjectService.projectForm.value[field])}}
@@ -43,7 +52,7 @@
                 <ng-container *ngIf="type === 'select'">
                     <select [name]="field" [id]="field" [formControlName]="field">
                         <option value="">Selecteer type</option>
-                        <option *ngFor="let item of dataSource" [value]="item.type">{{item.name}}</option>
+                        <option *ngFor="let item of dataSource" [value]="item[valueKey]">{{item.name}}</option>
                     </select>
                 </ng-container>
 

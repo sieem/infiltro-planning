@@ -1,53 +1,18 @@
-<form [formGroup]="singleProjectService.projectForm" class="wrapper" [ngClass]="singleProjectService.projectForm.value.status">
+<div class="wrapper" [ngClass]="singleProjectService.projectForm.value.status">
   <div class="projectSection">
       <div class="projectRow space-between">
         <app-single-project-controls [projectForm]="singleProjectService.projectForm" [projectId]="singleProjectService.projectId" class="left controls"></app-single-project-controls>
         <div class="right">
-          <label for="EpbReporter">Contactpersoon binnen<span
-              *ngIf="singleProjectService.projectForm.controls.EpbReporter.validator !== null">*</span></label>
-          <div class="inputField">
-            <div class="read" (click)="changeEditState('company', true)" [ngClass]="{'empty': isEmpty('company')}" *ngIf="!singleProjectService.projectEditStates.company || !auth.isAdmin()">
-              {{companyService.companyName(singleProjectService.projectForm.value.company)}}
-            </div>
-            <div class="write" *ngIf="singleProjectService.projectEditStates.company && auth.isAdmin()">
-              <select name="company" id="company" formControlName="company">
-                <option value="">Selecteer bedrijf</option>
-                <option *ngFor="let company of companyService.companies" [value]="company._id">{{company.name}}</option>
-              </select>
-              <p *ngIf="formService.checkInputField(singleProjectService.projectForm, 'company', submitted)" class="error">!</p>
-            </div>
-          </div>
-          <span>:</span>
-          <div class="inputField">
-            <div class="read" (click)="changeEditState('EpbReporter', true)" [ngClass]="{'empty': isEmpty('EpbReporter')}" *ngIf="!singleProjectService.projectEditStates.EpbReporter">
-              {{ userService.userToName(singleProjectService.projectForm.value.EpbReporter)}}
-            </div>
-            <div class="write" *ngIf="singleProjectService.projectEditStates.EpbReporter">
-              <select name="EpbReporter" id="EpbReporter" formControlName="EpbReporter">
-                <option value="">Selecteer EPB verslaggever</option>
-                <ng-container *ngFor="let EpbReporter of userService.users">
-                  <option *ngIf="EpbReporter.company === singleProjectService.projectForm.value.company" [value]="EpbReporter._id">{{EpbReporter.name || EpbReporter.email}}</option>
-                </ng-container>
-              </select>
-              <p *ngIf="formService.checkInputField(singleProjectService.projectForm, 'EpbReporter', submitted)" class="error">!</p>
-            </div>
-          </div>
+          <app-single-project-row label="Contactpersoon binnen" field="company" type="select" [dataSource]="companyService.companies" valueKey="_id">
+          </app-single-project-row>
+
+          <app-single-project-row label=":" field="EpbReporter" type="select" [dataSource]="userService.users" valueKey="_id">
+          </app-single-project-row>
         </div>
       </div>
-          <div class="projectRow right">
-            <label for="status">Status:&nbsp;<span *ngIf="singleProjectService.projectForm.controls.status.validator !== null">*</span></label>
-            <div class="inputField">
-              <div class="read status" (click)="changeEditState('status', true)" [ngClass]="{'empty': isEmpty('status')}" *ngIf="!singleProjectService.projectEditStates.status">
-                {{projectService.statusName(singleProjectService.projectForm.value.status)}}
-              </div>
-              <div class="write" *ngIf="singleProjectService.projectEditStates.status">
-                <select name="status" id="status" formControlName="status" (change)="updateStatusDropdowns()">
-                  <option value="">Selecteer status</option>
-                  <option *ngFor="let status of projectService.statuses" [value]="status.type">{{status.name}}</option>
-                </select>
-                <p *ngIf="formService.checkInputField(singleProjectService.projectForm, 'status', submitted)" class="error">!</p>
-              </div>
-            </div>
+          <div class="right">
+            <app-single-project-row label="Status" field="status" type="select" [dataSource]="projectService.statuses" valueKey="type">
+            </app-single-project-row>
           </div>
   </div>
   <div class="projectSection">
@@ -56,20 +21,12 @@
         <h2>{{singleProjectService.projectForm.value.projectName}}</h2>
       </div>
       <div class="right">
-        <label for="dateCreated">Datum aanvraag:&nbsp;</label>
-        <div class="inputField">
-          <div class="read" (click)="changeEditState('dateCreated', true)" [ngClass]="{'empty': isEmpty('dateCreated')}" *ngIf="!singleProjectService.projectEditStates.dateCreated || !auth.isAdmin()">
-            {{projectService.formatDate(singleProjectService.projectForm.value.dateCreated)}}
-          </div>
-          <div class="write" *ngIf="singleProjectService.projectEditStates.dateCreated && auth.isAdmin()">
-            <input type="date" name="dateCreated" id="dateCreated" formControlName="dateCreated">
-            <p *ngIf="formService.checkInputField(singleProjectService.projectForm, 'dateCreated', submitted)" class="error">!</p>
-          </div>
-        </div>
+        <app-single-project-row label="Datum aanvraag" field="dateCreated" type="date">
+        </app-single-project-row>
       </div>
     </div>
 
-    <app-single-project-row label="Type" field="projectType" type="select" [dataSource]="projectService.projectTypes">
+    <app-single-project-row label="Type" field="projectType" type="select" [dataSource]="projectService.projectTypes" valueKey="type">
     </app-single-project-row>
 
     <app-single-project-row label="Aantal / omschrijving" field="houseAmount" type="input">
@@ -134,7 +91,7 @@
       <h2>Uitvoergegevens</h2>
     </div>
 
-    <app-single-project-row label="Uitvoerder" field="executor" type="select" [dataSource]="projectService.executors">
+    <app-single-project-row label="Uitvoerder" field="executor" type="select" [dataSource]="projectService.executors" valueKey="type">
     </app-single-project-row>
 
     <app-single-project-row label="Datum ingepland" field="datePlanned" type="date">
@@ -143,7 +100,7 @@
     <app-single-project-row label="Uur ingepland" field="hourPlanned" type="time">
     </app-single-project-row>
 
-    <app-single-project-row label="Status" field="status" type="select" [dataSource]="projectService.statuses">
+    <app-single-project-row label="Status" field="status" type="select" [dataSource]="projectService.statuses" valueKey="type">
     </app-single-project-row>
   </div>
   
@@ -156,7 +113,7 @@
       <app-single-project-comments [projectId]="singleProjectService.projectForm.value._id" [newProject]="singleProjectService.newProject"></app-single-project-comments>
     </div>
   </div>
-</form>
+</div>
 
 <infiltro-modal id="mail-project-modal">
 
