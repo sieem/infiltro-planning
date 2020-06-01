@@ -7,29 +7,8 @@
                 <span *ngIf="type === 'textarea'" [innerHTML]="formService.newlineToBr(singleProjectService.projectForm.value[field])"></span>
                 <span *ngIf="type !== 'textarea'">
                     <ng-container [ngSwitch]="field">
-                        <ng-container *ngSwitchCase="'company'">
-                            {{companyService.companyName(singleProjectService.projectForm.value.company)}}
-                        </ng-container>
-                        <ng-container *ngSwitchCase="'EpbReporter'">
-                            {{ userService.userToName(singleProjectService.projectForm.value.EpbReporter)}}
-                        </ng-container>
-                        <ng-container *ngSwitchCase="'projectType'">
-                            {{projectService.projectTypeName(singleProjectService.projectForm.value[field])}}
-                        </ng-container>
-                        <ng-container *ngSwitchCase="'executor'">
-                            {{projectService.executorName(singleProjectService.projectForm.value[field])}}
-                        </ng-container>
-                        <ng-container *ngSwitchCase="'dateCreated'">
-                            {{projectService.formatDate(singleProjectService.projectForm.value[field])}}
-                        </ng-container>
-                        <ng-container *ngSwitchCase="'datePlanned'">
-                            {{projectService.formatDate(singleProjectService.projectForm.value[field])}}
-                        </ng-container>
-                        <ng-container *ngSwitchCase="'status'">
-                            {{projectService.statusName(singleProjectService.projectForm.value[field])}}
-                        </ng-container>
                         <ng-container *ngSwitchDefault>
-                            {{singleProjectService.projectForm.value[field]}}
+                            {{singleProjectService.projectForm.value[field] | dynamicProjectPipe: field | async}}
                         </ng-container>
                     </ng-container>
                 </span>

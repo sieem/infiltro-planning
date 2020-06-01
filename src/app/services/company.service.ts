@@ -15,12 +15,12 @@ export class CompanyService {
       this.getCompanies()
   }
 
-  getCompanies() {
+  getCompanies(): Promise<any> {
     return new Promise((resolve,reject) => {
       this.api.getCompanies().subscribe(
         res => {
           this.companies = res
-          return resolve()
+          return resolve(res)
         },
         err => {
           this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
@@ -28,10 +28,12 @@ export class CompanyService {
         }
       )
     })
-    
   }
 
-  companyName(companyId) {
+  async companyName(companyId) {
+    if (!this.companies) {
+      this.companies = await this.getCompanies();
+    }
     for (const company of this.companies) {
       if (company._id === companyId) {
         return company.name

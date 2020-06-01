@@ -34,6 +34,14 @@ import { SingleProjectControlsComponent } from './components/single-project-cont
 import { SingleProjectRowComponent } from './components/single-project-row/single-project-row.component';
 import { FilterUsersPipe } from './pipes/filter-users.pipe';
 import { SingleProjectArchiveComponent } from './components/single-project-archive/single-project-archive.component';
+import { DynamicProjectPipe } from './pipes/dynamic-project.pipe';
+import { CompanyPipe } from './pipes/company.pipe';
+import { UserPipe } from './pipes/user.pipe';
+import { ProjectTypePipe } from './pipes/project-type.pipe';
+import { DatePipe } from './pipes/date.pipe';
+import { StatusPipe } from './pipes/status.pipe';
+import { ExecutorPipe } from './pipes/executor.pipe';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -54,7 +62,14 @@ import { SingleProjectArchiveComponent } from './components/single-project-archi
     SingleProjectControlsComponent,
     SingleProjectRowComponent,
     FilterUsersPipe,
-    SingleProjectArchiveComponent
+    SingleProjectArchiveComponent,
+    DynamicProjectPipe,
+    CompanyPipe,
+    UserPipe,
+    ProjectTypePipe,
+    DatePipe,
+    StatusPipe,
+    ExecutorPipe,
   ],
   imports: [
     BrowserModule,
@@ -74,7 +89,13 @@ import { SingleProjectArchiveComponent } from './components/single-project-archi
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptorService,
       multi: true
-    }
+    },
+    CompanyPipe,
+    UserPipe,
+    ProjectTypePipe,
+    DatePipe,
+    StatusPipe,
+    ExecutorPipe,
   ],
   bootstrap: [AppComponent]
 })

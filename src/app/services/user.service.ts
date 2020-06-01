@@ -21,7 +21,7 @@ export class UserService {
     }
   ]
 
-  users: any = []
+  users: any;
 
   constructor(
     private api: ApiService,
@@ -45,16 +45,24 @@ export class UserService {
 
   }
 
-  getUsers() {
-    this.api.getUsers().subscribe(
-      res => {
-        this.users = res
-      },
-      err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
-    )
+  getUsers(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.api.getUsers().subscribe(
+        res => {
+          return resolve(res)
+        },
+        err => {
+          this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
+          return reject()
+        }
+      )
+    })
   }
 
-  userToName(userId) {
+  async userToName(userId): Promise<string> {
+    if (!this.users) {
+      this.users = await this.getUsers();
+    }
     for (const user of this.users) {
       if (user._id === userId) {
         return user.name
