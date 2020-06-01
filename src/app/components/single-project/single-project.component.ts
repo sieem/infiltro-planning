@@ -23,9 +23,7 @@ export class SingleProjectComponent implements OnInit {
   hasCalendarItem: boolean = false
   
   constructor(
-    private formBuilder: FormBuilder,
     private api: ApiService,
-    private router: Router,
     public formService: FormService,
     public companyService: CompanyService,
     public userService: UserService,
@@ -34,7 +32,6 @@ export class SingleProjectComponent implements OnInit {
     public projectService: ProjectService,
     public singleProjectCommentService: SingleProjectCommentsService,
     private toastr: ToastrService,
-    private modalService: ModalService,
     public singleProjectService: SingleProjectService) { }
 
   ngOnInit() {
@@ -52,21 +49,6 @@ export class SingleProjectComponent implements OnInit {
         )
       }
     })
-  }
-
-  isEmpty(inputName) {
-    if (typeof this.singleProjectService.projectForm.value[inputName] === 'string')
-      return this.singleProjectService.projectForm.value[inputName].trim() == ""
-    else
-      return false
-  }
-
-  changeEditState(inputName, state) {
-    this.singleProjectService.projectEditStates[inputName] = state
-  }
-
-  changeInvoicedStatus() {
-    this.singleProjectService.projectForm.value.invoiced = !this.singleProjectService.projectForm.value.invoiced
   }
 
   calendarWarning(hasCalendarItem) {
