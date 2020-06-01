@@ -18,7 +18,7 @@ export class SingleProjectArchiveComponent implements OnInit {
     private api: ApiService, 
     private toastr: ToastrService,
     private router: Router,
-    private singleProjectArchiveService: SingleProjectArchiveService,
+    public singleProjectArchiveService: SingleProjectArchiveService,
     private singleProjectService: SingleProjectService,
   ) { }
 
