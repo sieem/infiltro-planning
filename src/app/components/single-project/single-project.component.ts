@@ -69,10 +69,6 @@ export class SingleProjectComponent implements OnInit {
     this.singleProjectService.projectForm.value.invoiced = !this.singleProjectService.projectForm.value.invoiced
   }
 
-  updateStatusDropdowns() {
-    this.singleProjectService.projectForm.setValue(this.singleProjectService.projectForm.value)
-  }
-
   calendarWarning(hasCalendarItem) {
     if(hasCalendarItem) {
       this.toastr.warning("Google Agenda evenement is aangemaakt. Tijd en datum kunnen enkel nog in Google Agenda aangepast worden.", "Datum ingepland en uur ingepland zijn vergrendeld")
