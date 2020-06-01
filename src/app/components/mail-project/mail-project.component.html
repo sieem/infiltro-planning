@@ -6,7 +6,7 @@
   </div>
 </div>
 
-<form *ngIf="auth.isAdmin()" [formGroup]="mailForm" (ngSubmit)="onSubmit()">
+<form *ngIf="auth.isAdmin()" [formGroup]="mailForm" class="wrapper" (ngSubmit)="onSubmit()">
   <div class="inputGroup">
     <label for="to">Naar e-mailadres</label>
     <input type="email" name="to" formControlName="to">
