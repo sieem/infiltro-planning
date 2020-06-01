@@ -3,7 +3,7 @@
       <div class="projectRow space-between">
         <app-single-project-controls [projectForm]="singleProjectService.projectForm" [projectId]="singleProjectService.projectId" class="left controls"></app-single-project-controls>
         <div class="right">
-          <app-single-project-row label="Contactpersoon binnen" field="company" type="select" [dataSource]="companyService.companies" valueKey="_id">
+          <app-single-project-row label="Contactpersoon binnen" field="company" type="select" [dataSource]="companyService.companies" valueKey="_id" [readOnly]="!auth.isAdmin()">
           </app-single-project-row>
 
           <app-single-project-row label=":" field="EpbReporter" type="select" [dataSource]="userService.users | filterUsers:singleProjectService.projectForm.value.company" valueKey="_id">
@@ -21,7 +21,7 @@
         <h2>{{singleProjectService.projectForm.value.projectName}}</h2>
       </div>
       <div class="right">
-        <app-single-project-row label="Datum aanvraag" field="dateCreated" type="date">
+        <app-single-project-row label="Datum aanvraag" field="dateCreated" type="date" [readOnly]="!auth.isAdmin()">
         </app-single-project-row>
       </div>
     </div>
@@ -91,13 +91,13 @@
       <h2>Uitvoergegevens</h2>
     </div>
 
-    <app-single-project-row label="Uitvoerder" field="executor" type="select" [dataSource]="projectService.executors" valueKey="type">
+    <app-single-project-row label="Uitvoerder" field="executor" type="select" [dataSource]="projectService.executors" valueKey="type" [readOnly]="!auth.isAdmin()">
     </app-single-project-row>
 
-    <app-single-project-row label="Datum ingepland" field="datePlanned" type="date">
+    <app-single-project-row label="Datum ingepland" field="datePlanned" type="date" [readOnly]="!(auth.isAdmin() && !hasCalendarItem)">
     </app-single-project-row>
 
-    <app-single-project-row label="Uur ingepland" field="hourPlanned" type="time">
+    <app-single-project-row label="Uur ingepland" field="hourPlanned" type="time" [readOnly]="!(auth.isAdmin() && !hasCalendarItem)">
     </app-single-project-row>
 
     <app-single-project-row label="Status" field="status" type="select" [dataSource]="projectService.statuses" valueKey="type">
