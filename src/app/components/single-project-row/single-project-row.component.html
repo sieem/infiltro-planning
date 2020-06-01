@@ -4,8 +4,8 @@
         <div class="inputField">
             <div class="read" (click)="changeEditState(field, true)" [ngClass]="{'empty': isEmpty(field)}"
                 *ngIf="!singleProjectService.projectEditStates[field] || readOnly">
-                <ng-container *ngIf="type === 'textarea'" [innerHTML]="formService.newlineToBr(singleProjectService.projectForm.value[field])"></ng-container>
-                <ng-container *ngIf="type !== 'textarea'">
+                <span *ngIf="type === 'textarea'" [innerHTML]="formService.newlineToBr(singleProjectService.projectForm.value[field])"></span>
+                <span *ngIf="type !== 'textarea'">
                     <ng-container [ngSwitch]="field">
                         <ng-container *ngSwitchCase="'company'">
                             {{companyService.companyName(singleProjectService.projectForm.value.company)}}
@@ -32,7 +32,7 @@
                             {{singleProjectService.projectForm.value[field]}}
                         </ng-container>
                     </ng-container>
-                </ng-container>
+                </span>
             </div>
             
             <div class="write" *ngIf="singleProjectService.projectEditStates[field] && !readOnly">
@@ -56,7 +56,7 @@
                 </ng-container>
 
                 <ng-container *ngIf="type === 'textarea'">
-                    <textarea name="extraInfoAddress" id="extraInfoAddress" formControlName="extraInfoAddress" rows="3"></textarea>
+                    <textarea [name]="field" [id]="field" [formControlName]="field" rows="3"></textarea>
                 </ng-container>
                 <p *ngIf="formService.checkInputField(singleProjectService.projectForm, field, singleProjectService.submitted)" class="error">!</p>
             </div>
