@@ -41,6 +41,13 @@ export class SingleProjectControlsComponent implements OnInit {
 
   onSubmit() {
     this.singleProjectService.submitted = true;
+    for (const item in this.projectForm.controls) {
+      if (this.projectForm.controls.hasOwnProperty(item)) {
+        const element = this.projectForm.controls[item];
+        if (element.status !== "VALID") console.log(item)
+      }
+    }
+    console.log(this.projectForm.controls);
     if (this.projectForm.invalid) {
       this.toastr.error('Nog niet alle verplichte velden zijn ingevuld.');
       return;
