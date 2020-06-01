@@ -94,10 +94,10 @@
     <app-single-project-row label="Uitvoerder" field="executor" type="select" [dataSource]="projectService.executors" valueKey="type" [readOnly]="!auth.isAdmin()">
     </app-single-project-row>
 
-    <app-single-project-row label="Datum ingepland" field="datePlanned" type="date" [readOnly]="!(auth.isAdmin() && !hasCalendarItem)">
+    <app-single-project-row label="Datum ingepland" field="datePlanned" type="date" [readOnly]="!auth.isAdmin() || singleProjectService.hasCalendarItem" (click)="calendarWarning(singleProjectService.hasCalendarItem)">
     </app-single-project-row>
 
-    <app-single-project-row label="Uur ingepland" field="hourPlanned" type="time" [readOnly]="!(auth.isAdmin() && !hasCalendarItem)">
+    <app-single-project-row label="Uur ingepland" field="hourPlanned" type="time" [readOnly]="!auth.isAdmin() || singleProjectService.hasCalendarItem" (click)="calendarWarning(singleProjectService.hasCalendarItem)">
     </app-single-project-row>
 
     <app-single-project-row label="Status" field="status" type="select" [dataSource]="projectService.statuses" valueKey="type">

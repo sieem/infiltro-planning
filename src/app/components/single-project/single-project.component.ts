@@ -20,8 +20,7 @@ import { SingleProjectService } from 'src/app/services/single-project.service';
   styleUrls: ['./single-project.component.scss']
 })
 export class SingleProjectComponent implements OnInit {
-  hasCalendarItem: boolean = false
-  
+    
   constructor(
     private api: ApiService,
     public formService: FormService,
