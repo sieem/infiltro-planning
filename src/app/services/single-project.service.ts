@@ -25,6 +25,7 @@ export class SingleProjectService {
   mailModalOpened: boolean = false
   hasCalendarItem: boolean = false
   newProject: boolean = true
+  archiveActive: boolean = false
 
   constructor(
     private formBuilder: FormBuilder,
@@ -91,40 +92,44 @@ export class SingleProjectService {
 
     this.api.getProject(this.projectId).subscribe(
       (res: any) => {
-        this.projectForm.setValue({
-          _id: res._id,
-          company: res.company,
-          dateCreated: moment(res.dateCreated).format(this.formService.dateFormat),
-          projectType: res.projectType,
-          houseAmount: res.houseAmount,
-          projectName: res.projectName,
-          client: res.client,
-          street: res.street,
-          city: res.city,
-          postalCode: res.postalCode,
-          extraInfoAddress: res.extraInfoAddress,
-          name: res.name,
-          tel: res.tel,
-          email: res.email,
-          extraInfoContact: res.extraInfoContact,
-          EpbReporter: res.EpbReporter,
-          ATest: res.ATest,
-          v50Value: res.v50Value,
-          protectedVolume: res.protectedVolume,
-          EpbNumber: res.EpbNumber,
-          executor: res.executor,
-          datePlanned: moment(res.datePlanned).format(this.formService.dateFormat),
-          hourPlanned: res.hourPlanned,
-          status: res.status,
-        })
-
-        this.hasCalendarItem = (res.eventId && res.calendarId) ? true : false
+        this.fillInFormGroup(res);
       },
       err => {
         this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
         this.router.navigate(['/'])
       }
     )
+  }
+
+  fillInFormGroup(formData) {
+    this.projectForm.setValue({
+      _id: formData._id,
+      company: formData.company,
+      dateCreated: moment(formData.dateCreated).format(this.formService.dateFormat),
+      projectType: formData.projectType,
+      houseAmount: formData.houseAmount,
+      projectName: formData.projectName,
+      client: formData.client,
+      street: formData.street,
+      city: formData.city,
+      postalCode: formData.postalCode,
+      extraInfoAddress: formData.extraInfoAddress,
+      name: formData.name,
+      tel: formData.tel,
+      email: formData.email,
+      extraInfoContact: formData.extraInfoContact,
+      EpbReporter: formData.EpbReporter,
+      ATest: formData.ATest,
+      v50Value: formData.v50Value,
+      protectedVolume: formData.protectedVolume,
+      EpbNumber: formData.EpbNumber,
+      executor: formData.executor,
+      datePlanned: moment(formData.datePlanned).format(this.formService.dateFormat),
+      hourPlanned: formData.hourPlanned,
+      status: formData.status,
+    })
+
+    this.hasCalendarItem = (formData.eventId && formData.calendarId) ? true : false
   }
 
   saveProject() {

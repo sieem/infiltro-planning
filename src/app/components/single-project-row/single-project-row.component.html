@@ -3,7 +3,7 @@
         <label [for]="field"><span [innerHTML]='label'></span>&nbsp;<span *ngIf="singleProjectService.projectForm.controls[field].validator !== null">*</span></label>
         <div class="inputField">
             <div class="read" (click)="changeEditState(field, true)" [ngClass]="{'empty': isEmpty(field)}"
-                *ngIf="!singleProjectService.projectEditStates[field] || readOnly">
+                *ngIf="!singleProjectService.projectEditStates[field] || readOnly || singleProjectService.archiveActive">
                 <span *ngIf="type === 'textarea'" [innerHTML]="formService.newlineToBr(singleProjectService.projectForm.value[field])"></span>
                 <span *ngIf="type !== 'textarea'">
                     <ng-container [ngSwitch]="field">
@@ -35,7 +35,7 @@
                 </span>
             </div>
             
-            <div class="write" *ngIf="singleProjectService.projectEditStates[field] && !readOnly">
+            <div class="write" *ngIf="singleProjectService.projectEditStates[field] && !readOnly && !singleProjectService.archiveActive">
                 <ng-container *ngIf="type === 'input'">
                     <input type="text" [name]="field" [id]="field" [formControlName]="field">
                 </ng-container>

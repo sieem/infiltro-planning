@@ -3,6 +3,7 @@ import { FormService } from 'src/app/services/form.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 import { SingleProjectCommentsService } from 'src/app/services/single-project-comments.service';
+import { SingleProjectService } from 'src/app/services/single-project.service';
 
 @Component({
   selector: 'app-single-project-comments',
@@ -22,6 +23,7 @@ export class SingleProjectCommentsComponent implements OnInit {
     public userService: UserService,
     private auth: AuthService,
     public singleProjectCommentsService: SingleProjectCommentsService,
+    public singleProjectService: SingleProjectService,
   ) { }
 
   ngOnInit() {
