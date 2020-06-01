@@ -50,7 +50,7 @@
                 </ng-container>
 
                 <ng-container *ngIf="type === 'select'">
-                    <select [name]="field" [id]="field" [formControlName]="field">
+                    <select [name]="field" [id]="field" [formControlName]="field" (change)="updateStatusDropdowns(field)">
                         <option value="">Selecteer type</option>
                         <option *ngFor="let item of dataSource" [value]="item[valueKey]">{{item.name}}</option>
                     </select>

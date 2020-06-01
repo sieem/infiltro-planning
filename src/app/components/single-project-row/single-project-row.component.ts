@@ -40,4 +40,10 @@ export class SingleProjectRowComponent implements OnInit {
     this.singleProjectService.projectEditStates[inputName] = state
   }
 
+  updateStatusDropdowns(field) {
+    if (field === 'status') {
+      this.singleProjectService.projectForm.setValue(this.singleProjectService.projectForm.value)
+    }
+  }
+
 }
