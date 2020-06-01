@@ -9,7 +9,7 @@
   </div>
 </div>
 
-<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="registerForm" class="wrapper" (ngSubmit)="onSubmit()">
   <div class="inputGroup">
     <label for="name">name</label>
     <input type="text" name="name" formControlName="name">

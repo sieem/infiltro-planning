@@ -161,7 +161,7 @@
     </ng-template>
 </div>
 <infiltro-modal id="batchmode-modal">
-    <form [formGroup]="batchForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="batchForm" class="wrapper" (ngSubmit)="onSubmit()">
         <select name="status" id="status" formControlName="status">
             <option value="">Selecteer status</option>
             <option *ngFor="let status of projectService.statuses" [value]="status.type">{{status.name}}</option>
