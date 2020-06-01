@@ -30,6 +30,8 @@ import { MailProjectComponent } from './components/mail-project/mail-project.com
 import { PricesComponent } from './components/prices/prices.component';
 import { SingleProjectCommentsComponent } from './components/single-project-comments/single-project-comments.component';
 import { ReversePipe } from './pipes/reverse.pipe';
+import { SingleProjectFormComponent } from './components/single-project-form/single-project-form.component';
+import { SingleProjectControlsComponent } from './components/single-project-controls/single-project-controls.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,7 +48,9 @@ import { ReversePipe } from './pipes/reverse.pipe';
     MailProjectComponent,
     PricesComponent,
     SingleProjectCommentsComponent,
-    ReversePipe
+    ReversePipe,
+    SingleProjectFormComponent,
+    SingleProjectControlsComponent
   ],
   imports: [
     BrowserModule,
