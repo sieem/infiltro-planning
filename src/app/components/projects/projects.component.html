@@ -86,14 +86,14 @@
         [class.isFuturePlanned]="isFuturePlanned(project)"
         [class.selected]="isSelected(project) && batchMode"
         (click)="selectProject(project)">
-            <div class="company">{{companyService.companyName(project.company)}} </div>
+            <div class="company">{{project.company | company | async}} </div>
             <ng-container *ngIf="!batchMode; else noBatchMode">
                 <div class="title" [routerLink]="[ '/project', project._id ]">{{ project.projectName }} /
-                    {{ projectService.projectTypeName(project.projectType) }} / {{project.houseAmount}}</div>
+                    {{ projectTypeName | projectType }} / {{project.houseAmount}}</div>
             </ng-container>
             <ng-template #noBatchMode>
                 <div class="title">{{ project.projectName }} /
-                    {{ projectService.projectTypeName(project.projectType) }} / {{project.houseAmount}}</div>
+                    {{ projectTypeName | projectType }} / {{project.houseAmount}}</div>
             </ng-template>
             
             
@@ -102,7 +102,7 @@
                 (window:keydown)="registerCtrlKey($event)"
                 (window:keyup)="registerCtrlKey($event)"
                     *ngIf="!isSelected(project) || batchMode">
-                    {{projectService.statusName(project.status)}}
+                    {{ project.status | status }}
                 </div>
                 <div class="write" *ngIf="isSelected(project) && auth.isAdmin() && !batchMode">
                     <select name="status" id="status" (change)="changeStatus($event)">
@@ -112,10 +112,10 @@
                 </div>
             </div>
             <div class="address">{{project.street}}, {{project.postalCode}} {{project.city}}<span *ngIf="project.extraInfoAddress" class="extraInfoAddress">, {{project.extraInfoAddress}}</span></div>
-            <div class="dateHourCreated">{{ projectService.formatDate(project.dateCreated) }}</div>
+            <div class="dateHourCreated">{{ project.dateCreated | date }}</div>
             <div class="dateHourPlanned">
-                <b>{{ projectService.executorName(project.executor) }}</b><br>
-                {{ projectService.formatDate(project.datePlanned) }}
+                <b>{{ project.executor | executor }}</b><br>
+                {{ project.datePlanned | date }}
                 <ng-container *ngIf="project.hourPlanned">om {{ project.hourPlanned }}</ng-container>
             </div>
             <div class="technicalDataFilledIn">
@@ -142,8 +142,8 @@
                         <div class="hoverComment" *ngIf="currentHoverComment === project._id">
                             <div class="list comments">
                                 <div class="comment" *ngFor="let comment of project.comments | reverse">
-                                    <div class="user">{{userService.userToName(comment.user)}}</div>
-                                    <div class="modifiedDateTime">{{formService.formatDateTime(comment.modifiedDateTime)}}</div>
+                                    <div class="user">{{comment.user | user | async}}</div>
+                                    <div class="modifiedDateTime">{{comment.modifiedDateTime | date}}</div>
                                     <div class="content" [innerHTML]="formService.newlineToBr(comment.content)"></div>
                                 </div>
                             </div>

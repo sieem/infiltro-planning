@@ -8,8 +8,8 @@ export class FilterUsersPipe implements PipeTransform {
 
   constructor(private auth:AuthService) {}
 
-  transform(value, companyId): unknown {
-    return value.filter((el) => el.company === companyId || this.auth.isAdmin());
+  transform(value, companyId): any {
+    return (value) ? value.filter((el) => el.company === companyId || this.auth.isAdmin()) : value;
   }
 
 }
