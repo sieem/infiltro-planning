@@ -32,6 +32,7 @@ import { SingleProjectCommentsComponent } from './components/single-project-comm
 import { ReversePipe } from './pipes/reverse.pipe';
 import { SingleProjectControlsComponent } from './components/single-project-controls/single-project-controls.component';
 import { SingleProjectRowComponent } from './components/single-project-row/single-project-row.component';
+import { FilterUsersPipe } from './pipes/filter-users.pipe';
 @NgModule({
   declarations: [
     AppComponent,
@@ -50,7 +51,8 @@ import { SingleProjectRowComponent } from './components/single-project-row/singl
     SingleProjectCommentsComponent,
     ReversePipe,
     SingleProjectControlsComponent,
-    SingleProjectRowComponent
+    SingleProjectRowComponent,
+    FilterUsersPipe
   ],
   imports: [
     BrowserModule,
