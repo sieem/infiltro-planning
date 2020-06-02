@@ -35,13 +35,11 @@ export class UserService {
   }
 
   public roleName(type: string) {
-    let name: string
-    this.userRoles.forEach(role => {
-      if (role.type === type) {
-        name = role.name
-      }
-    })
-    return name || 'Onbekend'
+    try {
+      return this.userRoles.find(role => role.type === type).name;
+    } catch (error) {
+      return 'Onbekend'
+    }
 
   }
 
