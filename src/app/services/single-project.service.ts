@@ -82,10 +82,7 @@ export class SingleProjectService {
     })
   }
 
-  fillInProject(projectId) {
-    this.newProject = false
-    this.projectId = projectId;
-
+  fillInProject() {
     Object.keys(this.projectForm.controls).forEach(key => {
       this.projectEditStates[key] = false
     })

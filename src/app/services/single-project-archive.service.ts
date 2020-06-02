@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SingleProjectService } from './single-project.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -11,11 +12,16 @@ export class SingleProjectArchiveService {
 
   constructor(
     private singleProjectService: SingleProjectService,
+    private router: Router,
   ) { }
 
   init(res) {
     this.archiveData = res;
     this.archiveProjectData = this.archiveData[this.activeProject];
+    if (!this.archiveProjectData) {
+      this.router.navigate(['/project/' + this.singleProjectService.projectId])
+      return;
+    }
     this.singleProjectService.fillInFormGroup(this.archiveProjectData.projectData);
   }
 
