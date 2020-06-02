@@ -12,6 +12,7 @@ import { ModalService } from 'src/app/services/modal.service';
 import { UserService } from 'src/app/services/user.service';
 import { SingleProjectCommentsService } from 'src/app/services/single-project-comments.service';
 import { SingleProjectService } from 'src/app/services/single-project.service';
+import { SingleProjectArchiveService } from 'src/app/services/single-project-archive.service';
 
 
 @Component({
@@ -31,7 +32,9 @@ export class SingleProjectComponent implements OnInit {
     public projectService: ProjectService,
     public singleProjectCommentService: SingleProjectCommentsService,
     private toastr: ToastrService,
-    public singleProjectService: SingleProjectService) { }
+    public singleProjectService: SingleProjectService,
+    private singleProjectArchiveService: SingleProjectArchiveService,
+    ) { }
 
   ngOnInit() {
 
@@ -55,6 +58,7 @@ export class SingleProjectComponent implements OnInit {
   }
   ngOnDestroy() {
     this.singleProjectService.archiveActive = false;
+    this.singleProjectArchiveService.activeProject = 0;
   }
 
   calendarWarning(hasCalendarItem) {
