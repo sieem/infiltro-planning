@@ -40,15 +40,16 @@ export class SingleProjectComponent implements OnInit {
 
     this.singleProjectService.initProject();
 
-    if (this.singleProjectService.archiveActive) {
-      return;
-    }
-
     this.route.params.subscribe(params => {
       if (params.projectId) {
-        this.singleProjectService.fillInProject(params.projectId);
+        this.singleProjectService.newProject = false;
+        this.singleProjectService.projectId = params.projectId;
+        if (this.singleProjectService.archiveActive) {
+          return;
+        }
+        this.singleProjectService.fillInProject();
       } else {
-        this.singleProjectService.newProject = true
+        this.singleProjectService.newProject = true;
         this.api.generateProjectId().subscribe(
           res => this.singleProjectService.projectForm.controls._id.setValue(res),
           err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
