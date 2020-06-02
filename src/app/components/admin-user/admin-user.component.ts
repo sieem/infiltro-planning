@@ -7,6 +7,7 @@ import { CompanyService } from 'src/app/services/company.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { UserService } from 'src/app/services/user.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-admin-user',
@@ -17,6 +18,7 @@ export class AdminUserComponent implements OnInit {
   registerForm: FormGroup;
   submitted = false;
   editState = false;
+  users$: Observable<any> = this.userService.getUsers();
 
   constructor(private formBuilder: FormBuilder,
     private api: ApiService,
@@ -61,7 +63,7 @@ export class AdminUserComponent implements OnInit {
     if (!this.registerForm.value._id) {
       this.api.addUser(formData).subscribe(
         (res: any) => {
-          this.userService.users.push(res)
+          this.users$ = this.userService.getUsers(true);
           this.registerForm.reset()
           this.toastr.success('User saved', 'Sent mail to user!');
         },
@@ -72,7 +74,7 @@ export class AdminUserComponent implements OnInit {
       this.editState = false
       this.api.editUser(formData).subscribe(
         (res: any) => {
-          this.userService.users = this.formService.updateElementInArray(this.userService.users, res)
+          this.users$ = this.userService.getUsers(true);
           this.registerForm.reset()
           this.toastr.success('User saved');
         },
@@ -100,7 +102,7 @@ export class AdminUserComponent implements OnInit {
       if (confirm(`Are you really sure you want to delete ${user.email}???`)) {
         this.api.removeUser(user._id).subscribe(
           (res: any) => {
-            this.userService.users = this.formService.removeElementInArray(this.userService.users, user._id)
+            this.users$ = this.userService.getUsers(true);
           },
           err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
         )

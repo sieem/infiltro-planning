@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { ApiService } from './api.service';
+import { Observable } from 'rxjs';
+import { shareReplay } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
+  private users$: Observable<any>;
+
   userRoles: any = [
     {
       "type": "admin",
@@ -21,14 +25,10 @@ export class UserService {
     }
   ]
 
-  users: any;
-
   constructor(
     private api: ApiService,
     private toastr: ToastrService
-  ) {
-    this.getUsers()
-  }
+  ) {}
 
   getUserRoles() {
     return this.userRoles
@@ -43,30 +43,20 @@ export class UserService {
 
   }
 
-  getUsers(): Promise<any> {
-    return new Promise((resolve, reject) => {
-      this.api.getUsers().subscribe(
-        res => {
-          return resolve(res)
-        },
-        err => {
-          this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
-          return reject()
-        }
-      )
-    })
+  getUsers(invalidateCache: boolean = false): Observable<any> {
+    if (this.users$ && !invalidateCache) {
+      return this.users$;
+    }
+    this.users$ = this.api.getUsers().pipe(shareReplay(1));
+    return this.users$;
   }
 
   async userToName(userId): Promise<string> {
-    if (!this.users) {
-      this.users = await this.getUsers();
+    const companies = await this.getUsers().toPromise();
+    try {
+      return companies.find(user => user._id === userId).name;
+    } catch (error) {
+      return userId
     }
-    for (const user of this.users) {
-      if (user._id === userId) {
-        return user.name
-      }
-    }
-
-    return userId
   }
 }

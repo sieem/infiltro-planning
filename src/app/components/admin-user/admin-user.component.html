@@ -1,8 +1,8 @@
 <div class="list users">
   <h1>User admin</h1>
-  <div class="item" *ngFor="let user of userService.users">
+  <div class="item" *ngFor="let user of userService.getUsers() | async">
     <div>{{user.name}} ({{user.email}})</div>
-    <div>{{companyService.companyName(user.company)}}</div>
+    <div>{{ user.company | company | async }}</div>
     <div>{{userService.roleName(user.role)}}</div>
     <div class="icon" (click)="editUser(user)"><img src="assets/images/icon-edit.svg" alt=""></div>
     <div class="icon" *ngIf="user._id !== auth.getUserDetails().id" (click)="removeUser(user)"><img src="assets/images/icon-delete.svg" alt=""></div>

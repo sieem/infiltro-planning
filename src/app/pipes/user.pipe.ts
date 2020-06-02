@@ -8,8 +8,8 @@ export class UserPipe implements PipeTransform {
 
   public constructor(private userService: UserService) { }
 
-  transform(value: string): Promise<string> {
-    return this.userService.userToName(value)
+  async transform(value: string): Promise<string> {
+    return await this.userService.userToName(value)
   }
 
 
