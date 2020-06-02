@@ -38,7 +38,7 @@ import { DynamicProjectPipe } from './pipes/dynamic-project.pipe';
 import { CompanyPipe } from './pipes/company.pipe';
 import { UserPipe } from './pipes/user.pipe';
 import { ProjectTypePipe } from './pipes/project-type.pipe';
-import { DatePipe } from './pipes/date.pipe';
+import { FormatDatePipe } from './pipes/format-date.pipe';
 import { StatusPipe } from './pipes/status.pipe';
 import { ExecutorPipe } from './pipes/executor.pipe';
 
@@ -67,7 +67,7 @@ import { ExecutorPipe } from './pipes/executor.pipe';
     CompanyPipe,
     UserPipe,
     ProjectTypePipe,
-    DatePipe,
+    FormatDatePipe,
     StatusPipe,
     ExecutorPipe,
   ],
@@ -93,7 +93,7 @@ import { ExecutorPipe } from './pipes/executor.pipe';
     CompanyPipe,
     UserPipe,
     ProjectTypePipe,
-    DatePipe,
+    FormatDatePipe,
     StatusPipe,
     ExecutorPipe,
   ],
