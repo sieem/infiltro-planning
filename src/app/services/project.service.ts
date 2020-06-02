@@ -327,10 +327,6 @@ export class ProjectService {
     return name || 'Onbekend'
   }
 
-  public formatDate(value) {
-    return this.formService.formatDate(value)
-  }
-
   public isTechnicalDataFilledIn(projectData) {
     for (const technicalField of this.technicalFields) {
       if (projectData[technicalField] === "") {
