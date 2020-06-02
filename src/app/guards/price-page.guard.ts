@@ -12,7 +12,7 @@ export class PricePageGuard implements CanActivate {
     private router: Router,
     private companyService: CompanyService) { }
 
-  async canActivate(route: ActivatedRouteSnapshot): boolean {
+  async canActivate(route: ActivatedRouteSnapshot): Promise<boolean> {
     if (await this.companyService.pricePageVisible()) {
         return true
     } else {
