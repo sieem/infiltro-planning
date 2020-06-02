@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { ProjectService } from '../services/project.service';
 
 @Pipe({
-  name: 'date'
+  name: 'formatDate'
 })
 export class DatePipe implements PipeTransform {
 

@@ -112,10 +112,10 @@
                 </div>
             </div>
             <div class="address">{{project.street}}, {{project.postalCode}} {{project.city}}<span *ngIf="project.extraInfoAddress" class="extraInfoAddress">, {{project.extraInfoAddress}}</span></div>
-            <div class="dateHourCreated">{{ project.dateCreated | date }}</div>
+            <div class="dateHourCreated">{{ project.dateCreated | formatDate }}</div>
             <div class="dateHourPlanned">
                 <b>{{ project.executor | executor }}</b><br>
-                {{ project.datePlanned | date }}
+                {{ project.datePlanned | formatDate }}
                 <ng-container *ngIf="project.hourPlanned">om {{ project.hourPlanned }}</ng-container>
             </div>
             <div class="technicalDataFilledIn">
