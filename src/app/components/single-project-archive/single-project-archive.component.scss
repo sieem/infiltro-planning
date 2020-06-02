@@ -8,11 +8,17 @@
     padding-right: 15px;
     padding-left: 15px;
 
+    .arrows {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 10px;
+    }
+
     .icon {
         width: 20px;
-        cursor: pointer;
         
         img {
+            cursor: pointer;
             width: 100%;
         }
     }

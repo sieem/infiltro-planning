@@ -19,7 +19,7 @@ export class SingleProjectArchiveComponent implements OnInit {
     private toastr: ToastrService,
     private router: Router,
     public singleProjectArchiveService: SingleProjectArchiveService,
-    private singleProjectService: SingleProjectService,
+    public singleProjectService: SingleProjectService,
   ) { }
 
   ngOnInit(): void {
