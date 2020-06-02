@@ -43,6 +43,10 @@ export class ProjectsComponent implements OnInit {
     })
   }
 
+  trackByFn(index: number, item: any) {
+    return item._id;
+  }
+
   toggleBatchMode() {
     if (this.batchMode && this.selectedProjects.length > 0) {
       this.modalService.open("batchmode-modal")

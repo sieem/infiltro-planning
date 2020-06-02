@@ -81,7 +81,7 @@
 <div class="projectList" [ngClass]="{'batchMode': batchMode}">
     <ng-container *ngIf="projectService.projects.length > 0; else noProjectsFound">
         <div class="project" 
-        *ngFor="let project of projectService.projects"
+        *ngFor="let project of projectService.projects; trackBy: trackByFn"
         [ngClass]="[project.status]"
         [class.isFuturePlanned]="isFuturePlanned(project)"
         [class.selected]="isSelected(project) && batchMode"
