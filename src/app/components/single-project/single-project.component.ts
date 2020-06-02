@@ -53,6 +53,9 @@ export class SingleProjectComponent implements OnInit {
       }
     })
   }
+  ngOnDestroy() {
+    this.singleProjectService.archiveActive = false;
+  }
 
   calendarWarning(hasCalendarItem) {
     if(hasCalendarItem) {
