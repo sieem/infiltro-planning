@@ -4,7 +4,7 @@ import { ProjectService } from '../services/project.service';
 @Pipe({
   name: 'formatDate'
 })
-export class DatePipe implements PipeTransform {
+export class FormatDatePipe implements PipeTransform {
 
   public constructor(private projectService: ProjectService) { }
 

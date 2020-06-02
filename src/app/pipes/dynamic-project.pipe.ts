@@ -3,7 +3,7 @@ import { CompanyPipe } from './company.pipe';
 import { UserPipe } from './user.pipe';
 import { ProjectTypePipe } from './project-type.pipe';
 import { ExecutorPipe } from './executor.pipe';
-import { DatePipe } from './date.pipe';
+import { FormatDatePipe } from './format-date.pipe';
 import { StatusPipe } from './status.pipe';
 
 @Pipe({
@@ -15,7 +15,7 @@ export class DynamicProjectPipe implements PipeTransform {
     private UserPipe:UserPipe,
     private ProjectTypePipe:ProjectTypePipe,
     private ExecutorPipe:ExecutorPipe,
-    private DatePipe:DatePipe,
+    private FormatDatePipe:FormatDatePipe,
     private StatusPipe:StatusPipe,
   ) {}
 
@@ -29,7 +29,7 @@ export class DynamicProjectPipe implements PipeTransform {
         return this.ProjectTypePipe.transform(value);
       case 'dateCreated':
       case 'datePlanned':
-        return this.DatePipe.transform(value);
+        return this.FormatDatePipe.transform(value);
       case 'status':
         return this.StatusPipe.transform(value);
       case 'executor':
