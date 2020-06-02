@@ -32,4 +32,20 @@ export class SingleProjectArchiveService {
     this.activeProject++;
     this.singleProjectService.fillInFormGroup(this.archiveData[this.activeProject].projectData);
   }
+
+  fieldChanged(field) {
+    if (!this.singleProjectService.archiveActive || !this.archiveData) {
+      return false;
+    }
+    
+    if (!this.archiveData[this.activeProject + 1]) {
+      return true;
+    }
+
+    return this.archiveData[this.activeProject + 1].projectData[field] !== this.archiveData[this.activeProject].projectData[field];
+  }
+
+  getOldField(field) {
+    return (this.archiveData[this.activeProject + 1]) ? this.archiveData[this.activeProject + 1].projectData[field] : '';
+  }
 }

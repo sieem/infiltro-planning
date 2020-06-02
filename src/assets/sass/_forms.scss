@@ -140,3 +140,15 @@ textarea {
     justify-content: flex-end;
     flex-grow: 1;
 }
+
+.fieldChanged {
+    .read {
+        color: lightgreen;
+        font-weight: bold;
+
+        .oldField {
+            color: red;
+            text-decoration: line-through;
+        }
+    }
+}

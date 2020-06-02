@@ -4,6 +4,7 @@ import { ProjectService } from 'src/app/services/project.service';
 import { FormService } from 'src/app/services/form.service';
 import { CompanyService } from 'src/app/services/company.service';
 import { UserService } from 'src/app/services/user.service';
+import { SingleProjectArchiveService } from 'src/app/services/single-project-archive.service';
 
 @Component({
   selector: 'app-single-project-row',
@@ -25,6 +26,7 @@ export class SingleProjectRowComponent implements OnInit {
     public companyService: CompanyService,
     public userService: UserService,
     public formService: FormService,
+    public singleProjectArchiveService: SingleProjectArchiveService,
   ) { }
 
   ngOnInit(): void {
