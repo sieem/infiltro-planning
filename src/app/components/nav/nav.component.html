@@ -1,7 +1,7 @@
 <nav>
   <a routerLink="/projecten" routerLinkActive="active">Projecten</a>
   <a routerLink="/kaart" *ngIf="auth.isAdmin()" routerLinkActive="active">Kaart</a>
-  <a routerLink="/staffel" routerLinkActive="active" *ngIf="companyService.pricePageVisible(auth.getUserDetails())">Staffel</a>
+  <a routerLink="/staffel" routerLinkActive="active" *ngIf="companyService.pricePageVisible$ | async">Staffel</a>
   <a *ngIf="auth.isAdmin()" routerLinkActive="active">Administratie
     <div class="submenu">
       <a routerLink="/admin/gebruikers" routerLinkActive="active">Gebruikers</a>

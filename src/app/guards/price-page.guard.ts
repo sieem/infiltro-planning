@@ -12,8 +12,8 @@ export class PricePageGuard implements CanActivate {
     private router: Router,
     private companyService: CompanyService) { }
 
-  canActivate(route: ActivatedRouteSnapshot): boolean {
-    if (this.companyService.pricePageVisible(this.auth.getUserDetails())) {
+  async canActivate(route: ActivatedRouteSnapshot): boolean {
+    if (await this.companyService.pricePageVisible()) {
         return true
     } else {
       this.router.navigate(['/'])

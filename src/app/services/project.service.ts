@@ -212,7 +212,6 @@ export class ProjectService {
     }
 
   async getProjects() {
-    await this.companyService.getCompanies()
     if (!this.activeFilter.company.length) {
       this.selectAllFilter('company', true, 'companies')
     }
@@ -238,10 +237,11 @@ export class ProjectService {
     this.sortProjects()
   }
 
-  selectAllFilter(filterCat: string, selectAll: boolean, filterCatArray: string = '') {
+  async selectAllFilter(filterCat: string, selectAll: boolean, filterCatArray: string = '') {
     if (selectAll) {
       if (filterCat === 'company') {
-        this.activeFilter[filterCat] = this.companyService.companies.map(el => el._id)
+        const companies = await this.companyService.getCompanies().toPromise();
+        this.activeFilter[filterCat] = companies.map(el => el._id)
       } else {
         this.activeFilter[filterCat] = this[filterCatArray].map(el => el.filter === undefined || el.filter ? el.type : null)
       }

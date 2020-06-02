@@ -45,7 +45,7 @@
                 <div class="btn" (click)="projectService.selectAllFilter('company', true, 'companies')">Alles</div>
                 <div class="btn" (click)="projectService.selectAllFilter('company', false)">Niets</div>
             </div>
-            <div class="item" *ngFor="let company of companyService.companies"
+            <div class="item" *ngFor="let company of companyService.getCompanies() | async"
                 (click)="projectService.changeFilter('company', company._id)">
                 <img src="/assets/images/icon-unchecked.svg" alt=""
                     *ngIf="!projectService.activeFilter.company.includes(company._id)">

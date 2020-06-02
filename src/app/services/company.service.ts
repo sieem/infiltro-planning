@@ -1,53 +1,44 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
 import { ToastrService } from 'ngx-toastr';
-import { resolve } from 'url';
+import { shareReplay } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CompanyService {
-  companies: any = []
+  private companies$: Observable<any>;
+  public pricePageVisible$: Promise<boolean> = this.pricePageVisible();
 
   constructor(
     private api: ApiService,
-    private toastr: ToastrService) {
-      this.getCompanies()
+    private toastr: ToastrService,
+    private auth: AuthService,
+    ) {
   }
 
-  getCompanies(): Promise<any> {
-    return new Promise((resolve,reject) => {
-      this.api.getCompanies().subscribe(
-        res => {
-          this.companies = res
-          return resolve(res)
-        },
-        err => {
-          this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
-          return reject()
-        }
-      )
-    })
+  getCompanies(invalidateCache: boolean = false): Observable<any> {
+    if (this.companies$ && !invalidateCache) {
+      return this.companies$;
+    }
+    this.companies$ = this.api.getCompanies().pipe(shareReplay(1));
+    return this.companies$;
   }
 
   async companyName(companyId) {
-    if (!this.companies) {
-      this.companies = await this.getCompanies();
+    const companies = await this.getCompanies().toPromise();
+    try {
+      return companies.find(company => company._id === companyId).name;
+    } catch (error) {
+      return companyId
     }
-    for (const company of this.companies) {
-      if (company._id === companyId) {
-        return company.name
-      }
-    }
-
-    return companyId
   }
 
-  pricePageVisible(user) {
-    for (const company of this.companies) {
-      if (company._id === user.company) {
-        return company.pricePageVisible
-      }
-    }
+  async pricePageVisible(): Promise<boolean> {
+    const companies = await this.getCompanies().toPromise();
+    const user = this.auth.getUserDetails();
+    return !!companies.find(company => company._id === user.company);
   }
 }

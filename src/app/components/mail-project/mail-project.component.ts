@@ -46,14 +46,14 @@ export class MailProjectComponent implements OnInit {
         this.projectId = params['projectId'];
 
         this.api.getProject(this.projectId).subscribe(
-          (res: any) => {
+          async (res: any) => {
             this.project = res
 
             const mailSubject = `Bevestiging afspraak luchtdichtheidstest op ${this.project.street}`;
             const mailBody = `
               Beste,
 
-              Bij deze de bevestiging van onze afspraak voor de luchtdichtheidstest (via ${this.companyService.companyName(this.project.company)}) op ${moment(this.project.datePlanned).format(this.formService.mailDateFormat)} om +/- ${this.project.hourPlanned}h
+              Bij deze de bevestiging van onze afspraak voor de luchtdichtheidstest (via ${await this.companyService.companyName(this.project.company)}) op ${moment(this.project.datePlanned).format(this.formService.mailDateFormat)} om +/- ${this.project.hourPlanned}h
               De luchtdichtheidstest neemt ongeveer 1h30 in beslag.
 
               In principe moeten er voor een bewoonde woning geen voorbereidende werken gebeuren.

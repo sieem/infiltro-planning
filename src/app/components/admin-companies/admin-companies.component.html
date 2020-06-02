@@ -1,6 +1,6 @@
 <div class="list companies">
   <h1>Company admin</h1>
-  <div class="item" *ngFor="let company of companyService.companies">
+  <div class="item" *ngFor="let company of companyService.getCompanies() | async">
     <div>{{company.name}}</div>
     <div>{{company.email}}</div>
     <div>

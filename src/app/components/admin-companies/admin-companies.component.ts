@@ -6,6 +6,7 @@ import { FormService } from 'src/app/services/form.service';
 import { CompanyService } from 'src/app/services/company.service';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-admin-companies',
@@ -16,7 +17,7 @@ export class AdminCompaniesComponent implements OnInit {
   companyForm: FormGroup
   submitted = false
   editState = false
-
+  companies$: Observable<any> = this.companyService.getCompanies();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -57,11 +58,7 @@ export class AdminCompaniesComponent implements OnInit {
 
     this.api.saveCompany(formData).subscribe(
       (res: any) => {
-        if (!this.companyForm.value._id) {
-          this.companyService.companies.push(res)
-        } else {
-          this.companyService.companies = this.formService.updateElementInArray(this.companyService.companies, res)
-        }
+        this.companies$ = this.companyService.getCompanies(true);
         
         this.companyForm.reset()
         this.editState = false
@@ -86,7 +83,7 @@ export class AdminCompaniesComponent implements OnInit {
     if (confirm(`Are you sure to delete ${company.name}?`)) {
       this.api.removeCompany(company._id).subscribe(
         (res: any) => {
-          this.companyService.companies = this.formService.removeElementInArray(this.companyService.companies, company._id)
+          // this.companyService.companies = this.formService.removeElementInArray(this.companyService.companies, company._id)
         },
         err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
       )
