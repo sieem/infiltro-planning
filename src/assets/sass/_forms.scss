@@ -143,12 +143,11 @@ textarea {
 
 .fieldChanged {
     .read {
-        color: lightgreen;
-        font-weight: bold;
 
         .oldField {
-            color: red;
+            color: $infiltro-red;
             text-decoration: line-through;
+            font-style: italic;
         }
     }
 }
