@@ -83,7 +83,7 @@ export class AdminCompaniesComponent implements OnInit {
     if (confirm(`Are you sure to delete ${company.name}?`)) {
       this.api.removeCompany(company._id).subscribe(
         (res: any) => {
-          // this.companyService.companies = this.formService.removeElementInArray(this.companyService.companies, company._id)
+          this.companies$ = this.companyService.getCompanies(true);
         },
         err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
       )
