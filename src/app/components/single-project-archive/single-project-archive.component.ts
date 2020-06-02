@@ -40,4 +40,8 @@ export class SingleProjectArchiveComponent implements OnInit {
     })
   }
 
+  goBack(): void {
+    this.router.navigate(['/project', this.singleProjectService.projectId]);
+  }
+
 }

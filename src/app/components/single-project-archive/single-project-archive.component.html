@@ -1,6 +1,6 @@
 <div class="wrapper">
     <div class="controls">
-        <div class="icon goBack" [routerLink]="[ '/project', singleProjectService.projectId ]"><img src="/assets/images/icon-back.svg" alt=""></div>
+            <div class="icon goBack" (click)="goBack()"><img src="/assets/images/icon-back.svg" alt=""></div>
         <div class="info" *ngIf="singleProjectArchiveService.archiveProjectData">
             <div class="date">Opgeslagen op: {{ singleProjectArchiveService.archiveProjectData.savedDateTime | formatDate: 'time' }}</div>
             <div class="user">Opgeslagen door: {{ singleProjectArchiveService.archiveProjectData.user | user | async }}</div>
