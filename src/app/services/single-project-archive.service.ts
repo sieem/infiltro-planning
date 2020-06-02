@@ -7,6 +7,7 @@ import { SingleProjectService } from './single-project.service';
 export class SingleProjectArchiveService {
   archiveData: any;
   activeProject: number = 0;
+  archiveProjectData: any;
 
   constructor(
     private singleProjectService: SingleProjectService,
@@ -14,7 +15,8 @@ export class SingleProjectArchiveService {
 
   init(res) {
     this.archiveData = res;
-    this.singleProjectService.fillInFormGroup(this.archiveData[this.activeProject].projectData);
+    this.archiveProjectData = this.archiveData[this.activeProject];
+    this.singleProjectService.fillInFormGroup(this.archiveProjectData.projectData);
   }
 
   newerProject() {
@@ -22,7 +24,8 @@ export class SingleProjectArchiveService {
       return
     }
     this.activeProject--;
-    this.singleProjectService.fillInFormGroup(this.archiveData[this.activeProject].projectData);
+    this.archiveProjectData = this.archiveData[this.activeProject];
+    this.singleProjectService.fillInFormGroup(this.archiveProjectData.projectData);
   }
 
   olderProject() {
@@ -30,7 +33,16 @@ export class SingleProjectArchiveService {
       return
     }
     this.activeProject++;
-    this.singleProjectService.fillInFormGroup(this.archiveData[this.activeProject].projectData);
+    this.archiveProjectData = this.archiveData[this.activeProject];
+    this.singleProjectService.fillInFormGroup(this.archiveProjectData.projectData);
+  }
+
+  isNewerProjectAvailable() {
+    return this.archiveData && this.archiveData[this.activeProject - 1];
+  }
+
+  isOlderProjectAvailable() {
+    return this.archiveData && this.archiveData[this.activeProject + 1];
   }
 
   fieldChanged(field) {

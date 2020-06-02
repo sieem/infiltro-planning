@@ -1,1 +1,19 @@
 @import "forms";
+
+.controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+
+    .icon {
+        width: 20px;
+        cursor: pointer;
+        
+        img {
+            width: 100%;
+        }
+    }
+}
