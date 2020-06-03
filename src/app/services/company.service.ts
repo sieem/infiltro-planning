@@ -35,6 +35,9 @@ export class CompanyService {
   }
 
   async pricePageVisible(): Promise<boolean> {
+    if (!this.auth.loggedIn()) {
+      return false;
+    }
     const companies = await this.getCompanies().toPromise();
     const user = this.auth.getUserDetails();
     return !!companies.find(company => company._id === user.company);
