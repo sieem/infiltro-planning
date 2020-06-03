@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
-import { ToastrService } from 'ngx-toastr';
 import { shareReplay } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
@@ -14,7 +13,6 @@ export class CompanyService {
 
   constructor(
     private api: ApiService,
-    private toastr: ToastrService,
     private auth: AuthService,
     ) {
   }
