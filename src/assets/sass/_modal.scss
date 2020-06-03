@@ -18,11 +18,15 @@ infiltro-modal {
         /* enables scrolling for tall modals */
         overflow: auto;
 
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
         .infiltro-modal-body {
             padding: 20px;
             background: #fff;
             position: relative;
-            border: 1px solid #000;
+            min-width: 600px;
 
             /* margin exposes part of the modal background */
             margin: 20px;

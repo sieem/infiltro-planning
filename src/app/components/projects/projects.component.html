@@ -161,16 +161,29 @@
     </ng-template>
 </div>
 <infiltro-modal id="batchmode-modal">
-    <form [formGroup]="batchForm" class="wrapper" (ngSubmit)="onSubmit()">
-        <select name="status" id="status" formControlName="status">
-            <option value="">Selecteer status</option>
-            <option *ngFor="let status of projectService.statuses" [value]="status.type">{{status.name}}</option>
-        </select>
-        <p *ngIf="formService.checkInputField(batchForm, 'status', submitted)" class="error">!</p>
-    
-        <div class="inputGroup right">
-            <input type="submit" value="Batch verwerken">
-        </div>
-        <button (click)="cancelBatchMode()">Annuleer</button>
-    </form>
+    <div class="batchmode wrapper">
+        <h2>Batch verwerking</h2>
+        <h4>Geselecteerde projecten</h4>
+        <ul class="selectedProjects">
+            <li *ngFor="let selectedProject of this.selectedProjects">{{ selectedProject.projectName }} / {{ selectedProject.projectType | projectType }} / {{ selectedProject.houseAmount}}</li>
+        </ul>
+        <form [formGroup]="batchForm" (ngSubmit)="onSubmit()">
+            <div class="projectRow">
+                <select name="status" id="status" formControlName="status">
+                    <option value="">Selecteer status</option>
+                    <option *ngFor="let status of projectService.statuses" [value]="status.type">{{status.name}}</option>
+                </select>
+                <p *ngIf="formService.checkInputField(batchForm, 'status', submitted)" class="error">!</p>
+            </div>
+
+            <div class="buttons">
+                <div>
+                    <button (click)="cancelBatchMode()">Annuleer</button>
+                </div>
+                <div>
+                    <input type="submit" value="Batch verwerken">
+                </div>
+            </div>
+        </form>
+    </div>
 </infiltro-modal>

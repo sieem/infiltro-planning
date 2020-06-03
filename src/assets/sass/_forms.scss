@@ -8,6 +8,7 @@ input,
 textarea,
 select,
 option,
+button,
 .read {
     font-family: 'Open Sans', Tahoma, Helvetica;
     font-size: $input-fontsize;
@@ -24,7 +25,8 @@ option,
 }
 
 input,
-textarea {
+textarea, 
+button {
     width: 100%;
 }
 
