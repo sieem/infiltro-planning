@@ -89,11 +89,11 @@
             <div class="company">{{project.company | company | async}} </div>
             <ng-container *ngIf="!batchMode; else noBatchMode">
                 <div class="title" [routerLink]="[ '/project', project._id ]">{{ project.projectName }} /
-                    {{ projectTypeName | projectType }} / {{project.houseAmount}}</div>
+                    {{ project.projectType | projectType }} / {{project.houseAmount}}</div>
             </ng-container>
             <ng-template #noBatchMode>
                 <div class="title">{{ project.projectName }} /
-                    {{ projectTypeName | projectType }} / {{project.houseAmount}}</div>
+                    {{ project.projectType | projectType }} / {{project.houseAmount}}</div>
             </ng-template>
             
             
