@@ -6,7 +6,7 @@
           <app-single-project-row label="Contactpersoon binnen" field="company" type="select" [dataSource]="companyService.getCompanies() | async" valueKey="_id" [readOnly]="!auth.isAdmin()">
           </app-single-project-row>
 
-          <app-single-project-row label=":" field="EpbReporter" type="select" [dataSource]="userService.getUsers() | async | filterUsers:singleProjectService.projectForm.value.company" valueKey="_id">
+          <app-single-project-row label=":" field="EpbReporter" type="select" [dataSource]="userService.getUsers() | async | filterUsers:singleProjectService.projectForm.value.company" valueKey="_id" [showAsterisk]="false">
           </app-single-project-row>
         </div>
       </div>
@@ -21,7 +21,7 @@
         <h2>{{singleProjectService.projectForm.value.projectName}}</h2>
       </div>
       <div class="right">
-        <app-single-project-row label="Datum aanvraag" field="dateCreated" type="date" [readOnly]="!auth.isAdmin()">
+        <app-single-project-row label="Datum aanvraag" field="dateCreated" type="date" [readOnly]="!auth.isAdmin()" [showAsterisk]="false">
         </app-single-project-row>
       </div>
     </div>
