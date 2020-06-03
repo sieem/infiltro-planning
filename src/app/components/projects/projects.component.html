@@ -101,7 +101,7 @@
                 <div class="read" (click)="selectProject(project)"
                 (window:keydown)="registerCtrlKey($event)"
                 (window:keyup)="registerCtrlKey($event)"
-                    *ngIf="!isSelected(project) || batchMode">
+                    *ngIf="!isSelected(project) || batchMode || !auth.isAdmin()">
                     {{ project.status | status }}
                 </div>
                 <div class="write" *ngIf="isSelected(project) && auth.isAdmin() && !batchMode">
