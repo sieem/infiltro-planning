@@ -33,7 +33,7 @@ export class DynamicProjectPipe implements PipeTransform {
       case 'status':
         return this.StatusPipe.transform(value);
       case 'executor':
-        return this.ExecutorPipe.transform(value);
+        return this.ExecutorPipe.transform(value, null);
       default:
         return value;
     }

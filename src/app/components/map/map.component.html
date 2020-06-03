@@ -3,7 +3,7 @@
   <agm-marker *ngFor="let m of markers"
     [latitude]="m.lat"
     [longitude]="m.lng" 
-    [label]="projectService.executorName(m.executor).substring(0,1).toUpperCase()"
+    [label]="m.executor | executor: 'label'"
     [iconUrl]="'assets/images/map/' + m.pointerUrl">
 
     <agm-info-window>
@@ -13,17 +13,17 @@
       <p>Tel: <a href="tel:{{m.tel}}">{{m.tel}}</a></p>
       <p>Tijdstip: 
         <ng-container *ngIf="m.calendarLink">
-          <a href="{{m.calendarLink}}" target="_blank">{{projectService.formatDate(m.datePlanned)}} om
+          <a href="{{m.calendarLink}}" target="_blank">{{ m.datePlanned | formatDate }} om
             {{m.hourPlanned}}</a>
         </ng-container>
         <ng-container *ngIf="!m.calendarLink">
-          {{projectService.formatDate(m.datePlanned)}} om
+          {{ m.datePlanned | formatDate}} om
             {{m.hourPlanned}}
         </ng-container>
         
         </p>
-      <p>Status: {{projectService.statusName(m.status)}}</p>
-      <p>Bedrijf: {{companyService.companyName(m.company)}}</p>
+      <p>Status: {{ m.status | status}}</p>
+      <p>Bedrijf: {{ m.company | company | async }}</p>
     </agm-info-window>
 
   </agm-marker>

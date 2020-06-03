@@ -8,8 +8,8 @@ export class ExecutorPipe implements PipeTransform {
 
   public constructor(private projectService: ProjectService) { }
 
-  transform(value: string): string {
-    return this.projectService.executorName(value)
+  transform(value: string, param: string): string {
+    return (param === 'label') ? this.projectService.executorName(value).substring(0, 1).toUpperCase(): this.projectService.executorName(value);
   }
 
 }
