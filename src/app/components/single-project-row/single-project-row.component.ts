@@ -16,6 +16,7 @@ export class SingleProjectRowComponent implements OnInit {
   @Input('field') field: string;
   @Input('type') type: string;
   @Input('valueKey') valueKey: string;
+  @Input('firstValue') firstValue: string;
   @Input('readOnly') readOnly: boolean;
   @Input('showAsterisk') showAsterisk: boolean = true;
   @Input('dataSource') dataSource: [any];

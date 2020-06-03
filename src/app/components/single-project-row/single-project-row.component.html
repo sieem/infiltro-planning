@@ -33,7 +33,7 @@
 
                 <ng-container *ngIf="type === 'select'">
                     <select [name]="field" [id]="field" [formControlName]="field" (change)="updateStatusDropdowns(field)">
-                        <option value="">Selecteer type</option>
+                        <option value="">{{ firstValue }}</option>
                         <option *ngFor="let item of dataSource" [value]="item[valueKey]">{{item.name}}</option>
                     </select>
                 </ng-container>
