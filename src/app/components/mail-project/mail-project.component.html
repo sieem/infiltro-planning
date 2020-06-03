@@ -38,10 +38,10 @@
 <div class="wrapper mailList noBorder" *ngIf="project">
   <div class="mail" *ngFor="let mail of project.mails">
     <div class="header">
-      <div class="sender"><strong>Van:</strong> {{userService.userToName(mail.sender)}}</div>
+      <div class="sender"><strong>Van:</strong> {{ mail.sender | user | async }}</div>
       <div class="receiver"><strong>Aan:</strong> {{mail.receiver}}</div>
       <div class="cc" *ngIf="mail.cc"><strong>Cc:</strong> {{mail.cc}}</div>
-      <div class="dateSent"><strong>Datum:</strong> {{formService.formatDateTime(mail.dateSent)}}</div>
+      <div class="dateSent"><strong>Datum:</strong> {{ mail.dateSent | formatDate: 'time'}}</div>
     </div>
     <div class="body" [innerHTML]="mail.body"></div>
   </div>
