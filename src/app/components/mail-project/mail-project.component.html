@@ -36,7 +36,7 @@
   </div>
 </form>
 <div class="wrapper mailList noBorder" *ngIf="project">
-  <div class="mail" *ngFor="let mail of project.mails">
+  <div class="mail" *ngFor="let mail of project.mails | reverse">
     <div class="header">
       <div class="sender"><strong>Van:</strong> {{ mail.sender | user | async }}</div>
       <div class="receiver"><strong>Aan:</strong> {{mail.receiver}}</div>
