@@ -114,6 +114,9 @@ export class ProjectsComponent implements OnInit {
   }
 
   onSubmit() {
+    if (!this.batchMode) {
+      return;
+    }
     this.submitted = true;
 
     if (this.batchForm.invalid) {
