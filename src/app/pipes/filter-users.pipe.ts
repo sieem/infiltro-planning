@@ -9,7 +9,7 @@ export class FilterUsersPipe implements PipeTransform {
   constructor(private auth:AuthService) {}
 
   transform(value, companyId): any {
-    return (value) ? value.filter((el) => el.company === companyId || this.auth.isAdmin()) : value;
+    return (value) ? value.filter((el) => el.company === companyId) : value;
   }
 
 }
