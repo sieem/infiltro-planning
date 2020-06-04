@@ -2,6 +2,11 @@ agm-map {
     height: 100vh;
 }
 
+h2,
+p:last-of-type {
+    margin-bottom: 10px;
+}
+
 .container {
     max-height: 300px;
     overflow-y: auto;
