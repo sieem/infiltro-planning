@@ -41,6 +41,8 @@ import { ProjectTypePipe } from './pipes/project-type.pipe';
 import { FormatDatePipe } from './pipes/format-date.pipe';
 import { StatusPipe } from './pipes/status.pipe';
 import { ExecutorPipe } from './pipes/executor.pipe';
+import { NewlineToBrPipe } from './pipes/newline-to-br.pipe';
+import { CommentsComponent } from './components/comments/comments.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +72,8 @@ import { ExecutorPipe } from './pipes/executor.pipe';
     FormatDatePipe,
     StatusPipe,
     ExecutorPipe,
+    NewlineToBrPipe,
+    CommentsComponent,
   ],
   imports: [
     BrowserModule,
