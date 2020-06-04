@@ -35,18 +35,4 @@ export class FormService {
     if (returnDate === 'Invalid date') return 'Ongeldige datum'
     else return returnDate
   }
-
-  public removeElementInArray(array: any, id: string) {
-    return array.filter(el => el._id !== id)
-  }
-
-  public updateElementInArray(array: any, element: any) {
-    for (const key in array) {
-      if (array[key]._id === element._id) {
-        array[key] = element
-        return array
-      }
-    }
-    return array
-  }
 }
