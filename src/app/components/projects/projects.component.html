@@ -144,7 +144,7 @@
                                 <div class="comment" *ngFor="let comment of project.comments | reverse">
                                     <div class="user">{{comment.user | user | async}}</div>
                                     <div class="modifiedDateTime">{{comment.modifiedDateTime | formatDate: 'time'}}</div>
-                                    <div class="content" [innerHTML]="formService.newlineToBr(comment.content)"></div>
+                                    <div class="content" [innerHTML]="comment.content | newlineToBr"></div>
                                 </div>
                             </div>
                         </div>

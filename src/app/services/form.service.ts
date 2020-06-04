@@ -49,9 +49,4 @@ export class FormService {
     }
     return array
   }
-
-  newlineToBr(value) {
-    if (value && typeof value == "string")
-      return value.replace(/\n/g, "<br>")
-  }
 }

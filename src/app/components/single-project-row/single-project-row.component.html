@@ -5,8 +5,8 @@
             <div class="read" (click)="changeEditState(field, true)" [ngClass]="{'empty': isEmpty(field)}"
                 *ngIf="!singleProjectService.projectEditStates[field] || readOnly || singleProjectService.archiveActive">
                 <span *ngIf="type === 'textarea'" >
-                    <span [innerHTML]="formService.newlineToBr(singleProjectService.projectForm.value[field])"></span>
-                    <span class="oldField" *ngIf="singleProjectArchiveService.fieldChanged(field)"[innerHTML]="formService.newlineToBr(singleProjectArchiveService.getOldField(field))"></span>
+                    <span [innerHTML]="singleProjectService.projectForm.value[field] | newlineToBr"></span>
+                    <span class="oldField" *ngIf="singleProjectArchiveService.fieldChanged(field)" [innerHTML]="singleProjectArchiveService.getOldField(field) | newlineToBr"></span>
                 </span>
                 <span *ngIf="type !== 'textarea'">
                     <ng-container [ngSwitch]="field">
