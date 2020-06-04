@@ -91,7 +91,8 @@ export class MapComponent implements OnInit {
                   executor: project.executor,
                   pointerUrl: pointerUrl,
                   company: project.company,
-                  calendarLink: project.calendarLink
+                  calendarLink: project.calendarLink,
+                  comments: project.comments,
                 }
               )
             } else {
@@ -124,4 +125,5 @@ interface marker {
   pointerUrl: string;
   company: string;
   calendarLink: string;
+  comments: any[];
 }

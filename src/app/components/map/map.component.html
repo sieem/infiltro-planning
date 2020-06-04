@@ -7,23 +7,27 @@
     [iconUrl]="'assets/images/map/' + m.pointerUrl">
 
     <agm-info-window>
-      <h2><a routerLink="/project/{{m.id}}" routerLinkActive="active">{{m.title}}</a></h2>
-      <p>Adres: <a href="https://www.google.be/maps/search/{{m.street}}+{{m.postalCode}}+{{m.city}}" target="_blank">{{m.street}}, {{m.postalCode}} {{m.city}}</a></p>
-      <p>Email: <a href="mailto:{{m.email}}">{{m.email}}</a></p>
-      <p>Tel: <a href="tel:{{m.tel}}">{{m.tel}}</a></p>
-      <p>Tijdstip: 
-        <ng-container *ngIf="m.calendarLink">
-          <a href="{{m.calendarLink}}" target="_blank">{{ m.datePlanned | formatDate }} om
-            {{m.hourPlanned}}</a>
-        </ng-container>
-        <ng-container *ngIf="!m.calendarLink">
-          {{ m.datePlanned | formatDate}} om
+      <div class="container">
+        <h2><a routerLink="/project/{{m.id}}" routerLinkActive="active">{{m.title}}</a></h2>
+        <p>Adres: <a href="https://www.google.be/maps/search/{{m.street}}+{{m.postalCode}}+{{m.city}}"
+            target="_blank">{{m.street}}, {{m.postalCode}} {{m.city}}</a></p>
+        <p>Email: <a href="mailto:{{m.email}}">{{m.email}}</a></p>
+        <p>Tel: <a href="tel:{{m.tel}}">{{m.tel}}</a></p>
+        <p>Tijdstip:
+          <ng-container *ngIf="m.calendarLink">
+            <a href="{{m.calendarLink}}" target="_blank">{{ m.datePlanned | formatDate }} om
+              {{m.hourPlanned}}</a>
+          </ng-container>
+          <ng-container *ngIf="!m.calendarLink">
+            {{ m.datePlanned | formatDate}} om
             {{m.hourPlanned}}
-        </ng-container>
+          </ng-container>
         
         </p>
-      <p>Status: {{ m.status | status}}</p>
-      <p>Bedrijf: {{ m.company | company | async }}</p>
+        <p>Status: {{ m.status | status}}</p>
+        <p>Bedrijf: {{ m.company | company | async }}</p>
+        <app-comments [comments]="m.comments"></app-comments>
+      </div>
     </agm-info-window>
 
   </agm-marker>
