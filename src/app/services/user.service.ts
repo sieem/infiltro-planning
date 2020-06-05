@@ -56,7 +56,7 @@ export class UserService {
     try {
       return user.find(user => user._id === userId).name;
     } catch (error) {
-      return userId
+      return userId || 'Onbekende gebruiker';
     }
   }
 }
