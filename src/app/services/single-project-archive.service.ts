@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { SingleProjectService } from './single-project.service';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
@@ -13,12 +14,14 @@ export class SingleProjectArchiveService {
   constructor(
     private singleProjectService: SingleProjectService,
     private router: Router,
+    private toastr: ToastrService,
   ) { }
 
   init(res) {
     this.archiveData = res;
     this.archiveProjectData = this.archiveData[this.activeProject];
     if (!this.archiveProjectData) {
+      this.toastr.error('Dit project werd nog niet in het archief gevonden.', 'Project niet gevonden');
       this.router.navigate(['/project/' + this.singleProjectService.projectId])
       return;
     }
