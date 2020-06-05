@@ -6,13 +6,13 @@
                 *ngIf="!singleProjectService.projectEditStates[field] || readOnly || singleProjectService.archiveActive">
                 <span *ngIf="type === 'textarea'" >
                     <span [innerHTML]="singleProjectService.projectForm.value[field] | newlineToBr"></span>
-                    <span class="oldField" *ngIf="singleProjectArchiveService.fieldChanged(field)" [innerHTML]="singleProjectArchiveService.getOldField(field) | newlineToBr"></span>
+                    <span class="oldField" *ngIf="singleProjectArchiveService.isOlderProjectAvailable() && singleProjectArchiveService.fieldChanged(field)" [innerHTML]="singleProjectArchiveService.getOldField(field) | newlineToBr"></span>
                 </span>
                 <span *ngIf="type !== 'textarea'">
                     <ng-container [ngSwitch]="field">
                         <ng-container *ngSwitchDefault>
                             {{singleProjectService.projectForm.value[field] | dynamicProjectPipe: field | async}}
-                            <span class="oldField" *ngIf="singleProjectArchiveService.fieldChanged(field)">{{ singleProjectArchiveService.getOldField(field) | dynamicProjectPipe: field | async}}</span>
+                            <span class="oldField" *ngIf="singleProjectArchiveService.isOlderProjectAvailable() && singleProjectArchiveService.fieldChanged(field)">{{ singleProjectArchiveService.getOldField(field) | dynamicProjectPipe: field | async}}</span>
                         </ng-container>
                     </ng-container>
                 </span>
