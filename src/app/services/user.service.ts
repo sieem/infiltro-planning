@@ -52,9 +52,9 @@ export class UserService {
   }
 
   async userToName(userId): Promise<string> {
-    const companies = await this.getUsers().toPromise();
+    const user = await this.getUsers().toPromise();
     try {
-      return companies.find(user => user._id === userId).name;
+      return user.find(user => user._id === userId).name;
     } catch (error) {
       return userId
     }
