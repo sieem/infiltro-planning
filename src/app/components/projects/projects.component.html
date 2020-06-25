@@ -9,7 +9,7 @@
                 <div class="btn" (click)="projectService.selectAllFilter('status', false)">Niets</div>
             </div>
             <div class="item" *ngFor="let status of projectService.statuses" (click)="projectService.changeFilter('status', status.type)">
-                <ng-container *ngIf="status.filter">
+                <ng-container *ngIf="!status.onlyAdmin || (status.onlyAdmin && auth.isAdmin() )">
                     <img src="/assets/images/icon-unchecked.svg" alt="" *ngIf="!projectService.activeFilter.status.includes(status.type)">
                     <img src="/assets/images/icon-checked.svg" alt="" *ngIf="projectService.activeFilter.status.includes(status.type)">
                     <span>{{status.name}}</span>

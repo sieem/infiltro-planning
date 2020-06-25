@@ -51,67 +51,67 @@ export class ProjectService {
     {
       type: "contractSigned",
       name: "Nog niet actief",
-      filter: true
+      onlyAdmin: false,
     },
     {
       type: "toContact",
       name: "Te contacteren",
-      filter: true
+      onlyAdmin: false,
     },
     {
       type: "toPlan",
       name: "Te plannen",
-      filter: true
+      onlyAdmin: false,
     },
     {
       type: "proposalSent",
       name: "Voorstel doorgegeven",
-      filter: true
+      onlyAdmin: false,
     },
     {
       type: "planned",
       name: "Ingepland",
-      filter: true
+      onlyAdmin: false,
     },
     {
       type: "onHold",
       name: "On - Hold",
-      filter: true
+      onlyAdmin: false,
     },
     {
       type: "onHoldCovid19",
       name: "On - Hold (COVID-19)",
-      filter: true
+      onlyAdmin: false,
     },
     {
       type: "onHoldByClient",
       name: "On - Hold door klant",
-      filter: true
+      onlyAdmin: false,
     },
     {
       type: "executed",
       name: "Uitgevoerd",
-      filter: true
+      onlyAdmin: false,
     },
     {
       type: "reportAvailable",
       name: "Rapport beschikbaar",
-      filter: true
+      onlyAdmin: false,
     },
     {
       type: "conformityAvailable",
       name: "Conformiteit beschikbaar",
-      filter: true
+      onlyAdmin: false,
     },
     {
       type: "completed",
       name: "Afgerond",
-      filter: true
+      onlyAdmin: false,
     },
     {
       type: "deleted",
       name: "Verwijderd",
-      filter: false
+      onlyAdmin: true,
     }
   ]
 
@@ -134,12 +134,12 @@ export class ProjectService {
     {
       type: "projectName",
       name: "Referentie",
-      sort: false
+      sort: true
     },
     {
       type: "street",
       name: "Straat + Nr",
-      sort: false
+      sort: true
     },
     {
       type: "city",
