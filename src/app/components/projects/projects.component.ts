@@ -50,8 +50,9 @@ export class ProjectsComponent implements OnInit {
   toggleBatchMode() {
     if (this.batchMode && this.selectedProjects.length > 0) {
       this.modalService.open("batchmode-modal")
+    } else {
+      this.batchMode = !this.batchMode
     }
-    this.batchMode = !this.batchMode
   }
 
   registerCtrlKey(event) {
@@ -114,6 +115,7 @@ export class ProjectsComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log('submit');
     if (!this.batchMode) {
       return;
     }
