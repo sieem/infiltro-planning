@@ -2,7 +2,7 @@
     <div class="comment" *ngFor="let comment of comments | reverse">
         <div class="user">{{comment.user | user | async}}</div>
         <div class="modifiedDateTime">{{comment.modifiedDateTime | formatDate: 'time' }}</div>
-        <div class="content" [innerHTML]="comment.content | newlineToBr"></div>
+        <div class="content" [innerHTML]="comment.content | safeHtml | newlineToBr"></div>
         <ng-container *ngIf="!readOnly">
             <div class="icon edit"
                 *ngIf="(auth.getUserDetails().id == comment.user || auth.isAdmin())"

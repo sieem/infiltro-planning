@@ -43,6 +43,7 @@ import { StatusPipe } from './pipes/status.pipe';
 import { ExecutorPipe } from './pipes/executor.pipe';
 import { NewlineToBrPipe } from './pipes/newline-to-br.pipe';
 import { CommentsComponent } from './components/comments/comments.component';
+import { SafeHtmlPipe } from './pipes/safe-html.pipe';
 
 @NgModule({
   declarations: [
@@ -74,6 +75,7 @@ import { CommentsComponent } from './components/comments/comments.component';
     ExecutorPipe,
     NewlineToBrPipe,
     CommentsComponent,
+    SafeHtmlPipe,
   ],
   imports: [
     BrowserModule,

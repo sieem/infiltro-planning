@@ -43,6 +43,6 @@
       <div class="cc" *ngIf="mail.cc"><strong>Cc:</strong> {{mail.cc}}</div>
       <div class="dateSent"><strong>Datum:</strong> {{ mail.dateSent | formatDate: 'time'}}</div>
     </div>
-    <div class="body" [innerHTML]="mail.body"></div>
+    <div class="body" [innerHTML]="mail.body | safeHtml"></div>
   </div>
 </div>

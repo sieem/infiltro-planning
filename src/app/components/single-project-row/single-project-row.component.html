@@ -1,12 +1,12 @@
 <form [formGroup]="singleProjectService.projectForm">
     <div class="projectRow" [class]="[type, field]">
-        <label [for]="field"><span [innerHTML]='label'></span>&nbsp;<span *ngIf="singleProjectService.projectForm.controls[field].validator !== null && showAsterisk">*</span></label>
+        <label [for]="field"><span [innerHTML]='label | safeHtml'></span>&nbsp;<span *ngIf="singleProjectService.projectForm.controls[field].validator !== null && showAsterisk">*</span></label>
         <div class="inputField" [class.fieldChanged]="singleProjectArchiveService.fieldChanged(field)">
             <div class="read" (click)="changeEditState(field, true)" [ngClass]="{'empty': isEmpty(field)}"
                 *ngIf="!singleProjectService.projectEditStates[field] || readOnly || singleProjectService.archiveActive">
                 <span *ngIf="type === 'textarea'" >
-                    <span [innerHTML]="singleProjectService.projectForm.value[field] | newlineToBr"></span>
-                    <span class="oldField" *ngIf="singleProjectArchiveService.isOlderProjectAvailable() && singleProjectArchiveService.fieldChanged(field)" [innerHTML]="singleProjectArchiveService.getOldField(field) | newlineToBr"></span>
+                    <span [innerHTML]="singleProjectService.projectForm.value[field] | safeHtml | newlineToBr"></span>
+                    <span class="oldField" *ngIf="singleProjectArchiveService.isOlderProjectAvailable() && singleProjectArchiveService.fieldChanged(field)" [innerHTML]="singleProjectArchiveService.getOldField(field) | safeHtml | newlineToBr"></span>
                 </span>
                 <span *ngIf="type !== 'textarea'">
                     <ng-container [ngSwitch]="field">
