@@ -80,6 +80,8 @@ export class SingleProjectService {
     Object.keys(this.projectForm.controls).forEach(key => {
       this.projectEditStates[key] = true
     })
+
+    this.hasCalendarItem = false
   }
 
   fillInProject() {
