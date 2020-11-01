@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { ApiService } from './api.service';
+import { AuthService } from './auth.service';
 import { CompanyService } from './company.service';
 
 @Injectable({
@@ -188,10 +189,11 @@ export class ProjectService {
   ]
 
   public activeFilter: any = {
-    status: ['toContact', 'toPlan', 'proposalSent', 'planned', 'executed', 'reportAvailable', 'conformityAvailable', 'onHold', 'onHoldCovid19'],
+    status: ['toContact', 'toPlan', 'proposalSent', 'planned', 'executed', 'reportAvailable', 'conformityAvailable', 'onHold', 'onHoldCovid19', !this.auth.isAdmin() ? 'onHoldByClient' : [...[]]],
     executor: ['david', 'roel', 'together'],
     company: []
   }
+
   public sortOptions: any = {
     field: 'datePlanned',
     order: 'asc'
@@ -205,7 +207,9 @@ export class ProjectService {
   constructor(
     private api: ApiService,
     private toastr: ToastrService,
-    private companyService: CompanyService) {
+    private companyService: CompanyService,
+    private auth: AuthService,
+    ) {
       
     }
 
