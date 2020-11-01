@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { FormService } from './form.service';
 import { ToastrService } from 'ngx-toastr';
 import { ApiService } from './api.service';
 import { CompanyService } from './company.service';
@@ -205,7 +204,6 @@ export class ProjectService {
 
   constructor(
     private api: ApiService,
-    private formService: FormService,
     private toastr: ToastrService,
     private companyService: CompanyService) {
       
