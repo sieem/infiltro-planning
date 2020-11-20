@@ -281,15 +281,23 @@ export class ProjectService {
 
 
     this.projects = this.projects.sort((a, b) => {
-      if (!a[this.sortOptions.field]) return 1;
-      if (!b[this.sortOptions.field]) return -1;
+      let x: string;
+      let y: string;
 
-      let x = a[this.sortOptions.field].toLowerCase()
-      let y = b[this.sortOptions.field].toLowerCase()
+      if ((this.sortOptions.field !== 'datePlanned' || this.sortOptions.field !== 'executor') && !a[this.sortOptions.field] && !b[this.sortOptions.field]) {
+        x = a.dateEdited;
+        y = b.dateEdited;
+      } else {
+        if (!a[this.sortOptions.field]) return 1;
+        if (!b[this.sortOptions.field]) return -1;
+      }
+
+      x = x || a[this.sortOptions.field].toLowerCase();
+      y = y || b[this.sortOptions.field].toLowerCase();
 
       if (x == y) return 0
 
-      return (x < y) ? -1 : 1
+      return x < y ? -1 : 1
     })
 
     if (this.sortOptions.order == 'desc') {

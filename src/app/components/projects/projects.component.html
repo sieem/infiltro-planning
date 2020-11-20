@@ -112,7 +112,7 @@
                 </div>
             </div>
             <div class="address">{{project.street}}, {{project.postalCode}} {{project.city}}<span *ngIf="project.extraInfoAddress" class="extraInfoAddress">, {{project.extraInfoAddress}}</span></div>
-            <div class="dateHourCreated">{{ project.dateCreated | formatDate }}</div>
+            <div class="dateHourCreated" title="Laatst aangepast: {{ project.dateEdited | formatDate:'time' }}">{{ project.dateCreated | formatDate }}</div>
             <div class="dateHourPlanned">
                 <b>{{ project.executor | executor }}</b><br>
                 {{ project.datePlanned | formatDate }}
