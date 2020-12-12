@@ -61,7 +61,7 @@ export class SingleProjectService {
       extraInfoAddress: [''],
 
       name: [''],
-      tel: ['', Validators.required],
+      tel: ['', [Validators.required, Validators.minLength(8)]],
       email: ['', [Validators.required, Validators.email, Validators.pattern(this.formService.emailRegex)]],
       extraInfoContact: [''],
       EpbReporter: [this.user.id, Validators.required],
