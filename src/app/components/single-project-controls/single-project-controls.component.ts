@@ -55,8 +55,7 @@ export class SingleProjectControlsComponent implements OnInit {
 
     const todayPlusOneYear = this.formService.formatDate(new Date(new Date().setFullYear(new Date().getFullYear() + 1)), this.formService.dateFormat);
     const today = this.formService.formatDate(new Date(), this.formService.dateFormat);
-
-    if (this.projectForm.value.datePlanned < today || todayPlusOneYear < this.projectForm.value.datePlanned) {
+    if (this.formService.formatDate(this.projectForm.value.datePlanned) !== 'Nog te plannen' && (this.projectForm.value.datePlanned < today || todayPlusOneYear < this.projectForm.value.datePlanned)) {
       if (!confirm(`Ben je zeker dat je dit project met ingeplande datum '${this.formService.formatDate(this.projectForm.value.datePlanned)}' wil opslaan?`)) {
         return;
       }
