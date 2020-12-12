@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { FormGroup } from '@angular/forms';
 import { SingleProjectService } from 'src/app/services/single-project.service';
 import { ToastrService } from 'ngx-toastr';
+import { FormService } from 'src/app/services/form.service';
 
 @Component({
   selector: 'app-single-project-controls',
@@ -22,6 +23,7 @@ export class SingleProjectControlsComponent implements OnInit {
     public auth: AuthService,
     public singleProjectService: SingleProjectService,
     private toastr: ToastrService,
+    private formService: FormService,
   ) { }
 
   ngOnInit(): void {
@@ -49,6 +51,15 @@ export class SingleProjectControlsComponent implements OnInit {
     if (this.projectIsSaving) {
       this.toastr.error('Project is reeds aan het opslaan');
       return;
+    }
+
+    const todayPlusOneYear = this.formService.formatDate(new Date(new Date().setFullYear(new Date().getFullYear() + 1)), this.formService.dateFormat);
+    const today = this.formService.formatDate(new Date(), this.formService.dateFormat);
+
+    if (this.projectForm.value.datePlanned < today || todayPlusOneYear < this.projectForm.value.datePlanned) {
+      if (!confirm(`Ben je zeker dat je dit project met ingeplande datum '${this.formService.formatDate(this.projectForm.value.datePlanned)}' wil opslaan?`)) {
+        return;
+      }
     }
 
     this.singleProjectService.saveProject();
