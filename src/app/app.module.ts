@@ -44,6 +44,8 @@ import { ExecutorPipe } from './pipes/executor.pipe';
 import { NewlineToBrPipe } from './pipes/newline-to-br.pipe';
 import { CommentsComponent } from './components/comments/comments.component';
 import { SafeHtmlPipe } from './pipes/safe-html.pipe';
+import { FilterProjectsPipe } from './pipes/filter-projects.pipe';
+import { SortProjectsPipe } from './pipes/sort-projects.pipe';
 
 @NgModule({
   declarations: [
@@ -76,6 +78,8 @@ import { SafeHtmlPipe } from './pipes/safe-html.pipe';
     NewlineToBrPipe,
     CommentsComponent,
     SafeHtmlPipe,
+    FilterProjectsPipe,
+    SortProjectsPipe,
   ],
   imports: [
     BrowserModule,
