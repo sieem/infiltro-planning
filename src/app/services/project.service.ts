@@ -202,6 +202,8 @@ export class ProjectService {
   public projects: any = []
   public allProjects: any = []
 
+  public searchTerm = "";
+
   private technicalFields = ["ATest", "v50Value", "protectedVolume", "EpbNumber"]
 
   constructor(
@@ -253,16 +255,8 @@ export class ProjectService {
     this.activeFilter = { ...this.activeFilter};
   }
 
-  filterProjects() {
-    this.projects = this.allProjects.filter(row => {
-      let filterBooleans = []
-
-      for (let [key, values] of Object.entries(this.activeFilter)) {
-        let filterArr: any = values
-        if (filterArr.length == 0) {
-          return false
-        } else if (row[key] !== '') {
-          filterBooleans.push(filterArr.includes(row[key]))
+  setSearchTerm(searchTerm) {
+    this.searchTerm = searchTerm;
   }
 
   setSortable(sortable = "") {
