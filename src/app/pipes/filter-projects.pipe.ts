@@ -7,6 +7,7 @@ import { escapeRegExp } from '../helpers/escapeRegExp.helper';
 import { FormatDatePipe } from './format-date.pipe';
 import { StatusPipe } from './status.pipe';
 import { ProjectTypePipe } from './project-type.pipe';
+import { asyncFilter } from '../helpers/asyncFilter.helper';
 
 @Pipe({
   name: 'filterProjects',
@@ -23,9 +24,8 @@ export class FilterProjectsPipe implements PipeTransform {
   ) {}
 
   async transform(projects: IProject[], activeFilter: any, searchTerm: string): Promise<IProject[]> {
-    return await this.asyncFilter(projects, async (row: IProject) => {
+    const filteredProjects = projects.filter((row) => {
       let filterBooleans = [];
-      let foundInSearch = false;
 
       for (let [key, values] of Object.entries(activeFilter)) {
         let filterArr: any = values
@@ -35,6 +35,12 @@ export class FilterProjectsPipe implements PipeTransform {
           filterBooleans.push(filterArr.includes(row[key]))
         }
       }
+
+      return !filterBooleans.includes(false);
+    });
+
+    return await asyncFilter(filteredProjects, async (row: IProject) => {
+      let foundInSearch = false;
 
       if (searchTerm === "") {
         // no search, so make it always found
@@ -62,12 +68,7 @@ export class FilterProjectsPipe implements PipeTransform {
         }
       }
 
-      return !filterBooleans.includes(false) && foundInSearch;
+      return foundInSearch;
     });
   }
-
-  async asyncFilter (arr, predicate) {
-    // https://advancedweb.hu/how-to-use-async-functions-with-array-filter-in-javascript/
-    return arr.reduce(async (memo, e) => await predicate(e) ? [...await memo, e] : memo, []);
-  };
 }
