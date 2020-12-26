@@ -58,16 +58,15 @@
 
     <div class="btn filter sort" [ngClass]="projectService.sortOptions.order">
         <span class="title">Sorteer</span>
-        <!-- <img src="/assets/images/icon-unchecked.svg" alt=""> -->
         <div class="dropdown">
-            <div class="item" *ngFor="let sortable of projectService.sortables" (click)="projectService.sortProjects(sortable.type)">
+            <div class="item" *ngFor="let sortable of projectService.sortables" (click)="projectService.setSortable(sortable.type)">
                 <ng-container *ngIf="sortable.sort">
                     <img src="/assets/images/icon-unchecked.svg" alt="" *ngIf="projectService.sortOptions.field !== sortable.type">
                     <img src="/assets/images/icon-checked.svg" alt="" *ngIf="projectService.sortOptions.field === sortable.type">
                     <span>{{sortable.name}}</span>
                     <span class="arrow desc" *ngIf="projectService.sortOptions.field === sortable.type && projectService.sortOptions.order == 'desc'"><img src="/assets/images/icon-arrow.svg" alt=""></span>
                     <span class="arrow asc" *ngIf="projectService.sortOptions.field === sortable.type && projectService.sortOptions.order == 'asc'"><img src="/assets/images/icon-arrow.svg" alt=""></span>
-                </ng-container>      
+                </ng-container>
             </div>
         </div>
     </div>
@@ -76,12 +75,12 @@
             <span *ngIf="batchMode && selectedProjects.length == 0" class="title">Stop batch status</span>
             <span *ngIf="batchMode && selectedProjects.length > 0" class="title">Pas projecten aan</span>        
     </div>
-</div>
+    </div>
 
 <div class="projectList" [ngClass]="{'batchMode': batchMode}">
-    <ng-container *ngIf="projectService.projects.length > 0; else noProjectsFound">
+    <div class="projects">
         <div class="project" 
-        *ngFor="let project of projectService.projects; trackBy: trackByFn"
+        *ngFor="let project of (projectService.projects | filterProjects: projectService.activeFilter | sortProjects: projectService.sortOptions); trackBy: trackByFn"
         [ngClass]="[project.status]"
         [class.isFuturePlanned]="isFuturePlanned(project)"
         [class.selected]="isSelected(project) && batchMode"
@@ -146,13 +145,12 @@
                 </ng-container>
             </div>
         </div>
-    </ng-container>
-    <ng-template #noProjectsFound>
-        <div class="empty">
-            <img src="/assets/images/icon-broken-house.svg" alt="broken house">            
-            <span>Geen projecten gevonden :(</span>
-        </div>
-    </ng-template>
+    </div>
+
+    <div class="empty">
+        <img src="/assets/images/icon-broken-house.svg" alt="broken house">
+        <span>Geen projecten gevonden :(</span>
+    </div>
 </div>
 <infiltro-modal id="batchmode-modal">
     <div class="batchmode wrapper">

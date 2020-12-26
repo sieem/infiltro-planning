@@ -302,6 +302,10 @@
 }
 
 .empty {
+    display: none;
+}
+
+.projects:empty ~ .empty {
     display: flex;
     align-items: center;
     justify-content: center;

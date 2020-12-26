@@ -221,8 +221,6 @@ export class ProjectService {
     this.api.getProjects().subscribe(
       res => {
         this.projects = this.allProjects = res
-        this.filterProjects()
-        this.sortProjects()
       },
       err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
     )
@@ -235,8 +233,8 @@ export class ProjectService {
       this.activeFilter[filterCat] = this.activeFilter[filterCat].filter(val => { return val !== filterVal })
     }
 
-    this.filterProjects()
-    this.sortProjects()
+    // trigger pipe
+    this.activeFilter = { ...this.activeFilter };
   }
 
   async selectAllFilter(filterCat: string, selectAll: boolean, filterCatArray: string = '') {
@@ -251,8 +249,8 @@ export class ProjectService {
       this.activeFilter[filterCat] = []
     }
 
-    this.filterProjects()
-    this.sortProjects()
+    // trigger pipe
+    this.activeFilter = { ...this.activeFilter};
   }
 
   filterProjects() {
@@ -265,44 +263,18 @@ export class ProjectService {
           return false
         } else if (row[key] !== '') {
           filterBooleans.push(filterArr.includes(row[key]))
-        }
-      }
-      return !filterBooleans.includes(false)
-    })
   }
 
-  sortProjects(sortType = '') {
-    if (sortType !== '') {
-      if (this.sortOptions.field === sortType) {
-        this.sortOptions.order = (this.sortOptions.order === 'asc') ? 'desc' : 'asc'
+  setSortable(sortable = "") {
+    if (sortable !== '') {
+      if (this.sortOptions.field === sortable) {
+        this.sortOptions.order = this.sortOptions.order === 'asc' ? 'desc' : 'asc';
       }
-      this.sortOptions.field = sortType
+      this.sortOptions.field = sortable;
     }
-
-
-    this.projects = this.projects.sort((a, b) => {
-      let x: string;
-      let y: string;
-
-      if ((this.sortOptions.field !== 'datePlanned' || this.sortOptions.field !== 'executor') && !a[this.sortOptions.field] && !b[this.sortOptions.field]) {
-        x = a.dateEdited;
-        y = b.dateEdited;
-      } else {
-        if (!a[this.sortOptions.field]) return 1;
-        if (!b[this.sortOptions.field]) return -1;
-      }
-
-      x = x || a[this.sortOptions.field].toLowerCase();
-      y = y || b[this.sortOptions.field].toLowerCase();
-
-      if (x == y) return 0
-
-      return x < y ? -1 : 1
-    })
-
-    if (this.sortOptions.order == 'desc') {
-      this.projects = this.projects.reverse()
-    }
+    
+    // trigger pipe
+    this.sortOptions = {...this.sortOptions};
   }
 
 
