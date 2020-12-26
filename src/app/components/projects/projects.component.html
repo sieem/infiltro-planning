@@ -115,7 +115,7 @@
             </div>
             <div class="address">
                 <span [innerHTML]="project.street | highlightText: projectService.searchTerm | safeHtml"></span>,
-                <span [innerHTML]="project.postalCode | highlightText: projectService.searchTerm | safeHtml"></span>
+                <span [innerHTML]="project.postalCode | highlightText: projectService.searchTerm | safeHtml"></span>&nbsp;
                 <span [innerHTML]="project.city | highlightText: projectService.searchTerm | safeHtml"></span>
                 <ng-container *ngIf="project.extraInfoAddress">, </ng-container>
                 <span *ngIf="project.extraInfoAddress" class="extraInfoAddress" [innerHTML]="project.extraInfoAddress | highlightText: projectService.searchTerm | safeHtml"></span>
@@ -127,7 +127,7 @@
                 </b>
                 <br>
                 <span [innerHTML]="project.datePlanned | formatDate | highlightText: projectService.searchTerm | safeHtml"></span>
-                <ng-container *ngIf="project.hourPlanned">om <span [innerHTML]="project.hourPlanned | highlightText: projectService.searchTerm | safeHtml"></span></ng-container>
+                <ng-container *ngIf="project.hourPlanned"> om <span [innerHTML]="project.hourPlanned | highlightText: projectService.searchTerm | safeHtml"></span></ng-container>
             </div>
             <div class="technicalDataFilledIn">
                 <ng-container *ngIf="projectService.isTechnicalDataFilledIn(project); else technicalDataNotFilledIn">
