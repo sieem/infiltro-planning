@@ -10,7 +10,7 @@ export class SafeHtmlPipe implements PipeTransform {
   constructor(protected sanitizer: DomSanitizer) { }
 
   public transform(value: string): SafeHtml {
-    const sanitizedContent = DOMPurify.sanitize(value);
+    const sanitizedContent = DOMPurify.sanitize(value, { ALLOWED_TAGS: ['mark'] });
     return this.sanitizer.bypassSecurityTrustHtml(sanitizedContent);
 
   }

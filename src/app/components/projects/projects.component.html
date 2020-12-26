@@ -73,7 +73,7 @@
     <div class="btn filter batch" *ngIf="auth.isAdmin()" (click)="toggleBatchMode()">
             <span *ngIf="!batchMode" class="title">Batch status</span>
             <span *ngIf="batchMode && selectedProjects.length == 0" class="title">Stop batch status</span>
-            <span *ngIf="batchMode && selectedProjects.length > 0" class="title">Pas projecten aan</span>        
+            <span *ngIf="batchMode && selectedProjects.length > 0" class="title">Pas projecten aan</span>
     </div>
     <div class="search">
         <input type="text" name="search" (input)="projectService.setSearchTerm($event.target.value)" placeholder="Zoeken">
@@ -88,14 +88,14 @@
         [class.isFuturePlanned]="isFuturePlanned(project)"
         [class.selected]="isSelected(project) && batchMode"
         (click)="selectProject(project)">
-            <div class="company">{{project.company | company | async}} </div>
+            <div class="company" [innerHTML]="project.company | company | async | highlightText: projectService.searchTerm | safeHtml"></div>
             <ng-container *ngIf="!batchMode; else noBatchMode">
-                <div class="title" [routerLink]="[ '/project', project._id ]">{{ project.projectName }} /
-                    {{ project.projectType | projectType }} / {{project.houseAmount}}</div>
+                <div class="title" [routerLink]="[ '/project', project._id ]"><span [innerHTML]="project.projectName | highlightText: projectService.searchTerm | safeHtml"></span> /
+                    <span [innerHTML]="project.projectType | projectType | highlightText: projectService.searchTerm | safeHtml"></span> / {{project.houseAmount}}</div>
             </ng-container>
             <ng-template #noBatchMode>
-                <div class="title">{{ project.projectName }} /
-                    {{ project.projectType | projectType }} / {{project.houseAmount}}</div>
+                <div class="title"><span [innerHTML]="project.projectName | highlightText: projectService.searchTerm | safeHtml"></span> /
+                    <span [innerHTML]="project.projectType | projectType | highlightText: projectService.searchTerm | safeHtml"></span> / {{project.houseAmount}}</div>
             </ng-template>
             
             
@@ -104,7 +104,7 @@
                 (window:keydown)="registerCtrlKey($event)"
                 (window:keyup)="registerCtrlKey($event)"
                     *ngIf="!isSelected(project) || batchMode || !auth.isAdmin()">
-                    {{ project.status | status }}
+                    <span [innerHTML]="project.status | status | highlightText: projectService.searchTerm | safeHtml"></span>
                 </div>
                 <div class="write" *ngIf="isSelected(project) && auth.isAdmin() && !batchMode">
                     <select name="status" id="status" (change)="changeStatus($event)">
@@ -113,12 +113,21 @@
                     </select>
                 </div>
             </div>
-            <div class="address">{{project.street}}, {{project.postalCode}} {{project.city}}<span *ngIf="project.extraInfoAddress" class="extraInfoAddress">, {{project.extraInfoAddress}}</span></div>
-            <div class="dateHourCreated" title="Laatst aangepast: {{ project.dateEdited | formatDate:'time' }}">{{ project.dateCreated | formatDate }}</div>
+            <div class="address">
+                <span [innerHTML]="project.street | highlightText: projectService.searchTerm | safeHtml"></span>,
+                <span [innerHTML]="project.postalCode | highlightText: projectService.searchTerm | safeHtml"></span>
+                <span [innerHTML]="project.city | highlightText: projectService.searchTerm | safeHtml"></span>
+                <ng-container *ngIf="project.extraInfoAddress">, </ng-container>
+                <span *ngIf="project.extraInfoAddress" class="extraInfoAddress" [innerHTML]="project.extraInfoAddress | highlightText: projectService.searchTerm | safeHtml"></span>
+            </div>
+            <div class="dateHourCreated" title="Laatst aangepast: {{ project.dateEdited | formatDate:'time' }}"><span [innerHTML]="project.dateCreated | formatDate | highlightText: projectService.searchTerm | safeHtml"></span></div>
             <div class="dateHourPlanned">
-                <b>{{ project.executor | executor }}</b><br>
-                {{ project.datePlanned | formatDate }}
-                <ng-container *ngIf="project.hourPlanned">om {{ project.hourPlanned }}</ng-container>
+                <b>
+                    <span [innerHTML]="project.executor | executor | highlightText: projectService.searchTerm | safeHtml"></span>
+                </b>
+                <br>
+                <span [innerHTML]="project.datePlanned | formatDate | highlightText: projectService.searchTerm | safeHtml"></span>
+                <ng-container *ngIf="project.hourPlanned">om <span [innerHTML]="project.hourPlanned | highlightText: projectService.searchTerm | safeHtml"></span></ng-container>
             </div>
             <div class="technicalDataFilledIn">
                 <ng-container *ngIf="projectService.isTechnicalDataFilledIn(project); else technicalDataNotFilledIn">
