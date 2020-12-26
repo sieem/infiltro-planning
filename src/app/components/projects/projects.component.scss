@@ -143,6 +143,18 @@
             }
         }
     }
+
+    .search {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex-grow: 1;
+        padding: 4px;
+
+        input {
+            max-height: 26px;
+        }
+    }
 }
 
 .projectList {
@@ -342,9 +354,20 @@
 
 @media only screen and (max-width: 600px) {
     .controls {
+        height: unset;
+        flex-wrap: wrap;
+
         .filter {
             padding: 0 5px;
             font-size: 10px;
+
+            &.batch {
+                flex-grow: 1;
+            }
+        }
+
+        .search {
+            padding: 4px 0 0 0;
         }
     }
 
