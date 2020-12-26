@@ -46,6 +46,7 @@ import { CommentsComponent } from './components/comments/comments.component';
 import { SafeHtmlPipe } from './pipes/safe-html.pipe';
 import { FilterProjectsPipe } from './pipes/filter-projects.pipe';
 import { SortProjectsPipe } from './pipes/sort-projects.pipe';
+import { HighlightTextPipe } from './pipes/highlight-text.pipe';
 
 @NgModule({
   declarations: [
@@ -80,6 +81,7 @@ import { SortProjectsPipe } from './pipes/sort-projects.pipe';
     SafeHtmlPipe,
     FilterProjectsPipe,
     SortProjectsPipe,
+    HighlightTextPipe,
   ],
   imports: [
     BrowserModule,
