@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
 import { SingleProjectService } from 'src/app/services/single-project.service';
 import { first } from 'rxjs/operators';
+import { MailTemplatePipe } from 'src/app/pipes/mail-template.pipe';
 
 @Component({
   selector: 'app-mail-project',
@@ -27,7 +28,8 @@ export class MailProjectComponent implements OnInit {
     private route: ActivatedRoute,
     private api: ApiService,
     private toastr: ToastrService,
-    public auth: AuthService
+    public auth: AuthService,
+    private mailTemplatePipe: MailTemplatePipe,
     ) { }
 
   async ngOnInit() {
@@ -92,15 +94,15 @@ export class MailProjectComponent implements OnInit {
     this.sendMail();
   }
 
-  sendMail() {
+  async sendMail() {
 
     const formData = new FormData();
 
-    formData.append('_id', this.mailForm.value._id)
-    formData.append('receiver', this.mailForm.value.receiver)
-    formData.append('cc', this.mailForm.value.cc)
-    formData.append('subject', this.mailForm.value.subject)
-    formData.append('body', this.mailForm.value.body)
+    formData.append('_id', this.mailForm.value._id);
+    formData.append('receiver', this.mailForm.value.receiver);
+    formData.append('cc', this.mailForm.value.cc);
+    formData.append('subject', await this.mailTemplatePipe.transform(this.mailForm.value.subject));
+    formData.append('body', await this.mailTemplatePipe.transform(this.mailForm.value.body));
 
     this.api.sendMail(formData).subscribe(
       (res: any) => {

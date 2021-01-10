@@ -110,6 +110,7 @@ import { MailTemplatePipe } from './pipes/mail-template.pipe';
     FormatDatePipe,
     StatusPipe,
     ExecutorPipe,
+    MailTemplatePipe,
   ],
   bootstrap: [AppComponent]
 })
