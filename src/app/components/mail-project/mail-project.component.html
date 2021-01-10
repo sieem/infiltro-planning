@@ -8,9 +8,9 @@
 
 <form *ngIf="auth.isAdmin()" [formGroup]="mailForm" class="wrapper" (ngSubmit)="onSubmit()">
   <div class="inputGroup">
-    <label for="reciever">Naar e-mailadres</label>
-    <input type="email" name="reciever" formControlName="reciever">
-    <p *ngIf="formService.checkInputField(mailForm, 'reciever', submitted)" class="error">!</p>
+    <label for="receiver">Naar e-mailadres</label>
+    <input type="email" name="receiver" formControlName="receiver">
+    <p *ngIf="formService.checkInputField(mailForm, 'receiver', submitted)" class="error">!</p>
   </div>
 
   <div class="inputGroup">
@@ -40,7 +40,7 @@
     <div class="mail">
       <div class="header">
         <div class="sender"><strong>Van:</strong> {{ auth.getUserDetails().id | user | async }}</div>
-        <div class="receiver"><strong>Aan:</strong> {{mailForm.get('reciever').value}}</div>
+        <div class="receiver"><strong>Aan:</strong> {{mailForm.get('receiver').value}}</div>
         <div class="cc" *ngIf="mailForm.get('cc').value"><strong>Cc:</strong> {{mailForm.get('cc').value}}</div>
         <div class="subject" *ngIf="mailForm.get('subject').value"><strong>Onderwerp:</strong> <span
             [innerHTML]="mailForm.get('subject').value | mailTemplate | async | safeHtml"></span></div>
