@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import { IProject } from '../interfaces/project.interface';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -63,11 +65,11 @@ export class ApiService {
   }
 
   getProjects() {
-    return this.http.get(this.baseUrl + '/get-projects')
+    return this.http.get<IProject[]>(this.baseUrl + '/get-projects')
   }
 
-  getProject(projectId: string) {
-    return this.http.get(this.baseUrl + '/get-project/' + projectId)
+  getProject(projectId: string): Observable<IProject> {
+    return this.http.get<IProject>(this.baseUrl + '/get-project/' + projectId)
   }
 
   saveProject(formData: FormData) {
