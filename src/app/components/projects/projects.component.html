@@ -76,7 +76,7 @@
             <span *ngIf="batchMode && selectedProjects.length > 0" class="title">Pas projecten aan</span>
     </div>
     <div class="search">
-        <input type="text" name="search" (input)="projectService.setSearchTerm($event.target.value)" placeholder="Zoeken">
+        <input type="text" name="search" [value]="projectService.searchTerm" (input)="projectService.setSearchTerm($event.target.value)" placeholder="Zoeken">
     </div>
 </div>
 
