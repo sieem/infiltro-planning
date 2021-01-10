@@ -34,7 +34,7 @@ export class MailProjectComponent implements OnInit {
     try {
       this.mailForm = this.formBuilder.group({
         _id: [''],
-        reciever: ['', [Validators.required]],
+        receiver: ['', [Validators.required]],
         cc: [''],
         subject: [''],
         body: ['']
@@ -71,7 +71,7 @@ export class MailProjectComponent implements OnInit {
 
       this.mailForm.setValue({
         _id: this.singleProjectService.projectData._id,
-        reciever: this.singleProjectService.projectData.email,
+        receiver: this.singleProjectService.projectData.email,
         cc: '',
         subject: mailSubject,
         body: mailBody
@@ -97,7 +97,7 @@ export class MailProjectComponent implements OnInit {
     const formData = new FormData();
 
     formData.append('_id', this.mailForm.value._id)
-    formData.append('to', this.mailForm.value.to)
+    formData.append('receiver', this.mailForm.value.receiver)
     formData.append('cc', this.mailForm.value.cc)
     formData.append('subject', this.mailForm.value.subject)
     formData.append('body', this.mailForm.value.body)
