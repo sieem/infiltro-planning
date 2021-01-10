@@ -47,6 +47,7 @@ import { SafeHtmlPipe } from './pipes/safe-html.pipe';
 import { FilterProjectsPipe } from './pipes/filter-projects.pipe';
 import { SortProjectsPipe } from './pipes/sort-projects.pipe';
 import { HighlightTextPipe } from './pipes/highlight-text.pipe';
+import { MailTemplatePipe } from './pipes/mail-template.pipe';
 
 @NgModule({
   declarations: [
@@ -82,6 +83,7 @@ import { HighlightTextPipe } from './pipes/highlight-text.pipe';
     FilterProjectsPipe,
     SortProjectsPipe,
     HighlightTextPipe,
+    MailTemplatePipe,
   ],
   imports: [
     BrowserModule,

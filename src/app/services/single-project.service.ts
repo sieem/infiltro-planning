@@ -7,18 +7,19 @@ import { ProjectService } from './project.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from './auth.service';
 import { ToastrService } from 'ngx-toastr';
-import { ModalService } from './modal.service';
 import * as moment from 'moment';
 import { SingleProjectCommentsService } from './single-project-comments.service';
 import { FormService } from './form.service';
+import { IProject } from '../interfaces/project.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SingleProjectService {
-  projectForm: FormGroup
+  public projectForm: FormGroup
   projectIsSaving: boolean = false;
   projectEditStates: any = {}
+  projectData: IProject;
   submitted = false
   projectId: string
   user: any
@@ -39,7 +40,6 @@ export class SingleProjectService {
     public projectService: ProjectService,
     public singleProjectCommentService: SingleProjectCommentsService,
     private toastr: ToastrService,
-    private modalService: ModalService,
   ) { }
 
   initProject() {
@@ -98,6 +98,13 @@ export class SingleProjectService {
         this.router.navigate(['/'])
       }
     )
+  }
+
+  async setProjectData(projectId: string): Promise<IProject> {
+    this.projectId = projectId;
+    this.projectData = await this.api.getProject(this.projectId).toPromise();
+
+    return this.projectData;
   }
 
   fillInFormGroup(formData) {

@@ -1,13 +1,12 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { FormService } from 'src/app/services/form.service';
-import * as moment from 'moment';
-import { CompanyService } from 'src/app/services/company.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
-import { UserService } from 'src/app/services/user.service';
+import { SingleProjectService } from 'src/app/services/single-project.service';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-mail-project',
@@ -23,8 +22,7 @@ export class MailProjectComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     public formService: FormService,
-    private companyService: CompanyService,
-    private userService: UserService,
+    public singleProjectService: SingleProjectService,
     private router: Router,
     private route: ActivatedRoute,
     private api: ApiService,
@@ -32,28 +30,31 @@ export class MailProjectComponent implements OnInit {
     public auth: AuthService
     ) { }
 
-  ngOnInit() {
-    this.mailForm = this.formBuilder.group({
-      _id: [''],
-      to: ['', [Validators.required]],
-      cc: [''],
-      subject: [''],
-      body: ['']
-    })
+  async ngOnInit() {
+    try {
+      this.mailForm = this.formBuilder.group({
+        _id: [''],
+        reciever: ['', [Validators.required]],
+        cc: [''],
+        subject: [''],
+        body: ['']
+      })
 
-    this.route.params.subscribe(params => {
-      if (params['projectId']) {
-        this.projectId = params['projectId'];
+      const params = await this.route.params.pipe(first()).toPromise();
 
-        this.api.getProject(this.projectId).subscribe(
-          async (res: any) => {
-            this.project = res
+      if (!params.projectId) {
+        return;
+      }
 
-            const mailSubject = `Bevestiging afspraak luchtdichtheidstest op ${this.project.street}`;
-            const mailBody = `
+      this.projectId = params.projectId;
+
+      await this.singleProjectService.setProjectData(this.projectId);
+
+      const mailSubject = `Bevestiging afspraak luchtdichtheidstest op {{street}}`;
+      const mailBody = `
               Beste,
 
-              Bij deze de bevestiging van onze afspraak voor de luchtdichtheidstest (via ${await this.companyService.companyName(this.project.company)}) op ${moment(this.project.datePlanned).format(this.formService.mailDateFormat)} om +/- ${this.project.hourPlanned}h
+              Bij deze de bevestiging van onze afspraak voor de luchtdichtheidstest (via {{company}}) op {{datePlanned}} om +/- {{hourPlanned}}h
               De luchtdichtheidstest neemt ongeveer 1h30 in beslag.
 
               In principe moeten er voor een bewoonde woning geen voorbereidende werken gebeuren.
@@ -65,19 +66,19 @@ export class MailProjectComponent implements OnInit {
               Indien er nog vragen zijn, bel of mail gerust. 
 
               Met vriendelijke groeten/Bien cordialement,
-            `.replace(/\n */g,"\n").trim();
-            this.mailForm.setValue({
-              _id: this.project._id,
-              to: this.project.email,
-              cc: '',
-              subject: mailSubject,
-              body: mailBody
-            })
-          },
-          err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
-        )
-      }
-    })
+    `.replace(/\n */g, "\n").trim();
+
+
+      this.mailForm.setValue({
+        _id: this.singleProjectService.projectData._id,
+        reciever: this.singleProjectService.projectData.email,
+        cc: '',
+        subject: mailSubject,
+        body: mailBody
+      });
+    } catch (error) {
+      err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
+    }
   }
 
 
