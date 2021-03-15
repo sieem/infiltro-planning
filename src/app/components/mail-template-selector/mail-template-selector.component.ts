@@ -38,13 +38,18 @@ export class MailTemplateSelectorComponent implements OnInit {
   }
 
   onChange() {
+
     this.templates$.pipe(shareReplay(1)).subscribe({
       next: (templates: any) => {
-        const body = templates
-          .find(template => template._id === this.mailTemplateForm.value.id)?.body;
+        const template = templates
+          .find(template => template._id === this.mailTemplateForm.value.id);
 
-        if (body) {
-          this.templateBody.next(body);
+        if (!confirm(`Wil je wisselen naar template: '${template.name}'?`)) {
+          return;
+        }
+
+        if (template?.body) {
+          this.templateBody.next(template?.body);
         }
       },
       error: (err) => console.error(err)
