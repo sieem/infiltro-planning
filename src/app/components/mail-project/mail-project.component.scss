@@ -29,6 +29,11 @@ form, .goBackRow .wrapper {
             width: 100%;
             height: 300px;
         }
+
+        .flex {
+            display: flex;
+            justify-content: space-between;
+        }
     }
 
     &.submit {
