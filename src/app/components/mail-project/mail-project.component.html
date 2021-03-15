@@ -26,8 +26,11 @@
   </div>
 
   <div class="inputGroup textarea">
-    <label for="body">Inhoud</label>
-    <app-mail-template-selector [templateBody]="templateBody$" [templateSaved]="templateSaved$"></app-mail-template-selector>
+    <div class="flex">
+      <label for="body">Inhoud</label>
+      <app-mail-template-selector [templateBody]="templateBody$" [templateSaved]="templateSaved$">
+      </app-mail-template-selector>
+    </div>
     <textarea name="body" id="body" formControlName="body" rows="3"></textarea>
     <p *ngIf="formService.checkInputField(mailForm, 'body', submitted)" class="error">!</p>
   </div>
