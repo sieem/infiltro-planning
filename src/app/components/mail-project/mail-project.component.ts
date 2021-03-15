@@ -6,8 +6,9 @@ import { ApiService } from 'src/app/services/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
 import { SingleProjectService } from 'src/app/services/single-project.service';
-import { first } from 'rxjs/operators';
+import { first, shareReplay, takeUntil } from 'rxjs/operators';
 import { MailTemplatePipe } from 'src/app/pipes/mail-template.pipe';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-mail-project',
@@ -19,6 +20,9 @@ export class MailProjectComponent implements OnInit {
   projectId: string
   submitted: boolean = false
   project: any
+  public templateBody$: BehaviorSubject<string> = new BehaviorSubject('');
+  public templateSaved$: BehaviorSubject<string> = new BehaviorSubject('');
+  private onDestroy$ = new Subject<void>();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -81,6 +85,17 @@ export class MailProjectComponent implements OnInit {
     } catch (error) {
       err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
     }
+
+    this.templateBody$.pipe(takeUntil(this.onDestroy$)).subscribe(
+      {
+        next: (templateBody) => {
+          if (templateBody !== '') {
+            this.mailForm.controls['body'].setValue(templateBody)
+          }
+        },
+        error: (error) => this.toastr.error(error, `Error`),
+      }
+    );
   }
 
 
@@ -113,6 +128,25 @@ export class MailProjectComponent implements OnInit {
     )
   }
 
+  saveTemplate() {
+    const name = prompt('Vul de templatenaam in:');
+    if (!name) {
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('body', this.mailForm.value.body);
+
+    this.api.saveMailTemplate(formData).subscribe(
+      (res: any) => {
+        this.toastr.success('Template saved');
+        this.templateSaved$.next('');
+      },
+      err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
+    )
+  }
+
   goBack() {
     if (this.mailForm.touched) {
       if (confirm('Ben je zeker dat je de pagina wil verlaten?')) {
@@ -125,4 +159,7 @@ export class MailProjectComponent implements OnInit {
     }
   }
 
+  ngOnDestroy() {
+    this.onDestroy$.next();
+  }
 }

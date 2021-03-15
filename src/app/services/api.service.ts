@@ -92,6 +92,18 @@ export class ApiService {
     return this.http.post(this.baseUrl + '/send-project-mail', formData)
   }
 
+  getMailTemplates() {
+    return this.http.get(this.baseUrl + '/get-mail-templates')
+  }
+
+  saveMailTemplate(formData: FormData) {
+    return this.http.post(this.baseUrl + '/save-mail-template', formData)
+  }
+
+  removeMailTemplate(formData: FormData) {
+    return this.http.post(this.baseUrl + '/remove-mail-template', formData)
+  }
+
   getComments(projectId: string) {
     return this.http.get(this.baseUrl + '/get-comments/' + projectId)
   }

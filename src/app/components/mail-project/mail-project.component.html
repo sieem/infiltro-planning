@@ -6,7 +6,7 @@
   </div>
 </div>
 
-<form *ngIf="auth.isAdmin()" [formGroup]="mailForm" class="wrapper" (ngSubmit)="onSubmit()">
+<form *ngIf="auth.isAdmin()" [formGroup]="mailForm" class="wrapper">
   <div class="inputGroup">
     <label for="receiver">Naar e-mailadres</label>
     <input type="email" name="receiver" formControlName="receiver">
@@ -27,11 +27,13 @@
 
   <div class="inputGroup textarea">
     <label for="body">Inhoud</label>
+    <app-mail-template-selector [templateBody]="templateBody$" [templateSaved]="templateSaved$"></app-mail-template-selector>
     <textarea name="body" id="body" formControlName="body" rows="3"></textarea>
     <p *ngIf="formService.checkInputField(mailForm, 'body', submitted)" class="error">!</p>
   </div>
-  <div class="inputGroup right">
-    <input type="submit" value="Mail verzenden">
+  <div class="inputGroup right submit">
+    <input type="submit" class="template" value="Template opslaan" (click)="saveTemplate()">
+    <input type="submit" class="send" value="Mail verzenden" (click)="onSubmit()">
   </div>
 </form>
 

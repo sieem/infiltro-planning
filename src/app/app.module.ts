@@ -48,6 +48,7 @@ import { FilterProjectsPipe } from './pipes/filter-projects.pipe';
 import { SortProjectsPipe } from './pipes/sort-projects.pipe';
 import { HighlightTextPipe } from './pipes/highlight-text.pipe';
 import { MailTemplatePipe } from './pipes/mail-template.pipe';
+import { MailTemplateSelectorComponent } from './components/mail-template-selector/mail-template-selector.component';
 
 @NgModule({
   declarations: [
@@ -84,6 +85,7 @@ import { MailTemplatePipe } from './pipes/mail-template.pipe';
     SortProjectsPipe,
     HighlightTextPipe,
     MailTemplatePipe,
+    MailTemplateSelectorComponent,
   ],
   imports: [
     BrowserModule,
