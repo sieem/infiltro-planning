@@ -88,9 +88,10 @@ export class MailProjectComponent implements OnInit {
 
     this.templateBody$.pipe(takeUntil(this.onDestroy$)).subscribe(
       {
-        next: (templateBody) => {
-          if (templateBody !== '') {
-            this.mailForm.controls['body'].setValue(templateBody)
+        next: (template: any) => {
+          if (template !== '') {
+            this.mailForm.controls['body'].setValue(template.body);
+            this.mailForm.controls['subject'].setValue(template.subject);
           }
         },
         error: (error) => this.toastr.error(error, `Error`),
@@ -136,6 +137,7 @@ export class MailProjectComponent implements OnInit {
 
     const formData = new FormData();
     formData.append('name', name);
+    formData.append('subject', this.mailForm.value.subject);
     formData.append('body', this.mailForm.value.body);
 
     this.api.saveMailTemplate(formData).subscribe(
