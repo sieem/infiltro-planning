@@ -44,13 +44,13 @@ export class MailTemplateSelectorComponent implements OnInit {
         const template = templates
           .find(template => template._id === this.mailTemplateForm.value.id);
 
-        if (!confirm(`Wil je wisselen naar template: '${template.name}'?`)) {
+        this.mailTemplateForm.controls['id'].setValue('');
+
+        if (!template || !confirm(`Wil je wisselen naar template: '${template.name}'?`)) {
           return;
         }
 
-        if (template?.body) {
-          this.templateBody.next(template?.body);
-        }
+        this.templateBody.next(template);
       },
       error: (err) => console.error(err)
     })
