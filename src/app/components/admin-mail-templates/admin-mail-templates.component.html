@@ -1,9 +1,8 @@
-<div class="list companies">
+<div class="list templates">
   <h1>Template admin</h1>
   <div class="item" *ngFor="let template of templates$ | async">
     <div>{{template.name}}</div>
-    <div>{{template.subject}}</div>
-    <div></div>
+    <div class="span2">{{template.subject}}</div>
     <div class="icon" (click)="editTemplate(template)"><img src="assets/images/icon-edit.svg" alt=""></div>
     <div class="icon" *ngIf="template._id !== auth.getUserDetails().template" (click)="removeTemplate(template)"><img src="assets/images/icon-delete.svg" alt=""></div>
   </div>
