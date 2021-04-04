@@ -9,7 +9,7 @@
   </div>
 </div>
 
-<form [formGroup]="registerForm" class="wrapper" (ngSubmit)="onSubmit()">
+<form [formGroup]="registerForm" class="wrapper">
   <div class="inputGroup">
     <label for="name">name</label>
     <input type="text" name="name" formControlName="name">
@@ -39,13 +39,9 @@
     <p *ngIf="formService.checkInputField(registerForm, 'role', submitted)" class="error">!</p>
   </div>
 
-  <div class="inputGroup right">
-    <ng-container *ngIf="editState; else elseTemplate">
-      <input type="submit" value="edit user">
-    </ng-container>
-    <ng-template #elseTemplate>
-      <input type="submit" value="add user">
-    </ng-template>
+  <div class="inputGroup right submit">
+    <input type="submit" value="Annuleer" (click)="cancel()">
+    <input type="submit" [value]="editState ? 'Gebruiker aanpassen' : 'Gebruiker toevoegen'" (click)="onSubmit()">
   </div>
 
 </form>

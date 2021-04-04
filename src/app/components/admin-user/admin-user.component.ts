@@ -64,6 +64,7 @@ export class AdminUserComponent implements OnInit {
           this.users$ = this.userService.getUsers(true);
           this.registerForm.reset()
           this.toastr.success('User saved', 'Sent mail to user!');
+          this.submitted = false;
         },
         err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
       )
@@ -75,6 +76,7 @@ export class AdminUserComponent implements OnInit {
           this.users$ = this.userService.getUsers(true);
           this.registerForm.reset()
           this.toastr.success('User saved');
+          this.submitted = false;
         },
         err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
       )
@@ -87,12 +89,18 @@ export class AdminUserComponent implements OnInit {
     this.editState = true
 
     this.registerForm.setValue({
-      _id: user._id || "",
-      name: user.name || "",
-      email: user.email || "",
-      company: user.company || "",
-      role: user.role || ""
+      _id: user._id || '',
+      name: user.name || '',
+      email: user.email || '',
+      company: user.company || '',
+      role: user.role || '',
     })
+  }
+
+  cancel() {
+    this.editState = false;
+
+    this.registerForm.reset();
   }
 
   removeUser(user: any) {

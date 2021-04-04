@@ -135,6 +135,10 @@ textarea {
         line-height: $size;
         font-size: $size / 2;
     }
+
+    &.submit {
+        gap: 10px;
+    }
 }
 
 .right {
