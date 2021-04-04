@@ -12,7 +12,7 @@
   },
   "private": true,
   "dependencies": {
-    "@agm/core": "^1.1.0",
+    "@agm/core": "3.0.0-beta.0",
     "@angular/animations": "^9.1.9",
     "@angular/common": "~9.1.9",
     "@angular/compiler": "~9.1.9",
@@ -21,10 +21,10 @@
     "@angular/platform-browser": "~9.1.9",
     "@angular/platform-browser-dynamic": "~9.1.9",
     "@angular/router": "~9.1.9",
-    "dompurify": "^2.0.15",
-    "jwt-decode": "^2.2.0",
-    "moment": "^2.26.0",
-    "ngx-toastr": "^12.1.0",
+    "dompurify": "^2.2.7",
+    "jwt-decode": "^3.1.2",
+    "moment": "^2.29.1",
+    "ngx-toastr": "^13.2.1",
     "rxjs": "~6.5.5",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.3"
