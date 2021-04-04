@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import * as jwt_decode from "jwt-decode";
+import jwtDecode from "jwt-decode";
 
 @Injectable({
   providedIn: 'root'
@@ -33,7 +33,7 @@ export class AuthService {
   getUserDetails() {
     const token = this.getToken()
     if(token) {
-      return jwt_decode(token)
+      return jwtDecode(token) as any
     } else {
       return false
     }
