@@ -21,6 +21,7 @@ import { AdminCompaniesComponent } from './components/admin-companies/admin-comp
 import { SingleProjectComponent } from './components/single-project/single-project.component';
 import { TokenInterceptorService } from './services/token-interceptor.service';
 import { AdminUserComponent } from './components/admin-user/admin-user.component';
+import { AdminMailTemplatesComponent } from './components/admin-mail-templates/admin-mail-templates.component';
 import { NavComponent } from './components/nav/nav.component';
 import { ProjectsComponent } from './components/projects/projects.component';
 import { MapComponent } from './components/map/map.component';
@@ -86,6 +87,7 @@ import { MailTemplateSelectorComponent } from './components/mail-template-select
     HighlightTextPipe,
     MailTemplatePipe,
     MailTemplateSelectorComponent,
+    AdminMailTemplatesComponent,
   ],
   imports: [
     BrowserModule,

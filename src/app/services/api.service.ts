@@ -100,8 +100,8 @@ export class ApiService {
     return this.http.post(this.baseUrl + '/save-mail-template', formData)
   }
 
-  removeMailTemplate(formData: FormData) {
-    return this.http.post(this.baseUrl + '/remove-mail-template', formData)
+  removeMailTemplate(id: string) {
+    return this.http.delete(this.baseUrl + '/remove-mail-template/' + id)
   }
 
   getComments(projectId: string) {

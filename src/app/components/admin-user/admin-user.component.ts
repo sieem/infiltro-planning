@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
-import { Router } from '@angular/router';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { FormService } from 'src/app/services/form.service';
 import { CompanyService } from 'src/app/services/company.service';
@@ -22,7 +21,6 @@ export class AdminUserComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
     private api: ApiService,
-    private router: Router,
     public formService: FormService,
     public companyService: CompanyService,
     public userService: UserService,
