@@ -59,6 +59,7 @@ export class AdminMailTemplatesComponent implements OnInit {
         
         this.templateForm.reset()
         this.editState = false
+        this.submitted = false;
         this.toastr.success('Template saved');
       },
       err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
@@ -74,6 +75,12 @@ export class AdminMailTemplatesComponent implements OnInit {
       subject: template.subject || "",
       body: template.body || "",
     })
+  }
+
+  cancel() {
+    this.editState = false;
+
+    this.templateForm.reset();
   }
 
   removeTemplate(template: any) {

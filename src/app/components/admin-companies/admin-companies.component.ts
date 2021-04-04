@@ -58,8 +58,9 @@ export class AdminCompaniesComponent implements OnInit {
       (res: any) => {
         this.companies$ = this.companyService.getCompanies(true);
         
-        this.companyForm.reset()
+        this.companyForm.reset();
         this.editState = false
+        this.submitted = false;
         this.toastr.success('Company saved');
       },
       err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
@@ -74,6 +75,17 @@ export class AdminCompaniesComponent implements OnInit {
       name: company.name || "",
       email: company.email || "",
       pricePageVisible: company.pricePageVisible || "",
+    });
+  }
+
+  cancel() {
+    this.editState = false;
+
+    this.companyForm.setValue({
+      _id: '',
+      name: '',
+      email: '',
+      pricePageVisible: '',
     })
   }
 

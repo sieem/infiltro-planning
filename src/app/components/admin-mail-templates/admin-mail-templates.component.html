@@ -9,7 +9,7 @@
 </div>
 
 
-<form [formGroup]="templateForm" class="wrapper" (ngSubmit)="onSubmit()">
+<form [formGroup]="templateForm" class="wrapper">
   <div class="inputGroup">
     <label for="name">Templatenaam</label>
     <input type="text" name="name" formControlName="name">
@@ -28,13 +28,9 @@
     <p *ngIf="formService.checkInputField(templateForm, 'body', submitted)" class="error">!</p>
   </div>
 
-  <div class="inputGroup right">
-    <ng-container *ngIf="editState; else elseTemplate">
-      <input type="submit" value="edit template">
-    </ng-container>
-    <ng-template #elseTemplate>
-      <input type="submit" value="add template">
-    </ng-template>
+  <div class="inputGroup right submit">
+    <input type="submit" value="Annuleer" (click)="cancel()">
+    <input type="submit" [value]="editState ? 'Template aanpassen' : 'Template toevoegen'" (click)="onSubmit()">
   </div>
 
   <div>

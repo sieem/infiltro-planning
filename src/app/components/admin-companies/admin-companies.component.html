@@ -14,7 +14,7 @@
 </div>
 
 
-<form [formGroup]="companyForm" class="wrapper" (ngSubmit)="onSubmit()">
+<form [formGroup]="companyForm" class="wrapper">
   <div class="inputGroup">
     <label for="name">Bedrijfsnaam</label>
     <input type="text" name="name" formControlName="name">
@@ -34,13 +34,9 @@
   </div>
   
 
-  <div class="inputGroup right">
-    <ng-container *ngIf="editState; else elseTemplate">
-      <input type="submit" value="edit company">
-    </ng-container>
-    <ng-template #elseTemplate>
-      <input type="submit" value="add company">
-    </ng-template>
+  <div class="inputGroup right submit">
+    <input type="submit" value="Annuleer" (click)="cancel()">
+    <input type="submit" [value]="editState ? 'Bedrijf aanpassen' : 'Bedrijf toevoegen'" (click)="onSubmit()">
   </div>
   
 </form>
