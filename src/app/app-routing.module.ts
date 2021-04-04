@@ -13,6 +13,7 @@ import { MailProjectComponent } from './components/mail-project/mail-project.com
 import { PricesComponent } from './components/prices/prices.component';
 import { PricePageGuard } from './guards/price-page.guard';
 import { SingleProjectArchiveComponent } from './components/single-project-archive/single-project-archive.component';
+import { AdminMailTemplatesComponent } from './components/admin-mail-templates/admin-mail-templates.component';
 
 const routes: Routes = [
   {
@@ -84,6 +85,12 @@ const routes: Routes = [
   {
     path: 'admin/bedrijven',
     component: AdminCompaniesComponent,
+    canActivate: [AuthGuard],
+    data: { roles: ['admin'] }
+  },
+  {
+    path: 'admin/mail-templates',
+    component: AdminMailTemplatesComponent,
     canActivate: [AuthGuard],
     data: { roles: ['admin'] }
   }

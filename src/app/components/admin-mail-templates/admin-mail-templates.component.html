@@ -1,0 +1,57 @@
+<div class="list companies">
+  <h1>Template admin</h1>
+  <div class="item" *ngFor="let template of templates$ | async">
+    <div>{{template.name}}</div>
+    <div>{{template.subject}}</div>
+    <div></div>
+    <div class="icon" (click)="editTemplate(template)"><img src="assets/images/icon-edit.svg" alt=""></div>
+    <div class="icon" *ngIf="template._id !== auth.getUserDetails().template" (click)="removeTemplate(template)"><img src="assets/images/icon-delete.svg" alt=""></div>
+  </div>
+</div>
+
+
+<form [formGroup]="templateForm" class="wrapper" (ngSubmit)="onSubmit()">
+  <div class="inputGroup">
+    <label for="name">Templatenaam</label>
+    <input type="text" name="name" formControlName="name">
+    <p *ngIf="formService.checkInputField(templateForm, 'name', submitted)" class="error">!</p>
+  </div>
+
+  <div class="inputGroup">
+    <label for="subject">Onderwerp</label>
+    <input type="subject" name="subject" formControlName="subject">
+    <p *ngIf="formService.checkInputField(templateForm, 'subject', submitted)" class="error">!</p>
+  </div>
+
+  <div class="inputGroup textarea">
+    <label for="body">Body</label>
+    <textarea name="body" cols="30" rows="10" formControlName="body"></textarea>
+    <p *ngIf="formService.checkInputField(templateForm, 'body', submitted)" class="error">!</p>
+  </div>
+
+  <div class="inputGroup right">
+    <ng-container *ngIf="editState; else elseTemplate">
+      <input type="submit" value="edit template">
+    </ng-container>
+    <ng-template #elseTemplate>
+      <input type="submit" value="add template">
+    </ng-template>
+  </div>
+
+  <div>
+    <h4>Beschikbare variabelen:</h4>
+    <div ngNonBindable>{{company}}</div>
+    <div ngNonBindable>{{houseAmount}}</div>
+    <div ngNonBindable>{{projectName}}</div>
+    <div ngNonBindable>{{street}}</div>
+    <div ngNonBindable>{{city}}</div>
+    <div ngNonBindable>{{postalCode}}</div>
+    <div ngNonBindable>{{name}}</div>
+    <div ngNonBindable>{{tel}}</div>
+    <div ngNonBindable>{{email}}</div>
+    <div ngNonBindable>{{executor}}</div>
+    <div ngNonBindable>{{datePlanned}}</div>
+    <div ngNonBindable>{{hourPlanned}}</div>
+  </div>
+  
+</form>
