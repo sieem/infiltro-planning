@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { MailTemplateSelectorComponent } from './mail-template-selector.component';
 
@@ -6,7 +6,7 @@ describe('MailTemplateSelectorComponent', () => {
   let component: MailTemplateSelectorComponent;
   let fixture: ComponentFixture<MailTemplateSelectorComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ MailTemplateSelectorComponent ]
     })
