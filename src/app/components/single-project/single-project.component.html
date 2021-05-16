@@ -14,6 +14,10 @@
         <app-single-project-row label="Status" field="status" type="select" firstValue="Selecteer status" [dataSource]="projectService.statuses" valueKey="type">
         </app-single-project-row>
       </div>
+      <div class="right">
+        <app-single-project-row label="Actief sinds" field="dateActive" type="date" [readOnly]="!auth.isAdmin()" [showAsterisk]="false">
+        </app-single-project-row>
+      </div>
   </div>
   <div class="projectSection">
     <div class="projectRow space-between">

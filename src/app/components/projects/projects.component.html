@@ -90,12 +90,20 @@
         (click)="selectProject(project)">
             <div class="company" [innerHTML]="project.company | company | async | highlightText: projectService.searchTerm | safeHtml"></div>
             <ng-container *ngIf="!batchMode; else noBatchMode">
-                <div class="title" [routerLink]="[ '/project', project._id ]"><span [innerHTML]="project.projectName | highlightText: projectService.searchTerm | safeHtml"></span> /
-                    <span [innerHTML]="project.projectType | projectType | highlightText: projectService.searchTerm | safeHtml"></span> / {{project.houseAmount}}</div>
+                <div class="title" [routerLink]="[ '/project', project._id ]">
+                    <span *ngIf="[project.dateActive, project.status] | isDateActiveTooOld" class="error">!</span>
+                    <span [innerHTML]="project.projectName | highlightText: projectService.searchTerm | safeHtml"></span> /
+                    <span [innerHTML]="project.projectType | projectType | highlightText: projectService.searchTerm | safeHtml"></span> /
+                    {{project.houseAmount}}
+                </div>
             </ng-container>
             <ng-template #noBatchMode>
-                <div class="title"><span [innerHTML]="project.projectName | highlightText: projectService.searchTerm | safeHtml"></span> /
-                    <span [innerHTML]="project.projectType | projectType | highlightText: projectService.searchTerm | safeHtml"></span> / {{project.houseAmount}}</div>
+                <div class="title">
+                    <span *ngIf="[project.dateActive, project.status] | isDateActiveTooOld" class="error">!</span>
+                    <span [innerHTML]="project.projectName | highlightText: projectService.searchTerm | safeHtml"></span> /
+                    <span [innerHTML]="project.projectType | projectType | highlightText: projectService.searchTerm | safeHtml"></span> /
+                    {{project.houseAmount}}
+                </div>
             </ng-template>
             
             
@@ -120,7 +128,7 @@
                 <ng-container *ngIf="project.extraInfoAddress">, </ng-container>
                 <span *ngIf="project.extraInfoAddress" class="extraInfoAddress" [innerHTML]="project.extraInfoAddress | highlightText: projectService.searchTerm | safeHtml"></span>
             </div>
-            <div class="dateHourCreated" title="Laatst aangepast: {{ project.dateEdited | formatDate:'time' }}"><span [innerHTML]="project.dateCreated | formatDate | highlightText: projectService.searchTerm | safeHtml"></span></div>
+            <div class="dateHourCreated" title="Laatst aangepast: {{ project.dateEdited | formatDate:'time' }}"><span [innerHTML]="project.dateActive | formatDate:'empty' | highlightText: projectService.searchTerm | safeHtml"></span></div>
             <div class="dateHourPlanned">
                 <b>
                     <span [innerHTML]="project.executor | executor | highlightText: projectService.searchTerm | safeHtml"></span>

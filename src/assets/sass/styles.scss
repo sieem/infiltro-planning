@@ -83,3 +83,18 @@ main {
         display: none;
     }
 }
+
+.error {
+    $size: 15px;
+
+    background-color: $infiltro-red;
+    color: #fff;
+    font-size: 7px;
+    height: $size;
+    width: $size;
+    border-radius: 100%;
+    margin-right: 3px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}

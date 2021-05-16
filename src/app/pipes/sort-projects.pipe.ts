@@ -6,7 +6,7 @@ import { IProject } from '../interfaces/project.interface';
 export class SortProjectsPipe implements PipeTransform {
 
   transform(projects: IProject[], sortOptions): IProject[] {
-    const sortedProjects = projects.sort((a, b) => {
+    let sortedProjects = projects.sort((a, b) => {
       let x: string | Date;
       let y: string | Date;
 
@@ -25,6 +25,16 @@ export class SortProjectsPipe implements PipeTransform {
 
       return x < y ? -1 : 1
     });
+
+    if (sortOptions.field === 'datePlanned') {
+      sortedProjects = sortedProjects.sort((a, b) => {
+        if (a.datePlanned) return 1;
+
+        if (a.dateActive == b.dateActive) return 0
+
+        return a.dateActive < b.dateActive ? -1 : 1
+      })
+    }
 
     return sortOptions.order == 'desc' ? sortedProjects.reverse() : sortedProjects;
   }
