@@ -50,6 +50,7 @@ import { SortProjectsPipe } from './pipes/sort-projects.pipe';
 import { HighlightTextPipe } from './pipes/highlight-text.pipe';
 import { MailTemplatePipe } from './pipes/mail-template.pipe';
 import { MailTemplateSelectorComponent } from './components/mail-template-selector/mail-template-selector.component';
+import { IsDateActiveTooOldPipe } from './pipes/is-date-active-too-old.pipe';
 
 @NgModule({
   declarations: [
@@ -88,6 +89,7 @@ import { MailTemplateSelectorComponent } from './components/mail-template-select
     MailTemplatePipe,
     MailTemplateSelectorComponent,
     AdminMailTemplatesComponent,
+    IsDateActiveTooOldPipe,
   ],
   imports: [
     BrowserModule,
@@ -115,6 +117,7 @@ import { MailTemplateSelectorComponent } from './components/mail-template-select
     StatusPipe,
     ExecutorPipe,
     MailTemplatePipe,
+    IsDateActiveTooOldPipe,
   ],
   bootstrap: [AppComponent]
 })

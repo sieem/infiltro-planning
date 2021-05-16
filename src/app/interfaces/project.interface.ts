@@ -32,5 +32,6 @@ export interface IProject {
     mails: any[],
     calendarId: String,
     eventId: String,
-    calendarLink: String
+    calendarLink: String,
+    dateActive: Date,
 }

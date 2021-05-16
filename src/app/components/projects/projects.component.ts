@@ -24,6 +24,7 @@ export class ProjectsComponent implements OnInit {
   currentHoverComment: string;
   hoverX: number;
   hoverY: number;
+  now = new Date();
 
   constructor(
     private api: ApiService,

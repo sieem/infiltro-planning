@@ -75,6 +75,7 @@ export class SingleProjectService {
       datePlanned: [''],
       hourPlanned: [''],
       status: ['toPlan'],
+      dateActive: ['Nog niet actief'],
     })
 
     Object.keys(this.projectForm.controls).forEach(key => {
@@ -133,6 +134,7 @@ export class SingleProjectService {
       datePlanned: moment(formData.datePlanned).format(this.formService.dateFormat),
       hourPlanned: formData.hourPlanned,
       status: formData.status,
+      dateActive: formData.dateActive ? moment(formData.dateActive).format(this.formService.dateFormat) : 'Nog niet actief',
     })
 
     this.hasCalendarItem = (formData.eventId && formData.calendarId) ? true : false
@@ -167,6 +169,7 @@ export class SingleProjectService {
     formData.append('datePlanned', this.projectForm.value.datePlanned)
     formData.append('hourPlanned', this.projectForm.value.hourPlanned)
     formData.append('status', this.projectForm.value.status)
+    formData.append('dateActive', this.projectForm.value.dateActive)
 
     this.api.saveProject(formData).subscribe(
       (res: any) => {
@@ -184,7 +187,7 @@ export class SingleProjectService {
         let formDataAsObj: any = {}
         formData.forEach((el, key) => formDataAsObj = { ...formDataAsObj, [key]: res[key] })
         formDataAsObj.datePlanned = formDataAsObj.datePlanned || 'Invalid Date'
-        this.projectForm.setValue(formDataAsObj)
+        this.fillInFormGroup(formDataAsObj);
         this.projectIsSaving = false;
         this.hasCalendarItem = (res.eventId && res.calendarId) ? true : false
         this.router.navigate(['/project/' + this.projectId])

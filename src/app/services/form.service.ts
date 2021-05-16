@@ -24,9 +24,10 @@ export class FormService {
     return form.get(field).invalid && (form.get(field).dirty || form.get(field).touched || submitted)
   }
 
-  public formatDate(value: string | Date = new Date(), formatting = this.visualDateFormat) {
+  public formatDate(value: string | Date = new Date(), formatting = this.visualDateFormat, emptyReturn = false) {
     let returnDate = moment(value, "YYYY-MM-DD").format(formatting)
-    if (returnDate === 'Invalid date') return 'Nog te plannen'
+    if (emptyReturn && returnDate === 'Invalid date') return ''
+    else if (returnDate === 'Invalid date') return 'Nog te plannen'
     else return returnDate
   }
 

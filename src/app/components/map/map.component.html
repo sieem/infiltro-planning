@@ -26,6 +26,7 @@
         </p>
         <p>Status: {{ m.status | status}}</p>
         <p>Bedrijf: {{ m.company | company | async }}</p>
+        <p>Actief Sinds: {{ m.dateActive | formatDate:'empty' }}</p>
         <app-comments [comments]="m.comments"></app-comments>
       </div>
     </agm-info-window>

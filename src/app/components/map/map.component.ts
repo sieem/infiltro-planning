@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
-import * as moment from 'moment';
 import { ProjectService } from 'src/app/services/project.service';
 import { ToastrService } from 'ngx-toastr';
 import { CompanyService } from 'src/app/services/company.service';
+import { IsDateActiveTooOldPipe } from 'src/app/pipes/is-date-active-too-old.pipe';
 
 @Component({
   selector: 'app-map',
@@ -48,7 +48,8 @@ export class MapComponent implements OnInit {
     private api: ApiService,
     public projectService: ProjectService,
     private toastr: ToastrService,
-    public companyService: CompanyService
+    public companyService: CompanyService,
+    private isDateActiveTooOldPipe: IsDateActiveTooOldPipe,
     ) { }
 
   ngOnInit() {
@@ -63,14 +64,18 @@ export class MapComponent implements OnInit {
             let pointerUrl = this.pointers.together.default
 
             if (project.executor) {
-              pointerUrl = this.pointers[project.executor][project.status] || this.pointers[project.executor]['default']
+              pointerUrl = this.pointers[project.executor][project.status] || this.pointers[project.executor].default
             } else {
-              pointerUrl = this.pointers['default'][project.status] || this.pointers['default']['default']
+              pointerUrl = this.pointers.default[project.status] || this.pointers.default.default
+            }
+
+            if (this.isDateActiveTooOldPipe.transform([project.dateActive, project.status])) {
+              pointerUrl = pointerUrl.replace('.png', '-warning.png');
             }
             
             // always show red if it's to contact
             if (project.status === "toContact") {
-              pointerUrl = this.pointers['warning'][project.status] || this.pointers['warning']['default']
+              pointerUrl = this.pointers.warning[project.status] || this.pointers.warning.default
             }
 
             if (project.lat && project.lng) {

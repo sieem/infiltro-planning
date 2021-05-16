@@ -12,7 +12,7 @@ export class FormatDatePipe implements PipeTransform {
     if (param === "time") {
       return this.formService.formatDateTime(value);
     }
-    return this.formService.formatDate(value);
+    return this.formService.formatDate(value, undefined, param === 'empty');
   }
 
 }
