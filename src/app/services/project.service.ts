@@ -79,11 +79,6 @@ export class ProjectService {
       onlyAdmin: false,
     },
     {
-      type: "onHoldCovid19",
-      name: "On - Hold (COVID-19)",
-      onlyAdmin: false,
-    },
-    {
       type: "onHoldByClient",
       name: "On - Hold door klant",
       onlyAdmin: false,
