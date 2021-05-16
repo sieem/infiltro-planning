@@ -24,14 +24,14 @@ export class FormService {
     return form.get(field).invalid && (form.get(field).dirty || form.get(field).touched || submitted)
   }
 
-  public formatDate(value: string | Date = new Date(), formatting = this.visualDateFormat, emptyReturn = false) {
+  public formatDate(value: Date = new Date(), formatting = this.visualDateFormat, emptyReturn = false) {
     let returnDate = moment(value, "YYYY-MM-DD").format(formatting)
     if (emptyReturn && returnDate === 'Invalid date') return ''
     else if (returnDate === 'Invalid date') return 'Nog te plannen'
     else return returnDate
   }
 
-  public formatDateTime(value: string | Date = new Date(), formatting = this.visualDateTimeFormat) {
+  public formatDateTime(value: Date = new Date(), formatting = this.visualDateTimeFormat) {
     let returnDate = moment(value).format(formatting)
     if (returnDate === 'Invalid date') return 'Ongeldige datum'
     else return returnDate
