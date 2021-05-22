@@ -81,23 +81,8 @@ export class MapComponent implements OnInit {
             if (project.lat && project.lng) {
               this.markers.push(
                 {
-                  id: project._id,
-                  lat: project.lat,
-                  lng: project.lng,
-                  title: project.projectName,
-                  email: project.email,
-                  tel: project.tel,
-                  street: project.street,
-                  city: project.city,
-                  postalCode: project.postalCode,
-                  datePlanned: project.datePlanned,
-                  hourPlanned: project.hourPlanned,
-                  status: project.status,
-                  executor: project.executor,
+                  ...project,
                   pointerUrl: pointerUrl,
-                  company: project.company,
-                  calendarLink: project.calendarLink,
-                  comments: project.comments,
                 }
               )
             } else {
