@@ -1,9 +1,5 @@
 @import "variables";
 
-$input-padding: 3px;
-$input-lineheight: 18px;
-$input-fontsize: 13px;
-
 input,
 textarea,
 select,
@@ -63,6 +59,21 @@ textarea {
     &:last-child {
         margin: 0;
     }
+
+    &.split {
+        display: grid;
+        grid-template-columns: 55% 1fr;
+
+        .left,
+        .right {
+            display: flex;
+            flex-direction: column;
+
+            label {
+                width: calc(var(--label-width) * 2);
+            }
+        }
+    }
 }
 
 .projectRow,
@@ -98,15 +109,18 @@ textarea {
     }
 
     label {
+        --label-width: 30%;
         display: block;
         font-weight: 700;
-        width: 30%;
+        font-family: 'Open Sans Condensed', sans-serif;
+        width: var(--label-width);
         min-width: 120px;
         text-align: right;
         font-size: $input-fontsize;
         line-height: $input-lineheight;
         padding: $input-padding;
         padding-right: 30px;
+        white-space: nowrap;
     }
 
     .read.empty {
@@ -152,6 +166,15 @@ textarea {
             color: $infiltro-red;
             text-decoration: line-through;
             font-style: italic;
+        }
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .projectRow,
+    .inputGroup {
+        label {
+            white-space: normal;
         }
     }
 }
