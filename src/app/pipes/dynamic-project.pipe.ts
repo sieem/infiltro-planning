@@ -29,6 +29,7 @@ export class DynamicProjectPipe implements PipeTransform {
         return this.ProjectTypePipe.transform(value);
       case 'dateCreated':
       case 'datePlanned':
+      case 'dateActive':
         return this.FormatDatePipe.transform(value, null);
       case 'status':
         return this.StatusPipe.transform(value);

@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@700&display=swap');
 
 @import "variables";
 @import "~ngx-toastr/toastr";
@@ -97,4 +98,19 @@ main {
     display: inline-flex;
     justify-content: center;
     align-items: center;
+}
+
+
+// because of scoping, it sits here
+.projectSection {
+    &.split {
+        .left,
+        .right {
+            .projectRow {
+                label {
+                    width: calc(var(--label-width) * 2);
+                }
+            }
+        }
+    }
 }

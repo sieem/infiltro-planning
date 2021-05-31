@@ -10,34 +10,31 @@
           </app-single-project-row>
         </div>
       </div>
-      <div class="right">
-        <app-single-project-row label="Status" field="status" type="select" firstValue="Selecteer status" [dataSource]="projectService.statuses" valueKey="type">
-        </app-single-project-row>
-      </div>
-      <div class="right">
-        <app-single-project-row label="Actief sinds" field="dateActive" type="date" [readOnly]="!auth.isAdmin()" [showAsterisk]="false">
-        </app-single-project-row>
-      </div>
   </div>
   <div class="projectSection">
-    <div class="projectRow space-between">
-      <div class="left">
-        <h2>{{singleProjectService.projectForm.value.projectName}}</h2>
-      </div>
-      <div class="right">
+    <div class="projectRow">
+      <h2>{{singleProjectService.projectForm.value.projectName}}</h2>
+    </div>
+  </div>
+  <div class="projectSection split">
+    <div class="left">
+      <app-single-project-row label="Type" field="projectType" type="select" firstValue="Selecteer type" [dataSource]="projectService.projectTypes" valueKey="type">
+      </app-single-project-row>
+
+      <app-single-project-row label="Aantal / omschrijving" field="houseAmount" type="input">
+      </app-single-project-row>
+
+      <app-single-project-row label="Referentie" field="projectName" type="input">
+      </app-single-project-row>
+    </div>
+    <div class="right">
+        <app-single-project-row label="Status" field="status" type="select" firstValue="Selecteer status" [dataSource]="projectService.statuses" valueKey="type">
+        </app-single-project-row>
         <app-single-project-row label="Datum aanvraag" field="dateCreated" type="date" [readOnly]="!auth.isAdmin()" [showAsterisk]="false">
         </app-single-project-row>
-      </div>
+        <app-single-project-row label="Actief sinds" field="dateActive" type="date" [readOnly]="!auth.isAdmin()" [showAsterisk]="false">
+        </app-single-project-row>
     </div>
-
-    <app-single-project-row label="Type" field="projectType" type="select" firstValue="Selecteer type" [dataSource]="projectService.projectTypes" valueKey="type">
-    </app-single-project-row>
-
-    <app-single-project-row label="Aantal / omschrijving" field="houseAmount" type="input">
-    </app-single-project-row>
-
-    <app-single-project-row label="Referentie" field="projectName" type="input">
-    </app-single-project-row>
   </div>
 
   <div class="projectSection">

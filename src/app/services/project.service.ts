@@ -118,7 +118,7 @@ export class ProjectService {
     },
     {
       type: "dateCreated",
-      name: "Datum aanvraag",
+      name: "Ingegeven op",
       sort: true
     },
     {
