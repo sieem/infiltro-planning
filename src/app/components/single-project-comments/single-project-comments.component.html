@@ -3,7 +3,7 @@
     <textarea name="content" id="content" formControlName="content" rows="3"></textarea>
   </div>
 
-  <div class="inputGroup right">
+  <div class="inputGroup right submit">
     <ng-container *ngIf="singleProjectCommentsService.editState; else elseTemplate">
       <input type="submit" value="Opmerking aanpassen">
     </ng-container>
@@ -11,5 +11,6 @@
       <input type="submit" *ngIf="!newProject" value="Opmerking toevoegen">
     </ng-template>
   </div>
+
+  <app-comments [comments]="singleProjectCommentsService.comments" [readOnly]="singleProjectService.archiveActive"></app-comments>
 </form>
-<app-comments [comments]="singleProjectCommentsService.comments" [readOnly]="singleProjectService.archiveActive"></app-comments>

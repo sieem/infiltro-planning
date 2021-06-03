@@ -1,6 +1,6 @@
 <div class="wrapper" [ngClass]="singleProjectService.projectForm.value.status">
   <div class="projectSection">
-      <div class="projectRow space-between">
+      <div class="topControls">
         <app-single-project-controls [projectForm]="singleProjectService.projectForm" [projectId]="singleProjectService.projectId" class="left controls" *ngIf="!singleProjectService.archiveActive"></app-single-project-controls>
         <div class="right">
           <app-single-project-row label="Contactpersoon binnen" field="company" type="select" firstValue="Selecteer bedrijf" [dataSource]="companyService.getCompanies() | async" valueKey="_id" [readOnly]="!auth.isAdmin()">
@@ -16,7 +16,7 @@
       <h2>{{singleProjectService.projectForm.value.projectName}}</h2>
     </div>
   </div>
-  <div class="projectSection split">
+  <div class="projectSection twoColumns">
     <div class="left">
       <app-single-project-row label="Type" field="projectType" type="select" firstValue="Selecteer type" [dataSource]="projectService.projectTypes" valueKey="type">
       </app-single-project-row>
@@ -113,8 +113,6 @@
     <div class="projectRow">
       <h2>Opmerkingen</h2>
     </div>
-    <div class="projectRow textarea">
-      <app-single-project-comments [projectId]="singleProjectService.projectForm.value._id" [newProject]="singleProjectService.newProject"></app-single-project-comments>
-    </div>
+    <app-single-project-comments [projectId]="singleProjectService.projectForm.value._id" [newProject]="singleProjectService.newProject"></app-single-project-comments>
   </div>
 </div>
