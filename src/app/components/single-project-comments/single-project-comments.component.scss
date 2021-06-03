@@ -7,5 +7,10 @@ form {
     .inputGroup {
         padding-right: 0;
         padding-left: 0;
+        grid-template-columns: 1fr;
+    }
+
+    .submit {
+        margin-bottom: 15px;
     }
 }
