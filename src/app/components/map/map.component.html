@@ -8,7 +8,7 @@
 
     <agm-info-window>
       <div class="container">
-        <h2><a routerLink="/project/{{m.id}}" routerLinkActive="active">{{m.projectName}}</a></h2>
+        <h2><a routerLink="/project/{{m._id}}" routerLinkActive="active">{{m.projectName}}</a></h2>
         <p>Adres: <a href="https://www.google.be/maps/search/{{m.street}}+{{m.postalCode}}+{{m.city}}"
             target="_blank">{{m.street}}, {{m.postalCode}} {{m.city}}</a></p>
         <p>Email: <a href="mailto:{{m.email}}">{{m.email}}</a></p>
