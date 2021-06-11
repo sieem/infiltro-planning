@@ -30,7 +30,7 @@
     <div class="right">
         <app-single-project-row label="Status" field="status" type="select" firstValue="Selecteer status" [dataSource]="projectService.statuses" valueKey="type">
         </app-single-project-row>
-        <app-single-project-row label="Datum aanvraag" field="dateCreated" type="date" [readOnly]="!auth.isAdmin()" [showAsterisk]="false">
+        <app-single-project-row label="Datum ingave" field="dateCreated" type="date" [readOnly]="!auth.isAdmin()" [showAsterisk]="false">
         </app-single-project-row>
         <app-single-project-row label="Actief sinds" field="dateActive" type="date" [readOnly]="!auth.isAdmin()" [showAsterisk]="false">
         </app-single-project-row>
