@@ -4,6 +4,7 @@ import { environment } from '../../environments/environment';
 import { IProject } from '../interfaces/project.interface';
 import { Observable } from 'rxjs';
 import { ICompany } from '../interfaces/company.interface';
+import { IUser } from '../interfaces/user.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,7 @@ export class ApiService {
   }
 
   getUsers() {
-    return this.http.get(this.baseUrl + '/get-users')
+    return this.http.get<IUser[]>(this.baseUrl + '/get-users')
   }
 
   getUser(userId: string) {

@@ -6,7 +6,6 @@ import { CompanyService } from 'src/app/services/company.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { UserService } from 'src/app/services/user.service';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-admin-user',
@@ -17,7 +16,6 @@ export class AdminUserComponent implements OnInit {
   registerForm: FormGroup;
   submitted = false;
   editState = false;
-  users$: Observable<any> = this.userService.getUsers();
 
   constructor(private formBuilder: FormBuilder,
     private api: ApiService,
@@ -52,7 +50,7 @@ export class AdminUserComponent implements OnInit {
   registerUser() {
 
     const formData = new FormData();
-    
+
     formData.append('name', this.registerForm.value.name)
     formData.append('email', this.registerForm.value.email)
     formData.append('company', this.registerForm.value.company)
@@ -61,7 +59,7 @@ export class AdminUserComponent implements OnInit {
     if (!this.registerForm.value._id) {
       this.api.addUser(formData).subscribe(
         (res: any) => {
-          this.users$ = this.userService.getUsers(true);
+          this.userService.refreshUsers();
           this.registerForm.reset()
           this.toastr.success('User saved', 'Sent mail to user!');
           this.submitted = false;
@@ -73,7 +71,7 @@ export class AdminUserComponent implements OnInit {
       this.editState = false
       this.api.editUser(formData).subscribe(
         (res: any) => {
-          this.users$ = this.userService.getUsers(true);
+          this.userService.refreshUsers();
           this.registerForm.reset()
           this.toastr.success('User saved');
           this.submitted = false;
@@ -82,7 +80,7 @@ export class AdminUserComponent implements OnInit {
       )
     }
 
-    
+
   }
 
   editUser(user) {
@@ -108,7 +106,7 @@ export class AdminUserComponent implements OnInit {
       if (confirm(`Are you really sure you want to delete ${user.email}???`)) {
         this.api.removeUser(user._id).subscribe(
           (res: any) => {
-            this.users$ = this.userService.getUsers(true);
+            this.userService.refreshUsers();
           },
           err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
         )

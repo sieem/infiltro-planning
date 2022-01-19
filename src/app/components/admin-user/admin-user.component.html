@@ -1,6 +1,6 @@
 <div class="list users">
   <h1>User admin</h1>
-  <div class="item" *ngFor="let user of userService.getUsers() | async">
+  <div class="item" *ngFor="let user of userService.users$ | async">
     <div>{{user.name}} ({{user.email}})</div>
     <div>{{ user.company | company | async }}</div>
     <div>{{userService.roleName(user.role)}}</div>
