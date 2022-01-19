@@ -18,7 +18,7 @@ export class AppComponent {
           window.scrollTo({ top: this.projectPageScrollPos })
         }
       }
-      if (ev instanceof NavigationStart) {        
+      if (ev instanceof NavigationStart) {
         if (this.projectsPageActive) {
           this.projectPageScrollPos = window.scrollY
         }
@@ -28,7 +28,7 @@ export class AppComponent {
     })
   }
 
-  delay(t: number) {
-    return new Promise((resolve) => setTimeout(() => resolve(), t))
+  delay(milliseconds: number) {
+    return new Promise((resolve) => setTimeout(() => resolve(true), milliseconds))
   }
 }
