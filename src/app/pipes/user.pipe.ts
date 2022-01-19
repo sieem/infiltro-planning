@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { UserService } from '../services/user.service';
-import { first } from 'rxjs/operators';
+import { firstValueFrom } from 'rxjs';
 
 @Pipe({
   name: 'user'
@@ -10,7 +10,7 @@ export class UserPipe implements PipeTransform {
   public constructor(private userService: UserService) { }
 
   async transform(value: string): Promise<string> {
-    return await this.userService.userToName(value).pipe(first()).toPromise();
+    return await firstValueFrom(this.userService.userToName(value));
   }
 
 

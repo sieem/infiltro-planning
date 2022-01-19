@@ -6,9 +6,9 @@ import { ApiService } from 'src/app/services/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
 import { SingleProjectService } from 'src/app/services/single-project.service';
-import { first, shareReplay, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { MailTemplatePipe } from 'src/app/pipes/mail-template.pipe';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-mail-project',
@@ -46,7 +46,7 @@ export class MailProjectComponent implements OnInit {
         body: ['']
       })
 
-      const params = await this.route.params.pipe(first()).toPromise();
+      const params = await firstValueFrom(this.route.params);
 
       if (!params.projectId) {
         return;
@@ -69,7 +69,7 @@ export class MailProjectComponent implements OnInit {
 
               Verder best ook eens nakijken of er een deur- of raamopening is van minder dan 2m40 hoog én minder dan 1m13 breed. Indien dit niet zo is, graag met ons contact opnemen.
 
-              Indien er nog vragen zijn, bel of mail gerust. 
+              Indien er nog vragen zijn, bel of mail gerust.
 
               Met vriendelijke groeten/Bien cordialement,
     `.replace(/\n */g, "\n").trim();

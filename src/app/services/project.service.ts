@@ -3,7 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ApiService } from './api.service';
 import { AuthService } from './auth.service';
 import { CompanyService } from './company.service';
-import { first } from 'rxjs/operators';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -236,8 +236,8 @@ export class ProjectService {
   async selectAllFilter(filterCat: string, selectAll: boolean, filterCatArray: string = '') {
     if (selectAll) {
       if (filterCat === 'company') {
-        const companies = await this.companyService.companies$.pipe(first()).toPromise();
-        this.activeFilter[filterCat] = companies.map(el => el._id)
+        const companies = await firstValueFrom(this.companyService.companies$);
+        this.activeFilter[filterCat] = companies.map((company) => company._id)
       } else {
         this.activeFilter[filterCat] = this[filterCatArray].map(el => el.filter === undefined || el.filter ? el.type : null)
       }
