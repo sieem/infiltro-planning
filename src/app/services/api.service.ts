@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { IProject } from '../interfaces/project.interface';
 import { Observable } from 'rxjs';
+import { ICompany } from '../interfaces/company.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -49,7 +50,7 @@ export class ApiService {
   }
 
   getCompanies() {
-    return this.http.get(this.baseUrl + '/get-companies/')
+    return this.http.get<ICompany[]>(this.baseUrl + '/get-companies/')
   }
 
   saveCompany(company: FormData) {

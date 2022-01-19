@@ -3,6 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ApiService } from './api.service';
 import { AuthService } from './auth.service';
 import { CompanyService } from './company.service';
+import { first } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -206,15 +207,13 @@ export class ProjectService {
     private toastr: ToastrService,
     private companyService: CompanyService,
     private auth: AuthService,
-    ) {
-      
-    }
+    ) {}
 
   async getProjects() {
     if (!this.activeFilter.company.length) {
       this.selectAllFilter('company', true, 'companies')
     }
-    
+
     this.api.getProjects().subscribe(
       res => {
         this.projects = this.allProjects = res
@@ -237,7 +236,7 @@ export class ProjectService {
   async selectAllFilter(filterCat: string, selectAll: boolean, filterCatArray: string = '') {
     if (selectAll) {
       if (filterCat === 'company') {
-        const companies = await this.companyService.getCompanies().toPromise();
+        const companies = await this.companyService.companies$.pipe(first()).toPromise();
         this.activeFilter[filterCat] = companies.map(el => el._id)
       } else {
         this.activeFilter[filterCat] = this[filterCatArray].map(el => el.filter === undefined || el.filter ? el.type : null)
@@ -261,7 +260,7 @@ export class ProjectService {
       }
       this.sortOptions.field = sortable;
     }
-    
+
     // trigger pipe
     this.sortOptions = {...this.sortOptions};
   }

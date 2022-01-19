@@ -24,7 +24,7 @@
     <label for="company">company</label>
     <select name="company" formControlName="company">
       <option value="">select company</option>
-      <option *ngFor="let company of companyService.getCompanies() | async" [value]="company._id">{{company.name}}</option>
+      <option *ngFor="let company of companyService.companies$ | async" [value]="company._id">{{company.name}}</option>
     </select>
     <p *ngIf="formService.checkInputField(registerForm, 'company', submitted)" class="error">!</p>
   </div>

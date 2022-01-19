@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+import { first } from 'rxjs/operators';
 import { CompanyService } from '../services/company.service';
 
 @Injectable({
@@ -8,16 +8,17 @@ import { CompanyService } from '../services/company.service';
 })
 export class PricePageGuard implements CanActivate {
   constructor(
-    private auth:AuthService,
     private router: Router,
-    private companyService: CompanyService) { }
+    private companyService: CompanyService,
+  ) { }
 
   async canActivate(route: ActivatedRouteSnapshot): Promise<boolean> {
-    if (await this.companyService.pricePageVisible()) {
-        return true
+    const isPriceAvailable = await this.companyService.pricePageVisibleForCurrentUser$.pipe(first()).toPromise();
+    if (isPriceAvailable) {
+      return true;
     } else {
-      this.router.navigate(['/'])
-      return false
+      this.router.navigate(['/']);
+      return false;
     }
   }
 }

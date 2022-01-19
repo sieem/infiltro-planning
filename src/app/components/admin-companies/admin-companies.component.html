@@ -1,6 +1,6 @@
 <div class="list companies">
   <h1>Company admin</h1>
-  <div class="item" *ngFor="let company of companyService.getCompanies() | async">
+  <div class="item" *ngFor="let company of companyService.companies$ | async">
     <div>{{company.name}}</div>
     <div>{{company.email}}</div>
     <div>
@@ -32,11 +32,11 @@
     <input type="checkbox" name="pricePageVisible" formControlName="pricePageVisible">
     <p *ngIf="formService.checkInputField(companyForm, 'pricePageVisible', submitted)" class="error">!</p>
   </div>
-  
+
 
   <div class="inputGroup right submit">
     <input type="submit" value="Annuleer" (click)="cancel()">
     <input type="submit" [value]="editState ? 'Bedrijf aanpassen' : 'Bedrijf toevoegen'" (click)="onSubmit()">
   </div>
-  
+
 </form>

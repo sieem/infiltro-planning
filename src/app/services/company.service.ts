@@ -1,45 +1,45 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
-import { shareReplay } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { map, shareReplay, switchMap, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AuthService } from './auth.service';
+import { ICompany } from '../interfaces/company.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CompanyService {
-  private companies$: Observable<any>;
-  public pricePageVisible$: Promise<boolean> = this.pricePageVisible();
+  private companiesSubject$ = new BehaviorSubject(null);
+  public companies$: Observable<ICompany[]> = this.companiesSubject$.pipe(
+    switchMap(() => this.api.getCompanies()),
+    shareReplay({ refCount: false, bufferSize: 1 }),
+  );
+  public pricePageVisibleForCurrentUser$: Observable<boolean> = this.pricePageVisibleForCurrentUser();
 
   constructor(
     private api: ApiService,
     private auth: AuthService,
-    ) {
+    ) {}
+
+  refreshCompanies() {
+    this.companiesSubject$.next(null);
   }
 
-  getCompanies(invalidateCache: boolean = false): Observable<any> {
-    if (this.companies$ && !invalidateCache) {
-      return this.companies$;
-    }
-    this.companies$ = this.api.getCompanies().pipe(shareReplay(1));
-    return this.companies$;
+  companyName(companyId: string): Observable<string> {
+    return this.companies$.pipe(
+      map((companies) => companies.find((company) => company._id === companyId).name),
+      map((company) => company ?? companyId),
+    );
   }
 
-  async companyName(companyId) {
-    const companies = await this.getCompanies().toPromise();
-    try {
-      return companies.find(company => company._id === companyId).name;
-    } catch (error) {
-      return companyId
-    }
-  }
-
-  async pricePageVisible(): Promise<boolean> {
+  pricePageVisibleForCurrentUser(): Observable<boolean> {
     if (!this.auth.loggedIn()) {
-      return false;
+      return of(false);
     }
-    const companies = await this.getCompanies().toPromise();
     const user = this.auth.getUserDetails();
-    return !!companies.find(company => company._id === user.company);
+
+    return this.companies$.pipe(
+      map((companies) => !!companies.find(company => company._id === user.company && company.pricePageVisible))
+    );
   }
 }

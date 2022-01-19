@@ -16,7 +16,6 @@ export class AdminCompaniesComponent implements OnInit {
   companyForm: FormGroup
   submitted = false
   editState = false
-  companies$: Observable<any> = this.companyService.getCompanies();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -56,8 +55,8 @@ export class AdminCompaniesComponent implements OnInit {
 
     this.api.saveCompany(formData).subscribe(
       (res: any) => {
-        this.companies$ = this.companyService.getCompanies(true);
-        
+        this.companyService.refreshCompanies();
+
         this.companyForm.reset();
         this.editState = false
         this.submitted = false;
@@ -93,7 +92,7 @@ export class AdminCompaniesComponent implements OnInit {
     if (confirm(`Are you sure to delete ${company.name}?`)) {
       this.api.removeCompany(company._id).subscribe(
         (res: any) => {
-          this.companies$ = this.companyService.getCompanies(true);
+          this.companyService.refreshCompanies();
         },
         err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
       )

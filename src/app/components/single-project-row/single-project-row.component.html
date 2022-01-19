@@ -17,7 +17,7 @@
                     </ng-container>
                 </span>
             </div>
-            
+
             <div class="write" *ngIf="singleProjectService.projectEditStates[field] && !readOnly && !singleProjectService.archiveActive">
                 <ng-container *ngIf="type === 'input'">
                     <input type="text" [name]="field" [id]="field" [formControlName]="field">

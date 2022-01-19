@@ -45,7 +45,7 @@
                 <div class="btn" (click)="projectService.selectAllFilter('company', true, 'companies')">Alles</div>
                 <div class="btn" (click)="projectService.selectAllFilter('company', false)">Niets</div>
             </div>
-            <div class="item" *ngFor="let company of companyService.getCompanies() | async"
+            <div class="item" *ngFor="let company of companyService.companies$ | async"
                 (click)="projectService.changeFilter('company', company._id)">
                 <img src="/assets/images/icon-unchecked.svg" alt=""
                     *ngIf="!projectService.activeFilter.company.includes(company._id)">
@@ -82,7 +82,7 @@
 
 <div class="projectList" [ngClass]="{'batchMode': batchMode}">
     <div class="projects">
-        <div class="project" 
+        <div class="project"
         *ngFor="let project of (projectService.projects | sortProjects: projectService.sortOptions | filterProjects: projectService.activeFilter : projectService.searchTerm | async); trackBy: trackByFn"
         [ngClass]="[project.status]"
         [class.isFuturePlanned]="isFuturePlanned(project)"
@@ -105,8 +105,8 @@
                     {{project.houseAmount}}
                 </div>
             </ng-template>
-            
-            
+
+
             <div class="status">
                 <div class="read" (click)="selectProject(project)"
                 (window:keydown)="registerCtrlKey($event)"
