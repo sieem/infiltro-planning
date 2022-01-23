@@ -10,7 +10,6 @@ import { BehaviorSubject, Observable, shareReplay, switchMap, firstValueFrom, Su
 import { mapToForm } from '../utils/mapSingleProjectToForm.util';
 import { dateFormat, emailRegex, postalCodeRegex } from '../utils/regex.util';
 import { ngFormToFormData } from '../utils/form.utils';
-import { IUserToken } from '../interfaces/user.interface';
 
 @Injectable({
   providedIn: 'root'
