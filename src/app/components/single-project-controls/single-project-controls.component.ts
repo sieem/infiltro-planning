@@ -38,12 +38,12 @@ export class SingleProjectControlsComponent {
   goToOverview() {
     if (this.projectForm.touched) {
       if (confirm('Ben je zeker dat je de pagina wil verlaten?')) {
-        this.router.navigate(['/projecten'])
+        this.router.navigate(['projecten'])
       } else {
         return
       }
     } else {
-      this.router.navigate(['/projecten'])
+      this.router.navigate(['projecten'])
     }
   }
 
@@ -77,7 +77,7 @@ export class SingleProjectControlsComponent {
 
     if (confirm(`Ben je zeker dat je het project '${this.projectForm.value.projectName}' wil verwijderen?`)) {
       firstValueFrom(this.api.removeProject(this.projectId$.value))
-        .then(() => this.router.navigate(['/projecten']))
+        .then(() => this.router.navigate(['projecten']))
         .catch((err) => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`))
     }
   }
@@ -88,7 +88,10 @@ export class SingleProjectControlsComponent {
     }
 
     firstValueFrom(this.api.duplicateProject(this.projectId$.value))
-      .then((res: any) => this.router.navigate(['/project/' + res.projectId]))
+      .then(({ projectId }) => {
+        this.router.navigate(['project', projectId]);
+        this.singleProjectService.setProjectId(projectId)
+      })
       .catch((err) => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`))
   }
 
@@ -100,7 +103,7 @@ export class SingleProjectControlsComponent {
     if (this.projectForm.touched) {
       this.toastr.error("Sla eerst je project op voor je mails kunt uitsturen.", "Project is nog niet opgeslagen")
     } else {
-      this.router.navigate(['/project/' + this.projectId$.value + '/mail'])
+      this.router.navigate(['project', this.projectId$.value, 'mail'])
     }
 
     return // not yet ready
