@@ -6,7 +6,7 @@ import { AuthService } from './auth.service';
 import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment';
 import { IProject } from '../interfaces/project.interface';
-import { BehaviorSubject, Observable, shareReplay, switchMap, firstValueFrom, Subject, tap } from 'rxjs';
+import { BehaviorSubject, Observable, shareReplay, switchMap, firstValueFrom, Subject, tap, skipWhile } from 'rxjs';
 import { mapToForm } from '../utils/mapSingleProjectToForm.util';
 import { dateFormat, emailRegex, postalCodeRegex } from '../utils/regex.util';
 import { ngFormToFormData } from '../utils/form.utils';
@@ -22,9 +22,10 @@ export class SingleProjectService {
   projectEditStates: any = {}
   projectSaved$ = new Subject<void>();
   projectData$: Observable<IProject> = this.projectId$.pipe(
+    skipWhile((projectId) => !projectId || !!this.newProject),
     switchMap((projectId) => this.api.getProject(projectId as string)),
-    tap((projectData) => this.fillInProject(projectData)),
     shareReplay({ refCount: false, bufferSize: 1 }),
+    tap((projectData) => this.fillInProject(projectData)),
   );
   submitted = false
   user = this.auth.getUserDetails();
