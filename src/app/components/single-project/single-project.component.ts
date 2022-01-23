@@ -134,7 +134,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
         <div class="projectRow">
           <h2>Opmerkingen</h2>
         </div>
-        <app-single-project-comments [newProject]="singleProjectService.newProject"></app-single-project-comments>
+        <app-single-project-comments [newProject]="singleProjectService.newProject$ | async"></app-single-project-comments>
       </div>
     </div>
   `,
@@ -163,13 +163,13 @@ export class SingleProjectComponent implements OnInit, OnDestroy {
 
     firstValueFrom(this.route.params).then(({projectId}) => {
       if (projectId) {
-        this.singleProjectService.newProject = false;
+        this.singleProjectService.newProject$.next(false);
         this.singleProjectService.setProjectId(projectId);
         if (this.singleProjectService.archiveActive) {
           return;
         }
       } else {
-        this.singleProjectService.newProject = true;
+        this.singleProjectService.newProject$.next(true);
         firstValueFrom(this.api.generateProjectId())
           .then((res) => {
             this.singleProjectService.setProjectId(res);

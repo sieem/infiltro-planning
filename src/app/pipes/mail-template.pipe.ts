@@ -2,7 +2,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { CompanyService } from '../services/company.service';
 import * as moment from 'moment';
 import { SingleProjectService } from '../services/single-project.service';
-import { FormService } from '../services/form.service';
 import { asyncReplace } from '../utils/asyncReplace.util';
 import { firstValueFrom } from 'rxjs';
 import { IProject } from '../interfaces/project.interface';
@@ -16,7 +15,6 @@ export class MailTemplatePipe implements PipeTransform {
   constructor(
     private companyService: CompanyService,
     private singleProjectService: SingleProjectService,
-    private formService: FormService
   ) {}
 
   async transform(value: string): Promise<string> {
@@ -25,6 +23,10 @@ export class MailTemplatePipe implements PipeTransform {
     }
 
     const projectData = await firstValueFrom(this.singleProjectService.projectData$);
+
+    if (!projectData) {
+      return '';
+    }
 
     return await asyncReplace(value, /{{\s*([A-z]*)\s*}}/g, async (foundSubstring: string, firstGroup: keyof IProject): Promise<string> => {
       switch (firstGroup) {

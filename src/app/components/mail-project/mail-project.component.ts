@@ -100,10 +100,10 @@ export class MailProjectComponent implements OnInit {
   projectId: string | null = null;
   submitted: boolean = false
   project: any
-  public templateBody$: BehaviorSubject<ITemplate> = new BehaviorSubject({
+  templateBody$: BehaviorSubject<ITemplate> = new BehaviorSubject({
     _id: '', body: '', subject: '', name: ''
   });
-  public templateSaved$: BehaviorSubject<string> = new BehaviorSubject('');
+  templateSaved$: BehaviorSubject<string> = new BehaviorSubject('');
 
   constructor(
     private formBuilder: FormBuilder,
@@ -147,6 +147,10 @@ export class MailProjectComponent implements OnInit {
     `.replace(/\n */g, "\n").trim();
 
       const projectData = await firstValueFrom(this.singleProjectService.projectData$);
+
+      if (!projectData) {
+        throw Error('No project data found')
+      }
 
       this.mailForm.setValue({
         _id: projectData._id,

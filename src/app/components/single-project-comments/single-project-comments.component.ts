@@ -25,7 +25,7 @@ import { SingleProjectService } from 'src/app/services/single-project.service';
   styleUrls: ['./single-project-comments.component.scss']
 })
 export class SingleProjectCommentsComponent {
-  @Input() newProject = false;
+  @Input() newProject!: boolean | null;
 
   constructor(
     public singleProjectCommentsService: SingleProjectCommentsService,

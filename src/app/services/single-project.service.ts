@@ -6,7 +6,7 @@ import { AuthService } from './auth.service';
 import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment';
 import { IProject } from '../interfaces/project.interface';
-import { BehaviorSubject, Observable, shareReplay, switchMap, firstValueFrom, Subject, tap, skipWhile } from 'rxjs';
+import { BehaviorSubject, Observable, shareReplay, switchMap, firstValueFrom, Subject, tap, combineLatest, of } from 'rxjs';
 import { mapToForm } from '../utils/mapSingleProjectToForm.util';
 import { dateFormat, emailRegex, postalCodeRegex } from '../utils/regex.util';
 import { ngFormToFormData } from '../utils/form.utils';
@@ -16,14 +16,17 @@ import { ngFormToFormData } from '../utils/form.utils';
 })
 export class SingleProjectService {
   projectId$ = new BehaviorSubject<string | null>(null);
+  newProject$ = new BehaviorSubject<boolean>(false);
 
   projectForm!: FormGroup
   projectIsSaving = false;
   projectEditStates: any = {}
   projectSaved$ = new Subject<void>();
-  projectData$: Observable<IProject> = this.projectId$.pipe(
-    skipWhile((projectId) => !projectId || !!this.newProject),
-    switchMap((projectId) => this.api.getProject(projectId as string)),
+  projectData$: Observable<IProject | null> = combineLatest([this.projectId$, this.newProject$]).pipe(
+    switchMap(([projectId, newProject]) => !projectId || !!newProject
+      ? of(null)
+      : this.api.getProject(projectId as string)
+    ),
     shareReplay({ refCount: false, bufferSize: 1 }),
     tap((projectData) => this.fillInProject(projectData)),
   );
@@ -31,7 +34,6 @@ export class SingleProjectService {
   user = this.auth.getUserDetails();
   mailModalOpened = false
   hasCalendarItem = false
-  newProject = true
   archiveActive = false
 
   constructor(
@@ -84,9 +86,13 @@ export class SingleProjectService {
     this.hasCalendarItem = false;
   }
 
-  fillInProject(project: IProject) {
+  fillInProject(project: IProject | null) {
     this.setEditState(false);
-    this.fillInFormGroup(project);
+    if (!!project) {
+      this.fillInFormGroup(project);
+    } else {
+      this.initProject();
+    }
   }
 
   setProjectId(projectId: string): void {
@@ -109,7 +115,7 @@ export class SingleProjectService {
         const projectId = res._id;
         this.projectSaved$.next();
 
-        this.newProject = false
+        this.newProject$.next(false);
         this.toastr.success('Project succesvol opgeslagen');
         Object.keys(this.projectForm.controls).forEach(key => {
           this.projectEditStates[key] = false

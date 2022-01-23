@@ -21,18 +21,18 @@ import { ITemplate } from '../../interfaces/template.interface';
 })
 export class MailTemplateSelectorComponent implements OnInit {
   @Input()
-  public templateBody!: BehaviorSubject<ITemplate>;
+  templateBody!: BehaviorSubject<ITemplate>;
 
   @Input()
-  public templateSaved!: BehaviorSubject<string>;
+  templateSaved!: BehaviorSubject<string>;
 
   private onDestroy$ = new Subject<void>();
-  public mailTemplateForm = this.formBuilder.group({
+  mailTemplateForm = this.formBuilder.group({
     id: [''],
   });
 
   @Input()
-  public templates$ = this.api.getMailTemplates().pipe(untilDestroyed(this));
+  templates$ = this.api.getMailTemplates().pipe(untilDestroyed(this));
 
   constructor(
     private api: ApiService,

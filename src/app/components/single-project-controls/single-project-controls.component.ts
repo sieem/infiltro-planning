@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/services/auth.service';
 import { FormGroup } from '@angular/forms';
 import { SingleProjectService } from 'src/app/services/single-project.service';
 import { ToastrService } from 'ngx-toastr';
@@ -17,20 +16,20 @@ import { dateFormat } from 'src/app/utils/regex.util';
     <div *ngIf="projectId$ | async" (click)="removeProject()"><img src="/assets/images/icon-delete.svg" alt=""></div>
     <div (click)="openProjectMail()"><img src="/assets/images/icon-mail.svg" alt=""></div>
     <div (click)="duplicateProject()"><img src="/assets/images/icon-duplicate.svg" alt=""></div>
-    <div *ngIf="!singleProjectService.newProject" [routerLink]="[ 'archief' ]"><img src="/assets/images/icon-archive.svg" alt=""></div>
+    <div *ngIf="(newProject$ | async) !== true" [routerLink]="[ 'archief' ]"><img src="/assets/images/icon-archive.svg" alt=""></div>
   `,
   styleUrls: ['./single-project-controls.component.scss']
 })
 export class SingleProjectControlsComponent {
-  projectId$ = this.singleProjectService.projectId$;
   @Input() projectForm!: FormGroup;
-  projectIsSaving: boolean = false
+  projectId$ = this.singleProjectService.projectId$;
+  newProject$ = this.singleProjectService.newProject$;
+  projectIsSaving = false;
 
   constructor(
     private api: ApiService,
     private router: Router,
-    public auth: AuthService,
-    public singleProjectService: SingleProjectService,
+    private singleProjectService: SingleProjectService,
     private toastr: ToastrService,
     private formService: FormService,
   ) { }
