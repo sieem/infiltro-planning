@@ -18,23 +18,25 @@ import { map } from 'rxjs/operators';
 
         <agm-info-window>
           <div class="container">
-            <h2><a routerLink="/project/{{marker._id}}" routerLinkActive="active">{{marker.projectName}}</a></h2>
-            <p>Adres: <a href="https://www.google.be/maps/search/{{marker.street}}+{{marker.postalCode}}+{{marker.city}}"
-                target="_blank">{{marker.street}}, {{marker.postalCode}} {{marker.city}}</a></p>
-            <p>Email: <a href="mailto:{{marker.email}}">{{marker.email}}</a></p>
-            <p>Tel: <a href="tel:{{marker.tel}}">{{marker.tel}}</a></p>
+            <h2><a routerLink="/project/{{ marker._id }}" routerLinkActive="active">{{ marker.projectName }}</a></h2>
+            <p>Type: {{ marker.projectType | projectType }}</p>
+            <p>Aantal/Omschrijving: {{ marker.houseAmount }}</p>
+            <p>Adres: <a href="https://www.google.be/maps/search/{{ marker.street }}+{{ marker.postalCode }}+{{ marker.city }}"
+                target="_blank">{{ marker.street }}, {{ marker.postalCode }} {{ marker.city }}</a></p>
+            <p>Email: <a href="mailto:{{ marker.email }}">{{ marker.email }}</a></p>
+            <p>Tel: <a href="tel:{{ marker.tel }}">{{ marker.tel }}</a></p>
             <p>Tijdstip:
               <ng-container *ngIf="marker.calendarLink">
-                <a href="{{marker.calendarLink}}" target="_blank">{{ marker.datePlanned | formatDate }} om
-                  {{marker.hourPlanned}}</a>
+                <a href="{{ marker.calendarLink }}" target="_blank">{{ marker.datePlanned | formatDate }} om
+                  {{ marker.hourPlanned }}</a>
               </ng-container>
               <ng-container *ngIf="!marker.calendarLink">
-                {{ marker.datePlanned | formatDate}} om
-                {{marker.hourPlanned}}
+                {{ marker.datePlanned | formatDate }} om
+                {{ marker.hourPlanned }}
               </ng-container>
 
             </p>
-            <p>Status: {{ marker.status | status}}</p>
+            <p>Status: {{ marker.status | status }}</p>
             <p>Bedrijf: {{ marker.company | company | async }}</p>
             <p>Actief Sinds: {{ marker.dateActive | formatDate:'empty' }}</p>
             <app-comments [comments]="marker.comments"></app-comments>
