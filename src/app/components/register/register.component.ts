@@ -7,7 +7,7 @@ import { CompanyService } from 'src/app/services/company.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { firstValueFrom, switchMap } from 'rxjs';
-import { passwordRegex } from 'src/app/helpers/regex.helper';
+import { passwordRegex } from 'src/app/utils/regex.util';
 
 @Component({
   selector: 'app-register',

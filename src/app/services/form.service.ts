@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
-import { visualDateFormat, visualDateTimeFormat } from '../helpers/regex.helper';
+import { visualDateFormat, visualDateTimeFormat } from '../utils/regex.util';
 
 @Injectable({
   providedIn: 'root'

@@ -8,7 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { UserService } from 'src/app/services/user.service';
 import { IUser } from '../../interfaces/user.interface';
 import { firstValueFrom } from 'rxjs';
-import { emailRegex } from 'src/app/helpers/regex.helper';
+import { emailRegex } from 'src/app/utils/regex.util';
 
 @Component({
   selector: 'app-admin-user',

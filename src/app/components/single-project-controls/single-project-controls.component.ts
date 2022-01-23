@@ -7,7 +7,7 @@ import { SingleProjectService } from 'src/app/services/single-project.service';
 import { ToastrService } from 'ngx-toastr';
 import { FormService } from 'src/app/services/form.service';
 import { firstValueFrom } from 'rxjs';
-import { dateFormat } from 'src/app/helpers/regex.helper';
+import { dateFormat } from 'src/app/utils/regex.util';
 
 @Component({
   selector: 'app-single-project-controls',

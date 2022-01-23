@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { escapeRegExp } from '../helpers/escapeRegExp.helper';
+import { escapeRegExp } from '../utils/escapeRegExp.util';
 
 @Pipe({
   name: 'highlightText'

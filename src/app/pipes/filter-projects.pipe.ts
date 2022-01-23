@@ -3,11 +3,11 @@ import { IProject } from '../interfaces/project.interface';
 import { UserPipe } from './user.pipe';
 import { CompanyPipe } from './company.pipe';
 import { ExecutorPipe } from './executor.pipe';
-import { escapeRegExp } from '../helpers/escapeRegExp.helper';
+import { escapeRegExp } from '../utils/escapeRegExp.util';
 import { FormatDatePipe } from './format-date.pipe';
 import { StatusPipe } from './status.pipe';
 import { ProjectTypePipe } from './project-type.pipe';
-import { asyncFilter } from '../helpers/asyncFilter.helper';
+import { asyncFilter } from '../utils/asyncFilter.util';
 import { IActiveFilter } from '../interfaces/active-filter.interface';
 
 @Pipe({

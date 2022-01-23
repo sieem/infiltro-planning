@@ -7,7 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
 import { firstValueFrom } from 'rxjs';
 import { ICompany } from '../../interfaces/company.interface';
-import { emailRegex } from 'src/app/helpers/regex.helper';
+import { emailRegex } from 'src/app/utils/regex.util';
 
 @Component({
   selector: 'app-admin-companies',

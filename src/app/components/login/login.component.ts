@@ -6,7 +6,7 @@ import { FormService } from 'src/app/services/form.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { firstValueFrom } from 'rxjs';
-import { emailRegex, passwordRegex } from 'src/app/helpers/regex.helper';
+import { emailRegex, passwordRegex } from 'src/app/utils/regex.util';
 
 @Component({
   selector: 'app-login',

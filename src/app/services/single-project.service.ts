@@ -8,8 +8,8 @@ import * as moment from 'moment';
 import { FormService } from './form.service';
 import { IProject } from '../interfaces/project.interface';
 import { BehaviorSubject, Observable, shareReplay, switchMap, firstValueFrom, Subject, tap } from 'rxjs';
-import { mapToForm } from '../helpers/mapToForm.helper';
-import { dateFormat, emailRegex, postalCodeRegex } from '../helpers/regex.helper';
+import { mapToForm } from '../utils/mapToForm.util';
+import { dateFormat, emailRegex, postalCodeRegex } from '../utils/regex.util';
 
 @Injectable({
   providedIn: 'root'

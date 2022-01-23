@@ -3,10 +3,10 @@ import { CompanyService } from '../services/company.service';
 import * as moment from 'moment';
 import { SingleProjectService } from '../services/single-project.service';
 import { FormService } from '../services/form.service';
-import { asyncReplace } from '../helpers/asyncReplace.helper';
+import { asyncReplace } from '../utils/asyncReplace.util';
 import { firstValueFrom } from 'rxjs';
 import { IProject } from '../interfaces/project.interface';
-import { mailDateFormat } from '../helpers/regex.helper';
+import { mailDateFormat } from '../utils/regex.util';
 
 @Pipe({
   name: 'mailTemplate'
