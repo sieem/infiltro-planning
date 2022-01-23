@@ -1,6 +1,0 @@
-<form [formGroup]="mailTemplateForm">
-    <select formControlName="id" (change)="onChange()">
-        <option value="">Kies een template</option>
-        <option *ngFor="let template of templates$ | async" [value]="template._id">{{template.name}}</option>
-    </select>
-</form>

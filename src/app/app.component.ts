@@ -3,7 +3,19 @@ import { Router, NavigationStart, Scroll } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
+  template: `
+    <header>
+      <div class="wrapper">
+        <img src="/assets/images/infitro-logo.svg" class="logo" alt="Infiltro" routerLink="/">
+        <app-nav></app-nav>
+      </div>
+    </header>
+    <div class="wrapper">
+      <main>
+        <router-outlet></router-outlet>
+      </main>
+    </div>
+  `,
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {

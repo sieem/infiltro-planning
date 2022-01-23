@@ -9,7 +9,14 @@ import { ITemplate } from '../../interfaces/template.interface';
 @UntilDestroy()
 @Component({
   selector: 'app-mail-template-selector',
-  templateUrl: './mail-template-selector.component.html',
+  template: `
+    <form [formGroup]="mailTemplateForm">
+        <select formControlName="id" (change)="onChange()">
+            <option value="">Kies een template</option>
+            <option *ngFor="let template of templates$ | async" [value]="template._id">{{template.name}}</option>
+        </select>
+    </form>
+  `,
   styleUrls: ['./mail-template-selector.component.scss']
 })
 export class MailTemplateSelectorComponent implements OnInit {

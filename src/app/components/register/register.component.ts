@@ -10,7 +10,23 @@ import { firstValueFrom, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-register',
-  templateUrl: './register.component.html',
+  template: `
+    <form [formGroup]="registerForm" class="wrapper" (ngSubmit)="onSubmit()">
+      <div class="inputGroup">
+        <label for="password">Wachtwoord</label>
+        <input type="password" name="password" formControlName="password">
+        <p *ngIf="formService.checkInputField(registerForm, 'password', submitted)" class="error">!</p>
+      </div>
+
+      <div class="inputGroup right">
+          <div>Kies een wachtwoord met minstens een hoofdletter, cijfer en leesteken</div>
+      </div>
+
+      <div class="inputGroup right">
+        <input type="submit" value="Registreren">
+      </div>
+    </form>
+  `,
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {

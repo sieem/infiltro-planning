@@ -4,7 +4,22 @@ import { CompanyService } from 'src/app/services/company.service';
 
 @Component({
   selector: 'app-nav',
-  templateUrl: './nav.component.html',
+  template: `
+    <nav>
+      <a routerLink="/projecten" routerLinkActive="active">Projecten</a>
+      <a routerLink="/kaart" *ngIf="auth.isAdmin()" routerLinkActive="active">Kaart</a>
+      <a routerLink="/staffel" routerLinkActive="active" *ngIf="companyService.pricePageVisibleForCurrentUser$ | async">Staffel</a>
+      <a *ngIf="auth.isAdmin()" routerLinkActive="active">Administratie
+        <div class="submenu">
+          <a routerLink="/admin/gebruikers" routerLinkActive="active">Gebruikers</a>
+          <a routerLink="/admin/bedrijven" routerLinkActive="active">Bedrijven</a>
+          <a routerLink="/admin/mail-templates" routerLinkActive="active">Mail templates</a>
+        </div>
+      </a>
+      <a routerLink="/inloggen" *ngIf="!auth.loggedIn()" routerLinkActive="active">Inloggen</a>
+      <a *ngIf="auth.loggedIn()" (click)="auth.logoutUser()">Uitloggen</a>
+    </nav>
+  `,
   styleUrls: ['./nav.component.scss']
 })
 export class NavComponent {

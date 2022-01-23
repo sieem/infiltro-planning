@@ -17,7 +17,126 @@ import { ProjectEnumsService } from 'src/app/services/project-enums.service';
 
 @Component({
   selector: 'app-single-project',
-  templateUrl: './single-project.component.html',
+  template: `
+    <div class="wrapper" [ngClass]="singleProjectService.projectForm.value.status">
+      <div class="projectSection">
+          <div class="topControls">
+            <app-single-project-controls [projectForm]="singleProjectService.projectForm" class="left controls" *ngIf="!singleProjectService.archiveActive"></app-single-project-controls>
+            <div class="right">
+              <app-single-project-row label="Contactpersoon binnen" field="company" type="select" firstValue="Selecteer bedrijf" [dataSource]="companyService.companies$ | async" valueKey="_id" [readOnly]="!auth.isAdmin()">
+              </app-single-project-row>
+
+              <app-single-project-row label=":" field="EpbReporter" type="select" firstValue="Selecteer EPB verslaggever" [dataSource]="userService.users$ | async | filterUsers:singleProjectService.projectForm.value.company" valueKey="_id" [showAsterisk]="false">
+              </app-single-project-row>
+            </div>
+          </div>
+      </div>
+      <div class="projectSection">
+        <div class="projectRow">
+          <h2>{{singleProjectService.projectForm.value.projectName}}</h2>
+        </div>
+      </div>
+      <div class="projectSection twoColumns">
+        <div class="left">
+          <app-single-project-row label="Type" field="projectType" type="select" firstValue="Selecteer type" [dataSource]="projectEnumsService.projectTypes" valueKey="type">
+          </app-single-project-row>
+
+          <app-single-project-row label="Aantal / omschrijving" field="houseAmount" type="input">
+          </app-single-project-row>
+
+          <app-single-project-row label="Referentie" field="projectName" type="input">
+          </app-single-project-row>
+        </div>
+        <div class="right">
+            <app-single-project-row label="Status" field="status" type="select" firstValue="Selecteer status" [dataSource]="projectEnumsService.statuses" valueKey="type">
+            </app-single-project-row>
+            <app-single-project-row label="Datum ingave" field="dateCreated" type="date" [readOnly]="!auth.isAdmin()" [showAsterisk]="false">
+            </app-single-project-row>
+            <app-single-project-row label="Actief sinds" field="dateActive" type="date" [readOnly]="!auth.isAdmin()" [showAsterisk]="false">
+            </app-single-project-row>
+        </div>
+      </div>
+
+      <div class="projectSection">
+        <div class="projectRow">
+          <h2>Adres</h2>
+        </div>
+        <app-single-project-row label="Straat + Nr" field="street" type="input">
+        </app-single-project-row>
+
+        <app-single-project-row label="Gemeente" field="city" type="input">
+        </app-single-project-row>
+
+        <app-single-project-row label="Postcode" field="postalCode" type="input">
+        </app-single-project-row>
+
+        <app-single-project-row label="Bijkomende aanwijzingen" field="extraInfoAddress" type="textarea">
+        </app-single-project-row>
+      </div>
+
+      <div class="projectSection">
+        <div class="projectRow">
+          <h2>Contactgegevens</h2>
+        </div>
+
+        <app-single-project-row label="Naam" field="name" type="input">
+        </app-single-project-row>
+
+        <app-single-project-row label="Telefoonnummer(s)" field="tel" type="input">
+        </app-single-project-row>
+
+        <app-single-project-row label="E-mail" field="email" type="input">
+        </app-single-project-row>
+
+        <app-single-project-row label="Bijkomende gegevens" field="extraInfoContact" type="textarea">
+        </app-single-project-row>
+      </div>
+
+      <div class="projectSection">
+        <div class="projectRow">
+          <h2>Technische gegevens</h2>
+        </div>
+
+        <app-single-project-row label="A-test (m<sup>2</sup>)" field="ATest" type="textarea">
+        </app-single-project-row>
+
+        <app-single-project-row label="v50-waarde (m<sup>3</sup>/h.m<sup>2</sup>)" field="v50Value" type="textarea">
+        </app-single-project-row>
+
+        <app-single-project-row label="Beschermd volume (m<sup>3</sup>)" field="protectedVolume" type="textarea">
+        </app-single-project-row>
+
+        <app-single-project-row label="EPB Dossiernummer" field="EpbNumber" type="input">
+        </app-single-project-row>
+      </div>
+
+      <div class="projectSection">
+        <div class="projectRow">
+          <h2>Uitvoergegevens</h2>
+        </div>
+
+        <app-single-project-row label="Uitvoerder" field="executor" type="select" firstValue="Selecteer uitvoerder" [dataSource]="projectEnumsService.executors" valueKey="type" [readOnly]="!auth.isAdmin()">
+        </app-single-project-row>
+
+        <app-single-project-row label="Datum ingepland" field="datePlanned" type="date" [readOnly]="!auth.isAdmin() || singleProjectService.hasCalendarItem" (click)="calendarWarning(singleProjectService.hasCalendarItem)">
+        </app-single-project-row>
+
+        <app-single-project-row label="Uur ingepland" field="hourPlanned" type="time" [readOnly]="!auth.isAdmin() || singleProjectService.hasCalendarItem" (click)="calendarWarning(singleProjectService.hasCalendarItem)">
+        </app-single-project-row>
+
+        <app-single-project-row label="Status" field="status" type="select" firstValue="Selecteer status" [dataSource]="projectEnumsService.statuses" valueKey="type">
+        </app-single-project-row>
+      </div>
+
+
+      <div class="projectSection" *ngIf="!singleProjectService.archiveActive">
+        <div class="projectRow">
+          <h2>Opmerkingen</h2>
+        </div>
+        <app-single-project-comments [newProject]="singleProjectService.newProject"></app-single-project-comments>
+      </div>
+    </div>
+  `,
   styleUrls: ['./single-project.component.scss']
 })
 export class SingleProjectComponent implements OnInit, OnDestroy {

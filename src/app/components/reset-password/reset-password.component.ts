@@ -9,7 +9,24 @@ import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-reset-password',
-  templateUrl: './reset-password.component.html',
+  template: `
+    <ng-container *ngIf="!resetDone; else elseTemplate">
+      <form [formGroup]="resetForm" class="wrapper" (ngSubmit)="onSubmit()">
+        <div class="inputGroup">
+          <label for="email">E-mail</label>
+          <input type="email" name="email" formControlName="email">
+          <p *ngIf="formService.checkInputField(resetForm, 'email', submitted)" class="error">!</p>
+        </div>
+
+        <div class="inputGroup right">
+          <input type="submit" value="Nieuw wachtwoord aanvragen">
+        </div>
+      </form>
+    </ng-container>
+    <ng-template #elseTemplate>
+      <div>Wachtwoordherstel aangevraagd, controleer je mailbox voor verder instructies.</div>
+    </ng-template>
+  `,
   styleUrls: ['./reset-password.component.scss']
 })
 export class ResetPasswordComponent {

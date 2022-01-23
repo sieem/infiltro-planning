@@ -8,7 +8,56 @@ import { SingleProjectArchiveService } from 'src/app/services/single-project-arc
 
 @Component({
   selector: 'app-single-project-row',
-  templateUrl: './single-project-row.component.html',
+  template: `
+    <form [formGroup]="singleProjectService.projectForm">
+        <div class="projectRow" [class]="[type, field]">
+            <label [for]="field"><span [innerHTML]='label | safeHtml'></span>&nbsp;<span *ngIf="singleProjectService.projectForm.controls[field].validator !== null && showAsterisk">*</span></label>
+            <div class="inputField" [class.fieldChanged]="singleProjectArchiveService.fieldChanged(field)">
+                <div class="read" (click)="changeEditState(field, true)" [ngClass]="{'empty': isEmpty(field)}"
+                    *ngIf="!singleProjectService.projectEditStates[field] || readOnly || singleProjectService.archiveActive">
+                    <span *ngIf="type === 'textarea'" >
+                        <span [innerHTML]="singleProjectService.projectForm.value[field] | newlineToBr | safeHtml"></span>
+                        <span class="oldField" *ngIf="singleProjectArchiveService.isOlderProjectAvailable() && singleProjectArchiveService.fieldChanged(field)" [innerHTML]="singleProjectArchiveService.getOldField(field) | newlineToBr | safeHtml"></span>
+                    </span>
+                    <span *ngIf="type !== 'textarea'">
+                        <ng-container [ngSwitch]="field">
+                            <ng-container *ngSwitchDefault>
+                                {{singleProjectService.projectForm.value[field] | dynamicProjectPipe: field | async}}
+                                <span class="oldField" *ngIf="singleProjectArchiveService.isOlderProjectAvailable() && singleProjectArchiveService.fieldChanged(field)">{{ singleProjectArchiveService.getOldField(field) | dynamicProjectPipe: field | async}}</span>
+                            </ng-container>
+                        </ng-container>
+                    </span>
+                </div>
+
+                <div class="write" *ngIf="singleProjectService.projectEditStates[field] && !readOnly && !singleProjectService.archiveActive">
+                    <ng-container *ngIf="type === 'input'">
+                        <input type="text" [name]="field" [id]="field" [formControlName]="field">
+                    </ng-container>
+
+                    <ng-container *ngIf="type === 'date'">
+                        <input type="date" [name]="field" [id]="field" [formControlName]="field">
+                    </ng-container>
+
+                    <ng-container *ngIf="type === 'time'">
+                        <input type="time" [name]="field" [id]="field" [formControlName]="field">
+                    </ng-container>
+
+                    <ng-container *ngIf="type === 'select'">
+                        <select [name]="field" [id]="field" [formControlName]="field" (change)="updateStatusDropdowns(field)">
+                            <option value="">{{ firstValue }}</option>
+                            <option *ngFor="let item of dataSource" [value]="item[valueKey]">{{item.name}}</option>
+                        </select>
+                    </ng-container>
+
+                    <ng-container *ngIf="type === 'textarea'">
+                        <textarea [name]="field" [id]="field" [formControlName]="field" rows="3"></textarea>
+                    </ng-container>
+                    <p *ngIf="formService.checkInputField(singleProjectService.projectForm, field, singleProjectService.submitted)" class="error">!</p>
+                </div>
+            </div>
+        </div>
+    </form>
+  `,
   styleUrls: ['./single-project-row.component.scss']
 })
 export class SingleProjectRowComponent {
