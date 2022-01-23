@@ -124,8 +124,21 @@
               "devServerTarget": "infiltro-planning:serve:production"
             }
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
         }
       }
-    }},
-  "defaultProject": "infiltro-planning"
+    }
+  },
+  "defaultProject": "infiltro-planning",
+  "cli": {
+    "defaultCollection": "@angular-eslint/schematics"
+  }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { SingleProjectService } from 'src/app/services/single-project.service';
 import { ProjectService } from 'src/app/services/project.service';
 import { FormService } from 'src/app/services/form.service';
@@ -11,15 +11,15 @@ import { SingleProjectArchiveService } from 'src/app/services/single-project-arc
   templateUrl: './single-project-row.component.html',
   styleUrls: ['./single-project-row.component.scss']
 })
-export class SingleProjectRowComponent implements OnInit {
-  @Input('label') label!: string;
-  @Input('field') field!: string;
-  @Input('type') type!: string;
-  @Input('valueKey') valueKey!: string;
-  @Input('firstValue') firstValue!: string;
-  @Input('readOnly') readOnly: boolean = false;
-  @Input('showAsterisk') showAsterisk: boolean = true;
-  @Input('dataSource') dataSource: any;
+export class SingleProjectRowComponent {
+  @Input() label!: string;
+  @Input() field!: string;
+  @Input() type!: string;
+  @Input() valueKey!: string;
+  @Input() firstValue!: string;
+  @Input() readOnly: boolean = false;
+  @Input() showAsterisk: boolean = true;
+  @Input() dataSource: any;
 
 
   constructor(
@@ -30,9 +30,6 @@ export class SingleProjectRowComponent implements OnInit {
     public formService: FormService,
     public singleProjectArchiveService: SingleProjectArchiveService,
   ) { }
-
-  ngOnInit(): void {
-  }
 
   isEmpty(inputName: string) {
     return typeof this.singleProjectService.projectForm.value[inputName] === 'string'

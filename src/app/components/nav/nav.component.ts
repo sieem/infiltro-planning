@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { CompanyService } from 'src/app/services/company.service';
 
@@ -7,13 +7,10 @@ import { CompanyService } from 'src/app/services/company.service';
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.scss']
 })
-export class NavComponent implements OnInit {
+export class NavComponent {
 
   constructor(
     public auth: AuthService,
     public companyService: CompanyService) { }
-
-  ngOnInit() {
-  }
 
 }

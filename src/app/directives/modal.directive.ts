@@ -3,6 +3,7 @@ import { Component, ElementRef, Input, Output, EventEmitter, HostListener, OnIni
 import { ModalService } from '../services/modal.service';
 
 @Component({
+    // eslint-disable-next-line @angular-eslint/component-selector
     selector: 'infiltro-modal',
     template:
         `
@@ -14,6 +15,7 @@ import { ModalService } from '../services/modal.service';
     <div class="infiltro-modal-background"></div>`
 })
 
+// eslint-disable-next-line @angular-eslint/component-class-suffix
 export class ModalDirective implements OnInit, OnDestroy {
     @Input() id: string | undefined;
     private element: any;

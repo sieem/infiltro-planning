@@ -1,4 +1,4 @@
-import { Component, OnInit, ComponentFactoryResolver, Input } from '@angular/core';
+import { Component, OnInit, ComponentFactoryResolver, Input, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from 'src/app/services/api.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -20,7 +20,7 @@ import { ProjectEnumsService } from 'src/app/services/project-enums.service';
   templateUrl: './single-project.component.html',
   styleUrls: ['./single-project.component.scss']
 })
-export class SingleProjectComponent implements OnInit {
+export class SingleProjectComponent implements OnInit, OnDestroy {
 
   constructor(
     private api: ApiService,
@@ -60,6 +60,7 @@ export class SingleProjectComponent implements OnInit {
       }
     })
   }
+
   ngOnDestroy() {
     this.singleProjectService.archiveActive = false;
     this.singleProjectArchiveService.activeProject = 0;

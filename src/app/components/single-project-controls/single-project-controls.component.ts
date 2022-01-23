@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
@@ -13,9 +13,9 @@ import { firstValueFrom } from 'rxjs';
   templateUrl: './single-project-controls.component.html',
   styleUrls: ['./single-project-controls.component.scss']
 })
-export class SingleProjectControlsComponent implements OnInit {
+export class SingleProjectControlsComponent {
   projectId$ = this.singleProjectService.projectId$;
-  @Input('projectForm') projectForm!: FormGroup;
+  @Input() projectForm!: FormGroup;
   projectIsSaving: boolean = false
 
   constructor(
@@ -26,9 +26,6 @@ export class SingleProjectControlsComponent implements OnInit {
     private toastr: ToastrService,
     private formService: FormService,
   ) { }
-
-  ngOnInit(): void {
-  }
 
   goToOverview() {
     if (this.projectForm.touched) {

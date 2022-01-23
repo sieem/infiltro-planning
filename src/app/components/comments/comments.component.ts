@@ -9,8 +9,8 @@ import { IComment } from '../../interfaces/comments.interface';
   styleUrls: ['./comments.component.scss']
 })
 export class CommentsComponent {
-  @Input('comments') comments!: IComment[] | null;
-  @Input('readOnly') readOnly: boolean = true;
+  @Input() comments!: IComment[] | null;
+  @Input() readOnly: boolean = true;
 
   constructor(
     public auth: AuthService,

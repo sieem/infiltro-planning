@@ -10,7 +10,9 @@ import { takeUntil } from 'rxjs/operators';
 import { MailTemplatePipe } from 'src/app/pipes/mail-template.pipe';
 import { BehaviorSubject, firstValueFrom, Subject } from 'rxjs';
 import { ITemplate } from '../../interfaces/template.interface';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-mail-project',
   templateUrl: './mail-project.component.html',
@@ -31,7 +33,6 @@ export class MailProjectComponent implements OnInit {
     _id: '', body: '', subject: '', name: ''
   });
   public templateSaved$: BehaviorSubject<string> = new BehaviorSubject('');
-  private onDestroy$ = new Subject<void>();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -87,7 +88,7 @@ export class MailProjectComponent implements OnInit {
       this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
     }
 
-    this.templateBody$.pipe(takeUntil(this.onDestroy$)).subscribe(
+    this.templateBody$.pipe(untilDestroyed(this)).subscribe(
       {
         next: (template: ITemplate) => {
           if (template.body !== '') {
@@ -158,9 +159,5 @@ export class MailProjectComponent implements OnInit {
     } else {
       this.router.navigate(['/project/' + this.projectId])
     }
-  }
-
-  ngOnDestroy() {
-    this.onDestroy$.next();
   }
 }

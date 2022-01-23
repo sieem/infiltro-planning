@@ -1,7 +1,7 @@
 <div class="controls" *ngIf="projectService.activeFilter$ | async as activeFilter">
     <a [routerLink]="[ '/project/toevoegen' ]" class="btn red"><img src="/assets/images/icon-new.svg" alt=""> New project</a>
     <div class="btn filter status">
-        <span class="title">Toon ook <span class="error" *ngIf="activeFilter.status.length == 0"><span>!</span></span></span>
+        <span class="title">Toon ook <span class="error" *ngIf="activeFilter.status.length === 0"><span>!</span></span></span>
         <div class="dropdown">
             <div class="select-options">
                 <div>Selecteer</div>
@@ -19,7 +19,7 @@
     </div>
 
     <div class="btn filter executor" *ngIf="auth.isAdmin()">
-        <span class="title">Uitvoerder <span class="error" *ngIf="activeFilter.executor.length == 0"><span>!</span></span></span>
+        <span class="title">Uitvoerder <span class="error" *ngIf="activeFilter.executor.length === 0"><span>!</span></span></span>
         <div class="dropdown">
             <div class="select-options">
                 <div>Selecteer</div>
@@ -38,7 +38,7 @@
     </div>
 
     <div class="btn filter company" *ngIf="auth.isAdmin()">
-        <span class="title">Bedrijf <span class="error" *ngIf="activeFilter.company.length == 0"><span>!</span></span></span>
+        <span class="title">Bedrijf <span class="error" *ngIf="activeFilter.company.length === 0"><span>!</span></span></span>
         <div class="dropdown">
             <div class="select-options">
                 <div>Selecteer</div>
@@ -64,15 +64,15 @@
                     <img src="/assets/images/icon-unchecked.svg" alt="" *ngIf="sortOptions.field !== sortable.type">
                     <img src="/assets/images/icon-checked.svg" alt="" *ngIf="sortOptions.field === sortable.type">
                     <span>{{sortable.name}}</span>
-                    <span class="arrow desc" *ngIf="sortOptions.field === sortable.type && sortOptions.order == 'desc'"><img src="/assets/images/icon-arrow.svg" alt=""></span>
-                    <span class="arrow asc" *ngIf="sortOptions.field === sortable.type && sortOptions.order == 'asc'"><img src="/assets/images/icon-arrow.svg" alt=""></span>
+                    <span class="arrow desc" *ngIf="sortOptions.field === sortable.type && sortOptions.order === 'desc'"><img src="/assets/images/icon-arrow.svg" alt=""></span>
+                    <span class="arrow asc" *ngIf="sortOptions.field === sortable.type && sortOptions.order === 'asc'"><img src="/assets/images/icon-arrow.svg" alt=""></span>
                 </ng-container>
             </div>
         </div>
     </div>
     <div class="btn filter batch" *ngIf="auth.isAdmin()" (click)="toggleBatchMode()">
             <span *ngIf="!batchMode" class="title">Batch status</span>
-            <span *ngIf="batchMode && selectedProjects.length == 0" class="title">Stop batch status</span>
+            <span *ngIf="batchMode && selectedProjects.length === 0" class="title">Stop batch status</span>
             <span *ngIf="batchMode && selectedProjects.length > 0" class="title">Pas projecten aan</span>
     </div>
     <div class="search">

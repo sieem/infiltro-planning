@@ -8,7 +8,7 @@ import { SingleProjectService } from 'src/app/services/single-project.service';
   styleUrls: ['./single-project-comments.component.scss']
 })
 export class SingleProjectCommentsComponent {
-  @Input('newProject') newProject = false;
+  @Input() newProject = false;
 
   constructor(
     public singleProjectCommentsService: SingleProjectCommentsService,
