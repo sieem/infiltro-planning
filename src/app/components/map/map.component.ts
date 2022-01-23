@@ -1,168 +1,102 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ProjectService } from 'src/app/services/project.service';
 import { ToastrService } from 'ngx-toastr';
-import { CompanyService } from 'src/app/services/company.service';
 import { IsDateActiveTooOldPipe } from 'src/app/pipes/is-date-active-too-old.pipe';
-import { firstValueFrom } from 'rxjs';
-import { IProject } from '../../interfaces/project.interface';
+import { pointers, IPointerIcon, defaultPointerUrl } from './map.component.util';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-map',
   template: `
     <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
-    
-      <agm-marker *ngFor="let m of markers"
-        [latitude]="m.lat"
-        [longitude]="m.lng" 
-        [label]="m.executor | executor: 'label'"
-        [iconUrl]="'assets/images/map/' + m.pointerUrl">
-    
+
+      <agm-marker *ngFor="let marker of markers$ | async"
+        [latitude]="marker.lat"
+        [longitude]="marker.lng"
+        [label]="marker.executor | executor: 'label'"
+        [iconUrl]="'assets/images/map/' + marker.pointerUrl">
+
         <agm-info-window>
           <div class="container">
-            <h2><a routerLink="/project/{{m._id}}" routerLinkActive="active">{{m.projectName}}</a></h2>
-            <p>Adres: <a href="https://www.google.be/maps/search/{{m.street}}+{{m.postalCode}}+{{m.city}}"
-                target="_blank">{{m.street}}, {{m.postalCode}} {{m.city}}</a></p>
-            <p>Email: <a href="mailto:{{m.email}}">{{m.email}}</a></p>
-            <p>Tel: <a href="tel:{{m.tel}}">{{m.tel}}</a></p>
+            <h2><a routerLink="/project/{{marker._id}}" routerLinkActive="active">{{marker.projectName}}</a></h2>
+            <p>Adres: <a href="https://www.google.be/maps/search/{{marker.street}}+{{marker.postalCode}}+{{marker.city}}"
+                target="_blank">{{marker.street}}, {{marker.postalCode}} {{marker.city}}</a></p>
+            <p>Email: <a href="mailto:{{marker.email}}">{{marker.email}}</a></p>
+            <p>Tel: <a href="tel:{{marker.tel}}">{{marker.tel}}</a></p>
             <p>Tijdstip:
-              <ng-container *ngIf="m.calendarLink">
-                <a href="{{m.calendarLink}}" target="_blank">{{ m.datePlanned | formatDate }} om
-                  {{m.hourPlanned}}</a>
+              <ng-container *ngIf="marker.calendarLink">
+                <a href="{{marker.calendarLink}}" target="_blank">{{ marker.datePlanned | formatDate }} om
+                  {{marker.hourPlanned}}</a>
               </ng-container>
-              <ng-container *ngIf="!m.calendarLink">
-                {{ m.datePlanned | formatDate}} om
-                {{m.hourPlanned}}
+              <ng-container *ngIf="!marker.calendarLink">
+                {{ marker.datePlanned | formatDate}} om
+                {{marker.hourPlanned}}
               </ng-container>
-            
+
             </p>
-            <p>Status: {{ m.status | status}}</p>
-            <p>Bedrijf: {{ m.company | company | async }}</p>
-            <p>Actief Sinds: {{ m.dateActive | formatDate:'empty' }}</p>
-            <app-comments [comments]="m.comments"></app-comments>
+            <p>Status: {{ marker.status | status}}</p>
+            <p>Bedrijf: {{ marker.company | company | async }}</p>
+            <p>Actief Sinds: {{ marker.dateActive | formatDate:'empty' }}</p>
+            <app-comments [comments]="marker.comments"></app-comments>
           </div>
         </agm-info-window>
-    
+
       </agm-marker>
-    
+
     </agm-map>
   `,
   styleUrls: ['./map.component.scss']
 })
-export class MapComponent implements OnInit {
+export class MapComponent {
+  zoom = 8;
+  lat = 51.023431;
+  lng = 4.261164;
 
-  // google maps zoom level
-  zoom: number = 8
+  markers$ = this.projectService.allProjects$.pipe(
+    map((allProjects) => allProjects
+      .filter((project) => ['toPlan', 'planned', 'toContact', 'proposalSent'].includes(project.status))
+      .filter((project) => {
+        if (!project.lat && project.lng) {
+          this.toastr.warning(`Projectnaam: ${project.projectName}`, 'Coördinaten niet gevonden');
+        }
+        return project.lat && project.lng;
+      })
+      .map((project) => {
+        let pointerExecutor: IPointerIcon['executor'] = 'default';
+        let pointerType: IPointerIcon['type'] = 'default';
+        let pointerUrgency: IPointerIcon['urgency'] = 'normal';
 
-  // initial center position for the map
-  lat: number = 51.023431
-  lng: number = 4.261164
+        if (project.executor !== '') {
+          pointerExecutor = project.executor;
+        }
 
-  markers: marker[] = []
+        if (project.status === 'planned') {
+          pointerType = 'planned';
+        }
 
-  pointers: any = {
-    david: {
-      planned: "david-planned.png",
-      default: "david-faded.png"
-    },
-    roel: {
-      planned: "roel-planned.png",
-      default: "roel-faded.png"
-    },
-    together: {
-      planned: "together-planned.png",
-      default: "together-faded.png"
-    },
-    default: {
-      planned: "default-planned.png",
-      default: "default-faded.png"
-    },
-    warning: {
-      planned: "warning-planned.png",
-      default: "warning-faded.png"
-    }
-  }
+        // always show red if it's to contact
+        if (this.isDateActiveTooOldPipe.transform(project.dateActive, project.status) || project.status === "toContact") {
+          pointerUrgency = 'warning';
+        }
+
+        const pointerUrl = pointers.find((pointer) =>
+          pointer.executor === pointerExecutor &&
+          pointer.type === pointerType &&
+          pointer.urgency === pointerUrgency
+        )?.url ?? defaultPointerUrl;
+
+        return {
+          ...project,
+          pointerUrl,
+        }
+      })
+    ),
+  )
+
 
   constructor(
-    public projectService: ProjectService,
+    private projectService: ProjectService,
     private toastr: ToastrService,
-    public companyService: CompanyService,
     private isDateActiveTooOldPipe: IsDateActiveTooOldPipe,
-    ) { }
-
-  ngOnInit() {
-    firstValueFrom(this.projectService.allProjects$)
-      .then((res: IProject[]) => {
-        res.forEach((project) => {
-          if (project.status === "toPlan" || project.status === "planned" || project.status === "toContact" || project.status === "proposalSent") {
-            let pointerUrl = this.pointers.together.default
-
-            if (project.executor) {
-              pointerUrl = this.pointers[project.executor][project.status] || this.pointers[project.executor].default
-            } else {
-              pointerUrl = this.pointers.default[project.status] || this.pointers.default.default
-            }
-
-            if (this.isDateActiveTooOldPipe.transform(project.dateActive, project.status)) {
-              pointerUrl = pointerUrl.replace('.png', '-warning.png');
-            }
-
-            // always show red if it's to contact
-            if (project.status === "toContact") {
-              pointerUrl = this.pointers.warning[project.status] || this.pointers.warning.default
-            }
-
-            if (project.lat && project.lng) {
-              this.markers.push(
-                {
-                  _id: project._id,
-                  lat: project.lat,
-                  lng: project.lng,
-                  projectName: project.projectName,
-                  street: project.street,
-                  city: project.city,
-                  email: project.email,
-                  tel: project.tel,
-                  postalCode: project.postalCode,
-                  datePlanned: project.datePlanned,
-                  hourPlanned: project.hourPlanned,
-                  dateActive: project.dateActive as Date,
-                  status: project.status,
-                  executor: project.executor,
-                  company: project.company,
-                  calendarLink: project.calendarLink,
-                  comments: project.comments,
-                  pointerUrl: pointerUrl,
-                }
-              )
-            } else {
-              this.toastr.warning(`Projectnaam: ${project.projectName}`, 'Coördinaten niet gevonden')
-            }
-          }
-        })
-      },
-      )
-      .catch((err) => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`))
-  }
-
-}
-// just an interface for type safety.
-interface marker {
-  _id: string,
-  lat: number;
-  lng: number;
-  projectName: string;
-  street: string;
-  city: string;
-  email: string;
-  tel: string;
-  postalCode: string;
-  datePlanned: Date;
-  hourPlanned: string;
-  dateActive: Date;
-  status: string;
-  executor: string;
-  pointerUrl: string;
-  company: string;
-  calendarLink: string;
-  comments: any[];
+  ) { }
 }
