@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { firstValueFrom } from 'rxjs';
 import { emailRegex } from 'src/app/utils/regex.util';
+import { ngFormToFormData } from '../../utils/form.utils';
 
 @Component({
   selector: 'app-reset-password',
@@ -58,8 +59,7 @@ export class ResetPasswordComponent {
 
   resetUser() {
 
-    const formData = new FormData();
-    formData.append('email', this.resetForm.value.email)
+    const formData = ngFormToFormData(this.resetForm.value);
 
     firstValueFrom(this.api.resetUser(formData))
       .then(() => this.resetDone = true)

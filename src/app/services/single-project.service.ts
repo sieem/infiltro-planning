@@ -5,11 +5,11 @@ import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
 import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment';
-import { FormService } from './form.service';
 import { IProject } from '../interfaces/project.interface';
 import { BehaviorSubject, Observable, shareReplay, switchMap, firstValueFrom, Subject, tap } from 'rxjs';
-import { mapToForm } from '../utils/mapToForm.util';
+import { mapToForm } from '../utils/mapSingleProjectToForm.util';
 import { dateFormat, emailRegex, postalCodeRegex } from '../utils/regex.util';
+import { ngFormToFormData } from '../utils/form.utils';
 
 @Injectable({
   providedIn: 'root'
@@ -37,7 +37,6 @@ export class SingleProjectService {
     private formBuilder: FormBuilder,
     private api: ApiService,
     private router: Router,
-    private formService: FormService,
     private auth: AuthService,
     private toastr: ToastrService,
   ) { }
@@ -101,33 +100,7 @@ export class SingleProjectService {
   saveProject() {
     this.projectIsSaving = true;
 
-    const formData = new FormData();
-
-    formData.append('_id', this.projectForm.value._id)
-    formData.append('company', this.projectForm.value.company)
-    formData.append('dateCreated', this.projectForm.value.dateCreated)
-    formData.append('projectType', this.projectForm.value.projectType)
-    formData.append('houseAmount', this.projectForm.value.houseAmount)
-    formData.append('projectName', this.projectForm.value.projectName)
-    formData.append('client', this.projectForm.value.client)
-    formData.append('street', this.projectForm.value.street)
-    formData.append('city', this.projectForm.value.city)
-    formData.append('postalCode', this.projectForm.value.postalCode)
-    formData.append('extraInfoAddress', this.projectForm.value.extraInfoAddress)
-    formData.append('name', this.projectForm.value.name)
-    formData.append('tel', this.projectForm.value.tel)
-    formData.append('email', this.projectForm.value.email)
-    formData.append('extraInfoContact', this.projectForm.value.extraInfoContact)
-    formData.append('EpbReporter', this.projectForm.value.EpbReporter)
-    formData.append('ATest', this.projectForm.value.ATest)
-    formData.append('v50Value', this.projectForm.value.v50Value)
-    formData.append('protectedVolume', this.projectForm.value.protectedVolume)
-    formData.append('EpbNumber', this.projectForm.value.EpbNumber)
-    formData.append('executor', this.projectForm.value.executor)
-    formData.append('datePlanned', this.projectForm.value.datePlanned)
-    formData.append('hourPlanned', this.projectForm.value.hourPlanned)
-    formData.append('status', this.projectForm.value.status)
-    formData.append('dateActive', this.projectForm.value.dateActive)
+    const formData = ngFormToFormData(this.projectForm.value);
 
     firstValueFrom(this.api.saveProject(formData))
       .then((res: any) => {
@@ -143,7 +116,7 @@ export class SingleProjectService {
         // reset and refill form so the form isn't touched anymore
         this.projectForm.reset()
         let formDataAsObj: any = {}
-        formData.forEach((el, key) => formDataAsObj = { ...formDataAsObj, [key]: res[key] })
+        formData.forEach((el: any, key: string) => formDataAsObj = { ...formDataAsObj, [key]: res[key] })
         formDataAsObj.datePlanned = formDataAsObj.datePlanned || 'Invalid Date'
         this.fillInFormGroup(formDataAsObj);
         this.projectIsSaving = false;

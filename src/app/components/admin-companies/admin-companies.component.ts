@@ -8,6 +8,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { firstValueFrom } from 'rxjs';
 import { ICompany } from '../../interfaces/company.interface';
 import { emailRegex } from 'src/app/utils/regex.util';
+import { ngFormToFormData } from '../../utils/form.utils';
 
 @Component({
   selector: 'app-admin-companies',
@@ -87,11 +88,7 @@ export class AdminCompaniesComponent {
   }
 
   saveCompany() {
-    const formData = new FormData()
-    formData.append('_id', this.companyForm.value._id)
-    formData.append('name', this.companyForm.value.name)
-    formData.append('pricePageVisible', this.companyForm.value.pricePageVisible)
-    formData.append('email', this.companyForm.value.email)
+    const formData = ngFormToFormData(this.companyForm.value);
 
     firstValueFrom(this.api.saveCompany(formData))
       .then(() => {

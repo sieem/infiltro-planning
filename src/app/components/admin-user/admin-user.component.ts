@@ -9,6 +9,7 @@ import { UserService } from 'src/app/services/user.service';
 import { IUser } from '../../interfaces/user.interface';
 import { firstValueFrom } from 'rxjs';
 import { emailRegex } from 'src/app/utils/regex.util';
+import { ngFormToFormData } from '../../utils/form.utils';
 
 @Component({
   selector: 'app-admin-user',
@@ -95,12 +96,7 @@ export class AdminUserComponent {
 
   registerUser() {
 
-    const formData = new FormData();
-
-    formData.append('name', this.registerForm.value.name)
-    formData.append('email', this.registerForm.value.email)
-    formData.append('company', this.registerForm.value.company)
-    formData.append('role', this.registerForm.value.role)
+    const formData = ngFormToFormData(this.registerForm.value);
 
     if (!this.registerForm.value._id) {
       firstValueFrom(this.api.addUser(formData))

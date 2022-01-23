@@ -7,6 +7,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { firstValueFrom, Observable, BehaviorSubject, switchMap } from 'rxjs';
 import { shareReplay } from 'rxjs/operators';
 import { ITemplate } from 'src/app/interfaces/template.interface';
+import { ngFormToFormData } from '../../utils/form.utils';
 
 @Component({
   selector: 'app-admin-mail-templates',
@@ -100,11 +101,7 @@ export class AdminMailTemplatesComponent {
 
   saveTemplate() {
 
-    const formData = new FormData();
-    formData.append('_id', this.templateForm.value._id);
-    formData.append('name', this.templateForm.value.name);
-    formData.append('subject', this.templateForm.value.subject);
-    formData.append('body', this.templateForm.value.body);
+    const formData = ngFormToFormData(this.templateForm.value);
 
     firstValueFrom(this.api.saveMailTemplate(formData))
       .then(() => {

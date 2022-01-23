@@ -7,6 +7,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { firstValueFrom } from 'rxjs';
 import { emailRegex, passwordRegex } from 'src/app/utils/regex.util';
+import { ngFormToFormData } from '../../utils/form.utils';
 
 @Component({
   selector: 'app-login',
@@ -62,9 +63,7 @@ export class LoginComponent {
 
   loginUser() {
 
-    const formData = new FormData();
-    formData.append('email', this.loginForm.value.email);
-    formData.append('password', this.loginForm.value.password);
+    const formData = ngFormToFormData(this.loginForm.value);
 
     firstValueFrom(this.api.loginUser(formData))
       .then((res: any) => {

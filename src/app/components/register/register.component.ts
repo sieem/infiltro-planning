@@ -3,11 +3,11 @@ import { ApiService } from 'src/app/services/api.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { FormService } from 'src/app/services/form.service';
-import { CompanyService } from 'src/app/services/company.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { firstValueFrom, switchMap } from 'rxjs';
 import { passwordRegex } from 'src/app/utils/regex.util';
+import { ngFormToFormData } from '../../utils/form.utils';
 
 @Component({
   selector: 'app-register',
@@ -67,9 +67,7 @@ export class RegisterComponent implements OnInit {
   }
 
   registerUser() {
-    const formData = new FormData();
-    formData.append('_id', this.registerForm.value._id)
-    formData.append('password', this.registerForm.value.password)
+    const formData = ngFormToFormData(this.registerForm.value);
 
     firstValueFrom(this.api.registerUser(formData))
       .then((res: any) => {
