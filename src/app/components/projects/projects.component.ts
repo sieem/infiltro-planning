@@ -317,7 +317,7 @@ export class ProjectsComponent implements OnInit {
         this.projectService.getProjects();
         this.selectedProjects = [];
       })
-      .catch((err) => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`));
+
   }
 
   onSubmit() {
@@ -339,6 +339,6 @@ export class ProjectsComponent implements OnInit {
         this.modalService.close("batchmode-modal");
         this.selectedProjects = [];
       })
-      .catch((err) => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`));
+
   }
 }

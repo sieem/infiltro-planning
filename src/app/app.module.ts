@@ -51,6 +51,7 @@ import { HighlightTextPipe } from './pipes/highlight-text.pipe';
 import { MailTemplatePipe } from './pipes/mail-template.pipe';
 import { MailTemplateSelectorComponent } from './components/mail-template-selector/mail-template-selector.component';
 import { IsDateActiveTooOldPipe } from './pipes/is-date-active-too-old.pipe';
+import { ErrorInterceptorService } from './services/error-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -104,10 +105,18 @@ import { IsDateActiveTooOldPipe } from './pipes/is-date-active-too-old.pipe';
     BrowserAnimationsModule,
     ToastrModule.forRoot()
   ],
-  providers: [ApiService, AuthService, AuthGuard,
+  providers: [
+    ApiService,
+    AuthService,
+    AuthGuard,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptorService,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorInterceptorService,
       multi: true
     },
     CompanyPipe,

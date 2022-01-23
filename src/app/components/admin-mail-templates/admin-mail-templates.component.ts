@@ -110,7 +110,7 @@ export class AdminMailTemplatesComponent {
         this.submitted = false;
         this.toastr.success('Template saved');
       })
-      .catch((err) => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`));
+
   }
 
   editTemplate(template: ITemplate) {
@@ -133,7 +133,7 @@ export class AdminMailTemplatesComponent {
     if (confirm(`Are you sure to delete ${template.name}?`)) {
       firstValueFrom(this.api.removeMailTemplate(template._id))
         .then(() => this.refreshTemplates())
-        .catch((err) => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`));
+
     }
   }
 

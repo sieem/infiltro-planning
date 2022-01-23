@@ -99,7 +99,7 @@ export class AdminCompaniesComponent {
         this.submitted = false;
         this.toastr.success('Company saved');
       })
-      .catch((err) => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`));
+
   }
 
   editCompany(company: ICompany) {

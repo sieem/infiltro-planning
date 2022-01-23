@@ -107,7 +107,7 @@ export class AdminUserComponent {
           this.toastr.success('User saved', 'Sent mail to user!');
           this.submitted = false;
         })
-        .catch((err) => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`));
+
     } else {
       this.editState = false
       firstValueFrom(this.api.editUser(formData))
@@ -117,7 +117,7 @@ export class AdminUserComponent {
           this.toastr.success('User saved');
           this.submitted = false;
         })
-        .catch((err) => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`));
+
     }
 
 
@@ -146,7 +146,7 @@ export class AdminUserComponent {
       if (confirm(`Are you really sure you want to delete ${user.email}???`)) {
         firstValueFrom(this.api.removeUser(user._id))
           .then(() => this.userService.refreshUsers())
-          .catch((err) => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`));
+
       }
     }
   }

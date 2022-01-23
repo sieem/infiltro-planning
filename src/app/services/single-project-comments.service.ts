@@ -80,7 +80,7 @@ export class SingleProjectCommentsService {
         this.commentForm.controls.user.setValue(this.auth.getUserDetails()?.id)
         this.toastr.success('Opmerking opgeslagen');
       })
-      .catch((err) => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`));
+
   }
 
   editComment(comment: IComment) {
@@ -103,7 +103,7 @@ export class SingleProjectCommentsService {
 
       firstValueFrom(this.api.removeComment(this.singleProjectService.projectId$.value, comment._id))
         .then((res) => this.refreshComments(res))
-        .catch((err) => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`));
+
     }
   }
 

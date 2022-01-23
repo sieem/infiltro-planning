@@ -63,6 +63,6 @@ export class ResetPasswordComponent {
 
     firstValueFrom(this.api.resetUser(formData))
       .then(() => this.resetDone = true)
-      .catch((err) => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`));
+
   }
 }

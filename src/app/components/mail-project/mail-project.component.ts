@@ -198,7 +198,7 @@ export class MailProjectComponent implements OnInit {
         this.toastr.success('Mail sent');
         this.router.navigate(['project', this.projectId]);
       })
-      .catch((err) => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`));
+
   }
 
   saveTemplate() {
@@ -217,7 +217,7 @@ export class MailProjectComponent implements OnInit {
         this.toastr.success('Template saved');
         this.templateSaved$.next('');
       })
-      .catch((err) => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`));
+
   }
 
   goBack() {

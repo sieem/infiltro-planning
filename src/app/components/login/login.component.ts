@@ -70,6 +70,6 @@ export class LoginComponent {
         this.auth.saveToken(res.token)
         this.router.navigate(['projecten'])
       })
-      .catch((err) => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`));
+
   }
 }

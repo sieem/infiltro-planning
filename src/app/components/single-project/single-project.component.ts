@@ -175,7 +175,7 @@ export class SingleProjectComponent implements OnInit, OnDestroy {
             this.singleProjectService.setProjectId(res);
             this.singleProjectService.projectForm.controls._id.setValue(res);
           })
-          .catch((err) => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`));
+
       }
     });
 
