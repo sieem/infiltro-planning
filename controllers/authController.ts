@@ -1,6 +1,6 @@
 import User from '../models/user';
 import bcrypt from 'bcrypt';
-import jwt, { Secret } from 'jsonwebtoken';
+import { sign, Secret } from 'jsonwebtoken';
 import mailService from '../services/mailService';
 import { generateToken } from '../services/authService';
 import { config } from 'dotenv';
@@ -75,7 +75,7 @@ export const loginUser = (req: Request, res: Response) => {
                 return res.status(401).send('Invalid Password')
             } else {
                 let payload = { id: user._id, role: user.role, company: user.company }
-                let token = jwt.sign(payload, secretKey)
+                let token = sign(payload, secretKey);
                 return res.status(200).send({ token })
             }
         });
@@ -143,7 +143,7 @@ export const registerUser = (req: Request, res: Response) => {
                 }
 
                 let payload = { id: user._id, role: user.role, company: user.company }
-                let token = jwt.sign(payload, secretKey)
+                let token = sign(payload, secretKey);
                 return res.status(200).send({ token })
             })
         })

@@ -48,8 +48,8 @@ import { NodeSSH } from 'node-ssh';
         // delay(5000);
         // return;
 
-        const failed = [];
-        const successful = [];
+        const failed: any = [];
+        const successful: any = [];
 
         const status = await ssh.putDirectory('../infiltro-planning/dist', '/root/infiltro-planning/dist', {
             recursive: true,
@@ -69,8 +69,8 @@ import { NodeSSH } from 'node-ssh';
 
         console.log(`build: ${stdout}`);
 
-        const failed = [];
-        const successful = [];
+        const failed: any = [];
+        const successful: any = [];
 
         let status = await ssh.putDirectory('./dist', '/root/infiltro-planning-api', {
             recursive: true,
