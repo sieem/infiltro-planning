@@ -21,7 +21,7 @@ import { ngFormToFormData } from '../../utils/form.utils';
         <div>{{ user.company | company | async }}</div>
         <div>{{userService.roleName(user.role)}}</div>
         <div class="icon" (click)="editUser(user)"><img src="assets/images/icon-edit.svg" alt=""></div>
-        <div class="icon" *ngIf="user._id !== auth.getUserDetails().id" (click)="removeUser(user)"><img src="assets/images/icon-delete.svg" alt=""></div>
+        <div class="icon" *ngIf="user._id !== auth.getUserDetails()?.id" (click)="removeUser(user)"><img src="assets/images/icon-delete.svg" alt=""></div>
       </div>
     </div>
 

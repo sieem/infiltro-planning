@@ -38,7 +38,7 @@ export class CompanyService {
     const user = this.auth.getUserDetails();
 
     return this.companies$.pipe(
-      map((companies) => !!companies.find(company => company._id === user.company && company.pricePageVisible))
+      map((companies) => !!companies.find(company => company._id === user?.company && company.pricePageVisible))
     );
   }
 }

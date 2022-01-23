@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { FormService } from 'src/app/services/form.service';
 import { ToastrService } from 'ngx-toastr';
-import { AuthService } from 'src/app/services/auth.service';
 import { firstValueFrom, Observable, BehaviorSubject, switchMap } from 'rxjs';
 import { shareReplay } from 'rxjs/operators';
 import { ITemplate } from 'src/app/interfaces/template.interface';
@@ -18,7 +17,7 @@ import { ngFormToFormData } from '../../utils/form.utils';
         <div>{{template.name}}</div>
         <div class="span2">{{template.subject}}</div>
         <div class="icon" (click)="editTemplate(template)"><img src="assets/images/icon-edit.svg" alt=""></div>
-        <div class="icon" *ngIf="template._id !== auth.getUserDetails().template" (click)="removeTemplate(template)"><img src="assets/images/icon-delete.svg" alt=""></div>
+        <div class="icon" (click)="removeTemplate(template)"><img src="assets/images/icon-delete.svg" alt=""></div>
       </div>
     </div>
 
@@ -84,7 +83,6 @@ export class AdminMailTemplatesComponent {
   constructor(
     private formBuilder: FormBuilder,
     private api: ApiService,
-    public auth: AuthService,
     public formService: FormService,
     private toastr: ToastrService) { }
 

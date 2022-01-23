@@ -10,6 +10,7 @@ import { BehaviorSubject, Observable, shareReplay, switchMap, firstValueFrom, Su
 import { mapToForm } from '../utils/mapSingleProjectToForm.util';
 import { dateFormat, emailRegex, postalCodeRegex } from '../utils/regex.util';
 import { ngFormToFormData } from '../utils/form.utils';
+import { IUserToken } from '../interfaces/user.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class SingleProjectService {
   projectId$ = new BehaviorSubject<string | null>(null);
 
   projectForm!: FormGroup
-  projectIsSaving: boolean = false;
+  projectIsSaving = false;
   projectEditStates: any = {}
   projectSaved$ = new Subject<void>();
   projectData$: Observable<IProject> = this.projectId$.pipe(
@@ -27,11 +28,11 @@ export class SingleProjectService {
     shareReplay({ refCount: false, bufferSize: 1 }),
   );
   submitted = false
-  user: any
-  mailModalOpened: boolean = false
-  hasCalendarItem: boolean = false
-  newProject: boolean = true
-  archiveActive: boolean = false
+  user = this.auth.getUserDetails();
+  mailModalOpened = false
+  hasCalendarItem = false
+  newProject = true
+  archiveActive = false
 
   constructor(
     private formBuilder: FormBuilder,
@@ -42,8 +43,9 @@ export class SingleProjectService {
   ) { }
 
   initProject() {
-    this.user = this.auth.getUserDetails()
-
+    if (!this.user) {
+      throw Error('no user found in token');
+    }
     this.projectForm = this.formBuilder.group({
       _id: [''],
 

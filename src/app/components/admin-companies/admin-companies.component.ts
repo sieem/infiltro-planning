@@ -24,7 +24,7 @@ import { ngFormToFormData } from '../../utils/form.utils';
           </ng-container>
         </div>
         <div class="icon" (click)="editCompany(company)"><img src="assets/images/icon-edit.svg" alt=""></div>
-        <div class="icon" *ngIf="company._id !== auth.getUserDetails().company" (click)="removeCompany(company)"><img src="assets/images/icon-delete.svg" alt=""></div>
+        <div class="icon" *ngIf="company._id !== auth.getUserDetails()?.company" (click)="removeCompany(company)"><img src="assets/images/icon-delete.svg" alt=""></div>
       </div>
     </div>
 

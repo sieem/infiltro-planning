@@ -17,7 +17,7 @@ export class SingleProjectCommentsService {
   commentForm = this.formBuilder.group({
     _id: [],
     content: ['', Validators.required],
-    user: [this.auth.getUserDetails().id],
+    user: [this.auth.getUserDetails()?.id],
     createdDateTime: [],
     modifiedDateTime: [],
   });
@@ -77,7 +77,7 @@ export class SingleProjectCommentsService {
       .then((res) => {
         this.refreshComments(res)
         this.commentForm.reset()
-        this.commentForm.controls.user.setValue(this.auth.getUserDetails().id)
+        this.commentForm.controls.user.setValue(this.auth.getUserDetails()?.id)
         this.toastr.success('Opmerking opgeslagen');
       })
       .catch((err) => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`));

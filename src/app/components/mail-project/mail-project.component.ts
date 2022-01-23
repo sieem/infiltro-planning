@@ -61,7 +61,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
       <h2>Mailvoorbeeld</h2>
         <div class="mail">
           <div class="header">
-            <div class="sender"><strong>Van:</strong> {{ auth.getUserDetails().id | user | async }}</div>
+            <div class="sender"><strong>Van:</strong> {{ auth.getUserDetails()?.id ?? '' | user | async }}</div>
             <div class="receiver"><strong>Aan:</strong> {{mailForm.get('receiver')?.value}}</div>
             <div class="cc" *ngIf="mailForm.get('cc')?.value"><strong>Cc:</strong> {{mailForm.get('cc')?.value}}</div>
             <div class="subject" *ngIf="mailForm.get('subject')?.value"><strong>Onderwerp:</strong> <span

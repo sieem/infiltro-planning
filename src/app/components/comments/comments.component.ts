@@ -13,12 +13,12 @@ import { IComment } from '../../interfaces/comments.interface';
             <div class="content" [innerHTML]="comment.content | newlineToBr | safeHtml"></div>
             <ng-container *ngIf="!readOnly">
                 <div class="icon edit"
-                    *ngIf="auth.getUserDetails().id === comment.user || auth.isAdmin()"
+                    *ngIf="auth.getUserDetails()?.id === comment.user || auth.isAdmin()"
                     (click)="singleProjectCommentsService.editComment(comment)">
                     <img src="assets/images/icon-edit.svg" alt="">
                 </div>
                 <div class="icon delete"
-                    *ngIf="auth.getUserDetails().id === comment.user || auth.isAdmin()"
+                    *ngIf="auth.getUserDetails()?.id === comment.user || auth.isAdmin()"
                     (click)="singleProjectCommentsService.removeComment(comment)">
                     <img src="assets/images/icon-delete.svg" alt="">
                 </div>

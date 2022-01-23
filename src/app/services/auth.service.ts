@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import jwtDecode from "jwt-decode";
+import { IUserToken } from '../interfaces/user.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -31,17 +32,17 @@ export class AuthService {
   }
 
   getUserDetails() {
-    const token = this.getToken()
-    if(token) {
-      return jwtDecode(token) as any
-    } else {
-      return false
+    const token = this.getToken();
+    if (token) {
+      return jwtDecode(token) as IUserToken;
     }
+
+    return null;
   }
 
   isAdmin() {
     return this.loggedIn()
-      ? this.getUserDetails().role === 'admin'
+      ? this.getUserDetails()?.role === 'admin'
       : false
   }
 }

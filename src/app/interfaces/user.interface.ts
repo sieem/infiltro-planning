@@ -5,3 +5,10 @@ export interface IUser {
   company: string,
   role: 'admin' | 'company' | 'client',
 }
+
+export interface IUserToken {
+  id: string,
+  iat: number,
+  company: string,
+  role: 'admin' | 'company' | 'client',
+}
