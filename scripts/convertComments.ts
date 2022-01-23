@@ -8,20 +8,11 @@ import Project from '../models/project';
     let projects
 
     const db = `mongodb://${process.env.MONGODB_USER}:${process.env.MONGODB_PASS}@localhost:27017/${process.env.MONGODB_DB}`
-
-    connect(db, { useNewUrlParser: true }, err => {
-        if (err) {
-            console.log(err)
-            return
-        }
-        else {
-            console.log('connected to mongodb')
-        }
-    })
+    connect(db, (err) => err ? console.log(err) : console.log('connected to mongodb'));
 
     try {
         projects = await Project.find({})
-    } catch (error) {
+    } catch (error: any) {
         console.error(error)
         return
     }
@@ -31,7 +22,7 @@ import Project from '../models/project';
     for (const project of projects) {
         if (typeof project.comments[0] === 'string' && project.comments[0] !== "") {
             const commentObject = {
-                _id: Types.ObjectId(),
+                _id: new Types.ObjectId(),
                 user: "Onbekende gebruiker",
                 createdDateTime: new Date,
                 modifiedDateTime: new Date,

@@ -4,26 +4,29 @@ import jwt, { Secret } from 'jsonwebtoken';
 import mailService from '../services/mailService';
 import { generateToken } from '../services/authService';
 import { config } from 'dotenv';
+import { Response } from 'express';
+import { Request } from 'models/request';
+import { IUser } from '../interfaces/user.interface';
 config();
 
 const secretKey = process.env.SECRET_KEY as Secret;
 const saltRounds = 10;
 
-export const getUsers = async (req, res) => {
-    const selectParameters = (req.user.role === 'admin') ? { password: 0, resetToken: 0 } : { _id: 1, name: 1, company: 1 }
+export const getUsers = async (req: Request, res: Response) => {
+    const selectParameters = (req.user?.role === 'admin') ? { password: 0, resetToken: 0 } : { _id: 1, name: 1, company: 1 }
 
     try {
         const users = await User.find({}).select(selectParameters).exec()
         return res.status(200).json(users)
-    } catch (error) {
+    } catch (error: any) {
         console.error(error)
         return res.status(400).json(error.message)
     }
 }
 
 //unused for now
-export const getUser = (req, res) => {
-    User.findById(req.params.userId, (err, user: any) => {
+export const getUser = (req: Request, res: Response) => {
+    User.findById(req.params.userId, (err: any, user: IUser) => {
         if (err) {
             console.error(err)
             return res.status(400).json(err.message)
@@ -37,23 +40,23 @@ export const getUser = (req, res) => {
     })
 }
 
-export const getUserByResetToken = (req, res) => {
-    User.findOne({ resetToken: req.params.resetToken}, (err, user) => {
+export const getUserByResetToken = (req: Request, res: Response) => {
+    User.findOne({ resetToken: req.params.resetToken}, (err: any, user: IUser) => {
         if (err) {
             console.error(err)
             return res.status(400).json(err.message)
         }
 
         if (!user) {
-            return res.status(404).text('user not found');
+            return res.status(404).json('user not found');
         }
 
         return res.status(200).json(user._id)
     })
 }
 
-export const loginUser = (req, res) => {
-    User.findOne({ email: req.body.email }, (err, user: any) => {
+export const loginUser = (req: Request, res: Response) => {
+    User.findOne({ email: req.body.email }, (err: any, user: IUser) => {
         if (err) {
             console.error(err)
             return res.status(400).json(err.message)
@@ -63,7 +66,7 @@ export const loginUser = (req, res) => {
             return res.status(401).send('Invalid Email')
         }
 
-        bcrypt.compare(req.body.password, user.password, (err, compareValid) => {
+        bcrypt.compare(req.body.password, user.password, (err: any, compareValid) => {
             if (err) {
                 console.error(err)
                 return res.status(400).json(err.message)
@@ -79,9 +82,9 @@ export const loginUser = (req, res) => {
     })
 }
 
-export const addUser = (req, res) => {
-    if (req.user.role === 'admin') {
-        User.findOne({ email: req.body.email }, async (err, user: any) => {
+export const addUser = (req: Request, res: Response) => {
+    if (req.user?.role === 'admin') {
+        User.findOne({ email: req.body.email }, async (err: any, user: IUser) => {
             if (err) {
                 console.error(err)
                 return res.status(400).json(err.message)
@@ -89,10 +92,10 @@ export const addUser = (req, res) => {
             if (user)
                 return res.status(401).send('Email already exists')
             else {
-                let user: any = new User(req.body)
+                let user: IUser = new User(req.body)
                 user.resetToken = await generateToken()
 
-                user.save((err, user) => {
+                user.save((err: any, user: IUser) => {
                     if (err) {
                         console.error(err)
                         return res.status(400).json(err.message)
@@ -116,8 +119,8 @@ export const addUser = (req, res) => {
     }
 }
 
-export const registerUser = (req, res) => {
-    User.findById(req.body._id, (err, user: any) => {
+export const registerUser = (req: Request, res: Response) => {
+    User.findById(req.body._id, (err: any, user: IUser) => {
         if (err) {
             console.error(err)
             return res.status(400).json(err.message)
@@ -125,7 +128,7 @@ export const registerUser = (req, res) => {
 
         user.password = req.body.password
 
-        bcrypt.hash(user.password, saltRounds, (err, hash) => {
+        bcrypt.hash(user.password, saltRounds, (err: any, hash) => {
             if (err) {
                 console.error(err)
                 return res.status(400).json(err.message)
@@ -133,7 +136,7 @@ export const registerUser = (req, res) => {
             user.password = hash;
             user.resetToken = '';
 
-            user.save((err, user) => {
+            user.save((err: any, user: IUser) => {
                 if (err) {
                     console.error(err)
                     return res.status(400).json(err.message)
@@ -150,8 +153,8 @@ export const registerUser = (req, res) => {
 
 
 
-export const resetPassword = (req, res) => {
-    User.findOne({ email: req.body.email }, async (err, user: any) => {
+export const resetPassword = (req: Request, res: Response) => {
+    User.findOne({ email: req.body.email }, async (err: any, user: IUser) => {
         if (err) {
             console.error(err)
             return res.status(400).json(err.message)
@@ -161,7 +164,7 @@ export const resetPassword = (req, res) => {
 
         user.resetToken = await generateToken();
 
-        user.save((err, user) => {
+        user.save((err: any, user: IUser) => {
             if (err) {
                 console.error(err)
                 return res.status(400).json(err.message)
@@ -181,10 +184,10 @@ export const resetPassword = (req, res) => {
     })
 }
 
-export const editUser = (req, res) => {
-    if (req.user.role === 'admin') {
+export const editUser = (req: Request, res: Response) => {
+    if (req.user?.role === 'admin') {
         let user = new User(req.body)
-        User.findByIdAndUpdate(user._id, user, { upsert: true }, function (err, savedUser) {
+        User.findByIdAndUpdate(user._id, user, { upsert: true }, function (err: any, savedUser) {
             if (err) {
                 console.error(err)
                 return res.status(400).json(err.message)
@@ -197,12 +200,12 @@ export const editUser = (req, res) => {
     }
 }
 
-export const removeUser = async (req, res) => {
-    if (req.user.role === 'admin') {
+export const removeUser = async (req: Request, res: Response) => {
+    if (req.user?.role === 'admin') {
         try {
             await User.deleteOne({ _id: req.params.userId }).exec();
             return res.json({ status: 'ok' });
-        } catch (error) {
+        } catch (error: any) {
             console.error(error)
             return res.status(400).json(error.message)
         }

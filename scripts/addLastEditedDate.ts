@@ -8,20 +8,11 @@ import Archive from '../models/archive';
     let projects
 
     const db = `mongodb://${process.env.MONGODB_USER}:${process.env.MONGODB_PASS}@localhost:27017/${process.env.MONGODB_DB}`
-
-    connect(db, { useNewUrlParser: true }, err => {
-        if (err) {
-            console.log(err)
-            return
-        }
-        else {
-            console.log('connected to mongodb')
-        }
-    })
+    connect(db, (err) => err ? console.log(err) : console.log('connected to mongodb'));
 
     try {
         projects = await Project.find({})
-    } catch (error) {
+    } catch (error: any) {
         console.error(error)
         return
     }
@@ -35,7 +26,7 @@ import Archive from '../models/archive';
             console.log('modified', project._id, project.dateEdited);
             new Project(project).save();
         }
-         catch (error) {
+         catch (error: any) {
             console.log(error);
         }
         

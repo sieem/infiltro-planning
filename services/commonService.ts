@@ -1,7 +1,10 @@
 import User from '../models/user';
 import moment from 'moment';
+import { IComment } from '../interfaces/comments.interface';
+import { IUser } from '../interfaces/user.interface';
+import { IExecutors } from '../interfaces/executors.interface';
 
-const usersIdCache = {}
+const usersCache: {id: string, name: string}[] = [];
 
 const projectTypes = [
     {
@@ -41,7 +44,7 @@ const executors = [
     }
 ];
 
-export const commentsToString = async (comments = []) => {
+export const commentsToString = async (comments: IComment[] = []) => {
     let returnString = '';
     
     for (const comment of comments) {
@@ -51,36 +54,28 @@ export const commentsToString = async (comments = []) => {
     return returnString;
 }
 
-export const userIdToName = async (userId) => {
-    if (usersIdCache[userId]) {
-        return usersIdCache[userId];
+export const userIdToName = async (userId: string) => {
+    const foundUser = usersCache.find((user) => user.id === userId)
+    if (foundUser) {
+        return foundUser.name;
     }
     try {
-        const user: any = await User.findById(userId).select({ name: 1 }).exec();
-        usersIdCache[userId] = user.name;
+        const user: IUser = await User.findById(userId).select({ name: 1 }).exec();
+        usersCache.push({
+            id: userId,
+            name: user.name,
+        })
         return user.name;
-    } catch (error) {
+    } catch (error: any) {
         console.error(error);
         return 'Gebruiker niet gevonden';
     }
 }
 
-export const projectTypeName = (type) => {
-    let name;
-    projectTypes.forEach(projectType => {
-        if (projectType.type === type) {
-            name = projectType.name;
-        }
-    })
-    return name || 'Onbekend';
+export const projectTypeName = (type: string): string => {
+    return projectTypes.find((projectType) => projectType.type === type)?.name ?? 'Onbekend';
 };
 
-export const executorName = (type) => {
-    let name;
-    executors.forEach(executor => {
-        if (executor.type === type) {
-            name = executor.name;
-        }
-    })
-    return name || 'Onbeslist';
+export const executorName = (type: IExecutors['type']): string => {
+    return executors.find((executor) => executor.type === type)?.name ?? 'Onbeslist';
 };

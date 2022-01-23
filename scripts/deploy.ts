@@ -30,7 +30,7 @@ import { NodeSSH } from 'node-ssh';
             await frontendDeploy()
             await backendDeploy()
         }
-    } catch (error) {
+    } catch (error: any) {
         console.log(error)
     }
 
@@ -86,14 +86,14 @@ import { NodeSSH } from 'node-ssh';
             await ssh.putFile('./package.json', '/root/infiltro-planning-api/package.json');
             await ssh.putFile('./package-lock.json', '/root/infiltro-planning-api/package-lock.json');
             console.log('npm ci:', await ssh.exec('npm ci', [], { cwd: '/root/infiltro-planning-api', stream: 'stdout' }));
-        } catch (error) {
+        } catch (error: any) {
             console.error(error)
         }
 
         try {
             console.log(await ssh.exec('pm2 restart server', [], { cwd: '/root/infiltro-planning-api', stream: 'stdout' }));
         }
-        catch (error) {
+        catch (error: any) {
             console.log(error);
         }
     }

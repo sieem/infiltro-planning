@@ -9,6 +9,7 @@
         "noUnusedLocals": true,
         "esModuleInterop": true,
         "paths": {},
-        "skipLibCheck": true
+        "skipLibCheck": true,
+        "strict": true
     }
 }

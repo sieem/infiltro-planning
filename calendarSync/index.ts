@@ -1,23 +1,23 @@
 import { config } from 'dotenv';
 
 import { connect } from 'mongoose';
-import * as fs from 'fs-extra';
 import moment from 'moment';
 import schedule from 'node-schedule';
 import Project from '../models/project';
 import CalendarService from '../services/calendarService';
+import { readJsonSync, writeJsonSync } from 'fs-extra';
 
 (async () => {
     config();
     const calendarService = new CalendarService();
-    let latestSyncTokens = {};
+    let latestSyncTokens: any = {};
     try {
-        latestSyncTokens = fs.readJsonSync('./calendarSync/latestSyncTokens.json', { encoding: 'utf8' })
+        latestSyncTokens = readJsonSync('./calendarSync/latestSyncTokens.json', { encoding: 'utf8' })
     } catch (e) {}
 
     const db = `mongodb://${process.env.MONGODB_USER}:${process.env.MONGODB_PASS}@localhost:27017/${process.env.MONGODB_DB}`
 
-    await connect(db, { useNewUrlParser: true })
+    await connect(db)
 
     const calendars = [
         {
@@ -45,17 +45,17 @@ import CalendarService from '../services/calendarService';
             for (const calendar of calendars) {
                 const newSyncToken = await processCalendar(calendar, projectEventIds, latestSyncTokens[calendar.name]);
                 latestSyncTokens[calendar.name] = newSyncToken;
-                fs.writeJsonSync('./calendarSync/latestSyncTokens.json', latestSyncTokens, { encoding: 'utf8' });
+                writeJsonSync('./calendarSync/latestSyncTokens.json', latestSyncTokens, { encoding: 'utf8' });
             }
-        } catch (error) {
+        } catch (error: any) {
             console.log(error);
         }
 
 
     });
 
-    async function processCalendar(calendar, projectEventIds, latestSyncToken, nextPageToken = null) {
-        let { data: calendarResult } = await calendarService.synchroniseCalendar(calendar.id, latestSyncToken, nextPageToken) as any;
+    async function processCalendar(calendar: any, projectEventIds: any, latestSyncToken: any, nextPageToken = null): Promise<any> {
+        let { data: calendarResult } = await calendarService.synchronizeCalendar(calendar.id, latestSyncToken, nextPageToken) as any;
         let { items, nextPageToken: newNextPageToken, nextSyncToken } = calendarResult;
 
         console.log(calendar.name, items.length, latestSyncToken == nextSyncToken);

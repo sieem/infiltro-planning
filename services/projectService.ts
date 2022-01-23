@@ -6,9 +6,11 @@ import calendarService from '../services/calendarService';
 import { saveProjectArchive } from '../services/archiveService';
 import mailService from '../services/mailService';
 import { commentsToString, userIdToName, projectTypeName } from '../services/commonService';
+import { IProject } from '../interfaces/project.interface';
+import { IUser } from '../interfaces/user.interface';
 const calendar = new calendarService();
 
-const getCoordinates = async (project, foundProject) => {
+const getCoordinates = async (project: IProject, foundProject: IProject) => {
     if (foundProject && project.street === foundProject.street && project.city === foundProject.city && project.postalCode === foundProject.postalCode && foundProject.lng && foundProject.lat) {
         return project;
     }
@@ -27,7 +29,7 @@ const getCoordinates = async (project, foundProject) => {
 
     return project;
 }
-const addCommentsAndEmails = (project, oldProject) => {
+const addCommentsAndEmails = (project: IProject, oldProject: IProject) => {
     // add comments and emails to project object
     project.mails = (oldProject) ? oldProject.mails : [];
     project.comments = (oldProject) ? oldProject.comments : [];
@@ -35,8 +37,8 @@ const addCommentsAndEmails = (project, oldProject) => {
     return project;
 }
 
-const saveCalendarItem = async (project, foundProject) => {
-    if (project.datePlanned && project.hourPlanned && ['proposalSent', 'planned'].indexOf(project.status) > -1 && project.executor) {
+const saveCalendarItem = async (project: IProject, foundProject: IProject) => {
+    if (project.datePlanned && project.hourPlanned && ['proposalSent', 'planned'].includes(project.status) && project.executor) {
         const companyQuery: any = await Company.findById(project.company).exec()
         const event: any = {
             summary: `${companyQuery.name}: ${project.projectName} / ${projectTypeName(project.projectType)} / ${project.houseAmount}`,
@@ -64,14 +66,14 @@ const saveCalendarItem = async (project, foundProject) => {
             }
         }
 
-        // use a different color to differenciate visually
+        // use a different color to differentiate visually
         if (project.status === "proposalSent") {
             event.colorId = '2'; // https://lukeboyle.com/blog-posts/2016/04/google-calendar-api---color-id
         }
 
         if (!foundProject || (!foundProject.eventId && !foundProject.calendarId)) {
             // add calendarItem
-            const { eventId, calendarId, calendarLink } = await calendar.addEvent(project.executor, event) as any;
+            const { eventId, calendarId, calendarLink } = await calendar.addEvent(project.executor, event);
             project.eventId = eventId
             project.calendarId = calendarId
             project.calendarLink = calendarLink
@@ -83,12 +85,12 @@ const saveCalendarItem = async (project, foundProject) => {
 
             try {
                 const { eventId, calendarId, calendarLink } = await calendar.updateEvent(foundProject.calendarId, foundProject.eventId, project.executor, event) as any;
-                project.datePlanned = moment(excistingCalendarEvent.data.start.dateTime).format("YYYY-MM-DD HH:mm")
-                project.hourPlanned = moment(excistingCalendarEvent.data.start.dateTime).format("HH:mm")
+                project.datePlanned = moment(excistingCalendarEvent.data.start.dateTime).format("YYYY-MM-DD HH:mm") as unknown as Date;
+                project.hourPlanned = moment(excistingCalendarEvent.data.start.dateTime).format("HH:mm");
                 project.eventId = eventId
                 project.calendarId = calendarId
                 project.calendarLink = calendarLink
-            } catch (error) {
+            } catch (error: any) {
                 project.eventId = ''
                 project.calendarId = ''
                 project.calendarLink = ''
@@ -108,7 +110,7 @@ const saveCalendarItem = async (project, foundProject) => {
     return project;
 }
 
-const sendMails = (project, savedProject, user) => {
+const sendMails = (project: IProject, savedProject: IProject, user: IUser) => {
     // check if I have to send mails
     const idDavid = '5d4c733e65469039e2dd5acf'
     if (!savedProject && user.get('id') !== idDavid) {
@@ -133,7 +135,7 @@ const sendMails = (project, savedProject, user) => {
     }
 }
 
-const handleActiveDate = (project, oldProject) => {
+const handleActiveDate = (project: IProject, oldProject: IProject) => {
     project.dateActive = project.dateActive ? project.dateActive : oldProject?.dateActive;
 
     if (project.status === 'contractSigned') { // "Nog niet actief"
@@ -150,7 +152,11 @@ const handleActiveDate = (project, oldProject) => {
     return project;
 };
 
-export const saveProject = async (body, user) => {
+export const saveProject = async (body: IProject, user?: IUser) => {
+    if (!user) {
+        return;
+    }
+
     if ((body.company === user.company && user.role === 'company') || user.role === 'admin') {
         let project: any = new Project(body)
 
@@ -173,7 +179,7 @@ export const saveProject = async (body, user) => {
 
             sendMails(project, savedProject, user);
             return project;
-        } catch (error) {
+        } catch (error: any) {
             console.log(error);
             throw { status: 500, message: 'Couldn\'t save project' };
         }

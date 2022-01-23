@@ -15,7 +15,7 @@ export default class Calendar {
      * @param {Object} credentials The authorization client credentials.
      * @param {function} callback The callback to call with the authorized client.
      */
-    authorize(credentials) {
+    authorize(credentials: any) {
         const { client_secret, client_id, redirect_uris } = credentials.installed;
         this.oAuth2Client = new google.auth.OAuth2(
             client_id, client_secret, redirect_uris[0]);
@@ -24,13 +24,13 @@ export default class Calendar {
         try {
             const token = fs.readJSONSync(TOKEN_PATH);
             this.oAuth2Client.setCredentials(token);
-        } catch (error) {
+        } catch (error: any) {
             console.log('no token yet')
         }
         
     }
 
-    findEvent(calendarId, eventId) {
+    findEvent(calendarId: string, eventId: string) {
         if (!this.oAuth2Client) {
             this.init();
         }
@@ -40,14 +40,17 @@ export default class Calendar {
                 auth: this.oAuth2Client,
                 calendarId,
                 eventId
-            }, (err, res) => {
-                if (err) reject('There was an error contacting the Calendar service: ' + err);
-                resolve(res);
+            }, (err: any, res: any) => {
+                if (err) {
+                    console.log(err);
+                    return reject('There was an error contacting the Calendar service');
+                }
+                return resolve(res);
             });
         })
     }
 
-    addEvent(executor,event) {
+    addEvent(executor: string , event: any): Promise<{eventId: string, calendarId: string, calendarLink: string}> {
         if (!this.oAuth2Client) {
             this.init();
         }
@@ -57,15 +60,17 @@ export default class Calendar {
                 auth: this.oAuth2Client,
                 calendarId: process.env['CALENDAR_' + executor.toUpperCase()],
                 requestBody: event,
-            }, (err, res) => {
-                console.log(err);
-                if (err) reject('Couldn\'t insert event: ' + err);
-                resolve({ eventId: res.data.id, calendarId: process.env['CALENDAR_' + executor.toUpperCase()], calendarLink: res.data.htmlLink});
+            }, (err: any, res: any) => {
+                if (err) {
+                    console.log(err);
+                    return reject('Couldn\'t insert event');
+                }
+                return resolve({ eventId: res.data.id, calendarId: process.env['CALENDAR_' + executor.toUpperCase()] ?? '', calendarLink: res.data.htmlLink});
             });
         }) 
     }
 
-    updateEvent(calendarId, eventId, executor, event) {
+    updateEvent(calendarId: string, eventId: string, executor: string, event: any) {
         if (!this.oAuth2Client) {
             this.init();
         }
@@ -77,24 +82,33 @@ export default class Calendar {
                     requestBody: event,
                     eventId,
                     calendarId
-                }, (err, res) => {
-                    if (err) reject('Couldn\'t update event: ' + err);
-                    resolve({ eventId: res.data.id, calendarId, calendarLink: res.data.htmlLink });
+                }, (err: any, res: any) => {
+                    if (err) {
+                        console.log(err);
+                        return reject('Couldn\'t update event');
+                    }
+                    return resolve({ eventId: res.data.id, calendarId, calendarLink: res.data.htmlLink });
                 });
             } else {
                 calendar.events.delete({
                     auth: this.oAuth2Client,
                     eventId,
                     calendarId
-                }, (err, res) => {
-                    if (err) reject('Couldn\'t delete event: ' + err);
+                }, (err: any, res: any) => {
+                    if (err) {
+                        console.log(err);
+                        return reject('Couldn\'t delete event');
+                    }
                     calendar.events.insert({
                         auth: this.oAuth2Client,
                         calendarId: process.env['CALENDAR_' + executor.toUpperCase()],
                         requestBody: event,
-                    }, (err, res) => {
-                        if (err) reject('Couldn\'t insert event after deletion: ' + err);
-                        resolve({ eventId: res.data.id, calendarId: process.env['CALENDAR_' + executor.toUpperCase()], calendarLink: res.data.htmlLink });
+                    }, (err: any, res: any) => {                        
+                        if (err) {
+                            console.log(err);
+                            return reject('Couldn\'t insert event after deletion');
+                        }
+                        return resolve({ eventId: res.data.id, calendarId: process.env['CALENDAR_' + executor.toUpperCase()], calendarLink: res.data.htmlLink });
                     });
                 });
             }
@@ -102,7 +116,7 @@ export default class Calendar {
         })
     }
 
-    deleteEvent(calendarId, eventId) {
+    deleteEvent(calendarId: string, eventId: string) {
         if (!this.oAuth2Client) {
             this.init();
         }
@@ -112,15 +126,18 @@ export default class Calendar {
                 auth: this.oAuth2Client,
                 eventId,
                 calendarId
-            }, (err, res) => {
-                if (err) reject('Couldn\'t delete event: ' + err);
-                resolve(res);
+            }, (err: any, res: any) => {
+                if (err) {
+                    console.log(err);
+                    return reject('Couldn\'t delete event');
+                }
+                return resolve(res);
             });
 
         })
     }
 
-    synchroniseCalendar(calendarId, latestSyncToken, nextPageToken) {
+    synchronizeCalendar(calendarId: string, latestSyncToken: string, nextPageToken: string | null) {
         if (!this.oAuth2Client) {
             this.init();
         }
@@ -136,29 +153,32 @@ export default class Calendar {
         }
         return new Promise((resolve, reject) => {
             const calendar = google.calendar({ version: 'v3', auth: this.oAuth2Client });
-            calendar.events.list(params, (err, res) => {
-                if (err) reject('There was an error contacting the Calendar service: ' + err);
-                resolve(res);
+            calendar.events.list(params, (err: any, res: any) => {
+                if (err) {
+                    console.log(err);
+                    return reject('There was an error contacting the Calendar service');
+                }
+                return resolve(res);
             });
         })
     }
 
-    combineDateHour(date, hour) {
+    combineDateHour(date: Date, hour: string) {
         if (!hour || !date) {
             return date
         }
-        const dateWithHours = new Date(date.setHours(hour.split(':')[0]))
-        const dateWithHoursAndMinutes = new Date(dateWithHours.setMinutes(hour.split(':')[1]))
+        const dateWithHours = new Date(date.setHours(+hour.split(':')[0]));
+        const dateWithHoursAndMinutes = new Date(dateWithHours.setMinutes(+hour.split(':')[1]));
         return dateWithHoursAndMinutes
     }
 
-    addHours(date, time) {
+    addHours(date: Date, time: string | undefined) {
         if (typeof time === 'string') {
             const hours: number = parseInt(time.split(':')[0]);
             const minutes: number = parseInt(time.split(':')[1]);
             return new Date(date.getTime() + (hours * 60 * 60 * 1000) + (minutes * 60 * 1000))
         } else {
-            return new Date(date.getTime() + time)
+            return new Date(date.getTime() + (time ?? ''))
         }
     }
 

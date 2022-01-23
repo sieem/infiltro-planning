@@ -1,20 +1,37 @@
 import nodemailer from 'nodemailer';
+import { IExecutors } from '../interfaces/executors.interface';
 
 interface Signature {
     text: String,
     html: String,
 }
 
-export default class Mail {
-    private mailData: any;
-    private personalSignatures: {
-        david: Signature,
-        roel: Signature,
-        default: Signature,
-    }
-    private transporter: any;
+interface PersonalSignatures {
+    david: Signature,
+    roel: Signature,
+    default: Signature,
+}
 
-    constructor(mailData) {
+interface MailData {
+    text: string,
+    html: string,
+    subject: string,
+    from: string,
+    to: string,
+    cc?: string;
+    bcc?: string;
+    replyTo?: string,
+    user?: IExecutors['type'] | '',
+    personalSignature?: boolean,
+};
+
+
+export default class Mail {
+    private mailData: MailData;
+    private personalSignatures: PersonalSignatures
+    private transporter: nodemailer.Transporter | null = null;
+
+    constructor(mailData: MailData) {
         this.mailData = mailData
         
         this.personalSignatures = {
@@ -53,7 +70,7 @@ export default class Mail {
 
     async init() {
 
-        let mailConfig;
+        let mailConfig: any;
         if (process.env.NODE_ENV === 'production') {
             // all emails are delivered to destination
             mailConfig = {
@@ -69,8 +86,7 @@ export default class Mail {
                 }
             }
         } else {
-            // all emails are catched by ethereal.email
-
+            // all emails are caught by ethereal.email
             let testAccount = await nodemailer.createTestAccount()
 
             mailConfig = {
@@ -83,7 +99,7 @@ export default class Mail {
             }
         }
 
-        this.transporter = await nodemailer.createTransport(mailConfig)
+        this.transporter = nodemailer.createTransport(mailConfig)
     }
 
     async send() {
@@ -92,21 +108,26 @@ export default class Mail {
         }
         
         if (this.mailData.personalSignature) {
-            try {
-                this.mailData.text += this.personalSignatures[this.mailData.user].text
-                this.mailData.html += this.personalSignatures[this.mailData.user].html
-            } catch {
-                this.mailData.text += this.personalSignatures['default'].text
-                this.mailData.html += this.personalSignatures['default'].html
+            switch (this.mailData.user) {
+                case 'david':
+                    this.mailData.text += this.personalSignatures.david.text;
+                    this.mailData.html += this.personalSignatures.david.html;
+                    break;
+                case 'roel':
+                    this.mailData.text += this.personalSignatures.roel.text;
+                    this.mailData.html += this.personalSignatures.roel.html;
+                    break;
+
+                default:
+                    this.mailData.text += this.personalSignatures.default.text;
+                    this.mailData.html += this.personalSignatures.default.html;
+                    break;
             }
         }
 
-        let info = await this.transporter.sendMail(this.mailData)
-
+        let info = await this.transporter?.sendMail(this.mailData)
         console.log("Message sent: %s", info.messageId)
-
         console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info))
-
         return nodemailer.getTestMessageUrl(info)
     }
 

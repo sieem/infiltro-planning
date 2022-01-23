@@ -1,6 +1,8 @@
 import Archive from '../models/archive';
+import { ObjectId } from 'mongoose';
+import { IProject } from '../interfaces/project.interface';
 
-export const saveProjectArchive = (project, userId) => {
+export const saveProjectArchive = (project: IProject, userId: ObjectId | null) => {
     const projectToArchive = {
         user: userId,
         projectId: project,

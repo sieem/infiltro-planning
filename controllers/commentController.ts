@@ -1,8 +1,11 @@
+import { Response } from 'express';
+import { Request } from 'models/request';
 import { Types } from 'mongoose';
 import Project from '../models/project';
+import { IComment } from '../interfaces/comments.interface';
 
-export const getComments = (req, res) => {
-    Project.findById(req.params.projectId, (err, project: any) => {
+export const getComments = (req: Request, res: Response) => {
+    Project.findById(req.params.projectId, (err: any, project: any) => {
         if (err) {
             console.error(err)
             return res.status(400).json(err.message)
@@ -13,13 +16,13 @@ export const getComments = (req, res) => {
     })
 }
 
-export const saveComment = async (req, res) => {
+export const saveComment = async (req: Request, res: Response) => {
     const commentForm = req.body
-    let commentObject = {}
+    let commentObject: IComment | null;
 
     if (!commentForm._id) {
         commentObject = {
-            _id: Types.ObjectId(),
+            _id: new Types.ObjectId(),
             user: commentForm.user,
             createdDateTime: new Date,
             modifiedDateTime: new Date,
@@ -28,18 +31,18 @@ export const saveComment = async (req, res) => {
 
         try {
             await Project.updateOne({ _id: req.params.projectId }, { $push: { comments: commentObject } }).exec()
-        } catch (error) {
+        } catch (error: any) {
             console.log(error)
         }
 
         try {
             const project: any = await Project.findById(req.params.projectId).exec()
             return res.json(project.comments)
-        } catch (error) {
+        } catch (error: any) {
             console.log(error)
         }
     } else {
-        if (req.user.role !== 'admin' && req.user._id != commentForm.user) {
+        if (req.user?.role !== 'admin' && req.user?._id != commentForm.user) {
             return res.status(401).send('Unauthorized request')
         }
 
@@ -59,13 +62,13 @@ export const saveComment = async (req, res) => {
     }
 }
 
-export const removeComment = (req, res) => {
-    Project.findById(req.params.projectId, async (err, project: any) => {
+export const removeComment = (req: Request, res: Response) => {
+    Project.findById(req.params.projectId, async (err: any, project: any) => {
         if (err) {
             console.error(err)
             return res.status(400).json(err.message)
         }
-        if (req.user.role !== 'admin' && getComment(project.comments, req.params.commentId).user != req.user._id) {
+        if (req.user?.role !== 'admin' && getComment(project.comments, req.params.commentId)?.user !== req.user?._id) {
             return res.status(401).send('Unauthorized request');
         }
         project.comments = removeElementInArray(project.comments, req.params.commentId)
@@ -74,20 +77,25 @@ export const removeComment = (req, res) => {
     })
 }
 
-function removeElementInArray(array, id) {
-    return array.filter(el => el._id != id)
+function removeElementInArray(array: IComment[], commentId: string): IComment[] {
+    return array.filter((comment) => comment._id != commentId)
 }
 
-function updateElementInArray(array, element) {
-    for (const key in array) {
-        if (array[key]._id == element._id) {
-            array[key] = element
-            return array
-        }
+function updateElementInArray(array: IComment[], newCommentData: IComment): IComment[] {
+    const commentToEdit = array.find((comment) => comment._id == newCommentData._id);
+
+    if (!commentToEdit) {
+        throw Error(`Couldn't find comment, tried with '${newCommentData._id}'`)
     }
-    return array
+
+    commentToEdit.user = newCommentData.user;
+    commentToEdit.createdDateTime = newCommentData.createdDateTime;
+    commentToEdit.modifiedDateTime = newCommentData.modifiedDateTime;
+    commentToEdit.content = newCommentData.content;
+
+    return array;
 }
 
-function getComment(array, id) {
-    return array.filter(el => el._id == id)[0]
+function getComment(array: IComment[], commentId: string): IComment | undefined {
+    return array.find((comment) => comment._id == commentId);
 }

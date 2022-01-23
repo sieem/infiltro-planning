@@ -1,4 +1,4 @@
-import express from 'express';
+import { Router } from 'express';
 import multer from 'multer';
 import { generateProjectId, getProjects, getProject, saveProject, removeProject, duplicateProject, batchProjects } from './controllers/projectController';
 import { addUser, editUser, getUserByResetToken, registerUser, loginUser, getUser, resetPassword, removeUser, getUsers } from './controllers/authController';
@@ -9,7 +9,7 @@ import { getProjectArchive } from './controllers/archiveController';
 import { verifyToken, getUserDetails } from './middleware/authMiddleware';
 
 const upload = multer()
-const router = express.Router()
+const router = Router()
 
 router.post('/add-user', upload.none(), verifyToken, getUserDetails, addUser);
 router.post('/register', upload.none(), registerUser);

@@ -1,14 +1,17 @@
+import { Response } from 'express';
+import { Request } from 'models/request';
 import MailTemplate from '../models/mailTemplate';
 import Project from '../models/project';
 import mailService from '../services/mailService';
+import { IProject } from '../interfaces/project.interface';
 
-export const sendProjectMail = async (req, res) => {
-    if (req.user.role === 'admin') {
-        const mailForm = req.body
-        const htmlMailBody = mailForm.body.replace(/\n/g, "<br>")
-        const foundProject: any = await Project.findById(mailForm._id).exec()
+export const sendProjectMail = async (req: Request, res: Response) => {
+    if (req.user?.role === 'admin') {
+        const mailForm = req.body;
+        const htmlMailBody = mailForm.body.replace(/\n/g, "<br>");
+        const foundProject: IProject = await Project.findById(mailForm._id).exec()
 
-        const mailDetails = {
+        const mailDetails: any = {
             david: {
                 name: "David Lasseel",
                 email: "david@infiltro.be"
@@ -21,13 +24,13 @@ export const sendProjectMail = async (req, res) => {
                 name: "Infiltro",
                 email: "info@infiltro.be"
             }
-        }
+        };
 
         let replyTo = '';
 
         try {
             replyTo = `"${mailDetails[foundProject.executor].name}" <${mailDetails[foundProject.executor].email}>`
-        } catch (error) {
+        } catch (error: any) {
             replyTo = `"${mailDetails['default'].name}" <${mailDetails['default'].email}>`
         }
 
@@ -47,7 +50,7 @@ export const sendProjectMail = async (req, res) => {
         await mail.send()
 
         const mailObject = {
-            sender: req.user._id,
+            sender: req.user?._id,
             receiver: mailForm.receiver,
             cc: mailForm.cc,
             subject: mailForm.subject,
@@ -61,7 +64,7 @@ export const sendProjectMail = async (req, res) => {
                 $push: { mails: mailObject }
             }).exec();
             return res.json({});
-        } catch (error) {
+        } catch (error: any) {
             console.error(error)
             return res.status(400).json(error.message)
         }
@@ -70,12 +73,12 @@ export const sendProjectMail = async (req, res) => {
     }
 }
 
-export const getMailTemplates = (req, res) => {
-    if (req.user.role !== 'admin') {
+export const getMailTemplates = (req: Request, res: Response) => {
+    if (req.user?.role !== 'admin') {
         return res.status(401).send('Unauthorized request');
     }
 
-    MailTemplate.find({}, (err, mailTemplates) => {
+    MailTemplate.find({}, (err: any, mailTemplates) => {
         if (err) {
             console.error(err)
             return res.status(400).json(err.message)
@@ -85,8 +88,8 @@ export const getMailTemplates = (req, res) => {
 }
 
 
-export const saveMailTemplate = async (req, res) => {
-    if (req.user.role !== 'admin') {
+export const saveMailTemplate = async (req: Request, res: Response) => {
+    if (req.user?.role !== 'admin') {
         return res.status(401).send('Unauthorized request');
     }
 
@@ -99,21 +102,21 @@ export const saveMailTemplate = async (req, res) => {
     try {
         const responseBody = await MailTemplate.findByIdAndUpdate(mailTemplate._id, mailTemplate, { upsert: true }).exec();
         res.status(200).json(responseBody);
-    } catch (error) {
+    } catch (error: any) {
         console.error(error);
         return res.status(400).json(error.message);
     }
 
 }
 
-export const removeMailTemplate = async (req, res) => {
-    if (req.user.role !== 'admin') {
+export const removeMailTemplate = async (req: Request, res: Response) => {
+    if (req.user?.role !== 'admin') {
         return res.status(401).send('Unauthorized request');
     }
     try {
         MailTemplate.deleteOne({ _id: req.params.templateId }).exec();
         return res.json({ status: 'ok' });
-    } catch (error) {
+    } catch (error: any) {
         console.error(error)
         return res.status(400).json(error.message)
     }
