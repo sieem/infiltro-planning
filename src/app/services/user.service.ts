@@ -8,13 +8,13 @@ import { IUser } from '../interfaces/user.interface';
   providedIn: 'root'
 })
 export class UserService {
-  private userSubject$ = new BehaviorSubject(null);
-  public users$: Observable<IUser[]> = this.userSubject$.pipe(
+  private userSubject$ = new BehaviorSubject<IUser[] | null>(null);
+  users$: Observable<IUser[]> = this.userSubject$.pipe(
     switchMap(() => this.api.getUsers()),
     shareReplay({ refCount: false, bufferSize: 1 }),
   );
 
-  userRoles: any = [
+  userRoles: { type: 'admin' | 'company' | 'client', name: string}[] = [
     {
       "type": "admin",
       "name": "Administrator"
@@ -41,14 +41,13 @@ export class UserService {
     return this.userRoles
   }
 
-  public roleName(type: string) {
-    return this.userRoles.find(role => role.type === type)?.name ?? 'Onbekend';
+  roleName(type: string) {
+    return this.userRoles.find((role) => role.type === type)?.name ?? 'Onbekend';
   }
 
   userToName(userId: string): Observable<string> {
     return this.users$.pipe(
-      map((users) => users.find((user) => user._id === userId).name),
-      map((user) => user ?? userId ?? 'Onbekende gebruiker'),
+      map((users) => users.find((user) => user._id === userId)?.name ?? userId ?? 'Onbekende gebruiker'),
     );
   }
 }

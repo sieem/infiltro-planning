@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from 'src/app/services/api.service';
 import { ProjectService } from 'src/app/services/project.service';
 import { ToastrService } from 'ngx-toastr';
 import { CompanyService } from 'src/app/services/company.service';
 import { IsDateActiveTooOldPipe } from 'src/app/pipes/is-date-active-too-old.pipe';
+import { firstValueFrom } from 'rxjs';
+import { IProject } from '../../interfaces/project.interface';
 
 @Component({
   selector: 'app-map',
@@ -45,7 +46,6 @@ export class MapComponent implements OnInit {
   }
 
   constructor(
-    private api: ApiService,
     public projectService: ProjectService,
     private toastr: ToastrService,
     public companyService: CompanyService,
@@ -53,14 +53,10 @@ export class MapComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.getProjects()
-  }
-
-  getProjects() {
-    this.api.getProjects().subscribe(
-      (res: any) => {
-        res.forEach(project => {
-          if (project.status === "toPlan" || project.status === "planned" || project.status === "toContact" || project.status === "proposalSent" || project.status === "onHoldCovid19") {
+    firstValueFrom(this.projectService.allProjects$)
+      .then((res: IProject[]) => {
+        res.forEach((project) => {
+          if (project.status === "toPlan" || project.status === "planned" || project.status === "toContact" || project.status === "proposalSent") {
             let pointerUrl = this.pointers.together.default
 
             if (project.executor) {
@@ -69,10 +65,10 @@ export class MapComponent implements OnInit {
               pointerUrl = this.pointers.default[project.status] || this.pointers.default.default
             }
 
-            if (this.isDateActiveTooOldPipe.transform([project.dateActive, project.status])) {
+            if (this.isDateActiveTooOldPipe.transform(project.dateActive, project.status)) {
               pointerUrl = pointerUrl.replace('.png', '-warning.png');
             }
-            
+
             // always show red if it's to contact
             if (project.status === "toContact") {
               pointerUrl = this.pointers.warning[project.status] || this.pointers.warning.default
@@ -81,35 +77,51 @@ export class MapComponent implements OnInit {
             if (project.lat && project.lng) {
               this.markers.push(
                 {
-                  ...project,
+                  _id: project._id,
+                  lat: project.lat,
+                  lng: project.lng,
+                  projectName: project.projectName,
+                  street: project.street,
+                  city: project.city,
+                  email: project.email,
+                  tel: project.tel,
+                  postalCode: project.postalCode,
+                  datePlanned: project.datePlanned,
+                  hourPlanned: project.hourPlanned,
+                  dateActive: project.dateActive as Date,
+                  status: project.status,
+                  executor: project.executor,
+                  company: project.company,
+                  calendarLink: project.calendarLink,
+                  comments: project.comments,
                   pointerUrl: pointerUrl,
                 }
               )
             } else {
               this.toastr.warning(`Projectnaam: ${project.projectName}`, 'Coördinaten niet gevonden')
             }
-            
           }
         })
       },
-      err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
-    )
+      )
+      .catch((err) => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`))
   }
 
 }
 // just an interface for type safety.
 interface marker {
-  id: string,
+  _id: string,
   lat: number;
   lng: number;
-  title: string;
+  projectName: string;
   street: string;
   city: string;
   email: string;
   tel: string;
-  postalCode: number;
+  postalCode: string;
   datePlanned: Date;
-  hourPlanned: Date;
+  hourPlanned: string;
+  dateActive: Date;
   status: string;
   executor: string;
   pointerUrl: string;

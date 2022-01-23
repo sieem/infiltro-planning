@@ -10,7 +10,7 @@ import { StatusPipe } from './status.pipe';
   name: 'dynamicProjectPipe'
 })
 export class DynamicProjectPipe implements PipeTransform {
-  public constructor(
+  constructor(
     private CompanyPipe:CompanyPipe,
     private UserPipe:UserPipe,
     private ProjectTypePipe:ProjectTypePipe,
@@ -30,11 +30,11 @@ export class DynamicProjectPipe implements PipeTransform {
       case 'dateCreated':
       case 'datePlanned':
       case 'dateActive':
-        return this.FormatDatePipe.transform(value, null);
+        return this.FormatDatePipe.transform(value, undefined);
       case 'status':
         return this.StatusPipe.transform(value);
       case 'executor':
-        return this.ExecutorPipe.transform(value, null);
+        return this.ExecutorPipe.transform(value, undefined);
       default:
         return value;
     }

@@ -15,7 +15,7 @@ import { ModalService } from '../services/modal.service';
 })
 
 export class ModalDirective implements OnInit, OnDestroy {
-    @Input() id: string;
+    @Input() id: string | undefined;
     private element: any;
 
     constructor(private modalService: ModalService, private el: ElementRef) {

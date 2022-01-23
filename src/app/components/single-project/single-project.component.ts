@@ -11,6 +11,8 @@ import { UserService } from 'src/app/services/user.service';
 import { SingleProjectCommentsService } from 'src/app/services/single-project-comments.service';
 import { SingleProjectService } from 'src/app/services/single-project.service';
 import { SingleProjectArchiveService } from 'src/app/services/single-project-archive.service';
+import { firstValueFrom } from 'rxjs';
+import { ProjectEnumsService } from 'src/app/services/project-enums.service';
 
 
 @Component({
@@ -32,6 +34,7 @@ export class SingleProjectComponent implements OnInit {
     private toastr: ToastrService,
     public singleProjectService: SingleProjectService,
     private singleProjectArchiveService: SingleProjectArchiveService,
+    public projectEnumsService: ProjectEnumsService,
     ) { }
 
   ngOnInit() {
@@ -41,17 +44,19 @@ export class SingleProjectComponent implements OnInit {
     this.route.params.subscribe(params => {
       if (params.projectId) {
         this.singleProjectService.newProject = false;
-        this.singleProjectService.projectId = params.projectId;
+        this.singleProjectService.setProjectId(params.projectId);
         if (this.singleProjectService.archiveActive) {
           return;
         }
         this.singleProjectService.fillInProject();
       } else {
         this.singleProjectService.newProject = true;
-        this.api.generateProjectId().subscribe(
-          res => this.singleProjectService.projectForm.controls._id.setValue(res),
-          err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
-        )
+        firstValueFrom(this.api.generateProjectId())
+          .then((res) => {
+            this.singleProjectService.setProjectId(res);
+            this.singleProjectService.projectForm.controls._id.setValue(res);
+          })
+          .catch((err) => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`));
       }
     })
   }
@@ -60,7 +65,7 @@ export class SingleProjectComponent implements OnInit {
     this.singleProjectArchiveService.activeProject = 0;
   }
 
-  calendarWarning(hasCalendarItem) {
+  calendarWarning(hasCalendarItem: boolean) {
     if(hasCalendarItem) {
       this.toastr.warning("Google Agenda evenement is aangemaakt. Tijd en datum kunnen enkel nog in Google Agenda aangepast worden.", "Datum ingepland en uur ingepland zijn vergrendeld")
     }

@@ -5,15 +5,21 @@ import { FormService } from 'src/app/services/form.service';
 import { CompanyService } from 'src/app/services/company.service';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
-import { Observable } from 'rxjs';
+import { Observable, firstValueFrom } from 'rxjs';
+import { ICompany } from '../../interfaces/company.interface';
 
 @Component({
   selector: 'app-admin-companies',
   templateUrl: './admin-companies.component.html',
   styleUrls: ['./admin-companies.component.scss']
 })
-export class AdminCompaniesComponent implements OnInit {
-  companyForm: FormGroup
+export class AdminCompaniesComponent {
+  companyForm: FormGroup = this.formBuilder.group({
+    _id: [''],
+    name: ['', Validators.required],
+    pricePageVisible: [''],
+    email: ['', [Validators.required, Validators.email, Validators.pattern(this.formService.emailRegex)]],
+  })
   submitted = false
   editState = false
 
@@ -24,15 +30,6 @@ export class AdminCompaniesComponent implements OnInit {
     public formService: FormService,
     public companyService: CompanyService,
     private toastr: ToastrService) { }
-
-  ngOnInit() {
-    this.companyForm = this.formBuilder.group({
-      _id: [''],
-      name: ['', Validators.required],
-      pricePageVisible: [''],
-      email: ['', [Validators.required, Validators.email, Validators.pattern(this.formService.emailRegex)]],
-    })
-  }
 
   onSubmit() {
     this.submitted = true
@@ -46,27 +43,25 @@ export class AdminCompaniesComponent implements OnInit {
   }
 
   saveCompany() {
-
     const formData = new FormData()
     formData.append('_id', this.companyForm.value._id)
     formData.append('name', this.companyForm.value.name)
     formData.append('pricePageVisible', this.companyForm.value.pricePageVisible)
     formData.append('email', this.companyForm.value.email)
 
-    this.api.saveCompany(formData).subscribe(
-      (res: any) => {
+    firstValueFrom(this.api.saveCompany(formData))
+      .then(() => {
         this.companyService.refreshCompanies();
 
         this.companyForm.reset();
-        this.editState = false
+        this.editState = false;
         this.submitted = false;
         this.toastr.success('Company saved');
-      },
-      err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
-    )
+      })
+      .catch((err) => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`));
   }
 
-  editCompany(company) {
+  editCompany(company: ICompany) {
     this.editState = true
 
     this.companyForm.setValue({
@@ -88,14 +83,11 @@ export class AdminCompaniesComponent implements OnInit {
     })
   }
 
-  removeCompany(company: any) {
+  removeCompany(company: ICompany) {
     if (confirm(`Are you sure to delete ${company.name}?`)) {
-      this.api.removeCompany(company._id).subscribe(
-        (res: any) => {
-          this.companyService.refreshCompanies();
-        },
-        err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
-      )
+      firstValueFrom(this.api.removeCompany(company._id))
+        .then(() => this.companyService.refreshCompanies())
+        .catch((err) => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`))
     }
   }
 }

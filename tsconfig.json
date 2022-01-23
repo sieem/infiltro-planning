@@ -17,6 +17,10 @@
       "es2018",
       "dom"
     ],
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "strict": true,
+  },
+  "angularCompilerOptions": {
+    "strictTemplates": true
   }
 }

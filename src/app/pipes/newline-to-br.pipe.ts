@@ -9,6 +9,8 @@ export class NewlineToBrPipe implements PipeTransform {
     if (value && typeof value == "string") {
       return value.replace(/\n/g, "<br>");
     }
+
+    return '';
   }
 
 }

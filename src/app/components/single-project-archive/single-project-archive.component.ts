@@ -4,6 +4,7 @@ import { ApiService } from 'src/app/services/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { SingleProjectService } from 'src/app/services/single-project.service';
 import { SingleProjectArchiveService } from 'src/app/services/single-project-archive.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-single-project-archive',
@@ -11,11 +12,9 @@ import { SingleProjectArchiveService } from 'src/app/services/single-project-arc
   styleUrls: ['./single-project-archive.component.scss']
 })
 export class SingleProjectArchiveComponent implements OnInit {
-  projectData: any;
-
   constructor(
     private route: ActivatedRoute,
-    private api: ApiService, 
+    private api: ApiService,
     private toastr: ToastrService,
     private router: Router,
     public singleProjectArchiveService: SingleProjectArchiveService,
@@ -27,21 +26,18 @@ export class SingleProjectArchiveComponent implements OnInit {
 
     this.route.params.subscribe(params => {
       if (params.projectId) {
-        this.api.getProjectArchive(params.projectId).subscribe(
-          (res: any) => {
-            this.singleProjectArchiveService.init(res);
-          },
-          err => {
+        firstValueFrom(this.api.getProjectArchive(params.projectId))
+          .then((res: any) => this.singleProjectArchiveService.init(res))
+          .catch((err: any) => {
             this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
             this.router.navigate(['/'])
-          }
-        )
+          });
       }
     })
   }
 
   goBack(): void {
-    this.router.navigate(['/project', this.singleProjectService.projectId]);
+    this.router.navigate(['/project', this.singleProjectService.projectId$.value]);
   }
 
 }

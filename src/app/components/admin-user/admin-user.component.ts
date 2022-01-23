@@ -1,19 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { FormService } from 'src/app/services/form.service';
 import { CompanyService } from 'src/app/services/company.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { UserService } from 'src/app/services/user.service';
+import { IUser } from '../../interfaces/user.interface';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-admin-user',
   templateUrl: './admin-user.component.html',
   styleUrls: ['./admin-user.component.scss']
 })
-export class AdminUserComponent implements OnInit {
-  registerForm: FormGroup;
+export class AdminUserComponent {
+  registerForm = this.formBuilder.group({
+    _id: [''],
+    name: ['', Validators.required],
+    email: ['', [Validators.required, Validators.pattern(this.formService.emailRegex)]],
+    company: ['', Validators.required],
+    role: ['', Validators.required],
+  });
   submitted = false;
   editState = false;
 
@@ -24,17 +32,6 @@ export class AdminUserComponent implements OnInit {
     public userService: UserService,
     public auth: AuthService,
     private toastr: ToastrService) { }
-
-  ngOnInit() {
-
-    this.registerForm = this.formBuilder.group({
-      _id: [''],
-      name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.pattern(this.formService.emailRegex)]],
-      company: ['', Validators.required],
-      role: ['', Validators.required],
-    })
-  }
 
   onSubmit() {
     this.submitted = true;
@@ -57,33 +54,31 @@ export class AdminUserComponent implements OnInit {
     formData.append('role', this.registerForm.value.role)
 
     if (!this.registerForm.value._id) {
-      this.api.addUser(formData).subscribe(
-        (res: any) => {
+      firstValueFrom(this.api.addUser(formData))
+        .then(() => {
           this.userService.refreshUsers();
           this.registerForm.reset()
           this.toastr.success('User saved', 'Sent mail to user!');
           this.submitted = false;
-        },
-        err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
-      )
+        })
+        .catch((err) => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`));
     } else {
       formData.append('_id', this.registerForm.value._id)
       this.editState = false
-      this.api.editUser(formData).subscribe(
-        (res: any) => {
+      firstValueFrom(this.api.editUser(formData))
+        .then(() => {
           this.userService.refreshUsers();
           this.registerForm.reset()
           this.toastr.success('User saved');
           this.submitted = false;
-        },
-        err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
-      )
+        })
+        .catch((err) => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`));
     }
 
 
   }
 
-  editUser(user) {
+  editUser(user: IUser) {
     this.editState = true
 
     this.registerForm.setValue({
@@ -104,12 +99,9 @@ export class AdminUserComponent implements OnInit {
   removeUser(user: any) {
     if (confirm(`Are you sure to delete ${user.email}?`)) {
       if (confirm(`Are you really sure you want to delete ${user.email}???`)) {
-        this.api.removeUser(user._id).subscribe(
-          (res: any) => {
-            this.userService.refreshUsers();
-          },
-          err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
-        )
+        firstValueFrom(this.api.removeUser(user._id))
+          .then(() => this.userService.refreshUsers())
+          .catch((err) => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`));
       }
     }
   }

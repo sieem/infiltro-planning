@@ -7,7 +7,7 @@ import { firstValueFrom } from 'rxjs';
 })
 export class CompanyPipe implements PipeTransform {
 
-  public constructor(private companyService: CompanyService) { }
+  constructor(private companyService: CompanyService) { }
 
   transform(value: string): Promise<string> {
     return firstValueFrom(this.companyService.companyName(value));

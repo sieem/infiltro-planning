@@ -1,15 +1,15 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ProjectService } from '../services/project.service';
+import { ProjectEnumsService } from '../services/project-enums.service';
 
 @Pipe({
   name: 'executor'
 })
 export class ExecutorPipe implements PipeTransform {
 
-  public constructor(private projectService: ProjectService) { }
+  constructor(private projectEnumsService: ProjectEnumsService) { }
 
   transform(value: string, param: string = ''): string {
-    return (param === 'label') ? this.projectService.executorName(value).substring(0, 1).toUpperCase(): this.projectService.executorName(value);
+    return (param === 'label') ? this.projectEnumsService.executorName(value).substring(0, 1).toUpperCase() : this.projectEnumsService.executorName(value);
   }
 
 }

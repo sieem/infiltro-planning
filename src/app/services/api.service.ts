@@ -5,6 +5,8 @@ import { IProject } from '../interfaces/project.interface';
 import { Observable } from 'rxjs';
 import { ICompany } from '../interfaces/company.interface';
 import { IUser } from '../interfaces/user.interface';
+import { ITemplate } from '../interfaces/template.interface';
+import { IComment } from '../interfaces/comments.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +33,7 @@ export class ApiService {
   }
 
   getUserByResetToken(resetToken: string) {
-    return this.http.get(this.baseUrl + '/get-user-by-resettoken/' + resetToken)
+    return this.http.get<string>(this.baseUrl + '/get-user-by-resettoken/' + resetToken)
   }
 
   loginUser(user: FormData) {
@@ -63,7 +65,7 @@ export class ApiService {
   }
 
   generateProjectId() {
-    return this.http.get(this.baseUrl + '/generate-project-id')
+    return this.http.get<string>(this.baseUrl + '/generate-project-id')
   }
 
   getProjects() {
@@ -75,7 +77,7 @@ export class ApiService {
   }
 
   saveProject(formData: FormData) {
-    return this.http.post(this.baseUrl + '/save-project', formData)
+    return this.http.post<IProject>(this.baseUrl + '/save-project', formData)
   }
 
   removeProject(projectId: string) {
@@ -95,7 +97,7 @@ export class ApiService {
   }
 
   getMailTemplates() {
-    return this.http.get(this.baseUrl + '/get-mail-templates')
+    return this.http.get<ITemplate[]>(this.baseUrl + '/get-mail-templates')
   }
 
   saveMailTemplate(formData: FormData) {
@@ -107,15 +109,15 @@ export class ApiService {
   }
 
   getComments(projectId: string) {
-    return this.http.get(this.baseUrl + '/get-comments/' + projectId)
+    return this.http.get<IComment[]>(this.baseUrl + '/get-comments/' + projectId)
   }
 
   saveComment(projectId: string, comment: FormData) {
-    return this.http.post(this.baseUrl + '/save-comment/' + projectId, comment)
+    return this.http.post<IComment[]>(this.baseUrl + '/save-comment/' + projectId, comment)
   }
 
   removeComment(projectId: string, commentId: string) {
-    return this.http.delete(this.baseUrl + '/remove-comment/' + projectId + '/' + commentId)
+    return this.http.delete<IComment[]>(this.baseUrl + '/remove-comment/' + projectId + '/' + commentId)
   }
 
   getProjectArchive(projectId: string) {

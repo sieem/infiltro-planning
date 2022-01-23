@@ -8,6 +8,9 @@ import { ModalService } from 'src/app/services/modal.service';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { FormService } from 'src/app/services/form.service';
 import { UserService } from 'src/app/services/user.service';
+import { IProject } from '../../interfaces/project.interface';
+import { firstValueFrom } from 'rxjs';
+import { ProjectEnumsService } from 'src/app/services/project-enums.service';
 
 @Component({
   selector: 'app-projects',
@@ -16,14 +19,14 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class ProjectsComponent implements OnInit {
 
-  batchMode: boolean = false
-  selectedProjects: any = []
-  batchForm: FormGroup;
-  submitted: boolean = false;
-  ctrlKeyDown: boolean = false;
-  currentHoverComment: string;
-  hoverX: number;
-  hoverY: number;
+  batchMode = false;
+  selectedProjects: IProject[] = [];
+  batchForm = this.formBuilder.group({
+    status: ['', Validators.required]
+  });
+  submitted = false;
+  ctrlKeyDown = false;
+  currentHoverComment = '';
   now = new Date();
 
   constructor(
@@ -35,13 +38,12 @@ export class ProjectsComponent implements OnInit {
     public formService: FormService,
     private toastr: ToastrService,
     public userService: UserService,
-    private modalService: ModalService) { }
+    private modalService: ModalService,
+    public projectEnumsService: ProjectEnumsService,
+    ) { }
 
   ngOnInit() {
     this.projectService.getProjects()
-    this.batchForm = this.formBuilder.group({
-      status: ['', Validators.required]
-    })
   }
 
   trackByFn(index: number, item: any) {
@@ -56,7 +58,7 @@ export class ProjectsComponent implements OnInit {
     }
   }
 
-  registerCtrlKey(event) {
+  registerCtrlKey(event: any) {
     if (navigator.platform.match(/mac/gi)) {
       this.ctrlKeyDown = (event.metaKey && event.type === "keydown")
     } else {
@@ -64,25 +66,25 @@ export class ProjectsComponent implements OnInit {
     }
   }
 
-  selectProject(project) {
+  selectProject(project: IProject) {
     if (this.batchMode) {
       if (!this.selectedProjects.includes(project)) {
         this.selectedProjects = [...this.selectedProjects, project]
       } else {
         this.selectedProjects = this.selectedProjects.filter(val => { return val !== project })
       }
-      
+
     } else if (this.ctrlKeyDown) {
       this.selectedProjects = [project]
     }
   }
 
-  isSelected(project) {
+  isSelected(project: IProject) {
     return (this.selectedProjects.includes(project))
   }
 
-  isFuturePlanned(project) {
-    return (this.projectService.sortOptions.field === "datePlanned" && this.projectService.sortOptions.order === "asc" && new Date(project.datePlanned) > new Date())
+  isFuturePlanned(project: IProject) {
+    return this.projectService.sortOptions$.value.field === "datePlanned" && this.projectService.sortOptions$.value.order === "asc" && new Date(project.datePlanned) > new Date()
   }
 
   showComment(projectId:string) {
@@ -104,19 +106,17 @@ export class ProjectsComponent implements OnInit {
     this.modalService.close("batchmode-modal")
   }
 
-  changeStatus(event) {
+  changeStatus(event: any) {
     const statusToChange = event.srcElement.selectedOptions[0].value;
-    this.api.batchProjects({ status: statusToChange, projects: this.selectedProjects }).subscribe(
-      (res: any) => {
-        this.projectService.getProjects()
-        this.selectedProjects = []
-      },
-      err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
-    )
+    firstValueFrom(this.api.batchProjects({ status: statusToChange, projects: this.selectedProjects }))
+      .then(() => {
+        this.projectService.getProjects();
+        this.selectedProjects = [];
+      })
+      .catch((err) => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`));
   }
 
   onSubmit() {
-    console.log('submit');
     if (!this.batchMode) {
       return;
     }
@@ -127,15 +127,14 @@ export class ProjectsComponent implements OnInit {
       return;
     }
 
-    this.api.batchProjects({ status: this.batchForm.value.status, projects: this.selectedProjects }).subscribe(
-      (res: any) => {
-        this.batchMode = false
-        this.submitted = false
-        this.projectService.getProjects()
-        this.modalService.close("batchmode-modal")
-        this.selectedProjects = []
-      },
-      err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
-    )
+    firstValueFrom(this.api.batchProjects({ status: this.batchForm.value.status, projects: this.selectedProjects }))
+      .then(() => {
+        this.batchMode = false;
+        this.submitted = false;
+        this.projectService.getProjects();
+        this.modalService.close("batchmode-modal");
+        this.selectedProjects = [];
+      })
+      .catch((err) => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`));
   }
 }

@@ -1,49 +1,54 @@
 import { Injectable } from '@angular/core';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { ApiService } from './api.service';
-import { FormService } from './form.service';
-import { UserService } from './user.service';
-import { AuthService } from './auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { IComment } from '../interfaces/comments.interface';
+import { BehaviorSubject, firstValueFrom, Observable, shareReplay, switchMap, combineLatest, of, tap } from 'rxjs';
+import { AuthService } from './auth.service';
+import { SingleProjectService } from './single-project.service';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Injectable({
   providedIn: 'root'
 })
 export class SingleProjectCommentsService {
 
-  projectId: string;
-
-  commentForm: FormGroup;
+  commentForm = this.formBuilder.group({
+    _id: [],
+    content: ['', Validators.required],
+    user: [this.auth.getUserDetails().id],
+    createdDateTime: [],
+    modifiedDateTime: [],
+  });
   submitted = false;
   editState = false;
-  comments: any;
+  private commentsSubject$ = new BehaviorSubject<IComment[] | null>(null);
+  comments$: Observable<IComment[]> = combineLatest([this.singleProjectService.projectId$, this.commentsSubject$]).pipe(
+    switchMap(([projectId, comments]) => {
+      if (comments) {
+        return of(comments);
+      }
+
+      if (projectId) {
+        return this.api.getComments(projectId);
+      }
+
+      return of([]);
+    }),
+    shareReplay({ refCount: false, bufferSize: 1 }),
+  );
 
   constructor(
     private formBuilder: FormBuilder,
     private api: ApiService,
-    public formService: FormService,
     private toastr: ToastrService,
-    public userService: UserService,
     private auth: AuthService,
-  ) { }
-
-  initForm() {
-    this.commentForm = this.formBuilder.group({
-      _id: [],
-      content: ['', Validators.required],
-      user: [this.auth.getUserDetails().id],
-      createdDateTime: [],
-      modifiedDateTime: [],
-    })
-  }
-
-  getComments(projectId) {
-    this.api.getComments(projectId).subscribe(
-      res => {
-        this.comments = res
-      },
-      err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
-    )
+    private singleProjectService: SingleProjectService,
+  ) {
+    this.singleProjectService.projectSaved$.pipe(untilDestroyed(this)).subscribe(() => {
+      this.onSubmit();
+    });
   }
 
   onSubmit() {
@@ -64,18 +69,21 @@ export class SingleProjectCommentsService {
     formData.append('modifiedDateTime', this.commentForm.value.modifiedDateTime || '')
     formData.append('content', this.commentForm.value.content)
 
-    this.api.saveComment(this.projectId, formData).subscribe(
-      (res: any) => {
-        this.comments = res
+    if (!this.singleProjectService.projectId$.value) {
+      throw Error(`Can't save comment, no project id`);
+    }
+
+    firstValueFrom(this.api.saveComment(this.singleProjectService.projectId$.value, formData))
+      .then((res) => {
+        this.refreshComments(res)
         this.commentForm.reset()
         this.commentForm.controls.user.setValue(this.auth.getUserDetails().id)
         this.toastr.success('Opmerking opgeslagen');
-      },
-      err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
-    )
+      })
+      .catch((err) => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`));
   }
 
-  editComment(comment) {
+  editComment(comment: IComment) {
     this.editState = true
 
     this.commentForm.setValue({
@@ -89,10 +97,17 @@ export class SingleProjectCommentsService {
 
   removeComment(comment: any) {
     if (confirm(`Zeker dat je deze opmerking wilt verwijderen?`)) {
-      this.api.removeComment(this.projectId, comment._id).subscribe(
-        (res: any) => this.comments = res,
-        err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
-      )
+      if (!this.singleProjectService.projectId$.value) {
+        throw Error(`Can't save comment, no project id`);
+      }
+
+      firstValueFrom(this.api.removeComment(this.singleProjectService.projectId$.value, comment._id))
+        .then((res) => this.refreshComments(res))
+        .catch((err) => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`));
     }
+  }
+
+  private refreshComments(comments: IComment[]) {
+    this.commentsSubject$.next(comments)
   }
 }

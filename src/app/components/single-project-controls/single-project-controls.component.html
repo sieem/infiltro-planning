@@ -1,6 +1,6 @@
 <div (click)="goToOverview()"><img src="/assets/images/icon-back.svg" alt=""></div>
 <div (click)="onSubmit()"><img [src]="projectForm.touched ? '/assets/images/icon-save.svg' : '/assets/images/icon-save-disabled.svg'" alt=""></div>
-<div *ngIf="projectId" (click)="removeProject()"><img src="/assets/images/icon-delete.svg" alt=""></div>
+<div *ngIf="projectId$ | async" (click)="removeProject()"><img src="/assets/images/icon-delete.svg" alt=""></div>
 <div (click)="openProjectMail()"><img src="/assets/images/icon-mail.svg" alt=""></div>
 <div (click)="duplicateProject()"><img src="/assets/images/icon-duplicate.svg" alt=""></div>
 <div *ngIf="!singleProjectService.newProject" [routerLink]="[ 'archief' ]"><img src="/assets/images/icon-archive.svg" alt=""></div>

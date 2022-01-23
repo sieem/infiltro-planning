@@ -6,6 +6,7 @@ import { FormGroup } from '@angular/forms';
 import { SingleProjectService } from 'src/app/services/single-project.service';
 import { ToastrService } from 'ngx-toastr';
 import { FormService } from 'src/app/services/form.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-single-project-controls',
@@ -13,8 +14,8 @@ import { FormService } from 'src/app/services/form.service';
   styleUrls: ['./single-project-controls.component.scss']
 })
 export class SingleProjectControlsComponent implements OnInit {
-  @Input('projectForm') projectForm: FormGroup;
-  @Input('projectId') projectId: string;
+  projectId$ = this.singleProjectService.projectId$;
+  @Input('projectForm') projectForm!: FormGroup;
   projectIsSaving: boolean = false
 
   constructor(
@@ -65,30 +66,36 @@ export class SingleProjectControlsComponent implements OnInit {
   }
 
   removeProject() {
+    if (!this.projectId$.value) {
+      throw new Error('no project value');
+    }
+
     if (confirm(`Ben je zeker dat je het project '${this.projectForm.value.projectName}' wil verwijderen?`)) {
-      this.api.removeProject(this.projectId).subscribe(
-        (res: any) => {
-          this.router.navigate(['/projecten'])
-        },
-        err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
-      )
+      firstValueFrom(this.api.removeProject(this.projectId$.value))
+        .then(() => this.router.navigate(['/projecten']))
+        .catch((err) => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`))
     }
   }
 
   duplicateProject() {
-    this.api.duplicateProject(this.projectId).subscribe(
-      (res: any) => {
-        this.router.navigate(['/project/' + res.projectId])
-      },
-      err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
-    )
+    if (!this.projectId$.value) {
+      throw new Error('no project value');
+    }
+
+    firstValueFrom(this.api.duplicateProject(this.projectId$.value))
+      .then((res: any) => this.router.navigate(['/project/' + res.projectId]))
+      .catch((err) => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`))
   }
 
   openProjectMail() {
+    if (!this.projectId$.value) {
+      throw new Error('no project value');
+    }
+
     if (this.projectForm.touched) {
-      this.toastr.error("Save the project first before you can go to the mailing tool.", "Project isn't saved yet")
+      this.toastr.error("Sla eerst je project op voor je mails kunt uitsturen.", "Project is nog niet opgeslagen")
     } else {
-      this.router.navigate(['/project/' + this.projectId + '/mail'])
+      this.router.navigate(['/project/' + this.projectId$.value + '/mail'])
     }
 
     return // not yet ready

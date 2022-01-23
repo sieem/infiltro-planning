@@ -6,9 +6,12 @@ import { FormService } from '../services/form.service';
 })
 export class FormatDatePipe implements PipeTransform {
 
-  public constructor(private formService: FormService) { }
+  constructor(private formService: FormService) { }
 
-  transform(date: Date = null, param: string = ""): string {
+  transform(date: Date | null, param: string = ""): string {
+    if (!date) {
+      return '';
+    }
     if (param === "time") {
       return this.formService.formatDateTime(date);
     }

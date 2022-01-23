@@ -1,27 +1,31 @@
 import { Injectable } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from './api.service';
-import { CompanyService } from './company.service';
-import { UserService } from './user.service';
-import { ProjectService } from './project.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
 import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment';
-import { SingleProjectCommentsService } from './single-project-comments.service';
 import { FormService } from './form.service';
 import { IProject } from '../interfaces/project.interface';
+import { BehaviorSubject, Observable, shareReplay, switchMap, skipWhile, firstValueFrom, tap, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SingleProjectService {
-  public projectForm: FormGroup
+  projectId$ = new BehaviorSubject<string | null>(null);
+
+  projectForm!: FormGroup
   projectIsSaving: boolean = false;
   projectEditStates: any = {}
-  projectData: IProject;
+  projectSaved$ = new Subject<void>();
+  projectData$: Observable<IProject> = this.projectId$.pipe(
+    tap((projectId) => console.log(projectId)),
+    skipWhile((projectId) => !projectId),
+    switchMap((projectId) => this.api.getProject(projectId as string)),
+    shareReplay({ refCount: false, bufferSize: 1 }),
+  );
   submitted = false
-  projectId: string
   user: any
   mailModalOpened: boolean = false
   hasCalendarItem: boolean = false
@@ -32,13 +36,8 @@ export class SingleProjectService {
     private formBuilder: FormBuilder,
     private api: ApiService,
     private router: Router,
-    public formService: FormService,
-    public companyService: CompanyService,
-    public userService: UserService,
-    public auth: AuthService,
-    private route: ActivatedRoute,
-    public projectService: ProjectService,
-    public singleProjectCommentService: SingleProjectCommentsService,
+    private formService: FormService,
+    private auth: AuthService,
     private toastr: ToastrService,
   ) { }
 
@@ -90,25 +89,19 @@ export class SingleProjectService {
       this.projectEditStates[key] = false
     })
 
-    this.api.getProject(this.projectId).subscribe(
-      (res: any) => {
-        this.fillInFormGroup(res);
-      },
-      err => {
-        this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
-        this.router.navigate(['/'])
-      }
-    )
+    firstValueFrom(this.projectId$.pipe(switchMap((projectId) => this.api.getProject(projectId as string))))
+      .then((res) => this.fillInFormGroup(res))
+      .catch((err) => {
+        this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`);
+        this.router.navigate(['/']);
+      });
   }
 
-  async setProjectData(projectId: string): Promise<IProject> {
-    this.projectId = projectId;
-    this.projectData = await this.api.getProject(this.projectId).toPromise();
-
-    return this.projectData;
+  setProjectId(projectId: string): void {
+    this.projectId$.next(projectId);
   }
 
-  fillInFormGroup(formData) {
+  fillInFormGroup(formData: any) {
     this.projectForm.setValue({
       _id: formData._id,
       company: formData.company,
@@ -171,13 +164,13 @@ export class SingleProjectService {
     formData.append('status', this.projectForm.value.status)
     formData.append('dateActive', this.projectForm.value.dateActive)
 
-    this.api.saveProject(formData).subscribe(
-      (res: any) => {
-        this.singleProjectCommentService.onSubmit();
+    firstValueFrom(this.api.saveProject(formData))
+      .then((res: any) => {
+        const projectId = res._id;
+        this.projectSaved$.next();
 
         this.newProject = false
-        this.projectId = res._id
-        this.toastr.success('Project saved');
+        this.toastr.success('Project succesvol opgeslagen');
         Object.keys(this.projectForm.controls).forEach(key => {
           this.projectEditStates[key] = false
         })
@@ -190,12 +183,11 @@ export class SingleProjectService {
         this.fillInFormGroup(formDataAsObj);
         this.projectIsSaving = false;
         this.hasCalendarItem = (res.eventId && res.calendarId) ? true : false
-        this.router.navigate(['/project/' + this.projectId])
-      },
-      err => {
+        this.router.navigate(['/project/' + projectId])
+      })
+      .catch((err) => {
         this.projectIsSaving = false;
         this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
-      }
-    )
+      })
   }
 }

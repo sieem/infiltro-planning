@@ -1,4 +1,6 @@
 import { IComment } from "./comments.interface";
+import { IExecutors } from "./executors.interface";
+import { IStatuses } from './statuses.interface';
 
 export interface IProject {
     _id: string,
@@ -13,8 +15,8 @@ export interface IProject {
     city: string,
     postalCode: string,
     extraInfoAddress: string,
-    lng: Number,
-    lat: Number,
+    lng: number,
+    lat: number,
     name: string,
     tel: string,
     email: string,
@@ -24,14 +26,14 @@ export interface IProject {
     v50Value: string,
     protectedVolume: string,
     EpbNumber: string,
-    executor: string,
+    executor: IExecutors['type'] | '',
     datePlanned: Date,
     hourPlanned: string,
-    status: string,
+    status: IStatuses['type'] | '',
     comments: IComment[],
     mails: any[],
     calendarId: string,
     eventId: string,
     calendarLink: string,
-    dateActive: Date,
+    dateActive: Date | null,
 }

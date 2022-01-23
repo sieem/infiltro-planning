@@ -5,6 +5,7 @@ import { SingleProjectService } from '../services/single-project.service';
 import { FormService } from '../services/form.service';
 import { asyncReplace } from '../helpers/asyncReplace.helper';
 import { firstValueFrom } from 'rxjs';
+import { IProject } from '../interfaces/project.interface';
 
 @Pipe({
   name: 'mailTemplate'
@@ -22,12 +23,14 @@ export class MailTemplatePipe implements PipeTransform {
       return value;
     }
 
-    return await asyncReplace(value, /{{\s*([A-z]*)\s*}}/g, async (foundSubstring: string, firstGroup: string) => {
+    const projectData = await firstValueFrom(this.singleProjectService.projectData$);
+
+    return await asyncReplace(value, /{{\s*([A-z]*)\s*}}/g, async (foundSubstring: string, firstGroup: keyof IProject): Promise<string> => {
       switch (firstGroup) {
-        case 'company': return await firstValueFrom(this.companyService.companyName(this.singleProjectService.projectData.company));
-        case 'datePlanned': return moment(this.singleProjectService.projectData.datePlanned).format(this.formService.mailDateFormat);
-        case 'hourPlanned': return this.singleProjectService.projectData.hourPlanned;
-        default: return this.singleProjectService.projectData[firstGroup] || foundSubstring;
+        case 'company': return await firstValueFrom(this.companyService.companyName(projectData.company));
+        case 'datePlanned': return moment(projectData.datePlanned).format(this.formService.mailDateFormat);
+        case 'hourPlanned': return projectData.hourPlanned;
+        default: return String(projectData[firstGroup]) || foundSubstring;
       }
     });
   }

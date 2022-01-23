@@ -1,9 +1,12 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { BehaviorSubject, of, Subject } from 'rxjs';
-import { find, map, shareReplay, takeUntil } from 'rxjs/operators';
+import { shareReplay, takeUntil } from 'rxjs/operators';
 import { ApiService } from 'src/app/services/api.service';
+import { ITemplate } from '../../interfaces/template.interface';
 
+@UntilDestroy()
 @Component({
   selector: 'app-mail-template-selector',
   templateUrl: './mail-template-selector.component.html',
@@ -11,16 +14,18 @@ import { ApiService } from 'src/app/services/api.service';
 })
 export class MailTemplateSelectorComponent implements OnInit {
   @Input()
-  public templateBody: BehaviorSubject<string>;
+  public templateBody!: BehaviorSubject<ITemplate>;
 
   @Input()
-  public templateSaved: BehaviorSubject<string>;
+  public templateSaved!: BehaviorSubject<string>;
 
   private onDestroy$ = new Subject<void>();
-  public mailTemplateForm: FormGroup;
+  public mailTemplateForm = this.formBuilder.group({
+    id: [''],
+  });
 
   @Input()
-  public templates$ = this.api.getMailTemplates().pipe(takeUntil(this.onDestroy$));
+  public templates$ = this.api.getMailTemplates().pipe(untilDestroyed(this));
 
   constructor(
     private api: ApiService,
@@ -28,21 +33,17 @@ export class MailTemplateSelectorComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.mailTemplateForm = this.formBuilder.group({
-      id: [''],
-    });
-
     this.templateSaved.pipe(takeUntil(this.onDestroy$)).subscribe({
-      next: () => this.templates$ = this.api.getMailTemplates().pipe(takeUntil(this.onDestroy$))
+      next: () => this.templates$ = this.api.getMailTemplates().pipe(untilDestroyed(this))
     })
   }
 
   onChange() {
 
     this.templates$.pipe(shareReplay(1)).subscribe({
-      next: (templates: any) => {
+      next: (templates: ITemplate[]) => {
         const template = templates
-          .find(template => template._id === this.mailTemplateForm.value.id);
+          .find((template) => template._id === this.mailTemplateForm.value.id);
 
         this.mailTemplateForm.controls['id'].setValue('');
 
@@ -54,9 +55,5 @@ export class MailTemplateSelectorComponent implements OnInit {
       },
       error: (err) => console.error(err)
     })
-  }
-
-  ngOnDestroy() {
-    this.onDestroy$.next();
   }
 }

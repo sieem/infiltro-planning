@@ -10,11 +10,11 @@ import { ICompany } from '../interfaces/company.interface';
 })
 export class CompanyService {
   private companiesSubject$ = new BehaviorSubject(null);
-  public companies$: Observable<ICompany[]> = this.companiesSubject$.pipe(
+  companies$: Observable<ICompany[]> = this.companiesSubject$.pipe(
     switchMap(() => this.api.getCompanies()),
     shareReplay({ refCount: false, bufferSize: 1 }),
   );
-  public pricePageVisibleForCurrentUser$: Observable<boolean> = this.pricePageVisibleForCurrentUser();
+  pricePageVisibleForCurrentUser$: Observable<boolean> = this.pricePageVisibleForCurrentUser();
 
   constructor(
     private api: ApiService,
@@ -27,8 +27,7 @@ export class CompanyService {
 
   companyName(companyId: string): Observable<string> {
     return this.companies$.pipe(
-      map((companies) => companies.find((company) => company._id === companyId).name),
-      map((company) => company ?? companyId),
+      map((companies) => companies.find((company) => company._id === companyId)?.name ?? companyId),
     );
   }
 

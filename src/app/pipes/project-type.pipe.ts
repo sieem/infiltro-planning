@@ -1,15 +1,15 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ProjectService } from '../services/project.service';
+import { ProjectEnumsService } from '../services/project-enums.service';
 
 @Pipe({
   name: 'projectType'
 })
 export class ProjectTypePipe implements PipeTransform {
 
-  public constructor(private projectService: ProjectService) { }
+  constructor(private projectEnumsService: ProjectEnumsService) { }
 
   transform(value: string): string {
-    return this.projectService.projectTypeName(value)
+    return this.projectEnumsService.projectTypeName(value)
   }
 
 

@@ -1,308 +1,156 @@
 import { Injectable } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
 import { ApiService } from './api.service';
 import { AuthService } from './auth.service';
 import { CompanyService } from './company.service';
-import { firstValueFrom } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, map, Observable, shareReplay, switchMap, combineLatest } from 'rxjs';
+import { IProject } from '../interfaces/project.interface';
+import { IProjectTypes } from '../interfaces/project-type.interface';
+import { IExecutors } from '../interfaces/executors.interface';
+import { IStatuses } from '../interfaces/statuses.interface';
+import { ISortables } from '../interfaces/sortables.interface';
+import { IActiveFilter } from '../interfaces/active-filter.interface';
+import { FilterProjectsPipe } from '../pipes/filter-projects.pipe';
+import { SortProjectsPipe } from '../pipes/sort-projects.pipe';
+import { ProjectEnumsService } from './project-enums.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectService {
-
-  public projectTypes: any = [
-    {
-      type: "house",
-      name: "Woning"
-    },
-    {
-      type: "stairs",
-      name: "Traphal"
-    },
-    {
-      type: "apartment",
-      name: "Appartement"
-    },
-    {
-      type: "mixed",
-      name: "Gemengd"
-    },
-    {
-      type: "other",
-      name: "Andere"
-    }
-  ]
-
-  public executors: any = [
-    {
-      type: "roel",
-      name: "Roel"
-    },
-    {
-      type: "david",
-      name: "David"
-    },
-    {
-      type: "together",
-      name: "Samen"
-    }
-  ]
-
-  public statuses: any = [
-    {
-      type: "contractSigned",
-      name: "Nog niet actief",
-      onlyAdmin: false,
-    },
-    {
-      type: "toContact",
-      name: "Te contacteren",
-      onlyAdmin: false,
-    },
-    {
-      type: "toPlan",
-      name: "Te plannen",
-      onlyAdmin: false,
-    },
-    {
-      type: "proposalSent",
-      name: "Voorstel doorgegeven",
-      onlyAdmin: false,
-    },
-    {
-      type: "planned",
-      name: "Ingepland",
-      onlyAdmin: false,
-    },
-    {
-      type: "onHold",
-      name: "On - Hold",
-      onlyAdmin: false,
-    },
-    {
-      type: "onHoldByClient",
-      name: "On - Hold door klant",
-      onlyAdmin: false,
-    },
-    {
-      type: "executed",
-      name: "Uitgevoerd",
-      onlyAdmin: false,
-    },
-    {
-      type: "reportAvailable",
-      name: "Rapport beschikbaar",
-      onlyAdmin: false,
-    },
-    {
-      type: "conformityAvailable",
-      name: "Conformiteit beschikbaar",
-      onlyAdmin: false,
-    },
-    {
-      type: "completed",
-      name: "Afgerond",
-      onlyAdmin: false,
-    },
-    {
-      type: "deleted",
-      name: "Verwijderd",
-      onlyAdmin: true,
-    }
-  ]
-
-  public sortables: any = [
-    {
-      type: "company",
-      name: "Bedrijf",
-      sort: true
-    },
-    {
-      type: "dateCreated",
-      name: "Ingegeven op",
-      sort: true
-    },
-    {
-      type: "projectType",
-      name: "Type",
-      sort: false
-    },
-    {
-      type: "projectName",
-      name: "Referentie",
-      sort: true
-    },
-    {
-      type: "street",
-      name: "Straat + Nr",
-      sort: true
-    },
-    {
-      type: "city",
-      name: "Gemeente",
-      sort: false
-    },
-    {
-      type: "postalCode",
-      name: "Postcode",
-      sort: false
-    },
-    {
-      type: "name",
-      name: "Naam contactpersoon",
-      sort: false
-    },
-    {
-      type: "tel",
-      name: "Telefoonnummer contactpersoon",
-      sort: false
-    },
-    {
-      type: "email",
-      name: "E-mail contactpersoon",
-      sort: false
-    },
-    {
-      type: "executor",
-      name: "Uitvoerder",
-      sort: true
-    },
-    {
-      type: "datePlanned",
-      name: "Datum ingepland",
-      sort: true
-    },
-    {
-      type: "hourPlanned",
-      name: "Uur ingepland",
-      sort: false
-    },
-    {
-      type: "status",
-      name: "Status",
-      sort: true
-    }
-  ]
-
-  public activeFilter: any = {
-    status: ['toContact', 'toPlan', 'proposalSent', 'planned', 'executed', 'reportAvailable', 'conformityAvailable', 'onHold', 'onHoldCovid19', !this.auth.isAdmin() ? 'onHoldByClient' : [...[]]],
+  activeFilter$ = new BehaviorSubject<IActiveFilter>({
+    status: ['toContact', 'toPlan', 'proposalSent', 'planned', 'executed', 'reportAvailable', 'conformityAvailable', 'onHold', ...(!!this.auth.isAdmin() ? ['onHoldByClient'] : []) as 'onHoldByClient'[]],
     executor: ['david', 'roel', 'together'],
     company: []
-  }
+  });
 
-  public sortOptions: any = {
+  sortOptions$ = new BehaviorSubject<{ field: ISortables['type'], order: 'asc' | 'desc' }>({
     field: 'datePlanned',
     order: 'asc'
-  }
+  });
 
-  public projects: any = []
-  public allProjects: any = []
+  private projectsSubject$ = new BehaviorSubject<null>(null);
+  allProjects$: Observable<IProject[]> = this.projectsSubject$.pipe(
+    switchMap(() => this.api.getProjects()),
+    shareReplay({ refCount: false, bufferSize: 1 }),
+  );
 
-  public searchTerm = "";
+  searchTerm$ = new BehaviorSubject<string>("");
 
-  private technicalFields = ["ATest", "v50Value", "protectedVolume", "EpbNumber"]
+
+  projects$: Observable<IProject[]> = combineLatest([this.allProjects$, this.activeFilter$, this.sortOptions$, this.searchTerm$]).pipe(
+    switchMap(([allProjects, activeFilter, sortOptions, searchTerm]) => this.filterProjectsPipe.transform(allProjects, activeFilter, searchTerm)),
+    map((filteredProjects) => this.sortProjectsPipe.transform(filteredProjects, this.sortOptions$.value))
+  );
+
+  private technicalFields = ["ATest", "v50Value", "protectedVolume", "EpbNumber"] as const;
 
   constructor(
     private api: ApiService,
-    private toastr: ToastrService,
     private companyService: CompanyService,
     private auth: AuthService,
+    private filterProjectsPipe: FilterProjectsPipe,
+    private sortProjectsPipe: SortProjectsPipe,
+    private projectEnumsService: ProjectEnumsService,
     ) {}
 
-  async getProjects() {
-    if (!this.activeFilter.company.length) {
-      this.selectAllFilter('company', true, 'companies')
+  getProjects() {
+    if (!this.activeFilter$.value.company.length) {
+      this.selectAllFilter('company', true)
     }
 
-    this.api.getProjects().subscribe(
-      res => {
-        this.projects = this.allProjects = res
-      },
-      err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
-    )
+    this.refreshProjects();
   }
 
-  changeFilter(filterCat, filterVal) {
-    if (!this.activeFilter[filterCat].includes(filterVal)) {
-      this.activeFilter[filterCat] = [...this.activeFilter[filterCat], filterVal]
+  changeFilter(filterCat: 'status' | 'executor' | 'company', filterVal: ISortables['type'] | IExecutors['type'] | string) {
+    const newFilter = this.activeFilter$.value;
+    let activeFilter = [];
+    switch (filterCat) {
+      case 'status':
+        activeFilter = newFilter.status;
+        break;
+      case 'executor':
+        activeFilter = newFilter.executor;
+        break;
+      case 'company':
+        activeFilter = newFilter.company;
+        break;
+      default:
+        throw new Error(`Couldn't find filter category, tried ${filterCat}`);
+    }
+
+    if (!activeFilter.includes(filterVal)) {
+      activeFilter = [...activeFilter, filterVal]
     } else {
-      this.activeFilter[filterCat] = this.activeFilter[filterCat].filter(val => { return val !== filterVal })
+      activeFilter = activeFilter.filter(val => { return val !== filterVal })
     }
 
-    // trigger pipe
-    this.activeFilter = { ...this.activeFilter };
+    switch (filterCat) {
+      case 'status':
+        newFilter.status = activeFilter as IStatuses['type'][];
+        break;
+      case 'executor':
+        newFilter.executor = activeFilter as IExecutors['type'][];
+        break;
+      case 'company':
+        newFilter.company = activeFilter;
+        break;
+      default:
+        throw new Error(`Couldn't find filter category, tried ${filterCat}`);
+    }
+
+    this.activeFilter$.next(newFilter);
   }
 
-  async selectAllFilter(filterCat: string, selectAll: boolean, filterCatArray: string = '') {
+  async selectAllFilter(filterCat: 'status' | 'executor' | 'company', selectAll: boolean) {
+    const newFilter = this.activeFilter$.value;
     if (selectAll) {
-      if (filterCat === 'company') {
-        const companies = await firstValueFrom(this.companyService.companies$);
-        this.activeFilter[filterCat] = companies.map((company) => company._id)
-      } else {
-        this.activeFilter[filterCat] = this[filterCatArray].map(el => el.filter === undefined || el.filter ? el.type : null)
+      switch (filterCat) {
+        case 'company':
+          const companies = await firstValueFrom(this.companyService.companies$);
+          newFilter[filterCat] = companies.map((company) => company._id);
+          break;
+        case 'executor':
+          newFilter.executor = this.projectEnumsService.executors.map(el => el.type)
+          break;
+        case 'status':
+          newFilter.status = this.projectEnumsService.statuses.map(el => el.type)
+          break;
+        default:
+          throw new Error(`Couldn't find filter category, tried ${filterCat}`);
       }
     } else {
-      this.activeFilter[filterCat] = []
+      newFilter[filterCat] = []
     }
 
-    // trigger pipe
-    this.activeFilter = { ...this.activeFilter};
+    this.activeFilter$.next(newFilter);
   }
 
-  setSearchTerm(searchTerm) {
-    this.searchTerm = searchTerm;
+  setSearchTerm(event: Event) {
+    this.searchTerm$.next((event?.target as any).value ?? '');
   }
 
-  setSortable(sortable = "") {
+  setSortable(sortable: ISortables['type'] | '' = '') {
+    const newSortOptions = this.sortOptions$.value;
     if (sortable !== '') {
-      if (this.sortOptions.field === sortable) {
-        this.sortOptions.order = this.sortOptions.order === 'asc' ? 'desc' : 'asc';
+      if (newSortOptions.field === sortable) {
+        newSortOptions.order = newSortOptions.order === 'asc' ? 'desc' : 'asc';
       }
-      this.sortOptions.field = sortable;
+      newSortOptions.field = sortable;
     }
 
-    // trigger pipe
-    this.sortOptions = {...this.sortOptions};
+    this.sortOptions$.next(newSortOptions);
   }
 
-
-  public statusName(type: string) {
-    let name: string
-    this.statuses.forEach(status => {
-      if (status.type === type) {
-        name = status.name
-      }
-    })
-    return name || 'Onbekend'
-  }
-
-  public executorName(type: string) {
-    let name: string
-    this.executors.forEach(executor => {
-      if (executor.type === type) {
-        name = executor.name
-      }
-    })
-    return name || 'Onbeslist'
-
-  }
-
-  public projectTypeName(type: string) {
-    let name: string
-    this.projectTypes.forEach(projectType => {
-      if (projectType.type === type) {
-        name = projectType.name
-      }
-    })
-    return name || 'Onbekend'
-  }
-
-  public isTechnicalDataFilledIn(projectData) {
+  isTechnicalDataFilledIn(projectData: IProject) {
     for (const technicalField of this.technicalFields) {
       if (projectData[technicalField] === "") {
         return false
       }
     }
     return true
+  }
+
+  private refreshProjects() {
+    this.projectsSubject$.next(null);
   }
 }

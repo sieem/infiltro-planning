@@ -118,6 +118,8 @@ import { IsDateActiveTooOldPipe } from './pipes/is-date-active-too-old.pipe';
     ExecutorPipe,
     MailTemplatePipe,
     IsDateActiveTooOldPipe,
+    FilterProjectsPipe,
+    SortProjectsPipe,
   ],
   bootstrap: [AppComponent]
 })

@@ -7,7 +7,7 @@ import { firstValueFrom } from 'rxjs';
 })
 export class UserPipe implements PipeTransform {
 
-  public constructor(private userService: UserService) { }
+  constructor(private userService: UserService) { }
 
   async transform(value: string): Promise<string> {
     return await firstValueFrom(this.userService.userToName(value));

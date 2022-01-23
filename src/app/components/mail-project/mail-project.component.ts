@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { Validators, FormBuilder } from '@angular/forms';
 import { FormService } from 'src/app/services/form.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
@@ -9,6 +9,7 @@ import { SingleProjectService } from 'src/app/services/single-project.service';
 import { takeUntil } from 'rxjs/operators';
 import { MailTemplatePipe } from 'src/app/pipes/mail-template.pipe';
 import { BehaviorSubject, firstValueFrom, Subject } from 'rxjs';
+import { ITemplate } from '../../interfaces/template.interface';
 
 @Component({
   selector: 'app-mail-project',
@@ -16,11 +17,19 @@ import { BehaviorSubject, firstValueFrom, Subject } from 'rxjs';
   styleUrls: ['./mail-project.component.scss']
 })
 export class MailProjectComponent implements OnInit {
-  mailForm: FormGroup
-  projectId: string
+  mailForm = this.formBuilder.group({
+    _id: [''],
+    receiver: ['', [Validators.required]],
+    cc: [''],
+    subject: [''],
+    body: ['']
+  });
+  projectId: string | null = null;
   submitted: boolean = false
   project: any
-  public templateBody$: BehaviorSubject<string> = new BehaviorSubject('');
+  public templateBody$: BehaviorSubject<ITemplate> = new BehaviorSubject({
+    _id: '', body: '', subject: '', name: ''
+  });
   public templateSaved$: BehaviorSubject<string> = new BehaviorSubject('');
   private onDestroy$ = new Subject<void>();
 
@@ -34,27 +43,18 @@ export class MailProjectComponent implements OnInit {
     private toastr: ToastrService,
     public auth: AuthService,
     private mailTemplatePipe: MailTemplatePipe,
-    ) { }
+  ) { }
 
   async ngOnInit() {
     try {
-      this.mailForm = this.formBuilder.group({
-        _id: [''],
-        receiver: ['', [Validators.required]],
-        cc: [''],
-        subject: [''],
-        body: ['']
-      })
-
       const params = await firstValueFrom(this.route.params);
 
       if (!params.projectId) {
-        return;
+        throw new Error('no projectId');
       }
 
       this.projectId = params.projectId;
-
-      await this.singleProjectService.setProjectData(this.projectId);
+      this.singleProjectService.setProjectId(params.projectId);
 
       const mailSubject = `Bevestiging afspraak luchtdichtheidstest op {{street}}`;
       const mailBody = `
@@ -74,22 +74,23 @@ export class MailProjectComponent implements OnInit {
               Met vriendelijke groeten/Bien cordialement,
     `.replace(/\n */g, "\n").trim();
 
+      const projectData = await firstValueFrom(this.singleProjectService.projectData$);
 
       this.mailForm.setValue({
-        _id: this.singleProjectService.projectData._id,
-        receiver: this.singleProjectService.projectData.email,
+        _id: projectData._id,
+        receiver: projectData.email,
         cc: '',
         subject: mailSubject,
         body: mailBody
       });
-    } catch (error) {
-      err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
+    } catch (err: any) {
+      this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
     }
 
     this.templateBody$.pipe(takeUntil(this.onDestroy$)).subscribe(
       {
-        next: (template: any) => {
-          if (template !== '') {
+        next: (template: ITemplate) => {
+          if (template.body !== '') {
             this.mailForm.controls['body'].setValue(template.body);
             this.mailForm.controls['subject'].setValue(template.subject);
           }
@@ -120,13 +121,12 @@ export class MailProjectComponent implements OnInit {
     formData.append('subject', await this.mailTemplatePipe.transform(this.mailForm.value.subject));
     formData.append('body', await this.mailTemplatePipe.transform(this.mailForm.value.body));
 
-    this.api.sendMail(formData).subscribe(
-      (res: any) => {
+    firstValueFrom(this.api.sendMail(formData))
+      .then(() => {
         this.toastr.success('Mail sent');
-        this.router.navigate(['/project/' + this.projectId])
-      },
-      err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
-    )
+        this.router.navigate(['/project/' + this.projectId]);
+      })
+      .catch((err) => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`));
   }
 
   saveTemplate() {
@@ -140,13 +140,12 @@ export class MailProjectComponent implements OnInit {
     formData.append('subject', this.mailForm.value.subject);
     formData.append('body', this.mailForm.value.body);
 
-    this.api.saveMailTemplate(formData).subscribe(
-      (res: any) => {
+    firstValueFrom(this.api.saveMailTemplate(formData))
+      .then(() => {
         this.toastr.success('Template saved');
         this.templateSaved$.next('');
-      },
-      err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
-    )
+      })
+      .catch((err) => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`));
   }
 
   goBack() {

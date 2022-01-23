@@ -8,6 +8,7 @@ import { FormatDatePipe } from './format-date.pipe';
 import { StatusPipe } from './status.pipe';
 import { ProjectTypePipe } from './project-type.pipe';
 import { asyncFilter } from '../helpers/asyncFilter.helper';
+import { IActiveFilter } from '../interfaces/active-filter.interface';
 
 @Pipe({
   name: 'filterProjects',
@@ -23,17 +24,26 @@ export class FilterProjectsPipe implements PipeTransform {
     private projectTypePipe: ProjectTypePipe,
   ) {}
 
-  async transform(projects: IProject[], activeFilter: any, searchTerm: string): Promise<IProject[]> {
-    const filteredProjects = projects.filter((row) => {
-      let filterBooleans = [];
+  async transform(projects: IProject[], activeFilter: IActiveFilter, searchTerm: string): Promise<IProject[]> {
+    const filteredProjects = projects.filter((project) => {
+      let filterBooleans: boolean[] = [];
 
-      for (let [key, values] of Object.entries(activeFilter)) {
-        let filterArr: any = values
-        if (filterArr.length == 0) {
-          return false
-        } else if (row[key] !== '') {
-          filterBooleans.push(filterArr.includes(row[key]))
-        }
+      if (activeFilter.status.length === 0) {
+        return false;
+      } else if (project.status !== '') {
+        filterBooleans.push(activeFilter.status.includes(project.status))
+      }
+
+      if (activeFilter.executor.length === 0) {
+        return false;
+      } else if (project.executor !== '') {
+        filterBooleans.push(activeFilter.executor.includes(project.executor))
+      }
+
+      if (activeFilter.company.length === 0) {
+        return false;
+      } else if (project.company !== '') {
+        filterBooleans.push(activeFilter.company.includes(project.company))
       }
 
       return !filterBooleans.includes(false);

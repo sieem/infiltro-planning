@@ -1,7 +1,7 @@
 <div class="wrapper" [ngClass]="singleProjectService.projectForm.value.status">
   <div class="projectSection">
       <div class="topControls">
-        <app-single-project-controls [projectForm]="singleProjectService.projectForm" [projectId]="singleProjectService.projectId" class="left controls" *ngIf="!singleProjectService.archiveActive"></app-single-project-controls>
+        <app-single-project-controls [projectForm]="singleProjectService.projectForm" class="left controls" *ngIf="!singleProjectService.archiveActive"></app-single-project-controls>
         <div class="right">
           <app-single-project-row label="Contactpersoon binnen" field="company" type="select" firstValue="Selecteer bedrijf" [dataSource]="companyService.companies$ | async" valueKey="_id" [readOnly]="!auth.isAdmin()">
           </app-single-project-row>
@@ -18,7 +18,7 @@
   </div>
   <div class="projectSection twoColumns">
     <div class="left">
-      <app-single-project-row label="Type" field="projectType" type="select" firstValue="Selecteer type" [dataSource]="projectService.projectTypes" valueKey="type">
+      <app-single-project-row label="Type" field="projectType" type="select" firstValue="Selecteer type" [dataSource]="projectEnumsService.projectTypes" valueKey="type">
       </app-single-project-row>
 
       <app-single-project-row label="Aantal / omschrijving" field="houseAmount" type="input">
@@ -28,7 +28,7 @@
       </app-single-project-row>
     </div>
     <div class="right">
-        <app-single-project-row label="Status" field="status" type="select" firstValue="Selecteer status" [dataSource]="projectService.statuses" valueKey="type">
+        <app-single-project-row label="Status" field="status" type="select" firstValue="Selecteer status" [dataSource]="projectEnumsService.statuses" valueKey="type">
         </app-single-project-row>
         <app-single-project-row label="Datum ingave" field="dateCreated" type="date" [readOnly]="!auth.isAdmin()" [showAsterisk]="false">
         </app-single-project-row>
@@ -95,7 +95,7 @@
       <h2>Uitvoergegevens</h2>
     </div>
 
-    <app-single-project-row label="Uitvoerder" field="executor" type="select" firstValue="Selecteer uitvoerder" [dataSource]="projectService.executors" valueKey="type" [readOnly]="!auth.isAdmin()">
+    <app-single-project-row label="Uitvoerder" field="executor" type="select" firstValue="Selecteer uitvoerder" [dataSource]="projectEnumsService.executors" valueKey="type" [readOnly]="!auth.isAdmin()">
     </app-single-project-row>
 
     <app-single-project-row label="Datum ingepland" field="datePlanned" type="date" [readOnly]="!auth.isAdmin() || singleProjectService.hasCalendarItem" (click)="calendarWarning(singleProjectService.hasCalendarItem)">
@@ -104,7 +104,7 @@
     <app-single-project-row label="Uur ingepland" field="hourPlanned" type="time" [readOnly]="!auth.isAdmin() || singleProjectService.hasCalendarItem" (click)="calendarWarning(singleProjectService.hasCalendarItem)">
     </app-single-project-row>
 
-    <app-single-project-row label="Status" field="status" type="select" firstValue="Selecteer status" [dataSource]="projectService.statuses" valueKey="type">
+    <app-single-project-row label="Status" field="status" type="select" firstValue="Selecteer status" [dataSource]="projectEnumsService.statuses" valueKey="type">
     </app-single-project-row>
   </div>
 
@@ -113,6 +113,6 @@
     <div class="projectRow">
       <h2>Opmerkingen</h2>
     </div>
-    <app-single-project-comments [projectId]="singleProjectService.projectForm.value._id" [newProject]="singleProjectService.newProject"></app-single-project-comments>
+    <app-single-project-comments [newProject]="singleProjectService.newProject"></app-single-project-comments>
   </div>
 </div>

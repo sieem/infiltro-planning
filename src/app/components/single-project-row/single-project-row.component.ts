@@ -12,14 +12,14 @@ import { SingleProjectArchiveService } from 'src/app/services/single-project-arc
   styleUrls: ['./single-project-row.component.scss']
 })
 export class SingleProjectRowComponent implements OnInit {
-  @Input('label') label: string;
-  @Input('field') field: string;
-  @Input('type') type: string;
-  @Input('valueKey') valueKey: string;
-  @Input('firstValue') firstValue: string;
-  @Input('readOnly') readOnly: boolean;
+  @Input('label') label!: string;
+  @Input('field') field!: string;
+  @Input('type') type!: string;
+  @Input('valueKey') valueKey!: string;
+  @Input('firstValue') firstValue!: string;
+  @Input('readOnly') readOnly: boolean = false;
   @Input('showAsterisk') showAsterisk: boolean = true;
-  @Input('dataSource') dataSource: [any];
+  @Input('dataSource') dataSource: any;
 
 
   constructor(
@@ -34,20 +34,19 @@ export class SingleProjectRowComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  isEmpty(inputName) {
-    if (typeof this.singleProjectService.projectForm.value[inputName] === 'string')
-      return this.singleProjectService.projectForm.value[inputName].trim() == ""
-    else
-      return false
+  isEmpty(inputName: string) {
+    return typeof this.singleProjectService.projectForm.value[inputName] === 'string'
+      ? this.singleProjectService.projectForm.value[inputName].trim() == ""
+      : false
   }
 
-  changeEditState(inputName, state) {
-    this.singleProjectService.projectEditStates[inputName] = state
+  changeEditState(inputName: string, state: boolean) {
+    this.singleProjectService.projectEditStates[inputName] = state;
   }
 
-  updateStatusDropdowns(field) {
+  updateStatusDropdowns(field: string) {
     if (field === 'status') {
-      this.singleProjectService.projectForm.setValue(this.singleProjectService.projectForm.value)
+      this.singleProjectService.projectForm.setValue(this.singleProjectService.projectForm.value);
     }
   }
 

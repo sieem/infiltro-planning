@@ -1,7 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { FormService } from 'src/app/services/form.service';
-import { AuthService } from 'src/app/services/auth.service';
-import { UserService } from 'src/app/services/user.service';
+import { Component, Input } from '@angular/core';
 import { SingleProjectCommentsService } from 'src/app/services/single-project-comments.service';
 import { SingleProjectService } from 'src/app/services/single-project.service';
 
@@ -10,27 +7,11 @@ import { SingleProjectService } from 'src/app/services/single-project.service';
   templateUrl: './single-project-comments.component.html',
   styleUrls: ['./single-project-comments.component.scss']
 })
-export class SingleProjectCommentsComponent implements OnInit {
-
-  @Input('newProject') newProject: boolean;
-  @Input() set projectId(projectId: string) {
-    this.singleProjectCommentsService.projectId = (projectId && projectId.trim());
-    if (this.singleProjectCommentsService.projectId) this.singleProjectCommentsService.getComments(this.singleProjectCommentsService.projectId)
-  }
+export class SingleProjectCommentsComponent {
+  @Input('newProject') newProject = false;
 
   constructor(
-    public formService: FormService,
-    public userService: UserService,
-    private auth: AuthService,
     public singleProjectCommentsService: SingleProjectCommentsService,
     public singleProjectService: SingleProjectService,
   ) { }
-
-  ngOnInit() {
-    this.singleProjectCommentsService.initForm()
-  }
-
-  commentModified(comment: any) {
-    return comment.createdDateTime !== comment.modifiedDateTime
-  }
 }

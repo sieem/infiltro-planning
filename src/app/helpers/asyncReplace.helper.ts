@@ -1,5 +1,5 @@
 export async function asyncReplace(str: string, regex: RegExp, asyncFn: Function) {
-    const promises = [];
+    const promises: Promise<any>[] = [];
     str.replace(regex, (match, ...args) => {
         const promise = asyncFn(match, ...args);
         promises.push(promise);

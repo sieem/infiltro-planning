@@ -11,7 +11,7 @@ export class AuthService {
     ) {
   }
 
-  saveToken(token) {
+  saveToken(token: string) {
     localStorage.setItem('token', token)
   }
 
@@ -40,7 +40,8 @@ export class AuthService {
   }
 
   isAdmin() {
-    if (this.loggedIn) return this.getUserDetails().role === 'admin'
-    else return false
-  }  
+    return this.loggedIn()
+      ? this.getUserDetails().role === 'admin'
+      : false
+  }
 }

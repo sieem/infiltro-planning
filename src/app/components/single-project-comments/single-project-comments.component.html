@@ -12,5 +12,5 @@
     </ng-template>
   </div>
 
-  <app-comments [comments]="singleProjectCommentsService.comments" [readOnly]="singleProjectService.archiveActive"></app-comments>
+  <app-comments [comments]="singleProjectCommentsService.comments$ | async" [readOnly]="singleProjectService.archiveActive"></app-comments>
 </form>

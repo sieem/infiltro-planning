@@ -5,12 +5,12 @@ import { IProject } from '../interfaces/project.interface';
 })
 export class SortProjectsPipe implements PipeTransform {
 
-  transform(projects: IProject[], sortOptions): IProject[] {
+  transform(projects: IProject[], sortOptions: { field: keyof IProject, order: 'asc' | 'desc'}): IProject[] {
     let sortedProjects = projects.sort((a, b) => {
-      let x: string | Date;
-      let y: string | Date;
+      let x: string | Date | undefined;
+      let y: string | Date | undefined;
 
-      if ((sortOptions.field !== 'datePlanned' || sortOptions.field !== 'executor') && !a[sortOptions.field] && !b[sortOptions.field]) {
+      if (!['datePlanned', 'executor'].includes(sortOptions.field) && !a[sortOptions.field] && !b[sortOptions.field]) {
         x = a.dateEdited;
         y = b.dateEdited;
       } else {
@@ -18,8 +18,8 @@ export class SortProjectsPipe implements PipeTransform {
         if (!b[sortOptions.field]) return -1;
       }
 
-      x = x || a[sortOptions.field].toLowerCase();
-      y = y || b[sortOptions.field].toLowerCase();
+      x = x || String(a[sortOptions.field]).toLowerCase();
+      y = y || String(b[sortOptions.field]).toLowerCase();
 
       if (x == y) return 0
 
@@ -30,13 +30,13 @@ export class SortProjectsPipe implements PipeTransform {
       sortedProjects = sortedProjects.sort((a, b) => {
         if (a.datePlanned) return 1;
 
-        if (a.dateActive == b.dateActive) return 0
+        if (a.dateActive == b.dateActive) return 0;
 
-        return a.dateActive < b.dateActive ? -1 : 1
+        return (a.dateActive as Date) < (b.dateActive as Date) ? -1 : 1;
       })
     }
 
-    return sortOptions.order == 'desc' ? sortedProjects.reverse() : sortedProjects;
+    return sortOptions.order == 'desc' ? projects.reverse() : projects;
   }
 
 }

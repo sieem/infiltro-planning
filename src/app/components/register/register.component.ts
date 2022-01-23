@@ -6,6 +6,7 @@ import { FormService } from 'src/app/services/form.service';
 import { CompanyService } from 'src/app/services/company.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { firstValueFrom, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -13,43 +14,28 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
-  registerForm: FormGroup;
-  submitted: boolean = false;
+  registerForm = this.formBuilder.group({
+    _id: [''],
+    password: ['', [Validators.required, Validators.pattern(this.formService.passwordRegex)]],
+  });
+  submitted = false;
   user: any;
 
   constructor(
-    private formBuilder: FormBuilder, 
-    private api: ApiService, 
-    private router: Router, 
+    private formBuilder: FormBuilder,
+    private api: ApiService,
+    private router: Router,
     private activatedRoute: ActivatedRoute,
-    public formService: FormService, 
+    public formService: FormService,
     public auth: AuthService,
     private toastr: ToastrService) { }
 
-  ngOnInit() {
-
-    this.registerForm = this.formBuilder.group({
-      _id: [''],
-      password: ['', [Validators.required, Validators.pattern(this.formService.passwordRegex)]],
-    })
-
-    this.activatedRoute.params.subscribe(params => {
-      let resetToken = params['resetToken'];
-      this.getUserByResetToken(resetToken)
+  async ngOnInit(): Promise<void> {
+    const userId = await firstValueFrom(this.activatedRoute.params.pipe(switchMap((params) => this.api.getUserByResetToken(params.resetToken))))
+    this.registerForm.setValue({
+      _id: userId,
+      password: '',
     });
-    
-  }
-
-  getUserByResetToken(resetToken: string) {
-    this.api.getUserByResetToken(resetToken).subscribe(
-      (userId:string) => {
-        this.registerForm.setValue({
-          _id: userId,
-          password: '',
-        })
-      },
-      err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
-    )
   }
 
   onSubmit() {
@@ -64,17 +50,15 @@ export class RegisterComponent implements OnInit {
   }
 
   registerUser() {
-
     const formData = new FormData();
     formData.append('_id', this.registerForm.value._id)
     formData.append('password', this.registerForm.value.password)
 
-    this.api.registerUser(formData).subscribe(
-      (res: any) => {
+    firstValueFrom(this.api.registerUser(formData))
+      .then((res: any) => {
         this.auth.saveToken(res.token)
         this.router.navigate(['/projecten'])
-      },
-      err => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
-    )
+      })
+      .catch((err) => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`));
   }
 }
