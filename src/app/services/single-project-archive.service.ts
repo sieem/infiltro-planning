@@ -22,7 +22,7 @@ export class SingleProjectArchiveService {
     this.archiveProjectData = this.archiveData[this.activeProject];
     if (!this.archiveProjectData) {
       this.toastr.error('Dit project werd nog niet in het archief gevonden.', 'Project niet gevonden');
-      this.router.navigate(['/project/' + this.singleProjectService.projectId$.value])
+      this.router.navigate(['project', this.singleProjectService.projectId$.value])
       return;
     }
     this.singleProjectService.fillInFormGroup(this.archiveProjectData.projectData);

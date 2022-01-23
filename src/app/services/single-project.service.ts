@@ -123,7 +123,7 @@ export class SingleProjectService {
         this.fillInFormGroup(formDataAsObj);
         this.projectIsSaving = false;
         this.hasCalendarItem = (res.eventId && res.calendarId) ? true : false
-        this.router.navigate(['/project/' + projectId])
+        this.router.navigate(['project', projectId])
       })
       .catch((err) => {
         this.projectIsSaving = false;

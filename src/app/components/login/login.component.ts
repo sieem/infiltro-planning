@@ -68,7 +68,7 @@ export class LoginComponent {
     firstValueFrom(this.api.loginUser(formData))
       .then((res: any) => {
         this.auth.saveToken(res.token)
-        this.router.navigate(['/projecten'])
+        this.router.navigate(['projecten'])
       })
       .catch((err) => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`));
   }

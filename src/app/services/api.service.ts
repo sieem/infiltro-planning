@@ -85,7 +85,7 @@ export class ApiService {
   }
 
   duplicateProject(projectId: string) {
-    return this.http.post(this.baseUrl + '/duplicate-project/', { projectId})
+    return this.http.post<{ projectId: string }>(this.baseUrl + '/duplicate-project/', { projectId})
   }
 
   batchProjects(formData: any) {

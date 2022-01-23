@@ -196,7 +196,7 @@ export class MailProjectComponent implements OnInit {
     firstValueFrom(this.api.sendMail(formData))
       .then(() => {
         this.toastr.success('Mail sent');
-        this.router.navigate(['/project/' + this.projectId]);
+        this.router.navigate(['project', this.projectId]);
       })
       .catch((err) => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`));
   }
@@ -223,12 +223,12 @@ export class MailProjectComponent implements OnInit {
   goBack() {
     if (this.mailForm.touched) {
       if (confirm('Ben je zeker dat je de pagina wil verlaten?')) {
-        this.router.navigate(['/project/' + this.projectId])
+        this.router.navigate(['project', this.projectId])
       } else {
         return
       }
     } else {
-      this.router.navigate(['/project/' + this.projectId])
+      this.router.navigate(['project', this.projectId])
     }
   }
 }
