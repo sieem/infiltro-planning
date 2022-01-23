@@ -158,9 +158,6 @@ export class SingleProjectComponent implements OnInit, OnDestroy {
     ) { }
 
   ngOnInit() {
-
-    this.singleProjectService.initProject();
-
     firstValueFrom(this.route.params).then(({projectId}) => {
       if (projectId) {
         this.singleProjectService.newProject$.next(false);

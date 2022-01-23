@@ -44,7 +44,7 @@ export class SingleProjectService {
     private toastr: ToastrService,
   ) { }
 
-  initProject() {
+  private initProject() {
     if (!this.user) {
       throw Error('no user found in token');
     }
@@ -86,12 +86,13 @@ export class SingleProjectService {
     this.hasCalendarItem = false;
   }
 
-  fillInProject(project: IProject | null) {
-    this.setEditState(false);
+  private fillInProject(project: IProject | null) {
     if (!!project) {
       this.fillInFormGroup(project);
+      this.setEditState(false);
     } else {
       this.initProject();
+      this.setEditState(true);
     }
   }
 
