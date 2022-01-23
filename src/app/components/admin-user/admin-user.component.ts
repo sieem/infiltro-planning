@@ -99,6 +99,7 @@ export class AdminUserComponent {
     const formData = ngFormToFormData(this.registerForm.value);
 
     if (!this.registerForm.value._id) {
+      formData.delete('_id');
       firstValueFrom(this.api.addUser(formData))
         .then(() => {
           this.userService.refreshUsers();
@@ -108,7 +109,6 @@ export class AdminUserComponent {
         })
         .catch((err) => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`));
     } else {
-      formData.append('_id', this.registerForm.value._id)
       this.editState = false
       firstValueFrom(this.api.editUser(formData))
         .then(() => {
