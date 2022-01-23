@@ -6,6 +6,7 @@ import { FormService } from '../services/form.service';
 import { asyncReplace } from '../helpers/asyncReplace.helper';
 import { firstValueFrom } from 'rxjs';
 import { IProject } from '../interfaces/project.interface';
+import { mailDateFormat } from '../helpers/regex.helper';
 
 @Pipe({
   name: 'mailTemplate'
@@ -28,7 +29,7 @@ export class MailTemplatePipe implements PipeTransform {
     return await asyncReplace(value, /{{\s*([A-z]*)\s*}}/g, async (foundSubstring: string, firstGroup: keyof IProject): Promise<string> => {
       switch (firstGroup) {
         case 'company': return await firstValueFrom(this.companyService.companyName(projectData.company));
-        case 'datePlanned': return moment(projectData.datePlanned).format(this.formService.mailDateFormat);
+        case 'datePlanned': return moment(projectData.datePlanned).format(mailDateFormat);
         case 'hourPlanned': return projectData.hourPlanned;
         default: return String(projectData[firstGroup]) || foundSubstring;
       }

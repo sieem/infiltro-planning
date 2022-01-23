@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { UserService } from 'src/app/services/user.service';
 import { IUser } from '../../interfaces/user.interface';
 import { firstValueFrom } from 'rxjs';
+import { emailRegex } from 'src/app/helpers/regex.helper';
 
 @Component({
   selector: 'app-admin-user',
@@ -66,7 +67,7 @@ export class AdminUserComponent {
   registerForm = this.formBuilder.group({
     _id: [''],
     name: ['', Validators.required],
-    email: ['', [Validators.required, Validators.pattern(this.formService.emailRegex)]],
+    email: ['', [Validators.required, Validators.pattern(emailRegex)]],
     company: ['', Validators.required],
     role: ['', Validators.required],
   });

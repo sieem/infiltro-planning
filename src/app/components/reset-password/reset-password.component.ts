@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
-import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { FormService } from 'src/app/services/form.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { firstValueFrom } from 'rxjs';
+import { emailRegex } from 'src/app/helpers/regex.helper';
 
 @Component({
   selector: 'app-reset-password',
@@ -31,7 +31,7 @@ import { firstValueFrom } from 'rxjs';
 })
 export class ResetPasswordComponent {
   resetForm = this.formBuilder.group({
-    email: ['', [Validators.required, Validators.pattern(this.formService.emailRegex)]],
+    email: ['', [Validators.required, Validators.pattern(emailRegex)]],
   });
   submitted = false;
   user: any;
@@ -40,8 +40,6 @@ export class ResetPasswordComponent {
   constructor(
     private formBuilder: FormBuilder,
     private api: ApiService,
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
     public formService: FormService,
     public auth: AuthService,
     private toastr: ToastrService) { }

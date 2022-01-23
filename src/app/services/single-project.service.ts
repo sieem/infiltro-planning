@@ -7,7 +7,9 @@ import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment';
 import { FormService } from './form.service';
 import { IProject } from '../interfaces/project.interface';
-import { BehaviorSubject, Observable, shareReplay, switchMap, skipWhile, firstValueFrom, tap, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, shareReplay, switchMap, firstValueFrom, Subject, tap } from 'rxjs';
+import { mapToForm } from '../helpers/mapToForm.helper';
+import { dateFormat, emailRegex, postalCodeRegex } from '../helpers/regex.helper';
 
 @Injectable({
   providedIn: 'root'
@@ -20,9 +22,8 @@ export class SingleProjectService {
   projectEditStates: any = {}
   projectSaved$ = new Subject<void>();
   projectData$: Observable<IProject> = this.projectId$.pipe(
-    tap((projectId) => console.log(projectId)),
-    skipWhile((projectId) => !projectId),
     switchMap((projectId) => this.api.getProject(projectId as string)),
+    tap((projectData) => this.fillInProject(projectData)),
     shareReplay({ refCount: false, bufferSize: 1 }),
   );
   submitted = false
@@ -48,7 +49,7 @@ export class SingleProjectService {
       _id: [''],
 
       company: [this.user.company, Validators.required],
-      dateCreated: [moment().format(this.formService.dateFormat), Validators.required],
+      dateCreated: [moment().format(dateFormat), Validators.required],
       projectType: ['house', Validators.required],
       houseAmount: [1, Validators.required],
       projectName: ['', Validators.required],
@@ -56,12 +57,12 @@ export class SingleProjectService {
 
       street: ['', Validators.required],
       city: ['', Validators.required],
-      postalCode: ['', [Validators.required, Validators.pattern(this.formService.postalCodeRegex)]],
+      postalCode: ['', [Validators.required, Validators.pattern(postalCodeRegex)]],
       extraInfoAddress: [''],
 
       name: [''],
       tel: ['', [Validators.required, Validators.minLength(8)]],
-      email: ['', [Validators.required, Validators.email, Validators.pattern(this.formService.emailRegex)]],
+      email: ['', [Validators.required, Validators.email, Validators.pattern(emailRegex)]],
       extraInfoContact: [''],
       EpbReporter: [this.user.id, Validators.required],
 
@@ -77,58 +78,22 @@ export class SingleProjectService {
       dateActive: ['Nog niet actief'],
     })
 
-    Object.keys(this.projectForm.controls).forEach(key => {
-      this.projectEditStates[key] = true
-    })
+    this.setEditState(false);
 
-    this.hasCalendarItem = false
+    this.hasCalendarItem = false;
   }
 
-  fillInProject() {
-    Object.keys(this.projectForm.controls).forEach(key => {
-      this.projectEditStates[key] = false
-    })
-
-    firstValueFrom(this.projectId$.pipe(switchMap((projectId) => this.api.getProject(projectId as string))))
-      .then((res) => this.fillInFormGroup(res))
-      .catch((err) => {
-        this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`);
-        this.router.navigate(['/']);
-      });
+  fillInProject(project: IProject) {
+    this.setEditState(false);
+    this.fillInFormGroup(project);
   }
 
   setProjectId(projectId: string): void {
     this.projectId$.next(projectId);
   }
 
-  fillInFormGroup(formData: any) {
-    this.projectForm.setValue({
-      _id: formData._id,
-      company: formData.company,
-      dateCreated: moment(formData.dateCreated).format(this.formService.dateFormat),
-      projectType: formData.projectType,
-      houseAmount: formData.houseAmount,
-      projectName: formData.projectName,
-      client: formData.client,
-      street: formData.street,
-      city: formData.city,
-      postalCode: formData.postalCode,
-      extraInfoAddress: formData.extraInfoAddress,
-      name: formData.name,
-      tel: formData.tel,
-      email: formData.email,
-      extraInfoContact: formData.extraInfoContact,
-      EpbReporter: formData.EpbReporter,
-      ATest: formData.ATest,
-      v50Value: formData.v50Value,
-      protectedVolume: formData.protectedVolume,
-      EpbNumber: formData.EpbNumber,
-      executor: formData.executor,
-      datePlanned: moment(formData.datePlanned).format(this.formService.dateFormat),
-      hourPlanned: formData.hourPlanned,
-      status: formData.status,
-      dateActive: formData.dateActive ? moment(formData.dateActive).format(this.formService.dateFormat) : 'Nog niet actief',
-    })
+  fillInFormGroup(formData: IProject) {
+    this.projectForm.setValue(mapToForm(formData))
 
     this.hasCalendarItem = (formData.eventId && formData.calendarId) ? true : false
   }
@@ -189,5 +154,11 @@ export class SingleProjectService {
         this.projectIsSaving = false;
         this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`)
       })
+  }
+
+  private setEditState(state: boolean): void {
+    Object.keys(this.projectForm.controls).forEach(key => {
+      this.projectEditStates[key] = state;
+    })
   }
 }

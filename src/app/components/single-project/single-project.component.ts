@@ -13,8 +13,9 @@ import { SingleProjectService } from 'src/app/services/single-project.service';
 import { SingleProjectArchiveService } from 'src/app/services/single-project-archive.service';
 import { firstValueFrom } from 'rxjs';
 import { ProjectEnumsService } from 'src/app/services/project-enums.service';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
-
+@UntilDestroy()
 @Component({
   selector: 'app-single-project',
   template: `
@@ -160,14 +161,13 @@ export class SingleProjectComponent implements OnInit, OnDestroy {
 
     this.singleProjectService.initProject();
 
-    this.route.params.subscribe(params => {
-      if (params.projectId) {
+    firstValueFrom(this.route.params).then(({projectId}) => {
+      if (projectId) {
         this.singleProjectService.newProject = false;
-        this.singleProjectService.setProjectId(params.projectId);
+        this.singleProjectService.setProjectId(projectId);
         if (this.singleProjectService.archiveActive) {
           return;
         }
-        this.singleProjectService.fillInProject();
       } else {
         this.singleProjectService.newProject = true;
         firstValueFrom(this.api.generateProjectId())
@@ -177,7 +177,9 @@ export class SingleProjectComponent implements OnInit, OnDestroy {
           })
           .catch((err) => this.toastr.error(err.error, `Error ${err.status}: ${err.statusText}`));
       }
-    })
+    });
+
+    this.singleProjectService.projectData$.pipe(untilDestroyed(this)).subscribe();
   }
 
   ngOnDestroy() {

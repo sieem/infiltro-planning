@@ -7,6 +7,7 @@ import { CompanyService } from 'src/app/services/company.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { firstValueFrom, switchMap } from 'rxjs';
+import { passwordRegex } from 'src/app/helpers/regex.helper';
 
 @Component({
   selector: 'app-register',
@@ -32,7 +33,7 @@ import { firstValueFrom, switchMap } from 'rxjs';
 export class RegisterComponent implements OnInit {
   registerForm = this.formBuilder.group({
     _id: [''],
-    password: ['', [Validators.required, Validators.pattern(this.formService.passwordRegex)]],
+    password: ['', [Validators.required, Validators.pattern(passwordRegex)]],
   });
   submitted = false;
   user: any;

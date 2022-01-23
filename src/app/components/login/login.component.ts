@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 import { Router } from '@angular/router';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { FormService } from 'src/app/services/form.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { firstValueFrom } from 'rxjs';
+import { emailRegex, passwordRegex } from 'src/app/helpers/regex.helper';
 
 @Component({
   selector: 'app-login',
@@ -33,10 +34,10 @@ import { firstValueFrom } from 'rxjs';
   `,
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   loginForm = this.formBuilder.group({
-    email: ['', [Validators.required, Validators.pattern(this.formService.emailRegex)]],
-    password: ['', [Validators.required, Validators.pattern(this.formService.passwordRegex)]],
+    email: ['', [Validators.required, Validators.pattern(emailRegex)]],
+    password: ['', [Validators.required, Validators.pattern(passwordRegex)]],
   });
   submitted = false;
 
@@ -47,13 +48,6 @@ export class LoginComponent implements OnInit {
     public formService: FormService,
     private auth: AuthService,
     private toastr: ToastrService) { }
-
-  ngOnInit() {
-    this.loginForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.pattern(this.formService.emailRegex)]],
-      password: ['', [Validators.required, Validators.pattern(this.formService.passwordRegex)]],
-    });
-  }
 
   onSubmit() {
     this.submitted = true;

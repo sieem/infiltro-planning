@@ -7,6 +7,7 @@ import { SingleProjectService } from 'src/app/services/single-project.service';
 import { ToastrService } from 'ngx-toastr';
 import { FormService } from 'src/app/services/form.service';
 import { firstValueFrom } from 'rxjs';
+import { dateFormat } from 'src/app/helpers/regex.helper';
 
 @Component({
   selector: 'app-single-project-controls',
@@ -58,8 +59,8 @@ export class SingleProjectControlsComponent {
       return;
     }
 
-    const todayPlusOneYear = this.formService.formatDate(new Date(new Date().setFullYear(new Date().getFullYear() + 1)), this.formService.dateFormat);
-    const today = this.formService.formatDate(new Date(), this.formService.dateFormat);
+    const todayPlusOneYear = this.formService.formatDate(new Date(new Date().setFullYear(new Date().getFullYear() + 1)), dateFormat);
+    const today = this.formService.formatDate(new Date(), dateFormat);
     if (this.formService.formatDate(this.projectForm.value.datePlanned) !== 'Nog te plannen' && (this.projectForm.value.datePlanned < today || todayPlusOneYear < this.projectForm.value.datePlanned)) {
       if (!confirm(`Ben je zeker dat je dit project met ingeplande datum '${this.formService.formatDate(this.projectForm.value.datePlanned)}' wil opslaan?`)) {
         return;

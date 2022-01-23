@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { FormService } from 'src/app/services/form.service';
 import { CompanyService } from 'src/app/services/company.service';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
-import { Observable, firstValueFrom } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { ICompany } from '../../interfaces/company.interface';
+import { emailRegex } from 'src/app/helpers/regex.helper';
 
 @Component({
   selector: 'app-admin-companies',
@@ -61,7 +62,7 @@ export class AdminCompaniesComponent {
     _id: [''],
     name: ['', Validators.required],
     pricePageVisible: [''],
-    email: ['', [Validators.required, Validators.email, Validators.pattern(this.formService.emailRegex)]],
+    email: ['', [Validators.required, Validators.email, Validators.pattern(emailRegex)]],
   })
   submitted = false
   editState = false
