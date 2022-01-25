@@ -92,7 +92,7 @@ export const addUser = (req: Request, res: Response) => {
             if (user)
                 return res.status(401).send('Email already exists')
             else {
-                let user: IUser = new User(req.body)
+                let user = new User(req.body) as unknown as IUser;
                 user.resetToken = await generateToken()
 
                 user.save((err: any, user: IUser) => {
@@ -109,7 +109,7 @@ export const addUser = (req: Request, res: Response) => {
                         html: `Gelieve je registratie af te ronden op <a href="${process.env.BASE_URL}/registreer/${user.resetToken}">${process.env.BASE_URL}/registreer/${user.resetToken}</a>`
                     })
                     mail.send()
-                    
+
                     return res.status(200).send(user)
                 })
             }
@@ -147,7 +147,7 @@ export const registerUser = (req: Request, res: Response) => {
                 return res.status(200).send({ token })
             })
         })
-        
+
     })
 }
 

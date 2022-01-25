@@ -10,8 +10,8 @@ import { IProject } from '../interfaces/project.interface';
 import { IUser } from '../interfaces/user.interface';
 const calendar = new calendarService();
 
-const getCoordinates = async (project: IProject, foundProject: IProject) => {
-    if (foundProject && project.street === foundProject.street && project.city === foundProject.city && project.postalCode === foundProject.postalCode && foundProject.lng && foundProject.lat) {
+const getCoordinates = async (project: IProject, foundProject: IProject | null) => {
+    if (project.street === foundProject?.street && project.city === foundProject?.city && project.postalCode === foundProject?.postalCode && foundProject?.lng && foundProject?.lat) {
         return project;
     }
 
@@ -29,15 +29,15 @@ const getCoordinates = async (project: IProject, foundProject: IProject) => {
 
     return project;
 }
-const addCommentsAndEmails = (project: IProject, oldProject: IProject) => {
+const addCommentsAndEmails = (project: IProject, oldProject: IProject | null) => {
     // add comments and emails to project object
-    project.mails = (oldProject) ? oldProject.mails : [];
-    project.comments = (oldProject) ? oldProject.comments : [];
+    project.mails = oldProject ? oldProject.mails : [];
+    project.comments = oldProject ? oldProject.comments : [];
 
     return project;
 }
 
-const saveCalendarItem = async (project: IProject, foundProject: IProject) => {
+const saveCalendarItem = async (project: IProject, foundProject: IProject | null) => {
     if (project.datePlanned && project.hourPlanned && ['proposalSent', 'planned'].includes(project.status) && project.executor) {
         const companyQuery: any = await Company.findById(project.company).exec()
         const event: any = {
@@ -110,7 +110,7 @@ const saveCalendarItem = async (project: IProject, foundProject: IProject) => {
     return project;
 }
 
-const sendMails = (project: IProject, savedProject: IProject, user: IUser) => {
+const sendMails = (project: IProject, savedProject: IProject | null, user: IUser) => {
     // check if I have to send mails
     const idDavid = '5d4c733e65469039e2dd5acf'
     if (!savedProject && user.get('id') !== idDavid) {
@@ -135,8 +135,8 @@ const sendMails = (project: IProject, savedProject: IProject, user: IUser) => {
     }
 }
 
-const handleActiveDate = (project: IProject, oldProject: IProject) => {
-    project.dateActive = project.dateActive ? project.dateActive : oldProject?.dateActive;
+const handleActiveDate = (project: IProject, oldProject: IProject | null) => {
+    project.dateActive = project.dateActive ?? oldProject?.dateActive ?? null;
 
     if (project.status === 'contractSigned') { // "Nog niet actief"
         project.dateActive = null;
@@ -145,7 +145,7 @@ const handleActiveDate = (project: IProject, oldProject: IProject) => {
         return project;
     }
 
-    if (!project.dateActive || ['onHold', 'onHoldByClient'].includes(oldProject.status)) {
+    if (!project.dateActive || ['onHold', 'onHoldByClient'].includes(oldProject?.status ?? '')) {
         project.dateActive = new Date();
     }
 
@@ -164,7 +164,7 @@ export const saveProject = async (body: IProject, user?: IUser) => {
         project.datePlanned = calendar.combineDateHour(project.datePlanned, project.hourPlanned)
 
         try {
-            const oldProject = await Project.findById(project._id).exec() ?? {};
+            const oldProject = await Project.findById(project._id).exec() as IProject | null;
 
             project = await getCoordinates(project, oldProject);
             project = addCommentsAndEmails(project, oldProject);
@@ -175,7 +175,7 @@ export const saveProject = async (body: IProject, user?: IUser) => {
             saveProjectArchive(project, user.get('id'));
 
             // save the project
-            const savedProject = await Project.findByIdAndUpdate(project._id, project, { upsert: true }).exec();
+            const savedProject = (await Project.findByIdAndUpdate(project._id, project, { upsert: true }).exec()) as IProject | null;
 
             sendMails(project, savedProject, user);
             return project;

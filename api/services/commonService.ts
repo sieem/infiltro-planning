@@ -46,7 +46,7 @@ const executors = [
 
 export const commentsToString = async (comments: IComment[] = []) => {
     let returnString = '';
-    
+
     for (const comment of comments) {
         returnString += `${await userIdToName(comment.user)} (${moment(comment.modifiedDateTime).format("YYYY-MM-DD HH:mm")}):${comment.content}\n`
     }
@@ -60,7 +60,13 @@ export const userIdToName = async (userId: string) => {
         return foundUser.name;
     }
     try {
-        const user: IUser = await User.findById(userId).select({ name: 1 }).exec();
+        const user = await User.findById(userId).select({ name: 1 }).exec() as IUser | null;
+
+        if (!user) {
+          console.log('Gebruiker niet gevonden');
+          return 'Gebruiker niet gevonden';
+        }
+
         usersCache.push({
             id: userId,
             name: user.name,

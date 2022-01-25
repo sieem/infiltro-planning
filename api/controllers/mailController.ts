@@ -9,7 +9,11 @@ export const sendProjectMail = async (req: Request, res: Response) => {
     if (req.user?.role === 'admin') {
         const mailForm = req.body;
         const htmlMailBody = mailForm.body.replace(/\n/g, "<br>");
-        const foundProject: IProject = await Project.findById(mailForm._id).exec()
+        const foundProject = await Project.findById(mailForm._id).exec() as IProject | null;
+
+        if (!foundProject) {
+          throw Error(`No project found, tried id:'${mailForm._id}'`);
+        }
 
         const mailDetails: any = {
             david: {
