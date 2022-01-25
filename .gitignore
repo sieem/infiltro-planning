@@ -49,3 +49,12 @@ commands.txt
 
 # production environment file
 /src/environments/environment.prod.ts
+
+
+# api specifics
+.env
+api/dbInit.txt
+api/credentials*
+api/token*
+api/calendarSync/latestSyncTokens.json
+api/dist
