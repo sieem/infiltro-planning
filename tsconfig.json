@@ -19,6 +19,7 @@
     ],
     "skipLibCheck": true,
     "strict": true,
+    "resolveJsonModule": true
   },
   "angularCompilerOptions": {
     "strictTemplates": true
