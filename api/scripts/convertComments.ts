@@ -1,4 +1,5 @@
 import { config } from 'dotenv';
+import { IProject } from 'interfaces/project.interface';
 import { connect, Types } from 'mongoose';
 import Project from '../models/project';
 
@@ -11,7 +12,7 @@ import Project from '../models/project';
     connect(db, (err) => err ? console.log(err) : console.log('connected to mongodb'));
 
     try {
-        projects = await Project.find({})
+        projects = await Project.find({}) as unknown as IProject[];
     } catch (error: any) {
         console.error(error)
         return

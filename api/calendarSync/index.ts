@@ -6,6 +6,7 @@ import schedule from 'node-schedule';
 import Project from '../models/project';
 import CalendarService from '../services/calendarService';
 import { readJsonSync, writeJsonSync } from 'fs-extra';
+import { IProject } from '../../src/app/interfaces/project.interface';
 
 (async () => {
     config();
@@ -37,9 +38,9 @@ import { readJsonSync, writeJsonSync } from 'fs-extra';
     schedule.scheduleJob('0 4 * * *', async (fireDate) => {
         console.log('Sync at', moment(fireDate).format("YYYY-MM-DD HH:mm"));
 
-        const projects = await Project.find({}).select({ eventId: 1 }).exec();
+        const projects = (await Project.find({}).select({ eventId: 1 }).exec()) as unknown as IProject[];
 
-        const projectEventIds = projects.reduce((acc, cur: any) => [...acc, cur.eventId], []);
+        const projectEventIds = projects.reduce((acc: any, cur: any) => [...acc, cur.eventId], []);
 
         try {
             for (const calendar of calendars) {

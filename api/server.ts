@@ -17,7 +17,7 @@ const app = express();
 const db = process.env.NODE_ENV === 'development'
     ? `mongodb://localhost/${process.env.MONGODB_DB}`
     : `mongodb://${process.env.MONGODB_USER}:${process.env.MONGODB_PASS}@localhost:27017/${process.env.MONGODB_DB}`;
-const staticRoot = './dist/'
+const staticRoot = process.env.STATIC_ROOT ?? './dist/';
 
 connect(db, (err) => err ? console.log(err) : console.log('connected to mongodb'));
 

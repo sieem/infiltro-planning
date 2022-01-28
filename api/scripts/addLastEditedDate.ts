@@ -2,6 +2,7 @@ import { config } from 'dotenv';
 import { connect } from 'mongoose';
 import Project from '../models/project';
 import Archive from '../models/archive';
+import { IProject } from 'interfaces/project.interface';
 
 (async () => {
     config();
@@ -11,7 +12,7 @@ import Archive from '../models/archive';
     connect(db, (err) => err ? console.log(err) : console.log('connected to mongodb'));
 
     try {
-        projects = await Project.find({})
+        projects = await Project.find({}) as unknown as IProject[]
     } catch (error: any) {
         console.error(error)
         return
@@ -29,7 +30,7 @@ import Archive from '../models/archive';
          catch (error: any) {
             console.log(error);
         }
-        
+
     }
 
     console.log("done converting", new Date)
