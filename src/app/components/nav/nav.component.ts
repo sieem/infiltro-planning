@@ -5,7 +5,7 @@ import { CompanyService } from 'src/app/services/company.service';
 @Component({
   selector: 'app-nav',
   template: `
-    <nav>
+    <nav *ngIf="auth.loggedIn()">
       <a routerLink="/projecten" routerLinkActive="active">Projecten</a>
       <a routerLink="/kaart" *ngIf="auth.isAdmin()" routerLinkActive="active">Kaart</a>
       <a routerLink="/staffel" routerLinkActive="active" *ngIf="companyService.pricePageVisibleForCurrentUser$ | async">Staffel</a>
@@ -16,7 +16,6 @@ import { CompanyService } from 'src/app/services/company.service';
           <a routerLink="/admin/mail-templates" routerLinkActive="active">Mail templates</a>
         </div>
       </a>
-      <a routerLink="/inloggen" *ngIf="!auth.loggedIn()" routerLinkActive="active">Inloggen</a>
       <a *ngIf="auth.loggedIn()" (click)="auth.logoutUser()">Uitloggen</a>
     </nav>
   `,

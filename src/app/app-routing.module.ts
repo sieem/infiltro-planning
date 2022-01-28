@@ -48,7 +48,8 @@ const routes: Routes = [
   },
   {
     path: 'kaart',
-    component: MapComponent
+    component: MapComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'staffel',
@@ -57,15 +58,15 @@ const routes: Routes = [
   },
   {
     path: 'inloggen',
-    component: LoginComponent
+    component: LoginComponent,
   },
   {
     path: 'herstel-wachtwoord/:resetToken',
-    component: RegisterComponent
+    component: RegisterComponent,
   },
   {
     path: 'herstel-wachtwoord',
-    component: ResetPasswordComponent
+    component: ResetPasswordComponent,
   },
   {
     path: 'registreer',
@@ -74,25 +75,25 @@ const routes: Routes = [
   },
   {
     path: 'registreer/:resetToken',
-    component: RegisterComponent
+    component: RegisterComponent,
   },
   {
     path: 'admin/gebruikers',
     component: AdminUserComponent,
     canActivate: [AuthGuard],
-    data: { roles: ['admin'] }
+    data: { roles: ['admin'] },
   },
   {
     path: 'admin/bedrijven',
     component: AdminCompaniesComponent,
     canActivate: [AuthGuard],
-    data: { roles: ['admin'] }
+    data: { roles: ['admin'] },
   },
   {
     path: 'admin/mail-templates',
     component: AdminMailTemplatesComponent,
     canActivate: [AuthGuard],
-    data: { roles: ['admin'] }
+    data: { roles: ['admin'] },
   }
 ];
 
