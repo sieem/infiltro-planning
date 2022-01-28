@@ -18,10 +18,11 @@ import { ProjectEnumsService } from './project-enums.service';
 })
 export class ProjectService {
   activeFilter$ = new BehaviorSubject<IActiveFilter>({
-    status: ['toContact', 'toPlan', 'proposalSent', 'planned', 'executed', 'reportAvailable', 'conformityAvailable', 'onHold', ...(!!this.auth.isAdmin() ? ['onHoldByClient'] : []) as 'onHoldByClient'[]],
+    status: ['toContact', 'toPlan', 'proposalSent', 'planned', 'executed', 'reportAvailable', 'conformityAvailable', 'onHold', ...(!this.auth.isAdmin() ? ['onHoldByClient'] : []) as 'onHoldByClient'[]],
     executor: ['david', 'roel', 'together'],
     company: []
   });
+
 
   sortOptions$ = new BehaviorSubject<{ field: ISortables['type'], order: 'asc' | 'desc' }>({
     field: 'datePlanned',
