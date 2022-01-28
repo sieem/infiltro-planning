@@ -3,10 +3,10 @@ import { Pipe, PipeTransform } from '@angular/core';
 @Pipe({
   name: 'reverse'
 })
-export class ReversePipe implements PipeTransform {
+export class ReversePipe<T extends unknown> implements PipeTransform {
 
-  transform(value: any): any {
-    return (value) ? value.slice().reverse() : value;
+  transform(value: T[]): T[] {
+    return Array.isArray(value) ? value.reverse() : value;
   }
 
 }

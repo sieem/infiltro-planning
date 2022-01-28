@@ -1,4 +1,4 @@
-import * as moment from 'moment';
+import moment from 'moment';
 import { IProject } from '../interfaces/project.interface';
 import { dateFormat } from './regex.util';
 export const mapToForm = (formData: IProject) => ({

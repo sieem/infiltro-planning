@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { CompanyService } from '../services/company.service';
-import * as moment from 'moment';
+import moment from 'moment';
 import { SingleProjectService } from '../services/single-project.service';
 import { asyncReplace } from '../utils/asyncReplace.util';
 import { firstValueFrom } from 'rxjs';

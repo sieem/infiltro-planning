@@ -4,7 +4,7 @@ import { ApiService } from './api.service';
 import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
 import { ToastrService } from 'ngx-toastr';
-import * as moment from 'moment';
+import moment from 'moment';
 import { IProject } from '../interfaces/project.interface';
 import { BehaviorSubject, Observable, shareReplay, switchMap, firstValueFrom, Subject, tap, combineLatest, of } from 'rxjs';
 import { mapToForm } from '../utils/mapSingleProjectToForm.util';
