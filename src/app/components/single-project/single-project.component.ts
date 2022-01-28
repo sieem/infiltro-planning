@@ -168,11 +168,10 @@ export class SingleProjectComponent implements OnInit, OnDestroy {
       } else {
         this.singleProjectService.newProject$.next(true);
         firstValueFrom(this.api.generateProjectId())
-          .then((res) => {
-            this.singleProjectService.setProjectId(res);
-            this.singleProjectService.projectForm.controls._id.setValue(res);
+          .then((generatedProjectId) => {
+            this.singleProjectService.setProjectId(generatedProjectId);
+            this.singleProjectService.projectForm.controls._id.setValue(generatedProjectId);
           })
-
       }
     });
 
