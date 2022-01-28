@@ -1,13 +1,25 @@
 export interface IPointerIcon {
   executor: 'david' | 'roel' | 'together' | 'default' | 'warning',
   type: 'default' | 'planned',
-  urgency: 'normal' | 'warning',
+  urgency: 'normal' | 'warning' | 'error',
   url: string
 }
 
 export const defaultPointerUrl = 'default-faded.png';
 
 export const pointers: IPointerIcon[] = [
+  {
+    executor: 'default',
+    type: 'planned',
+    urgency: 'error',
+    url: 'error-planned.png',
+  },
+  {
+    executor: 'default',
+    type: 'default',
+    urgency: 'error',
+    url: 'error-default.png',
+  },
   {
     executor: 'david',
     type: 'planned',

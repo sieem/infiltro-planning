@@ -76,15 +76,21 @@ export class MapComponent {
           pointerType = 'planned';
         }
 
-        // always show red if it's to contact
-        if (this.isDateActiveTooOldPipe.transform(project.dateActive, project.status) || project.status === "toContact") {
+        // show little red dot
+        if (this.isDateActiveTooOldPipe.transform(project.dateActive, project.status)) {
           pointerUrgency = 'warning';
         }
 
+        // show in complete red, since this is more urgent
+        if (project.status === "toContact") {
+          pointerUrgency = 'error';
+        }
+
         const pointerUrl = pointers.find((pointer) =>
-          pointer.executor === pointerExecutor &&
+          (pointer.urgency === pointerUrgency && pointer.urgency === 'error') || // go for the red in case of error urgency
+          (pointer.executor === pointerExecutor &&
           pointer.type === pointerType &&
-          pointer.urgency === pointerUrgency
+          pointer.urgency === pointerUrgency)
         )?.url ?? defaultPointerUrl;
 
         return {
