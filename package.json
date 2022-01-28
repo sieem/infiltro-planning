@@ -8,7 +8,7 @@
     "test": "jest",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "api:dev": "nodemon api/server.ts",
+    "api:dev": "nodemon api/server.ts --watch api",
     "api:build": "tsc",
     "api:sync": "ts-node api/calendarSync",
     "deploy": "ts-node api/scripts/deploy",
