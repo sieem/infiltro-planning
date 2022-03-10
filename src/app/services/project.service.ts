@@ -4,14 +4,13 @@ import { AuthService } from './auth.service';
 import { CompanyService } from './company.service';
 import { BehaviorSubject, firstValueFrom, map, Observable, shareReplay, switchMap, combineLatest } from 'rxjs';
 import { IProject } from '../interfaces/project.interface';
-import { IProjectTypes } from '../interfaces/project-type.interface';
 import { IExecutors } from '../interfaces/executors.interface';
 import { IStatuses } from '../interfaces/statuses.interface';
 import { ISortables } from '../interfaces/sortables.interface';
 import { IActiveFilter } from '../interfaces/active-filter.interface';
-import { FilterProjectsPipe } from '../pipes/filter-projects.pipe';
 import { SortProjectsPipe } from '../pipes/sort-projects.pipe';
 import { ProjectEnumsService } from './project-enums.service';
+import { FilterProjectsPipe } from '../pipes/filter-projects.pipe';
 
 @Injectable({
   providedIn: 'root'
@@ -24,23 +23,26 @@ export class ProjectService {
   });
 
 
-  sortOptions$ = new BehaviorSubject<{ field: ISortables['type'], order: 'asc' | 'desc' }>({
+  private sortOptionsSubject$ = new BehaviorSubject<{ field: ISortables['type'], order: 'asc' | 'desc' }>({
     field: 'datePlanned',
     order: 'asc'
   });
 
+  sortOptions$ = this.sortOptionsSubject$.pipe(shareReplay({ refCount: false, bufferSize: 1 }));
+
   private projectsSubject$ = new BehaviorSubject<null>(null);
-  allProjects$: Observable<IProject[]> = this.projectsSubject$.pipe(
-    switchMap(() => this.api.getProjects()),
+
+  searchTermSubject$ = new BehaviorSubject<string>("");
+  searchTerm$ = this.searchTermSubject$.pipe(shareReplay({ refCount: false, bufferSize: 1 }));
+
+  private filteredProjects$ = combineLatest([this.activeFilter$, this.projectsSubject$]).pipe(
+    switchMap(([activeFilter]) => this.api.getProjects(activeFilter)),
+    switchMap((filteredProjects) => this.filterProjectsPipe.transform(filteredProjects, this.searchTermSubject$.value)),
+  )
+
+  projects$: Observable<IProject[]> = combineLatest([this.filteredProjects$, this.sortOptions$]).pipe(
+    map(([filteredProjects]) => this.sortProjectsPipe.transform(filteredProjects, this.sortOptionsSubject$.value)),
     shareReplay({ refCount: false, bufferSize: 1 }),
-  );
-
-  searchTerm$ = new BehaviorSubject<string>("");
-
-
-  projects$: Observable<IProject[]> = combineLatest([this.allProjects$, this.activeFilter$, this.sortOptions$, this.searchTerm$]).pipe(
-    switchMap(([allProjects, activeFilter, sortOptions, searchTerm]) => this.filterProjectsPipe.transform(allProjects, activeFilter, searchTerm)),
-    map((filteredProjects) => this.sortProjectsPipe.transform(filteredProjects, this.sortOptions$.value))
   );
 
   private technicalFields = ["ATest", "v50Value", "protectedVolume", "EpbNumber"] as const;
@@ -127,11 +129,11 @@ export class ProjectService {
   }
 
   setSearchTerm(event: Event) {
-    this.searchTerm$.next((event?.target as any).value ?? '');
+    this.searchTermSubject$.next((event?.target as any).value ?? '');
   }
 
   setSortable(sortable: ISortables['type'] | '' = '') {
-    const newSortOptions = this.sortOptions$.value;
+    const newSortOptions = this.sortOptionsSubject$.value;
     if (sortable !== '') {
       if (newSortOptions.field === sortable) {
         newSortOptions.order = newSortOptions.order === 'asc' ? 'desc' : 'asc';
@@ -139,7 +141,7 @@ export class ProjectService {
       newSortOptions.field = sortable;
     }
 
-    this.sortOptions$.next(newSortOptions);
+    this.sortOptionsSubject$.next(newSortOptions);
   }
 
   isTechnicalDataFilledIn(projectData: IProject) {

@@ -7,6 +7,7 @@ import { ICompany } from '../interfaces/company.interface';
 import { IUser } from '../interfaces/user.interface';
 import { ITemplate } from '../interfaces/template.interface';
 import { IComment } from '../interfaces/comments.interface';
+import { IActiveFilter } from '../interfaces/active-filter.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -68,8 +69,8 @@ export class ApiService {
     return this.http.get<string>(this.baseUrl + '/generate-project-id')
   }
 
-  getProjects() {
-    return this.http.get<IProject[]>(this.baseUrl + '/get-projects')
+  getProjects(activeFilter: Partial<IActiveFilter>) {
+    return this.http.post<IProject[]>(this.baseUrl + '/get-projects', { activeFilter })
   }
 
   getProject(projectId: string): Observable<IProject> {

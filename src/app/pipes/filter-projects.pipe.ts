@@ -24,32 +24,9 @@ export class FilterProjectsPipe implements PipeTransform {
     private projectTypePipe: ProjectTypePipe,
   ) {}
 
-  async transform(projects: IProject[], activeFilter: IActiveFilter, searchTerm: string): Promise<IProject[]> {
-    const filteredProjects = projects.filter((project) => {
-      let filterBooleans: boolean[] = [];
-
-      if (activeFilter.status.length === 0) {
-        return false;
-      } else if (project.status !== '') {
-        filterBooleans.push(activeFilter.status.includes(project.status))
-      }
-
-      if (activeFilter.executor.length === 0) {
-        return false;
-      } else if (project.executor !== '') {
-        filterBooleans.push(activeFilter.executor.includes(project.executor))
-      }
-
-      if (activeFilter.company.length === 0) {
-        return false;
-      } else if (project.company !== '') {
-        filterBooleans.push(activeFilter.company.includes(project.company))
-      }
-
-      return !filterBooleans.includes(false);
-    });
-
-    return await asyncFilter(filteredProjects, async (row: IProject) => {
+  async transform(projects: IProject[], searchTerm: string): Promise<IProject[]> {
+    // filtering itself is done in the backend, this is only for the searchTerm
+    return await asyncFilter(projects, async (row: IProject) => {
       let foundInSearch = false;
 
       if (searchTerm === "") {

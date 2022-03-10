@@ -9,7 +9,7 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { FormService } from 'src/app/services/form.service';
 import { UserService } from 'src/app/services/user.service';
 import { IProject } from '../../interfaces/project.interface';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, map, Observable } from 'rxjs';
 import { ProjectEnumsService } from 'src/app/services/project-enums.service';
 
 @Component({
@@ -102,23 +102,23 @@ import { ProjectEnumsService } from 'src/app/services/project-enums.service';
             <div class="project"
             *ngFor="let project of projectService.projects$ | async; trackBy: trackByFn"
             [ngClass]="[project.status]"
-            [class.isFuturePlanned]="isFuturePlanned(project)"
+            [class.isFuturePlanned]="isFuturePlanned(project) | async"
             [class.selected]="isSelected(project) && batchMode"
             (click)="selectProject(project)">
-                <div class="company" [innerHTML]="project.company | company | async | highlightText: projectService.searchTerm$.value | safeHtml"></div>
+                <div class="company" [innerHTML]="project.company | company | async | highlightText: projectService.searchTerm$ | async | safeHtml"></div>
                 <ng-container *ngIf="!batchMode; else noBatchMode">
                     <div class="title" [routerLink]="[ '/project', project._id ]">
                         <span *ngIf="project.dateActive | isDateActiveTooOld: project.status" class="error">!</span>
-                        <span [innerHTML]="project.projectName | highlightText: projectService.searchTerm$.value | safeHtml"></span> /
-                        <span [innerHTML]="project.projectType | projectType | highlightText: projectService.searchTerm$.value | safeHtml"></span> /
+                        <span [innerHTML]="project.projectName | highlightText: projectService.searchTerm$ | async | safeHtml"></span> /
+                        <span [innerHTML]="project.projectType | projectType | highlightText: projectService.searchTerm$ | async | safeHtml"></span> /
                         {{project.houseAmount}}
                     </div>
                 </ng-container>
                 <ng-template #noBatchMode>
                     <div class="title">
                         <span *ngIf="project.dateActive | isDateActiveTooOld: project.status" class="error">!</span>
-                        <span [innerHTML]="project.projectName | highlightText: projectService.searchTerm$.value | safeHtml"></span> /
-                        <span [innerHTML]="project.projectType | projectType | highlightText: projectService.searchTerm$.value | safeHtml"></span> /
+                        <span [innerHTML]="project.projectName | highlightText: projectService.searchTerm$ | async | safeHtml"></span> /
+                        <span [innerHTML]="project.projectType | projectType | highlightText: projectService.searchTerm$ | async | safeHtml"></span> /
                         {{project.houseAmount}}
                     </div>
                 </ng-template>
@@ -129,7 +129,7 @@ import { ProjectEnumsService } from 'src/app/services/project-enums.service';
                     (window:keydown)="registerCtrlKey($event)"
                     (window:keyup)="registerCtrlKey($event)"
                         *ngIf="!isSelected(project) || batchMode || !auth.isAdmin()">
-                        <span [innerHTML]="project.status | status | highlightText: projectService.searchTerm$.value | safeHtml"></span>
+                        <span [innerHTML]="project.status | status | highlightText: projectService.searchTerm$ | async | safeHtml"></span>
                     </div>
                     <div class="write" *ngIf="isSelected(project) && auth.isAdmin() && !batchMode">
                         <select name="status" id="status" (change)="changeStatus($event)">
@@ -139,22 +139,22 @@ import { ProjectEnumsService } from 'src/app/services/project-enums.service';
                     </div>
                 </div>
                 <div class="address">
-                    <span [innerHTML]="project.street | highlightText: projectService.searchTerm$.value | safeHtml"></span>,
-                    <span [innerHTML]="project.postalCode | highlightText: projectService.searchTerm$.value | safeHtml"></span>&nbsp;
-                    <span [innerHTML]="project.city | highlightText: projectService.searchTerm$.value | safeHtml"></span>
+                    <span [innerHTML]="project.street | highlightText: projectService.searchTerm$ | async | safeHtml"></span>,
+                    <span [innerHTML]="project.postalCode | highlightText: projectService.searchTerm$ | async | safeHtml"></span>&nbsp;
+                    <span [innerHTML]="project.city | highlightText: projectService.searchTerm$ | async | safeHtml"></span>
                     <ng-container *ngIf="project.extraInfoAddress">, </ng-container>
-                    <span *ngIf="project.extraInfoAddress" class="extraInfoAddress" [innerHTML]="project.extraInfoAddress | highlightText: projectService.searchTerm$.value | safeHtml"></span>
+                    <span *ngIf="project.extraInfoAddress" class="extraInfoAddress" [innerHTML]="project.extraInfoAddress | highlightText: projectService.searchTerm$ | async | safeHtml"></span>
                 </div>
                 <div class="dateHourCreated" title="Laatst aangepast: {{ project.dateEdited | formatDate:'time' }}">
-                    <span [innerHTML]="project.dateActive | formatDate:'empty' | highlightText: projectService.searchTerm$.value | safeHtml"></span>
+                    <span [innerHTML]="project.dateActive | formatDate:'empty' | highlightText: projectService.searchTerm$ | async | safeHtml"></span>
                 </div>
                 <div class="dateHourPlanned">
                     <b>
-                        <span [innerHTML]="project.executor | executor | highlightText: projectService.searchTerm$.value | safeHtml"></span>
+                        <span [innerHTML]="project.executor | executor | highlightText: projectService.searchTerm$ | async | safeHtml"></span>
                     </b>
                     <br>
-                    <span [innerHTML]="project.datePlanned | formatDate | highlightText: projectService.searchTerm$.value | safeHtml"></span>
-                    <ng-container *ngIf="project.hourPlanned"> om <span [innerHTML]="project.hourPlanned | highlightText: projectService.searchTerm$.value | safeHtml"></span></ng-container>
+                    <span [innerHTML]="project.datePlanned | formatDate | highlightText: projectService.searchTerm$ | async | safeHtml"></span>
+                    <ng-container *ngIf="project.hourPlanned"> om <span [innerHTML]="project.hourPlanned | highlightText: projectService.searchTerm$ | async | safeHtml"></span></ng-container>
                 </div>
                 <div class="technicalDataFilledIn">
                     <ng-container *ngIf="projectService.isTechnicalDataFilledIn(project); else technicalDataNotFilledIn">
@@ -287,8 +287,10 @@ export class ProjectsComponent implements OnInit {
     return (this.selectedProjects.includes(project))
   }
 
-  isFuturePlanned(project: IProject) {
-    return this.projectService.sortOptions$.value.field === "datePlanned" && this.projectService.sortOptions$.value.order === "asc" && new Date(project.datePlanned) > new Date()
+  isFuturePlanned(project: IProject): Observable<boolean> {
+    return this.projectService.sortOptions$.pipe(
+      map(({field, order}) => field === "datePlanned" && order === "asc" && new Date(project.datePlanned) > new Date())
+    )
   }
 
   showComment(projectId:string) {

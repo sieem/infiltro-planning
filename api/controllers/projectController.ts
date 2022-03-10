@@ -13,16 +13,22 @@ export const saveProject = async (req: Request, res: Response) => {
         const project = await saveProjectInService(req.body, req.user);
         res.status(200).json(project);
     }
-     catch (error: any) {
+    catch (error: any) {
         return res.status(error.status).send(error.message);
     }
 }
 
 export const getProjects = (req: Request, res: Response) => {
-    let findParameters = (req.user?.role === 'admin') ? {} : { company: req.user?.company }
-    if(req.user?.role === 'admin') {
-        findParameters = {}
+    const findParameters = {
+        ...(req.body.activeFilter.company ? { company: { $in: [...req.body.activeFilter.company, ''] } } : {}),
+        ...(req.body.activeFilter.executor ? { executor: { $in: [...req.body.activeFilter.executor, ''] } } : {}),
+        ...(req.body.activeFilter.status ? { status: { $in: [...req.body.activeFilter.status, ''] } } : {}),
+    };
+
+    if (req.user?.role !== 'admin') {
+        findParameters.company = { $in: [req.user?.company] };
     }
+
     Project.find(findParameters, (err: any, projects) => {
         if (err) {
             console.error(err)
@@ -32,7 +38,6 @@ export const getProjects = (req: Request, res: Response) => {
             return res.status(200).json(projects)
         }
     })
-    
 }
 
 export const getProject = (req: Request, res: Response) => {
@@ -106,7 +111,6 @@ export const batchProjects = async (req: Request, res: Response) => {
                 const foundProject: any = await Project.findById(projectToChange._id).exec();
                 foundProject.status = statusToChange;
                 await saveProjectInService(foundProject, req.user);
-                
             }
             catch (error: any) {
                 return res.status(error.status).send(error.message);

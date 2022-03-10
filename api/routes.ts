@@ -22,7 +22,7 @@ router.post('/edit-user', upload.none(), verifyToken, getUserDetails, editUser);
 router.delete('/remove-user/:userId', verifyToken, getUserDetails, removeUser);
 
 router.get('/generate-project-id', verifyToken, generateProjectId);
-router.get('/get-projects', verifyToken, getUserDetails, getProjects);
+router.post('/get-projects', verifyToken, getUserDetails, getProjects);
 router.get('/get-project/:projectId', verifyToken, getUserDetails, getProject);
 router.post('/save-project', upload.none(), verifyToken, getUserDetails, saveProject);
 router.delete('/remove-project/:projectId', verifyToken, getUserDetails, removeProject);

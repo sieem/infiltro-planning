@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { ProjectService } from 'src/app/services/project.service';
 import { ToastrService } from 'ngx-toastr';
 import { IsDateActiveTooOldPipe } from 'src/app/pipes/is-date-active-too-old.pipe';
 import { pointers, IPointerIcon, defaultPointerUrl } from './map.component.util';
 import { map } from 'rxjs/operators';
+import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-map',
@@ -54,9 +54,8 @@ export class MapComponent {
   lat = 51.023431;
   lng = 4.261164;
 
-  markers$ = this.projectService.allProjects$.pipe(
-    map((allProjects) => allProjects
-      .filter((project) => ['toPlan', 'planned', 'toContact', 'proposalSent'].includes(project.status))
+  markers$ = this.api.getProjects({ status: ['toPlan', 'planned', 'toContact', 'proposalSent'] }).pipe(
+    map((projects) => projects
       .filter((project) => {
         if (!project.lat && project.lng) {
           this.toastr.warning(`Projectnaam: ${project.projectName}`, 'Coördinaten niet gevonden');
@@ -103,7 +102,7 @@ export class MapComponent {
 
 
   constructor(
-    private projectService: ProjectService,
+    private api: ApiService,
     private toastr: ToastrService,
     private isDateActiveTooOldPipe: IsDateActiveTooOldPipe,
   ) { }
