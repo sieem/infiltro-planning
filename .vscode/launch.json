@@ -7,17 +7,6 @@
             "name": "Launch Chrome against localhost",
             "url": "http://localhost:4200",
             "webRoot": "${workspaceFolder}"
-        },
-        {
-          "name": "Debug",
-          "type": "node",
-          "request": "launch",
-          "runtimeExecutable": "node",
-          "runtimeArgs": ["--nolazy", "-r", "ts-node/register/transpile-only"],
-          "args": ["server.ts"],
-          "cwd": "${workspaceRoot}",
-          "internalConsoleOptions": "openOnSessionStart",
-          "skipFiles": ["<node_internals>/**", "node_modules/**"]
         }
     ]
 }
