@@ -107,6 +107,10 @@ export class SingleProjectCommentsService {
     }
   }
 
+  destroyComments() {
+    this.commentsSubject$.next(null)
+  }
+
   private refreshComments(comments: IComment[]) {
     this.commentsSubject$.next(comments)
   }
