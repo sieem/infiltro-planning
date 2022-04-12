@@ -30,6 +30,7 @@ export class ProjectService {
 
   sortOptions$ = this.sortOptionsSubject$.pipe(shareReplay({ refCount: false, bufferSize: 1 }));
 
+  // Just to be able to refresh the projects
   private projectsSubject$ = new BehaviorSubject<null>(null);
 
   searchTermSubject$ = new BehaviorSubject<string>("");
@@ -37,11 +38,11 @@ export class ProjectService {
 
   private filteredProjects$ = combineLatest([this.activeFilter$, this.projectsSubject$]).pipe(
     switchMap(([activeFilter]) => this.api.getProjects(activeFilter)),
-    switchMap((filteredProjects) => this.filterProjectsPipe.transform(filteredProjects, this.searchTermSubject$.value)),
   )
 
-  projects$: Observable<IProject[]> = combineLatest([this.filteredProjects$, this.sortOptions$]).pipe(
-    map(([filteredProjects]) => this.sortProjectsPipe.transform(filteredProjects, this.sortOptionsSubject$.value)),
+  projects$: Observable<IProject[]> = combineLatest([this.filteredProjects$, this.sortOptions$, this.searchTerm$]).pipe(
+    switchMap(([filteredProjects]) => this.filterProjectsPipe.transform(filteredProjects, this.searchTermSubject$.value)),
+    map((filteredProjects) => this.sortProjectsPipe.transform(filteredProjects, this.sortOptionsSubject$.value)),
     shareReplay({ refCount: false, bufferSize: 1 }),
   );
 
