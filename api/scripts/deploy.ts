@@ -15,17 +15,17 @@ import { NodeSSH } from 'node-ssh';
     });
 
 
-    if (process.argv.indexOf('frontend') !== -1 || process.argv.indexOf('f') !== -1) {
+    if (process.argv.includes('frontend') || process.argv.includes('f')) {
       console.log('deploying frontend')
       await frontendDeploy()
     }
 
-    if (process.argv.indexOf('backend') !== -1 || process.argv.indexOf('b') !== -1) {
+    if (process.argv.includes('backend') || process.argv.includes('b')) {
       console.log('deploying backend')
       await backendDeploy()
     }
 
-    if (process.argv.indexOf('frontend') === -1 && process.argv.indexOf('backend') === -1 && process.argv.indexOf('f') === -1 && process.argv.indexOf('b') === -1) {
+    if (!process.argv.includes('frontend') && !process.argv.includes('backend') && !process.argv.includes('f') && !process.argv.includes('b')) {
       console.log('deploying frontend and backend')
       await frontendDeploy()
       await backendDeploy()
