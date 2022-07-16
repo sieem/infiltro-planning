@@ -3,110 +3,28 @@ import { ApiService } from 'src/app/services/api.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { ProjectService } from 'src/app/services/project.service';
 import { ToastrService } from 'ngx-toastr';
-import { CompanyService } from 'src/app/services/company.service';
 import { ModalService } from 'src/app/services/modal.service';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { FormService } from 'src/app/services/form.service';
-import { UserService } from 'src/app/services/user.service';
 import { IProject } from '../../interfaces/project.interface';
 import { firstValueFrom, map, Observable } from 'rxjs';
 import { ProjectEnumsService } from 'src/app/services/project-enums.service';
+import { BatchModeService } from 'src/app/services/batch-mode.service';
 
 @Component({
   selector: 'app-projects',
   template: `
-    <div class="controls" *ngIf="projectService.activeFilter$ | async as activeFilter">
-        <a [routerLink]="[ '/project/toevoegen' ]" class="btn red"><img src="/assets/images/icon-new.svg" alt=""> New project</a>
-        <div class="btn filter status">
-            <span class="title">Toon ook <span class="error" *ngIf="activeFilter.status.length === 0"><span>!</span></span></span>
-            <div class="dropdown">
-                <div class="select-options">
-                    <div>Selecteer</div>
-                    <div class="btn" (click)="projectService.selectAllFilter('status', true)">Alles</div>
-                    <div class="btn" (click)="projectService.selectAllFilter('status', false)">Niets</div>
-                </div>
-                <div class="item" *ngFor="let status of projectEnumsService.statuses" (click)="projectService.changeFilter('status', status.type)">
-                    <ng-container *ngIf="!status.onlyAdmin || (status.onlyAdmin && auth.isAdmin() )">
-                        <img src="/assets/images/icon-unchecked.svg" alt="" *ngIf="!activeFilter.status.includes(status.type)">
-                        <img src="/assets/images/icon-checked.svg" alt="" *ngIf="activeFilter.status.includes(status.type)">
-                        <span>{{status.name}}</span>
-                    </ng-container>
-                </div>
-            </div>
-        </div>
-
-        <div class="btn filter executor" *ngIf="auth.isAdmin()">
-            <span class="title">Uitvoerder <span class="error" *ngIf="activeFilter.executor.length === 0"><span>!</span></span></span>
-            <div class="dropdown">
-                <div class="select-options">
-                    <div>Selecteer</div>
-                    <div class="btn" (click)="projectService.selectAllFilter('executor', true)">Alles</div>
-                    <div class="btn" (click)="projectService.selectAllFilter('executor', false)">Niets</div>
-                </div>
-                <div class="item" *ngFor="let executor of projectEnumsService.executors"
-                    (click)="projectService.changeFilter('executor', executor.type)">
-                    <img src="/assets/images/icon-unchecked.svg" alt=""
-                        *ngIf="!activeFilter.executor.includes(executor.type)">
-                    <img src="/assets/images/icon-checked.svg" alt=""
-                        *ngIf="activeFilter.executor.includes(executor.type)">
-                    <span>{{executor.name}}</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="btn filter company" *ngIf="auth.isAdmin()">
-            <span class="title">Bedrijf <span class="error" *ngIf="activeFilter.company.length === 0"><span>!</span></span></span>
-            <div class="dropdown">
-                <div class="select-options">
-                    <div>Selecteer</div>
-                    <div class="btn" (click)="projectService.selectAllFilter('company', true)">Alles</div>
-                    <div class="btn" (click)="projectService.selectAllFilter('company', false)">Niets</div>
-                </div>
-                <div class="item" *ngFor="let company of companyService.companies$ | async"
-                    (click)="projectService.changeFilter('company', company._id)">
-                    <img src="/assets/images/icon-unchecked.svg" alt=""
-                        *ngIf="!activeFilter.company.includes(company._id)">
-                    <img src="/assets/images/icon-checked.svg" alt=""
-                        *ngIf="activeFilter.company.includes(company._id)">
-                    <span>{{company.name}}</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="btn filter sort" *ngIf="projectService.sortOptions$ | async as sortOptions" [ngClass]="sortOptions.order">
-            <span class="title">Sorteer</span>
-            <div class="dropdown">
-                <div class="item" *ngFor="let sortable of projectEnumsService.sortables" (click)="projectService.setSortable(sortable.type)">
-                    <ng-container *ngIf="sortable.sort">
-                        <img src="/assets/images/icon-unchecked.svg" alt="" *ngIf="sortOptions.field !== sortable.type">
-                        <img src="/assets/images/icon-checked.svg" alt="" *ngIf="sortOptions.field === sortable.type">
-                        <span>{{sortable.name}}</span>
-                        <span class="arrow desc" *ngIf="sortOptions.field === sortable.type && sortOptions.order === 'desc'"><img src="/assets/images/icon-arrow.svg" alt=""></span>
-                        <span class="arrow asc" *ngIf="sortOptions.field === sortable.type && sortOptions.order === 'asc'"><img src="/assets/images/icon-arrow.svg" alt=""></span>
-                    </ng-container>
-                </div>
-            </div>
-        </div>
-        <div class="btn filter batch" *ngIf="auth.isAdmin()" (click)="toggleBatchMode()">
-                <span *ngIf="!batchMode" class="title">Batch status</span>
-                <span *ngIf="batchMode && selectedProjects.length === 0" class="title">Stop batch status</span>
-                <span *ngIf="batchMode && selectedProjects.length > 0" class="title">Pas projecten aan</span>
-        </div>
-        <div class="search">
-            <input type="text" name="search" [value]="projectService.searchTerm$ | async" (input)="projectService.setSearchTerm($event)" placeholder="Zoeken">
-        </div>
-    </div>
-
-    <div class="projectList" [ngClass]="{'batchMode': batchMode}">
+    <app-filterbar></app-filterbar>
+    <div class="projectList" [ngClass]="{'batchMode': batchMode$ | async}">
         <div class="projects">
             <div class="project"
             *ngFor="let project of projectService.projects$ | async; trackBy: trackByFn"
             [ngClass]="[project.status]"
             [class.isFuturePlanned]="isFuturePlanned(project) | async"
-            [class.selected]="isSelected(project) && batchMode"
+            [class.selected]="isSelected(project) && (batchMode$ | async)"
             (click)="selectProject(project)">
                 <div class="company" [innerHTML]="project.company | company | async | highlightText: projectService.searchTerm$ | async | safeHtml"></div>
-                <ng-container *ngIf="!batchMode; else noBatchMode">
+                <ng-container *ngIf="(batchMode$ | async) === false; else batchMode">
                     <div class="title" [routerLink]="[ '/project', project._id ]">
                         <span *ngIf="project.dateActive | isDateActiveTooOld: project.status" class="error">!</span>
                         <span [innerHTML]="project.projectName | highlightText: projectService.searchTerm$ | async | safeHtml"></span> /
@@ -114,7 +32,7 @@ import { ProjectEnumsService } from 'src/app/services/project-enums.service';
                         {{project.houseAmount}}
                     </div>
                 </ng-container>
-                <ng-template #noBatchMode>
+                <ng-template #batchMode>
                     <div class="title">
                         <span *ngIf="project.dateActive | isDateActiveTooOld: project.status" class="error">!</span>
                         <span [innerHTML]="project.projectName | highlightText: projectService.searchTerm$ | async | safeHtml"></span> /
@@ -128,10 +46,10 @@ import { ProjectEnumsService } from 'src/app/services/project-enums.service';
                     <div class="read" (click)="selectProject(project)"
                     (window:keydown)="registerCtrlKey($event)"
                     (window:keyup)="registerCtrlKey($event)"
-                        *ngIf="!isSelected(project) || batchMode || !auth.isAdmin()">
+                        *ngIf="!isSelected(project) || (batchMode$ | async) || !auth.isAdmin()">
                         <span [innerHTML]="project.status | status | highlightText: projectService.searchTerm$ | async | safeHtml"></span>
                     </div>
-                    <div class="write" *ngIf="isSelected(project) && auth.isAdmin() && !batchMode">
+                    <div class="write" *ngIf="isSelected(project) && auth.isAdmin() && (batchMode$ | async) === false">
                         <select name="status" id="status" (change)="changeStatus($event)">
                             <option value="">Selecteer status</option>
                             <option *ngFor="let status of projectEnumsService.statuses" [value]="status.type" [selected]="status.type === project.status">{{status.name}}</option>
@@ -196,7 +114,7 @@ import { ProjectEnumsService } from 'src/app/services/project-enums.service';
             <h2>Batch verwerking</h2>
             <h4>Geselecteerde projecten</h4>
             <ul class="selectedProjects">
-                <li *ngFor="let selectedProject of this.selectedProjects">{{ selectedProject.projectName }} / {{ selectedProject.projectType | projectType }} / {{ selectedProject.houseAmount}}</li>
+                <li *ngFor="let selectedProject of selectedProjects$ | async">{{ selectedProject.projectName }} / {{ selectedProject.projectType | projectType }} / {{ selectedProject.houseAmount}}</li>
             </ul>
             <form [formGroup]="batchForm" (ngSubmit)="onSubmit()">
                 <div class="projectRow">
@@ -223,8 +141,7 @@ import { ProjectEnumsService } from 'src/app/services/project-enums.service';
 })
 export class ProjectsComponent implements OnInit {
 
-  batchMode = false;
-  selectedProjects: IProject[] = [];
+  batchMode$ = this.batchModeService.batchMode$;
   batchForm = this.formBuilder.group({
     status: ['', Validators.required]
   });
@@ -232,34 +149,26 @@ export class ProjectsComponent implements OnInit {
   ctrlKeyDown = false;
   currentHoverComment = '';
   now = new Date();
+  selectedProjects$ = this.batchModeService.selectedProjects$;
 
   constructor(
     private api: ApiService,
     public auth: AuthService,
-    public companyService: CompanyService,
     public projectService: ProjectService,
     private formBuilder: FormBuilder,
     public formService: FormService,
     private toastr: ToastrService,
-    public userService: UserService,
     private modalService: ModalService,
     public projectEnumsService: ProjectEnumsService,
+    private batchModeService: BatchModeService,
     ) { }
 
   ngOnInit() {
     this.projectService.getProjects()
   }
 
-  trackByFn(index: number, item: any) {
+  trackByFn(_: number, item: any) {
     return item._id;
-  }
-
-  toggleBatchMode() {
-    if (this.batchMode && this.selectedProjects.length > 0) {
-      this.modalService.open("batchmode-modal")
-    } else {
-      this.batchMode = !this.batchMode
-    }
   }
 
   registerCtrlKey(event: any) {
@@ -270,21 +179,23 @@ export class ProjectsComponent implements OnInit {
     }
   }
 
-  selectProject(project: IProject) {
-    if (this.batchMode) {
-      if (!this.selectedProjects.includes(project)) {
-        this.selectedProjects = [...this.selectedProjects, project]
+  async selectProject(project: IProject) {
+    const selectedProjects = await firstValueFrom(this.selectedProjects$);
+
+    if (this.batchMode$.value) {
+      if (!selectedProjects.includes(project)) {
+        this.selectedProjects$.next([...selectedProjects, project])
       } else {
-        this.selectedProjects = this.selectedProjects.filter(val => { return val !== project })
+        this.selectedProjects$.next(selectedProjects.filter(val => { return val !== project }))
       }
 
     } else if (this.ctrlKeyDown) {
-      this.selectedProjects = [project]
+      this.selectedProjects$.next([project])
     }
   }
 
   isSelected(project: IProject) {
-    return (this.selectedProjects.includes(project))
+    return this.selectedProjects$.value.includes(project);
   }
 
   isFuturePlanned(project: IProject): Observable<boolean> {
@@ -307,23 +218,23 @@ export class ProjectsComponent implements OnInit {
   }
 
   cancelBatchMode() {
-    this.batchMode = false
-    this.selectedProjects = []
+    this.batchMode$.next(false);
+    this.selectedProjects$.next([]);
     this.modalService.close("batchmode-modal")
   }
 
   changeStatus(event: any) {
     const statusToChange = event.srcElement.selectedOptions[0].value;
-    firstValueFrom(this.api.batchProjects({ status: statusToChange, projects: this.selectedProjects }))
+    firstValueFrom(this.api.batchProjects({ status: statusToChange, projects: this.selectedProjects$.value }))
       .then(() => {
         this.projectService.getProjects();
-        this.selectedProjects = [];
+        this.selectedProjects$.next([]);
       })
 
   }
 
   onSubmit() {
-    if (!this.batchMode) {
+    if (!this.batchMode$.value) {
       return;
     }
     this.submitted = true;
@@ -333,13 +244,13 @@ export class ProjectsComponent implements OnInit {
       return;
     }
 
-    firstValueFrom(this.api.batchProjects({ status: this.batchForm.value.status, projects: this.selectedProjects }))
+    firstValueFrom(this.api.batchProjects({ status: this.batchForm.value.status, projects: this.selectedProjects$.value }))
       .then(() => {
-        this.batchMode = false;
+        this.batchMode$.next(false);
         this.submitted = false;
         this.projectService.getProjects();
         this.modalService.close("batchmode-modal");
-        this.selectedProjects = [];
+        this.selectedProjects$.next([]);
       })
 
   }

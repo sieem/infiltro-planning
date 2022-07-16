@@ -52,6 +52,7 @@ import { MailTemplatePipe } from './pipes/mail-template.pipe';
 import { MailTemplateSelectorComponent } from './components/mail-template-selector/mail-template-selector.component';
 import { IsDateActiveTooOldPipe } from './pipes/is-date-active-too-old.pipe';
 import { ErrorInterceptorService } from './services/error-interceptor.service';
+import { FilterBarComponent } from './components/filterbar/filterbar.component';
 
 @NgModule({
   declarations: [
@@ -91,6 +92,7 @@ import { ErrorInterceptorService } from './services/error-interceptor.service';
     MailTemplateSelectorComponent,
     AdminMailTemplatesComponent,
     IsDateActiveTooOldPipe,
+    FilterBarComponent,
   ],
   imports: [
     BrowserModule,

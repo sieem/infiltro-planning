@@ -1,0 +1,168 @@
+@import "variables";
+
+.controls {
+    display: flex;
+    justify-content: flex-start;
+    border-bottom: 1px solid $infiltro-border-grey;
+    height: 40px;
+
+    * {
+        user-select: none;
+    }
+
+    .btn {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        padding-left: 5px;
+        padding-right: 9px;
+        cursor: pointer;
+
+        &.red {
+            background-color: $infiltro-red;
+            color: #fff;
+
+            &:hover {
+                background-color: darken($infiltro-red, 10%);
+            }
+        }
+
+        img {
+            width: 25px;
+            height: auto;
+        }
+    }
+
+    .filter {
+        position: relative;
+        padding: 0 20px;
+        border-right: 1px solid $infiltro-border-grey;
+
+        .title {
+            display: flex;
+            align-items: center;
+        }
+
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #fff;
+            border: 1px solid $infiltro-border-grey;
+            min-width: 150px;
+            z-index: 100;
+
+            .select-options {
+                display: flex;
+                justify-content: space-between;
+                border-bottom: 1px solid $infiltro-border-grey;
+
+                div {
+                    border-right: 1px solid $infiltro-border-grey;
+                    padding: 5px 0;
+                    text-align: center;
+                    flex-grow: 1;
+                    display: block;
+
+                    &:last-child {
+                        border: none;
+                    }
+
+                    &.btn:hover {
+                        background-color: darken(#fff, 10%);
+                    }
+                }
+            }
+
+            .item {
+                display: flex;
+                align-content: center;
+                white-space: nowrap;
+                padding: 1px 10px 1px 2px;
+                cursor: pointer;
+
+                &:empty {
+                    display: none;
+                }
+
+                img {
+                    margin-right: 5px;
+                }
+
+                span {
+                    line-height: 25px;
+                }
+
+                &:hover {
+                    background-color: darken(#fff, 10%);
+                }
+            }
+        }
+
+        &:hover {
+            background-color: darken(#fff, 10%);
+
+            .dropdown {
+                display: block;
+            }
+        }
+
+        &.sort {
+            .arrow {
+                height: 20px;
+                padding: 4px 4px 0 4px;
+
+                img {
+                    height: 100%;
+                    width: auto;
+
+                    margin: 0;
+                }
+
+                &.desc {
+                    img {
+                        transform: scaleY(-1);
+                    }
+                }
+            }
+        }
+    }
+
+    .search {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex-grow: 1;
+        padding: 4px;
+
+        input {
+            max-height: 26px;
+        }
+    }
+}
+
+.title {
+    font-weight: bold;
+}
+
+
+@media only screen and (max-width: 600px) {
+    .controls {
+        height: unset;
+        flex-wrap: wrap;
+
+        .filter {
+            padding: 0 5px;
+            font-size: 10px;
+
+            &.batch {
+                flex-grow: 1;
+            }
+        }
+
+        .search {
+            padding: 4px 0 0 0;
+        }
+    }
+}
