@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import multer from 'multer';
 import { generateProjectId, getProjects, getProject, saveProject, removeProject, duplicateProject, batchProjects } from './controllers/projectController';
-import { addUser, editUser, getUserByResetToken, registerUser, loginUser, getUser, resetPassword, removeUser, getUsers } from './controllers/authController';
+import { addUser, editUser, getUserByResetToken, registerUser, loginUser, resetPassword, removeUser, getUsers } from './controllers/authController';
 import { getCompanies, saveCompany, removeCompany } from './controllers/companiesController';
 import { sendProjectMail, getMailTemplates, saveMailTemplate, removeMailTemplate } from './controllers/mailController';
 import { getComments, saveComment, removeComment } from './controllers/commentController';
@@ -15,7 +15,6 @@ router.post('/add-user', upload.none(), verifyToken, getUserDetails, addUser);
 router.post('/register', upload.none(), registerUser);
 router.post('/login', upload.none(), loginUser);
 router.get('/get-users', verifyToken, getUserDetails, getUsers);
-router.get('/get-user/:userId', getUser);
 router.get('/get-user-by-resettoken/:resetToken', getUserByResetToken);
 router.post('/reset-password', upload.none(), resetPassword);
 router.post('/edit-user', upload.none(), verifyToken, getUserDetails, editUser);

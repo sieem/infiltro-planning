@@ -16,7 +16,7 @@ import { CompanyService } from 'src/app/services/company.service';
           <a routerLink="/admin/mail-templates" routerLinkActive="active">Mail templates</a>
         </div>
       </a>
-      <a *ngIf="auth.loggedIn()" (click)="auth.logoutUser()">Uitloggen</a>
+      <a *ngIf="auth.loggedIn()" (click)="auth.logoutUserWithConfirm()">Uitloggen</a>
     </nav>
   `,
   styleUrls: ['./nav.component.scss']

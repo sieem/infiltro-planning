@@ -24,22 +24,6 @@ export const getUsers = async (req: Request, res: Response) => {
     }
 }
 
-//unused for now
-export const getUser = (req: Request, res: Response) => {
-    User.findById(req.params.userId, (err: any, user: IUser) => {
-        if (err) {
-            console.error(err)
-            return res.status(400).json(err.message)
-        }
-
-        if (!user.password) {
-            return res.status(200).json(user)
-        } else {
-            return res.status(401).send('Unauthorized request')
-        }
-    })
-}
-
 export const getUserByResetToken = (req: Request, res: Response) => {
     User.findOne({ resetToken: req.params.resetToken}, (err: any, user: IUser) => {
         if (err) {
@@ -56,7 +40,7 @@ export const getUserByResetToken = (req: Request, res: Response) => {
 }
 
 export const loginUser = (req: Request, res: Response) => {
-    User.findOne({ email: req.body.email }, (err: any, user: IUser) => {
+    User.findOne({ email: req.body.email, activated: true }, (err: any, user: IUser) => {
         if (err) {
             console.error(err)
             return res.status(400).json(err.message)

@@ -20,7 +20,6 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction) => 
     let payload: any = {};
     try {
         payload = verify(token, secretKey)
-        
     } catch (error: any) {
         console.error(error);
         return res.status(401).send('Invalid Signature');
@@ -31,7 +30,7 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction) => 
     }
 
     req.userId = payload.id;
-    next()
+    next();
 }
 
 export const getUserDetails = (req: Request, res: Response, next: NextFunction) => {
@@ -44,8 +43,8 @@ export const getUserDetails = (req: Request, res: Response, next: NextFunction) 
             return res.status(400).json(err.message)
         }
 
-        if (!user) {
-            return res.status(401).send('User not found')
+        if (!user || !user.activated) {
+          return res.status(401).send('User not found')
         }
 
         user.password = ""

@@ -8,6 +8,7 @@ export class ErrorInterceptorService implements HttpInterceptor {
 
   constructor(
     private toastr: ToastrService,
+    private auth: AuthService,
   ) { }
 
   intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -16,8 +17,11 @@ export class ErrorInterceptorService implements HttpInterceptor {
         retry(1),
         catchError((returnedError) => {
           if (returnedError instanceof HttpErrorResponse) {
-            this.toastr.error(returnedError.error, `Error ${returnedError.status}: ${returnedError.statusText}`);
-
+            if (returnedError.error === 'User not found') {
+              this.auth.logoutUser();
+            } else {
+              this.toastr.error(returnedError.error, `Error ${returnedError.status}: ${returnedError.statusText}`);
+            }
           }
 
           return of(returnedError);
