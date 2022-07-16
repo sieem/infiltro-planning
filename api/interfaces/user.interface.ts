@@ -7,6 +7,7 @@ export interface IUser {
   password: string,
   resetToken: string,
   role: 'admin' | 'company' | 'client',
+  activated: boolean,
 
   // Functions of Mongoose to make TypeScript not complain. Should see how I can have decent types of Mongoose itself...
   save: Function,

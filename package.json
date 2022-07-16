@@ -11,6 +11,7 @@
     "api:dev": "nodemon api/server.ts --watch api",
     "api:build": "cd api && tsc",
     "api:sync": "ts-node api/calendarSync",
+    "script": "ts-node",
     "deploy": "ts-node api/scripts/deploy",
     "postinstall": "ngcc"
   },

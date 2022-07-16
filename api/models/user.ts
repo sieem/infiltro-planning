@@ -9,7 +9,8 @@ class User extends Schema {
             password: String,
             company: String,
             role: String,
-            resetToken: String
+            resetToken: String,
+            activated: Boolean,
         })
     }
 }

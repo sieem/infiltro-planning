@@ -16,7 +16,7 @@ export const getUsers = async (req: Request, res: Response) => {
     const selectParameters = (req.user?.role === 'admin') ? { password: 0, resetToken: 0 } : { _id: 1, name: 1, company: 1 }
 
     try {
-        const users = await User.find({}).select(selectParameters).exec()
+        const users = await User.find({ activated: true }).select(selectParameters).exec()
         return res.status(200).json(users)
     } catch (error: any) {
         console.error(error)
@@ -62,7 +62,7 @@ export const loginUser = (req: Request, res: Response) => {
             return res.status(400).json(err.message)
         }
 
-        if (!user) {
+        if (!user || !user.activated) {
             return res.status(401).send('Invalid Email')
         }
 
@@ -93,7 +93,8 @@ export const addUser = (req: Request, res: Response) => {
                 return res.status(401).send('Email already exists')
             else {
                 let user = new User(req.body) as unknown as IUser;
-                user.resetToken = await generateToken()
+                user.resetToken = await generateToken();
+                user.activated = true;
 
                 user.save((err: any, user: IUser) => {
                     if (err) {
@@ -203,7 +204,7 @@ export const editUser = (req: Request, res: Response) => {
 export const removeUser = async (req: Request, res: Response) => {
     if (req.user?.role === 'admin') {
         try {
-            await User.deleteOne({ _id: req.params.userId }).exec();
+            await User.findByIdAndUpdate(req.params.userId, { activated: false }).exec();
             return res.json({ status: 'ok' });
         } catch (error: any) {
             console.error(error)
