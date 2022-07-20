@@ -9,8 +9,9 @@ import { IStatuses } from '../interfaces/statuses.interface';
 import { ISortables } from '../interfaces/sortables.interface';
 import { IActiveFilter } from '../interfaces/active-filter.interface';
 import { SortProjectsPipe } from '../pipes/sort-projects.pipe';
-import { ProjectEnumsService } from './project-enums.service';
 import { FilterProjectsPipe } from '../pipes/filter-projects.pipe';
+import { executors } from '../constants/executors';
+import { statuses } from '../constants/statuses';
 
 @Injectable({
   providedIn: 'root'
@@ -54,7 +55,6 @@ export class ProjectService {
     private auth: AuthService,
     private filterProjectsPipe: FilterProjectsPipe,
     private sortProjectsPipe: SortProjectsPipe,
-    private projectEnumsService: ProjectEnumsService,
     ) {}
 
   getProjects() {
@@ -114,10 +114,10 @@ export class ProjectService {
           newFilter[filterCat] = companies.map((company) => company._id);
           break;
         case 'executor':
-          newFilter.executor = this.projectEnumsService.executors.map(el => el.type)
+          newFilter.executor = executors.map(el => el.type)
           break;
         case 'status':
-          newFilter.status = this.projectEnumsService.statuses.map(el => el.type)
+          newFilter.status = statuses.map(el => el.type)
           break;
         default:
           throw new Error(`Couldn't find filter category, tried ${filterCat}`);

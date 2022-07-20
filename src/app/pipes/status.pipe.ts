@@ -1,15 +1,14 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ProjectEnumsService } from '../services/project-enums.service';
+import { statusName } from '../constants/statuses';
+import { IStatuses } from '../interfaces/statuses.interface';
 
 @Pipe({
   name: 'status'
 })
 export class StatusPipe implements PipeTransform {
 
-  constructor(private projectEnumsService: ProjectEnumsService) { }
-
-  transform(value: string): string {
-    return this.projectEnumsService.statusName(value)
+  transform(value: IStatuses['type'] | ''): string {
+    return statusName(value);
   }
 
 

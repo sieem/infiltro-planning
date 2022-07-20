@@ -8,13 +8,13 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { FormService } from 'src/app/services/form.service';
 import { IProject } from '../../interfaces/project.interface';
 import { firstValueFrom, map, Observable } from 'rxjs';
-import { ProjectEnumsService } from 'src/app/services/project-enums.service';
 import { BatchModeService } from 'src/app/services/batch-mode.service';
+import { statuses } from 'src/app/constants/statuses';
 
 @Component({
   selector: 'app-projects',
   template: `
-    <app-filterbar></app-filterbar>
+    <app-filterbar context="projects"></app-filterbar>
     <div class="projectList" [ngClass]="{'batchMode': batchMode$ | async}">
         <div class="projects">
             <div class="project"
@@ -52,7 +52,7 @@ import { BatchModeService } from 'src/app/services/batch-mode.service';
                     <div class="write" *ngIf="isSelected(project) && auth.isAdmin() && (batchMode$ | async) === false">
                         <select name="status" id="status" (change)="changeStatus($event)">
                             <option value="">Selecteer status</option>
-                            <option *ngFor="let status of projectEnumsService.statuses" [value]="status.type" [selected]="status.type === project.status">{{status.name}}</option>
+                            <option *ngFor="let status of statuses" [value]="status.type" [selected]="status.type === project.status">{{status.name}}</option>
                         </select>
                     </div>
                 </div>
@@ -120,7 +120,7 @@ import { BatchModeService } from 'src/app/services/batch-mode.service';
                 <div class="projectRow">
                     <select name="status" id="status" formControlName="status">
                         <option value="">Selecteer status</option>
-                        <option *ngFor="let status of projectEnumsService.statuses" [value]="status.type">{{status.name}}</option>
+                        <option *ngFor="let status of statuses" [value]="status.type">{{status.name}}</option>
                     </select>
                     <p *ngIf="formService.checkInputField(batchForm, 'status', submitted)" class="error">!</p>
                 </div>
@@ -140,6 +140,7 @@ import { BatchModeService } from 'src/app/services/batch-mode.service';
   styleUrls: ['./projects.component.scss']
 })
 export class ProjectsComponent implements OnInit {
+  statuses = statuses;
 
   batchMode$ = this.batchModeService.batchMode$;
   batchForm = this.formBuilder.group({
@@ -159,7 +160,6 @@ export class ProjectsComponent implements OnInit {
     public formService: FormService,
     private toastr: ToastrService,
     private modalService: ModalService,
-    public projectEnumsService: ProjectEnumsService,
     private batchModeService: BatchModeService,
     ) { }
 

@@ -12,8 +12,10 @@ import { SingleProjectCommentsService } from 'src/app/services/single-project-co
 import { SingleProjectService } from 'src/app/services/single-project.service';
 import { SingleProjectArchiveService } from 'src/app/services/single-project-archive.service';
 import { firstValueFrom } from 'rxjs';
-import { ProjectEnumsService } from 'src/app/services/project-enums.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { projectTypes } from 'src/app/constants/project-types';
+import { statuses } from 'src/app/constants/statuses';
+import { executors } from 'src/app/constants/executors';
 
 @UntilDestroy()
 @Component({
@@ -39,7 +41,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
       </div>
       <div class="projectSection twoColumns">
         <div class="left">
-          <app-single-project-row label="Type" field="projectType" type="select" firstValue="Selecteer type" [dataSource]="projectEnumsService.projectTypes" valueKey="type">
+          <app-single-project-row label="Type" field="projectType" type="select" firstValue="Selecteer type" [dataSource]="projectTypes" valueKey="type">
           </app-single-project-row>
 
           <app-single-project-row label="Aantal / omschrijving" field="houseAmount" type="input">
@@ -49,7 +51,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
           </app-single-project-row>
         </div>
         <div class="right">
-            <app-single-project-row label="Status" field="status" type="select" firstValue="Selecteer status" [dataSource]="projectEnumsService.statuses" valueKey="type">
+            <app-single-project-row label="Status" field="status" type="select" firstValue="Selecteer status" [dataSource]="statuses" valueKey="type">
             </app-single-project-row>
             <app-single-project-row label="Datum ingave" field="dateCreated" type="date" [readOnly]="!auth.isAdmin()" [showAsterisk]="false">
             </app-single-project-row>
@@ -116,7 +118,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
           <h2>Uitvoergegevens</h2>
         </div>
 
-        <app-single-project-row label="Uitvoerder" field="executor" type="select" firstValue="Selecteer uitvoerder" [dataSource]="projectEnumsService.executors" valueKey="type" [readOnly]="!auth.isAdmin()">
+        <app-single-project-row label="Uitvoerder" field="executor" type="select" firstValue="Selecteer uitvoerder" [dataSource]="executors" valueKey="type" [readOnly]="!auth.isAdmin()">
         </app-single-project-row>
 
         <app-single-project-row label="Datum ingepland" field="datePlanned" type="date" [readOnly]="!auth.isAdmin() || singleProjectService.hasCalendarItem" (click)="calendarWarning(singleProjectService.hasCalendarItem)">
@@ -125,7 +127,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
         <app-single-project-row label="Uur ingepland" field="hourPlanned" type="time" [readOnly]="!auth.isAdmin() || singleProjectService.hasCalendarItem" (click)="calendarWarning(singleProjectService.hasCalendarItem)">
         </app-single-project-row>
 
-        <app-single-project-row label="Status" field="status" type="select" firstValue="Selecteer status" [dataSource]="projectEnumsService.statuses" valueKey="type">
+        <app-single-project-row label="Status" field="status" type="select" firstValue="Selecteer status" [dataSource]="statuses" valueKey="type">
         </app-single-project-row>
       </div>
 
@@ -141,6 +143,9 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
   styleUrls: ['./single-project.component.scss']
 })
 export class SingleProjectComponent implements OnInit, OnDestroy {
+  projectTypes = projectTypes;
+  statuses = statuses;
+  executors = executors;
 
   constructor(
     private api: ApiService,
@@ -154,7 +159,6 @@ export class SingleProjectComponent implements OnInit, OnDestroy {
     private toastr: ToastrService,
     public singleProjectService: SingleProjectService,
     private singleProjectArchiveService: SingleProjectArchiveService,
-    public projectEnumsService: ProjectEnumsService,
     ) { }
 
   ngOnInit() {

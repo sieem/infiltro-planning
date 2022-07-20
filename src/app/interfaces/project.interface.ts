@@ -1,5 +1,6 @@
 import { IComment } from "./comments.interface";
 import { IExecutors } from "./executors.interface";
+import { IProjectTypes } from "./project-type.interface";
 import { IStatuses } from './statuses.interface';
 
 export interface IProject {
@@ -7,7 +8,7 @@ export interface IProject {
     company: string,
     dateCreated: Date,
     dateEdited: Date,
-    projectType: string,
+    projectType: IProjectTypes['type'] | '',
     houseAmount: string,
     projectName: string,
     client: string,

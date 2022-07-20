@@ -3,11 +3,13 @@ import { ToastrService } from 'ngx-toastr';
 import { IsDateActiveTooOldPipe } from 'src/app/pipes/is-date-active-too-old.pipe';
 import { pointers, IPointerIcon, defaultPointerUrl } from './map.component.util';
 import { map } from 'rxjs/operators';
-import { ApiService } from '../../services/api.service';
+import { ProjectService } from 'src/app/services/project.service';
+import { statusesForMap } from 'src/app/constants/statuses';
 
 @Component({
   selector: 'app-map',
   template: `
+    <app-filterbar context="map"></app-filterbar>
     <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
 
       <agm-marker *ngFor="let marker of markers$ | async"
@@ -54,7 +56,7 @@ export class MapComponent {
   lat = 51.023431;
   lng = 4.261164;
 
-  markers$ = this.api.getProjects({ status: ['toPlan', 'planned', 'toContact', 'proposalSent'] }).pipe(
+  markers$ = this.projectService.projects$.pipe(
     map((projects) => projects
       .filter((project) => {
         if (!project.lat && project.lng) {
@@ -62,6 +64,7 @@ export class MapComponent {
         }
         return project.lat && project.lng;
       })
+      .filter(({ status }) => statusesForMap.includes(status))
       .map((project) => {
         let pointerExecutor: IPointerIcon['executor'] = 'default';
         let pointerType: IPointerIcon['type'] = 'default';
@@ -102,7 +105,7 @@ export class MapComponent {
 
 
   constructor(
-    private api: ApiService,
+    private projectService: ProjectService,
     private toastr: ToastrService,
     private isDateActiveTooOldPipe: IsDateActiveTooOldPipe,
   ) { }
