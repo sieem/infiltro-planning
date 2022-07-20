@@ -2,16 +2,15 @@ import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
 import { AuthService } from './auth.service';
 import { CompanyService } from './company.service';
-import { BehaviorSubject, firstValueFrom, map, Observable, shareReplay, switchMap, combineLatest } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, map, Observable, shareReplay, switchMap, combineLatest, debounceTime } from 'rxjs';
 import { IProject } from '../interfaces/project.interface';
 import { IExecutors } from '../interfaces/executors.interface';
 import { IStatuses } from '../interfaces/statuses.interface';
 import { ISortables } from '../interfaces/sortables.interface';
 import { IActiveFilter } from '../interfaces/active-filter.interface';
 import { SortProjectsPipe } from '../pipes/sort-projects.pipe';
-import { FilterProjectsPipe } from '../pipes/filter-projects.pipe';
-import { executors } from '../constants/executors';
-import { statuses } from '../constants/statuses';
+import { executors } from '../../../shared/constants/executors';
+import { statuses } from '../../../shared/constants/statuses';
 
 @Injectable({
   providedIn: 'root'
@@ -35,15 +34,17 @@ export class ProjectService {
   private projectsSubject$ = new BehaviorSubject<null>(null);
 
   searchTermSubject$ = new BehaviorSubject<string>("");
-  searchTerm$ = this.searchTermSubject$.pipe(shareReplay({ refCount: false, bufferSize: 1 }));
+  searchTerm$ = this.searchTermSubject$.pipe(
+    debounceTime(300),
+    shareReplay({ refCount: false, bufferSize: 1 })
+  );
 
-  private filteredProjects$ = combineLatest([this.activeFilter$, this.projectsSubject$]).pipe(
-    switchMap(([activeFilter]) => this.api.getProjects(activeFilter)),
+  private filteredProjects$ = combineLatest([this.activeFilter$, this.searchTerm$, this.projectsSubject$]).pipe(
+    switchMap(([activeFilter, searchTerm]) => this.api.getProjects(activeFilter, searchTerm)),
   )
 
-  projects$: Observable<IProject[]> = combineLatest([this.filteredProjects$, this.sortOptions$, this.searchTerm$]).pipe(
-    switchMap(([filteredProjects]) => this.filterProjectsPipe.transform(filteredProjects, this.searchTermSubject$.value)),
-    map((filteredProjects) => this.sortProjectsPipe.transform(filteredProjects, this.sortOptionsSubject$.value)),
+  projects$: Observable<IProject[]> = combineLatest([this.filteredProjects$, this.sortOptions$]).pipe(
+    map(([filteredProjects]) => this.sortProjectsPipe.transform(filteredProjects, this.sortOptionsSubject$.value)),
     shareReplay({ refCount: false, bufferSize: 1 }),
   );
 
@@ -53,7 +54,6 @@ export class ProjectService {
     private api: ApiService,
     private companyService: CompanyService,
     private auth: AuthService,
-    private filterProjectsPipe: FilterProjectsPipe,
     private sortProjectsPipe: SortProjectsPipe,
     ) {}
 

@@ -8,7 +8,7 @@ import moment from 'moment';
 import { IProject } from '../interfaces/project.interface';
 import { BehaviorSubject, Observable, shareReplay, switchMap, firstValueFrom, Subject, tap, combineLatest, of } from 'rxjs';
 import { mapToForm } from '../utils/mapSingleProjectToForm.util';
-import { dateFormat, emailRegex, postalCodeRegex } from '../utils/regex.util';
+import { dateFormat, emailRegex, postalCodeRegex } from '../../../shared/utils/regex.util';
 import { ngFormToFormData } from '../utils/form.utils';
 
 @Injectable({

@@ -5,9 +5,9 @@ import { CompanyService } from 'src/app/services/company.service';
 import { combineLatest, firstValueFrom, map } from 'rxjs';
 import { BatchModeService } from 'src/app/services/batch-mode.service';
 import { ModalService } from 'src/app/services/modal.service';
-import { statuses, statusesForMap } from 'src/app/constants/statuses';
-import { sortables } from 'src/app/constants/sortables';
-import { executors } from 'src/app/constants/executors';
+import { statuses, statusesForMap } from 'shared/constants/statuses';
+import { sortables } from 'shared/constants/sortables';
+import { executors } from 'shared/constants/executors';
 
 @Component({
   selector: 'app-filterbar',

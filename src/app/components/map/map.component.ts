@@ -4,7 +4,7 @@ import { IsDateActiveTooOldPipe } from 'src/app/pipes/is-date-active-too-old.pip
 import { pointers, IPointerIcon, defaultPointerUrl } from './map.component.util';
 import { map } from 'rxjs/operators';
 import { ProjectService } from 'src/app/services/project.service';
-import { statusesForMap } from 'src/app/constants/statuses';
+import { statusesForMap } from 'shared/constants/statuses';
 
 @Component({
   selector: 'app-map',

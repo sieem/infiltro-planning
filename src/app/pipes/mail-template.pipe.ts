@@ -5,7 +5,7 @@ import { SingleProjectService } from '../services/single-project.service';
 import { asyncReplace } from '../utils/asyncReplace.util';
 import { firstValueFrom } from 'rxjs';
 import { IProject } from '../interfaces/project.interface';
-import { mailDateFormat } from '../utils/regex.util';
+import { mailDateFormat } from 'shared/utils/regex.util';
 
 @Pipe({
   name: 'mailTemplate'

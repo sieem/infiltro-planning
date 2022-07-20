@@ -6,7 +6,7 @@ import { FormService } from 'src/app/services/form.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { firstValueFrom, switchMap } from 'rxjs';
-import { passwordRegex } from 'src/app/utils/regex.util';
+import { passwordRegex } from 'shared/utils/regex.util';
 import { ngFormToFormData } from '../../utils/form.utils';
 
 @Component({

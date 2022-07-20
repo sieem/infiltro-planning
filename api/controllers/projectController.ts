@@ -2,7 +2,10 @@ import { Response } from 'express';
 import { Request } from 'models/request';
 import { Types } from 'mongoose';
 import Project from '../models/project';
-import { saveProject as saveProjectInService } from '../services/projectService';
+import User from '../models/user';
+import Company from '../models/company';
+import { filterBasedOnSearch, saveProject as saveProjectInService } from '../services/projectService';
+import { IProject } from 'interfaces/project.interface';
 
 export const generateProjectId = (req: Request, res: Response) => {
     return res.status(200).send(new Types.ObjectId())
@@ -18,7 +21,7 @@ export const saveProject = async (req: Request, res: Response) => {
     }
 }
 
-export const getProjects = (req: Request, res: Response) => {
+export const getProjects = async (req: Request, res: Response) => {
     const findParameters = {
         ...(req.body.activeFilter.company ? { company: { $in: [...req.body.activeFilter.company, ''] } } : {}),
         ...(req.body.activeFilter.executor ? { executor: { $in: [...req.body.activeFilter.executor, ''] } } : {}),
@@ -29,15 +32,15 @@ export const getProjects = (req: Request, res: Response) => {
         findParameters.company = { $in: [req.user?.company] };
     }
 
-    Project.find(findParameters, (err: any, projects) => {
-        if (err) {
-            console.error(err)
-            return res.status(400).json(err.message)
-        }
-        else {
-            return res.status(200).json(projects)
-        }
-    })
+    try {
+      let projects = await Project.find(findParameters).exec() as unknown as IProject[];
+      const foundUsers = (await User.find({ name: { $regex: req.body.searchTerm, $options: "i" } }).select({ _id: 1 }).exec()).map((({ _id }) => _id));
+      const foundCompanies = (await Company.find({ name: { $regex: req.body.searchTerm, $options: "i" } }).select({ _id: 1 }).exec()).map((({ _id }) => _id));
+      projects = projects.filter((project) => filterBasedOnSearch(project, req.body.searchTerm, foundUsers, foundCompanies));
+      return res.status(200).json(projects)
+    } catch (error) {
+      return res.status(400).json(error);
+    };
 }
 
 export const getProject = (req: Request, res: Response) => {

@@ -8,7 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { UserService } from 'src/app/services/user.service';
 import { IUser } from '../../interfaces/user.interface';
 import { firstValueFrom } from 'rxjs';
-import { emailRegex } from 'src/app/utils/regex.util';
+import { emailRegex } from 'shared/utils/regex.util';
 import { ngFormToFormData } from '../../utils/form.utils';
 
 @Component({

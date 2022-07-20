@@ -1,4 +1,4 @@
-import { IExecutors } from "../interfaces/executors.interface";
+import { IExecutors } from "../../src/app/interfaces/executors.interface";
 
 export const executors: IExecutors[] = [
   {

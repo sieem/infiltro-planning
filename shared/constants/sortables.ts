@@ -1,4 +1,4 @@
-import { ISortables } from "../interfaces/sortables.interface";
+import { ISortables } from "../../src/app/interfaces/sortables.interface";
 
 export const sortables: ISortables[] = [
   {

@@ -45,7 +45,6 @@ import { ExecutorPipe } from './pipes/executor.pipe';
 import { NewlineToBrPipe } from './pipes/newline-to-br.pipe';
 import { CommentsComponent } from './components/comments/comments.component';
 import { SafeHtmlPipe } from './pipes/safe-html.pipe';
-import { FilterProjectsPipe } from './pipes/filter-projects.pipe';
 import { SortProjectsPipe } from './pipes/sort-projects.pipe';
 import { HighlightTextPipe } from './pipes/highlight-text.pipe';
 import { MailTemplatePipe } from './pipes/mail-template.pipe';
@@ -85,7 +84,6 @@ import { FilterBarComponent } from './components/filterbar/filterbar.component';
     NewlineToBrPipe,
     CommentsComponent,
     SafeHtmlPipe,
-    FilterProjectsPipe,
     SortProjectsPipe,
     HighlightTextPipe,
     MailTemplatePipe,
@@ -129,7 +127,6 @@ import { FilterBarComponent } from './components/filterbar/filterbar.component';
     ExecutorPipe,
     MailTemplatePipe,
     IsDateActiveTooOldPipe,
-    FilterProjectsPipe,
     SortProjectsPipe,
   ],
   bootstrap: [AppComponent]

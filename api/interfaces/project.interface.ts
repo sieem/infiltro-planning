@@ -2,13 +2,14 @@ import { IComment } from "./comments.interface";
 import { IExecutors } from "./executors.interface";
 import { IStatuses } from './statuses.interface';
 import { ObjectId } from 'mongoose';
+import { IProjectTypes } from "./project-type.interface";
 
 export interface IProject {
     _id: ObjectId,
     company: string,
     dateCreated: Date,
     dateEdited: Date,
-    projectType: string,
+    projectType: IProjectTypes['type'] | '',
     houseAmount: string,
     projectName: string,
     client: string,

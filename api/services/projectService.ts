@@ -5,9 +5,14 @@ import moment from 'moment';
 import calendarService from '../services/calendarService';
 import { saveProjectArchive } from '../services/archiveService';
 import mailService from '../services/mailService';
-import { commentsToString, userIdToName, projectTypeName } from '../services/commonService';
+import { commentsToString, userIdToName } from '../services/commonService';
 import { IProject } from '../interfaces/project.interface';
 import { IUser } from '../interfaces/user.interface';
+import { escapeRegExp } from '../../shared/utils/escapeRegExp.util';
+import { executorName } from '../../shared/constants/executors';
+import { statusName } from '../../shared/constants/statuses';
+import { projectTypeName } from '../../shared/constants/project-types';
+import { formatDate } from '../../shared/utils/formatDate.utils';
 const calendar = new calendarService();
 
 const getCoordinates = async (project: IProject, foundProject: IProject | null) => {
@@ -186,4 +191,47 @@ export const saveProject = async (body: IProject, user?: IUser) => {
     } else {
         throw { status: 401, message: 'Unauthorized request' };
     }
+}
+
+export const filterBasedOnSearch = (project: IProject, searchTerm: string, foundUsers: string[], foundCompanies: string[]) => {
+  if (searchTerm === "") {
+    // no search, so make it always found
+    return true
+  } else {
+    //@ts-ignore
+    for (let [key, value] of Object.entries(project._doc)) {
+      if (['dateEdited', 'lat', 'lng', 'mails', 'comments', 'projectType', '_id', 'calendarId', 'calendarLink', 'eventId', '__v'].includes(key)) {
+        continue;
+      }
+
+      switch (key) {
+        //@ts-ignore
+        case 'EpbReporter': value = foundUsers.includes(value); break;
+        //@ts-ignore
+        case 'company': value = foundCompanies.includes(value); break;
+        //@ts-ignore
+        case 'executor': value = executorName(value); break;
+        //@ts-ignore
+        case 'datePlanned': value = formatDate(value); break;
+        //@ts-ignore
+        case 'dateCreated': value = formatDate(value); break;
+        //@ts-ignore
+        case 'status': value = statusName(value); break;
+        //@ts-ignore
+        case 'projectType': value = projectTypeName(value); break;
+      }
+
+      if (typeof value === 'string' && new RegExp(escapeRegExp(searchTerm), 'gi').test(value)) {
+        return true;
+      }
+
+      if (value === true) {
+        console.log(key);
+        return true;
+      }
+    }
+
+    return false;
+  }
+
 }

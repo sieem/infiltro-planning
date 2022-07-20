@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { projectTypeName } from '../constants/project-types';
+import { projectTypeName } from '../../../shared/constants/project-types';
 import { IProjectTypes } from '../interfaces/project-type.interface';
 
 @Pipe({

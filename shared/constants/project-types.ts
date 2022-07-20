@@ -1,4 +1,4 @@
-import { IProjectTypes } from "../interfaces/project-type.interface";
+import { IProjectTypes } from "../../src/app/interfaces/project-type.interface";
 
 export const projectTypes: IProjectTypes[] = [
   {

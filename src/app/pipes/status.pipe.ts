@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { statusName } from '../constants/statuses';
+import { statusName } from '../../../shared/constants/statuses';
 import { IStatuses } from '../interfaces/statuses.interface';
 
 @Pipe({

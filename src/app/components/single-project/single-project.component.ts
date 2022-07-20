@@ -13,9 +13,9 @@ import { SingleProjectService } from 'src/app/services/single-project.service';
 import { SingleProjectArchiveService } from 'src/app/services/single-project-archive.service';
 import { firstValueFrom } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { projectTypes } from 'src/app/constants/project-types';
-import { statuses } from 'src/app/constants/statuses';
-import { executors } from 'src/app/constants/executors';
+import { projectTypes } from 'shared/constants/project-types';
+import { statuses } from 'shared/constants/statuses';
+import { executors } from 'shared/constants/executors';
 
 @UntilDestroy()
 @Component({

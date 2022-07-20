@@ -69,8 +69,8 @@ export class ApiService {
     return this.http.get<string>(this.baseUrl + '/generate-project-id')
   }
 
-  getProjects(activeFilter: Partial<IActiveFilter>) {
-    return this.http.post<IProject[]>(this.baseUrl + '/get-projects', { activeFilter })
+  getProjects(activeFilter: Partial<IActiveFilter>, searchTerm: string) {
+    return this.http.post<IProject[]>(this.baseUrl + '/get-projects', { activeFilter, searchTerm })
   }
 
   getProject(projectId: string): Observable<IProject> {

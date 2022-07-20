@@ -1,4 +1,4 @@
-import { IStatuses } from "../interfaces/statuses.interface";
+import { IStatuses } from "../../src/app/interfaces/statuses.interface";
 
 export const statuses: IStatuses[] = [
   {

@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { executorName } from '../constants/executors';
+import { executorName } from '../../../shared/constants/executors';
 import { IExecutors } from '../interfaces/executors.interface';
 
 @Pipe({

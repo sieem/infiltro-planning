@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { escapeRegExp } from '../utils/escapeRegExp.util';
 import { Observable, combineLatest, of, map } from 'rxjs';
+import { escapeRegExp } from 'shared/utils/escapeRegExp.util';
 
 @Pipe({
   name: 'highlightText'

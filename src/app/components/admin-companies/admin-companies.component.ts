@@ -7,7 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
 import { firstValueFrom } from 'rxjs';
 import { ICompany } from '../../interfaces/company.interface';
-import { emailRegex } from 'src/app/utils/regex.util';
+import { emailRegex } from 'shared/utils/regex.util';
 import { ngFormToFormData } from '../../utils/form.utils';
 
 @Component({

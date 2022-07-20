@@ -9,7 +9,7 @@ import { FormService } from 'src/app/services/form.service';
 import { IProject } from '../../interfaces/project.interface';
 import { firstValueFrom, map, Observable } from 'rxjs';
 import { BatchModeService } from 'src/app/services/batch-mode.service';
-import { statuses } from 'src/app/constants/statuses';
+import { statuses } from 'shared/constants/statuses';
 
 @Component({
   selector: 'app-projects',
