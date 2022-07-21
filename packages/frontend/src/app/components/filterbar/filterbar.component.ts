@@ -106,7 +106,6 @@ export class FilterBarComponent {
     return this._context;
   }
   set context(context: 'projects' | 'map') {
-    console.log(context);
     this.statuses = statuses.filter(({ type }) => context === 'projects' || statusesForMap.includes(type));
     this._context = context;
   }
