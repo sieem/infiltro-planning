@@ -44,7 +44,7 @@ const { NodeSSH } = require('node-ssh');
     console.log(`ng build: ${stdout}`);
 
     try {
-      console.log(await ssh.exec('rm *.js *.css *.map', [], { cwd: '/root/app', stream: 'stdout' }));
+      console.log(await ssh.exec('rm *.js *.css', [], { cwd: '/root/app', stream: 'stdout' }));
     } catch (error) {
       console.log(error);
     }
