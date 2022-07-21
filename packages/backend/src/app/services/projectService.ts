@@ -191,7 +191,7 @@ export const saveProject = async (body: IProject, user?: IUser) => {
 
 export const filterBasedOnSearch = (project: IProject, searchTerm: string, foundUsers: string[], foundCompanies: string[], inverseSearch: boolean) => {
   //@ts-ignore
-  for (const [key, value] of Object.entries(project._doc)) {
+  for (const [key, value] of Object.entries<string>(project._doc)) {
     if (['dateEdited', 'lat', 'lng', 'mails', 'comments', 'projectType', '_id', 'calendarId', 'calendarLink', 'eventId', '__v'].includes(key)) {
       continue;
     }
@@ -215,11 +215,13 @@ export const filterBasedOnSearch = (project: IProject, searchTerm: string, found
       case 'projectType': transformedValue = projectTypeName(value); break;
     }
 
-    if (typeof transformedValue === 'string' && new RegExp(escapeRegExp(searchTerm), 'gi').test(transformedValue)) {
+    const valueToSearch = transformedValue ?? value;
+
+    if (typeof valueToSearch === 'string' && new RegExp(escapeRegExp(searchTerm), 'gi').test(valueToSearch)) {
       return !inverseSearch ? true : false;
     }
 
-    if (transformedValue === true) {
+    if (valueToSearch === true) {
       return !inverseSearch ? true : false;
     }
   }
