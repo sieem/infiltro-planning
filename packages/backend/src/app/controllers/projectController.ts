@@ -38,8 +38,12 @@ export const getProjects = async (req: Request, res: Response) => {
       const foundCompanies = (await Company.find({ name: { $regex: req.body.searchTerm, $options: "i" } }).select({ _id: 1 }).exec()).map((({ _id }) => _id));
       const inverseSearch = req.body.searchTerm.startsWith('-');
       const searchTerm = req.body.searchTerm.replace(/^-/, '');
-      projects = projects.filter((project) => filterBasedOnSearch(project, searchTerm, foundUsers, foundCompanies, inverseSearch));
-      return res.status(200).json(projects)
+
+      if (searchTerm === '') {
+        return res.status(200).json(projects);
+      } else {
+        return res.status(200).json(projects.filter((project) => filterBasedOnSearch(project, searchTerm, foundUsers, foundCompanies, inverseSearch)));
+      }
     } catch (error) {
       return res.status(400).json(error);
     };

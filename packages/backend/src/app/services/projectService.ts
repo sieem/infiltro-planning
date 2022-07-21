@@ -190,11 +190,6 @@ export const saveProject = async (body: IProject, user?: IUser) => {
 }
 
 export const filterBasedOnSearch = (project: IProject, searchTerm: string, foundUsers: string[], foundCompanies: string[], inverseSearch: boolean) => {
-  if (searchTerm === "") {
-    // no search, so make it always found
-    return !inverseSearch ? true : false;
-  }
-
   //@ts-ignore
   for (const [key, value] of Object.entries(project._doc)) {
     if (['dateEdited', 'lat', 'lng', 'mails', 'comments', 'projectType', '_id', 'calendarId', 'calendarLink', 'eventId', '__v'].includes(key)) {
