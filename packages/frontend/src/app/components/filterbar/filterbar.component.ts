@@ -99,12 +99,14 @@ import { statuses, statusesForMap, sortables, executors } from '@infiltro/shared
   styleUrls: ['./filterbar.component.scss']
 })
 export class FilterBarComponent {
-  @Input()
   private _context: 'projects' | 'map' = 'projects';
+
+  @Input()
   get context(): 'projects' | 'map' {
     return this._context;
   }
   set context(context: 'projects' | 'map') {
+    console.log(context);
     this.statuses = statuses.filter(({ type }) => context === 'projects' || statusesForMap.includes(type));
     this._context = context;
   }
