@@ -1,0 +1,169 @@
+@import "variables";
+
+input,
+textarea,
+select,
+option,
+button,
+.read {
+    font-family: 'Open Sans', Tahoma, Helvetica;
+    font-size: $input-fontsize;
+    color: $infiltro-grey;
+    line-height: $input-lineheight;
+    border: 1px solid lighten($infiltro-grey, 30%);
+    background: inherit;
+    text-align: left;
+    padding: $input-padding;
+    width: 100%;
+}
+
+input,
+textarea,
+button {
+    width: 100%;
+}
+
+input[type='submit'] {
+    width: inherit;
+    cursor: pointer;
+    flex-grow: 0;
+}
+
+.read {
+    border-color: transparent;
+}
+
+textarea {
+    text-align: left;
+}
+
+.wrapper {
+    margin: auto;
+    padding: 15px 0;
+    max-width: 600px;
+    border-left: 1px solid $infiltro-border-grey;
+    border-right: 1px solid $infiltro-border-grey;
+
+    &.noBorder {
+        border: none;
+    }
+}
+
+.projectSection {
+    margin-bottom: 10px;
+
+    &:last-child {
+        margin: 0;
+    }
+
+    &.twoColumns {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: baseline;
+        --label-width: 50%;
+
+        .right {
+            --label-width: 30%;
+        }
+
+
+        .left,
+        .right {
+            display: flex;
+            flex-direction: column;
+        }
+    }
+}
+
+.projectRow,
+.inputGroup {
+    padding: 2px 15px;
+    display: grid;
+    grid-template-columns: var(--label-width) 1fr;
+    justify-content: flex-start;
+    position: relative;
+    grid-gap: 15px;
+
+    label {
+        display: block;
+        font-weight: 700;
+        font-family: 'Open Sans Condensed', sans-serif;
+        text-align: right;
+        font-size: $input-fontsize;
+        line-height: $input-lineheight;
+        padding: $input-padding;
+        white-space: nowrap;
+    }
+
+    .read.empty {
+        border: 1px solid $infiltro-border-grey;
+        min-width: 30px;
+        min-height: 31px;
+        cursor: pointer;
+    }
+
+    p.error {
+        $size: 14px;
+
+        position: absolute;
+        right: -1px;
+        top: 8px;
+        height: $size;
+        width: $size;
+        text-align: center;
+        line-height: $size;
+        font-size: $size / 2;
+    }
+
+    &.submit {
+        gap: 10px;
+    }
+}
+
+.right {
+    display: flex;
+    justify-content: flex-end;
+    flex-grow: 1;
+}
+
+.fieldChanged {
+    .read {
+        color: $infiltro-green;
+
+        .oldField {
+            color: $infiltro-red;
+            text-decoration: line-through;
+            font-style: italic;
+        }
+    }
+}
+
+.topControls {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 2px 15px;
+
+    .left {
+        display: flex;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .projectRow,
+    .inputGroup {
+        label {
+            white-space: normal;
+        }
+    }
+
+    .projectSection {
+        &.twoColumns {
+            --label-width: 25%;
+            grid-template-columns: 1fr;
+
+            .right {
+                --label-width: 25%;
+            }
+        }
+    }
+}

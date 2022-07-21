@@ -4,15 +4,9 @@
 /dist
 /tmp
 /out-tsc
-# Only exists if Bazel was run
-/bazel-out
 
 # dependencies
-/node_modules
-
-# profiling files
-chrome-profiler-events.json
-speed-measure-plugin.json
+node_modules
 
 # IDEs and editors
 /.idea
@@ -29,10 +23,8 @@ speed-measure-plugin.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-.history/*
 
 # misc
-/.angular/cache
 /.sass-cache
 /connect.lock
 /coverage
@@ -45,16 +37,10 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
-commands.txt
 
-# production environment file
-/src/environments/environment.prod.ts
+.angular
 
-
-# api specifics
 .env
-api/dbInit.txt
-api/credentials*
-api/token*
-api/calendarSync/latestSyncTokens.json
-api/dist
+packages/frontend/src/environments/environment.prod.ts
+credentials*
+token*
