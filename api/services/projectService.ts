@@ -193,45 +193,43 @@ export const saveProject = async (body: IProject, user?: IUser) => {
     }
 }
 
-export const filterBasedOnSearch = (project: IProject, searchTerm: string, foundUsers: string[], foundCompanies: string[]) => {
+export const filterBasedOnSearch = (project: IProject, searchTerm: string, foundUsers: string[], foundCompanies: string[], inverseSearch: boolean) => {
   if (searchTerm === "") {
     // no search, so make it always found
-    return true
-  } else {
-    //@ts-ignore
-    for (let [key, value] of Object.entries(project._doc)) {
-      if (['dateEdited', 'lat', 'lng', 'mails', 'comments', 'projectType', '_id', 'calendarId', 'calendarLink', 'eventId', '__v'].includes(key)) {
-        continue;
-      }
-
-      switch (key) {
-        //@ts-ignore
-        case 'EpbReporter': value = foundUsers.includes(value); break;
-        //@ts-ignore
-        case 'company': value = foundCompanies.includes(value); break;
-        //@ts-ignore
-        case 'executor': value = executorName(value); break;
-        //@ts-ignore
-        case 'datePlanned': value = formatDate(value); break;
-        //@ts-ignore
-        case 'dateCreated': value = formatDate(value); break;
-        //@ts-ignore
-        case 'status': value = statusName(value); break;
-        //@ts-ignore
-        case 'projectType': value = projectTypeName(value); break;
-      }
-
-      if (typeof value === 'string' && new RegExp(escapeRegExp(searchTerm), 'gi').test(value)) {
-        return true;
-      }
-
-      if (value === true) {
-        console.log(key);
-        return true;
-      }
-    }
-
-    return false;
+    return !inverseSearch ? true : false;
   }
 
+  //@ts-ignore
+  for (let [key, value] of Object.entries(project._doc)) {
+    if (['dateEdited', 'lat', 'lng', 'mails', 'comments', 'projectType', '_id', 'calendarId', 'calendarLink', 'eventId', '__v'].includes(key)) {
+      continue;
+    }
+
+    switch (key) {
+      //@ts-ignore
+      case 'EpbReporter': value = foundUsers.includes(value); break;
+      //@ts-ignore
+      case 'company': value = foundCompanies.includes(value); break;
+      //@ts-ignore
+      case 'executor': value = executorName(value); break;
+      //@ts-ignore
+      case 'datePlanned': value = formatDate(value); break;
+      //@ts-ignore
+      case 'dateCreated': value = formatDate(value); break;
+      //@ts-ignore
+      case 'status': value = statusName(value); break;
+      //@ts-ignore
+      case 'projectType': value = projectTypeName(value); break;
+    }
+
+    if (typeof value === 'string' && new RegExp(escapeRegExp(searchTerm), 'gi').test(value)) {
+      return !inverseSearch ? true : false;
+    }
+
+    if (value === true) {
+      return !inverseSearch ? true : false;
+    }
+  }
+
+  return !inverseSearch ? false : true;
 }

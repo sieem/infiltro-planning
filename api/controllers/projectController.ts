@@ -36,7 +36,9 @@ export const getProjects = async (req: Request, res: Response) => {
       let projects = await Project.find(findParameters).exec() as unknown as IProject[];
       const foundUsers = (await User.find({ name: { $regex: req.body.searchTerm, $options: "i" } }).select({ _id: 1 }).exec()).map((({ _id }) => _id));
       const foundCompanies = (await Company.find({ name: { $regex: req.body.searchTerm, $options: "i" } }).select({ _id: 1 }).exec()).map((({ _id }) => _id));
-      projects = projects.filter((project) => filterBasedOnSearch(project, req.body.searchTerm, foundUsers, foundCompanies));
+      const inverseSearch = req.body.searchTerm.startsWith('-');
+      const searchTerm = req.body.searchTerm.replace(/^-/, '');
+      projects = projects.filter((project) => filterBasedOnSearch(project, searchTerm, foundUsers, foundCompanies, inverseSearch));
       return res.status(200).json(projects)
     } catch (error) {
       return res.status(400).json(error);
