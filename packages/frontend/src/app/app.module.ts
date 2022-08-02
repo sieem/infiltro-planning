@@ -1,13 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { environment } from '../environments/environment';
+import { HttpClientJsonpModule, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
-import { AgmCoreModule } from '@agm/core';
+import { GoogleMapsModule } from '@angular/google-maps';
 import { ToastrModule } from 'ngx-toastr';
 
 import { AppRoutingModule } from './infiltro-routing.module';
@@ -97,10 +96,9 @@ import { FilterBarComponent } from './components/filterbar/filterbar.component';
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
+    HttpClientJsonpModule,
     ReactiveFormsModule,
-    AgmCoreModule.forRoot({
-      apiKey: environment.gmapsApiKey
-    }),
+    GoogleMapsModule,
     CommonModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot()
