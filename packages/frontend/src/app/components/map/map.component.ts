@@ -13,7 +13,7 @@ import { MapService } from '../../services/map.service';
   template: `
     <infiltro-filterbar context="map"></infiltro-filterbar>
     <ng-container *ngIf="apiLoaded$ | async">
-      <google-map height="100vh" width="100%" [center]="{lat, lng}" [zoom]="zoom">
+      <google-map height="100vh" width="100%" [center]="{lat, lng}" [zoom]="zoom" [options]="{gestureHandling: 'greedy'}">
           <map-marker *ngFor="let mapMarker of markers$ | async"
                 #marker="mapMarker"
                 [position]="{ lat: mapMarker.lat, lng: mapMarker.lng }"
