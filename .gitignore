@@ -43,4 +43,4 @@ Thumbs.db
 .env
 packages/frontend/src/environments/environment.prod.ts
 credentials*
-token*
+token*.json
