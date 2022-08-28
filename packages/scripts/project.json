@@ -23,6 +23,12 @@
       "options": {
         "command": "ts-node packages/scripts/src/lib/deploy"
       }
+    },
+    "init": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "ts-node packages/scripts/src/lib/init"
+      }
     }
   },
   "tags": []

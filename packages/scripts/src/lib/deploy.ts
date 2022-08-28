@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const { config } = require('dotenv');
 const { execSync } = require('child_process');
 const { NodeSSH } = require('node-ssh');
