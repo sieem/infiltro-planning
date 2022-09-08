@@ -22,20 +22,20 @@ import { statuses, IProject } from '@infiltro/shared';
             [class.isFuturePlanned]="isFuturePlanned(project) | async"
             [class.selected]="isSelected(project) && (batchMode$ | async)"
             (click)="selectProject(project)">
-                <div class="company" [innerHTML]="project.company | company | async | highlightText: projectService.searchTerm$ | async | safeHtml"></div>
+                <div class="company" [innerHTML]="project.company | company | async | safeHtml"></div>
                 <ng-container *ngIf="(batchMode$ | async) === false; else batchMode">
                     <div class="title" [routerLink]="[ '/project', project._id ]">
                         <span *ngIf="project.dateActive | isDateActiveTooOld: project.status" class="error">!</span>
-                        <span [innerHTML]="project.projectName | highlightText: projectService.searchTerm$ | async | safeHtml"></span> /
-                        <span [innerHTML]="project.projectType | projectType | highlightText: projectService.searchTerm$ | async | safeHtml"></span> /
+                        <span [innerHTML]="project.projectName | safeHtml"></span> /
+                        <span [innerHTML]="project.projectType | projectType | safeHtml"></span> /
                         {{project.houseAmount}}
                     </div>
                 </ng-container>
                 <ng-template #batchMode>
                     <div class="title">
                         <span *ngIf="project.dateActive | isDateActiveTooOld: project.status" class="error">!</span>
-                        <span [innerHTML]="project.projectName | highlightText: projectService.searchTerm$ | async | safeHtml"></span> /
-                        <span [innerHTML]="project.projectType | projectType | highlightText: projectService.searchTerm$ | async | safeHtml"></span> /
+                        <span [innerHTML]="project.projectName | safeHtml"></span> /
+                        <span [innerHTML]="project.projectType | projectType | safeHtml"></span> /
                         {{project.houseAmount}}
                     </div>
                 </ng-template>
@@ -46,7 +46,7 @@ import { statuses, IProject } from '@infiltro/shared';
                     (window:keydown)="registerCtrlKey($event)"
                     (window:keyup)="registerCtrlKey($event)"
                         *ngIf="!isSelected(project) || (batchMode$ | async) || !auth.isAdmin()">
-                        <span [innerHTML]="project.status | status | highlightText: projectService.searchTerm$ | async | safeHtml"></span>
+                        <span [innerHTML]="project.status | status | safeHtml"></span>
                     </div>
                     <div class="write" *ngIf="isSelected(project) && auth.isAdmin() && (batchMode$ | async) === false">
                         <select name="status" id="status" (change)="changeStatus($event)">
@@ -56,22 +56,22 @@ import { statuses, IProject } from '@infiltro/shared';
                     </div>
                 </div>
                 <div class="address">
-                    <span [innerHTML]="project.street | highlightText: projectService.searchTerm$ | async | safeHtml"></span>,
-                    <span [innerHTML]="project.postalCode | highlightText: projectService.searchTerm$ | async | safeHtml"></span>&nbsp;
-                    <span [innerHTML]="project.city | highlightText: projectService.searchTerm$ | async | safeHtml"></span>
+                    <span [innerHTML]="project.street | safeHtml"></span>,
+                    <span [innerHTML]="project.postalCode | safeHtml"></span>&nbsp;
+                    <span [innerHTML]="project.city | safeHtml"></span>
                     <ng-container *ngIf="project.extraInfoAddress">, </ng-container>
-                    <span *ngIf="project.extraInfoAddress" class="extraInfoAddress" [innerHTML]="project.extraInfoAddress | highlightText: projectService.searchTerm$ | async | safeHtml"></span>
+                    <span *ngIf="project.extraInfoAddress" class="extraInfoAddress" [innerHTML]="project.extraInfoAddress | safeHtml"></span>
                 </div>
                 <div class="dateHourCreated" title="Laatst aangepast: {{ project.dateEdited | formatDate:'time' }}">
-                    <span [innerHTML]="project.dateActive | formatDate:'empty' | highlightText: projectService.searchTerm$ | async | safeHtml"></span>
+                    <span [innerHTML]="project.dateActive | formatDate:'empty' | safeHtml"></span>
                 </div>
                 <div class="dateHourPlanned">
                     <b>
-                        <span [innerHTML]="project.executor | executor | highlightText: projectService.searchTerm$ | async | safeHtml"></span>
+                        <span [innerHTML]="project.executor | executor | safeHtml"></span>
                     </b>
                     <br>
-                    <span [innerHTML]="project.datePlanned | formatDate | highlightText: projectService.searchTerm$ | async | safeHtml"></span>
-                    <ng-container *ngIf="project.hourPlanned"> om <span [innerHTML]="project.hourPlanned | highlightText: projectService.searchTerm$ | async | safeHtml"></span></ng-container>
+                    <span [innerHTML]="project.datePlanned | formatDate | safeHtml"></span>
+                    <ng-container *ngIf="project.hourPlanned"> om <span [innerHTML]="project.hourPlanned | safeHtml"></span></ng-container>
                 </div>
                 <div class="technicalDataFilledIn">
                     <ng-container *ngIf="projectService.isTechnicalDataFilledIn(project); else technicalDataNotFilledIn">

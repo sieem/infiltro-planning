@@ -45,7 +45,6 @@ import { NewlineToBrPipe } from './pipes/newline-to-br.pipe';
 import { CommentsComponent } from './components/comments/comments.component';
 import { SafeHtmlPipe } from './pipes/safe-html.pipe';
 import { SortProjectsPipe } from './pipes/sort-projects.pipe';
-import { HighlightTextPipe } from './pipes/highlight-text.pipe';
 import { MailTemplatePipe } from './pipes/mail-template.pipe';
 import { MailTemplateSelectorComponent } from './components/mail-template-selector/mail-template-selector.component';
 import { IsDateActiveTooOldPipe } from './pipes/is-date-active-too-old.pipe';
@@ -84,7 +83,6 @@ import { FilterBarComponent } from './components/filterbar/filterbar.component';
     CommentsComponent,
     SafeHtmlPipe,
     SortProjectsPipe,
-    HighlightTextPipe,
     MailTemplatePipe,
     MailTemplateSelectorComponent,
     AdminMailTemplatesComponent,
