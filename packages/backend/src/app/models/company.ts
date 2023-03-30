@@ -6,6 +6,7 @@ class Company extends Schema {
         super({
             name: String,
             email: String,
+            clientOf: String,
             pricePageVisible: Boolean,
         })
     }

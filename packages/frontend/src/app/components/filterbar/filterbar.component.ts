@@ -11,7 +11,7 @@ import { statuses, statusesForMap, sortables, executors } from '@infiltro/shared
   selector: 'infiltro-filterbar',
   template: `
     <div class="controls" *ngIf="projectService.activeFilter$ | async as activeFilter">
-        <a *ngIf="context === 'projects'" [routerLink]="[ '/project/toevoegen' ]" class="btn red"><img src="/assets/images/icon-new.svg" alt="">Nieuw project</a>
+        <a *ngIf="context === 'projects' && !auth.isClient()" [routerLink]="[ '/project/toevoegen' ]" class="btn red"><img src="/assets/images/icon-new.svg" alt="">Nieuw project</a>
         <div class="btn filter status">
             <span class="title">Toon ook <span class="error" *ngIf="activeFilter.status.length === 0"><span>!</span></span></span>
             <div class="dropdown">

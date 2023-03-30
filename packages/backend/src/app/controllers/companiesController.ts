@@ -1,9 +1,17 @@
 import { Response } from 'express';
 import { Request } from '../models/request';
 import Company from '../models/company';
+import { ICompany } from '@infiltro/shared';
 
-export const getCompanies = (req: Request, res: Response) => {
-    const findParameters = (req.user?.role === 'admin')? {}: { _id: req.user?.company }
+export const getCompanies = async (req: Request, res: Response) => {
+    let findParameters = (req.user?.role === 'admin') ? {}: { _id: req.user?.company };
+
+    if (req.user?.role === 'client') {
+        const company = (await Company.findOne({ _id: req.user?.company }).exec()) as ICompany;
+        const parentCompany = (await Company.findOne({ _id: company.clientOf }).exec()) as ICompany;
+        //@ts-expect-error Is different type as findParameters originally, so ts complains
+        findParameters = { _id: { $in: [req.user?.company, parentCompany._id] } }
+    };
 
     Company.find(findParameters, (err: any, companies) => {
         if (err) {

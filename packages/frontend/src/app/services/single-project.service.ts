@@ -9,6 +9,7 @@ import { BehaviorSubject, Observable, shareReplay, switchMap, firstValueFrom, Su
 import { mapToForm } from '../utils/mapSingleProjectToForm.util';
 import { dateFormat, emailRegex, postalCodeRegex, IProject } from '@infiltro/shared';
 import { ngFormToFormData } from '../utils/form.utils';
+import { CompanyService } from './company.service';
 
 @Injectable({
   providedIn: 'root'
@@ -41,6 +42,7 @@ export class SingleProjectService {
     private router: Router,
     private auth: AuthService,
     private toastr: ToastrService,
+    private companyService: CompanyService,
   ) { }
 
   private initProject() {
@@ -93,6 +95,8 @@ export class SingleProjectService {
       this.initProject();
       this.setEditState(true);
     }
+
+    this.projectForm.get('company')?.valueChanges.subscribe((company) => this.companyService.currentCompanyOfProject$.next(company));
   }
 
   setProjectId(projectId: string): void {

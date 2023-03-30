@@ -25,7 +25,7 @@ export class UserService {
     },
     {
       "type": "client",
-      "name": "klant"
+      "name": "Klant"
     }
   ]
 

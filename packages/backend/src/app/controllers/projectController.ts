@@ -28,12 +28,18 @@ export const getProjects = async (req: Request, res: Response) => {
         ...(req.body.activeFilter.status ? { status: { $in: [...req.body.activeFilter.status, ''] } } : {}),
     };
 
-    if (req.user?.role !== 'admin') {
+    if (req.user?.role === 'company') {
         findParameters.company = { $in: [req.user?.company] };
     }
 
+    if (req.user?.role === 'client') {
+        //@ts-expect-error Doesn't exist in the findParameters, so ts complains about it
+        findParameters.client = { $in: [req.user?.company] };
+        delete findParameters.company;
+    }
+
     try {
-      let projects = await Project.find(findParameters).exec() as unknown as IProject[];
+      const projects = await Project.find(findParameters).exec() as unknown as IProject[];
       const foundUsers = (await User.find({ name: { $regex: req.body.searchTerm, $options: "i" } }).select({ _id: 1 }).exec()).map((({ _id }) => _id));
       const foundCompanies = (await Company.find({ name: { $regex: req.body.searchTerm, $options: "i" } }).select({ _id: 1 }).exec()).map((({ _id }) => _id));
       const inverseSearch = req.body.searchTerm.startsWith('-');
@@ -61,7 +67,7 @@ export const getProject = (req: Request, res: Response) => {
         if (project.status === 'deleted' && req.user?.role !== 'admin') {
             return res.status(401).send('Unauthorized request');
         }
-        if (project.company === req.user?.company || req.user?.role === 'admin') {
+        if (project.company === req.user?.company || req.user?.role === 'admin' || project.client === req.user?.company) {
             return res.status(200).json(project)
         }
 

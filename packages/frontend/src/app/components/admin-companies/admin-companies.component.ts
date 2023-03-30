@@ -5,7 +5,7 @@ import { FormService } from '../../services/form.service';
 import { CompanyService } from '../../services/company.service';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../services/auth.service';
-import { firstValueFrom } from 'rxjs';
+import { combineLatest, firstValueFrom, map, of } from 'rxjs';
 import { ngFormToFormData } from '../../utils/form.utils';
 import { emailRegex, ICompany } from '@infiltro/shared';
 
@@ -14,12 +14,19 @@ import { emailRegex, ICompany } from '@infiltro/shared';
   template: `
     <div class="list companies">
       <h1>Company admin</h1>
+      <div class="item heading">
+        <div>Bedrijf</div>
+        <div>E-mail</div>
+        <div>Klant van</div>
+        <div>Staffel zichtbaar</div>
+      </div>
       <div class="item" *ngFor="let company of companyService.companies$ | async">
         <div>{{company.name}}</div>
         <div>{{company.email}}</div>
+        <div>{{company.clientOf | company | async}}</div>
         <div>
           <ng-container *ngIf="company.pricePageVisible">
-            Staffel zichtbaar
+            x
           </ng-container>
         </div>
         <div class="icon" (click)="editCompany(company)"><img src="assets/images/icon-edit.svg" alt=""></div>
@@ -39,6 +46,15 @@ import { emailRegex, ICompany } from '@infiltro/shared';
         <label for="email">Emailadres</label>
         <input type="email" name="email" formControlName="email">
         <p *ngIf="formService.checkInputField(companyForm, 'email', submitted)" class="error">!</p>
+      </div>
+
+      <div class="inputGroup">
+        <label for="company">Bedrijf van</label>
+        <select name="company" formControlName="clientOf">
+          <option value="">select company</option>
+          <option *ngFor="let company of companiesWithoutOwn$ | async" [value]="company._id">{{company.name}}</option>
+        </select>
+        <p *ngIf="formService.checkInputField(companyForm, 'clientOf', submitted)" class="error">!</p>
       </div>
 
       <div class="inputGroup">
@@ -62,10 +78,16 @@ export class AdminCompaniesComponent {
     _id: [''],
     name: ['', Validators.required],
     pricePageVisible: [''],
+    clientOf: [''],
     email: ['', [Validators.required, Validators.email, Validators.pattern(emailRegex)]],
   })
   submitted = false
   editState = false
+
+
+  companiesWithoutOwn$ = combineLatest([this.companyService.companies$, this.companyForm.get('_id')?.valueChanges ?? of()]).pipe(map(([companies]) =>
+    companies.filter((c) => c._id !== this.companyForm.get('_id')?.value)
+  ))
 
   constructor(
     private formBuilder: FormBuilder,
@@ -108,6 +130,7 @@ export class AdminCompaniesComponent {
       _id: company._id || "",
       name: company.name || "",
       email: company.email || "",
+      clientOf: company.clientOf || "",
       pricePageVisible: company.pricePageVisible || "",
     });
   }
@@ -119,6 +142,7 @@ export class AdminCompaniesComponent {
       _id: '',
       name: '',
       email: '',
+      clientOf: '',
       pricePageVisible: '',
     })
   }

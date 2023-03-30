@@ -32,6 +32,14 @@ import { projectTypes, statuses, executors } from '@infiltro/shared';
           </div>
       </div>
       <div class="projectSection">
+          <div class="topControls">
+            <div class="right">
+              <infiltro-single-project-row label="Klant" field="client" type="select" firstValue="Selecteer bedrijf" [dataSource]="companyService.clientsOf$ | async" valueKey="_id" [readOnly]="!auth.isAdmin()">
+              </infiltro-single-project-row>
+            </div>
+          </div>
+      </div>
+      <div class="projectSection">
         <div class="projectRow">
           <h2>{{singleProjectService.projectForm.value.projectName}}</h2>
         </div>

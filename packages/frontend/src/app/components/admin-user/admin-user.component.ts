@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { FormService } from '../../services/form.service';
@@ -7,7 +7,7 @@ import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { UserService } from '../../services/user.service';
 import { IUser, emailRegex } from '@infiltro/shared';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, Subscription, switchMap } from 'rxjs';
 import { ngFormToFormData } from '../../utils/form.utils';
 
 @Component({
@@ -15,8 +15,15 @@ import { ngFormToFormData } from '../../utils/form.utils';
   template: `
     <div class="list users">
       <h1>User admin</h1>
+      <div class="item heading">
+        <div>Naam</div>
+        <div>Email</div>
+        <div>Bedrijf</div>
+        <div>Rol</div>
+      </div>
       <div class="item" *ngFor="let user of userService.users$ | async">
-        <div>{{user.name}} ({{user.email}})</div>
+        <div>{{user.name}}</div>
+        <div>{{user.email}}</div>
         <div>{{ user.company | company | async }}</div>
         <div>{{userService.roleName(user.role)}}</div>
         <div class="icon" (click)="editUser(user)"><img src="assets/images/icon-edit.svg" alt=""></div>
@@ -26,17 +33,17 @@ import { ngFormToFormData } from '../../utils/form.utils';
 
     <form [formGroup]="registerForm" class="wrapper">
       <div class="inputGroup">
-        <label for="name">name</label>
+        <label for="name">Naam</label>
         <input type="text" name="name" formControlName="name">
         <p *ngIf="formService.checkInputField(registerForm, 'name', submitted)" class="error">!</p>
       </div>
       <div class="inputGroup">
-        <label for="email">email</label>
+        <label for="email">E-mail</label>
         <input type="email" name="email" formControlName="email">
         <p *ngIf="formService.checkInputField(registerForm, 'email', submitted)" class="error">!</p>
       </div>
       <div class="inputGroup">
-        <label for="company">company</label>
+        <label for="company">Bedrijf</label>
         <select name="company" formControlName="company">
           <option value="">select company</option>
           <option *ngFor="let company of companyService.companies$ | async" [value]="company._id">{{company.name}}</option>
@@ -46,7 +53,7 @@ import { ngFormToFormData } from '../../utils/form.utils';
 
 
       <div class="inputGroup">
-        <label for="role">role</label>
+        <label for="role">Rol</label>
         <select name="role" formControlName="role">
           <option value="">select role</option>
           <option *ngFor="let role of userService.getUserRoles()" [value]="role.type">{{role.name}}</option>
@@ -63,7 +70,7 @@ import { ngFormToFormData } from '../../utils/form.utils';
   `,
   styleUrls: ['./admin-user.component.scss']
 })
-export class AdminUserComponent {
+export class AdminUserComponent implements OnInit, OnDestroy {
   registerForm = this.formBuilder.group({
     _id: [''],
     name: ['', Validators.required],
@@ -73,6 +80,7 @@ export class AdminUserComponent {
   });
   submitted = false;
   editState = false;
+  $roleSetter: Subscription | undefined;
 
   constructor(private formBuilder: FormBuilder,
     private api: ApiService,
@@ -80,7 +88,28 @@ export class AdminUserComponent {
     public companyService: CompanyService,
     public userService: UserService,
     public auth: AuthService,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService) {
+  }
+
+  ngOnInit() {
+    this.$roleSetter = this.registerForm.get('company')?.valueChanges.pipe(
+      switchMap((company) => this.companyService.isClientOf(company ?? '')),
+    ).subscribe((isClientOf) => {
+      if (isClientOf) {
+        this.registerForm.get('role')?.setValue('client');
+        this.registerForm.get('role')?.disable();
+      } else {
+        if (this.registerForm.get('role')?.value === 'client') {
+          this.registerForm.get('role')?.setValue('');
+        }
+        this.registerForm.get('role')?.enable();
+      }
+    })
+  }
+
+  ngOnDestroy(): void {
+      this.$roleSetter?.unsubscribe();
+  }
 
   onSubmit() {
     this.submitted = true;
@@ -95,7 +124,11 @@ export class AdminUserComponent {
 
   registerUser() {
 
-    const formData = ngFormToFormData(this.registerForm.value);
+    // add back role because disabled element are not added
+    const formData = ngFormToFormData({
+      ...this.registerForm.value,
+      role: this.registerForm.value.role ?? 'client',
+    });
 
     if (!this.registerForm.value._id) {
       formData.delete('_id');

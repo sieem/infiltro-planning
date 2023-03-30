@@ -6,13 +6,16 @@ import { SingleProjectService } from '../../services/single-project.service';
 import { ToastrService } from 'ngx-toastr';
 import { firstValueFrom } from 'rxjs';
 import { dateFormat, formatDate } from '@infiltro/shared';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'infiltro-single-project-controls',
   template: `
     <div (click)="goToOverview()"><img src="/assets/images/icon-back.svg" alt=""></div>
     <div (click)="onSubmit()"><img [src]="projectForm.touched ? '/assets/images/icon-save.svg' : '/assets/images/icon-save-disabled.svg'" alt=""></div>
-    <div *ngIf="projectId$ | async" (click)="removeProject()"><img src="/assets/images/icon-delete.svg" alt=""></div>
+    <ng-container *ngIf="!auth.isClient()">
+      <div *ngIf="projectId$ | async" (click)="removeProject()"><img src="/assets/images/icon-delete.svg" alt=""></div>
+    </ng-container>
     <div (click)="openProjectMail()"><img src="/assets/images/icon-mail.svg" alt=""></div>
     <div (click)="duplicateProject()"><img src="/assets/images/icon-duplicate.svg" alt=""></div>
     <div *ngIf="(newProject$ | async) !== true" [routerLink]="[ 'archief' ]"><img src="/assets/images/icon-archive.svg" alt=""></div>
@@ -30,6 +33,7 @@ export class SingleProjectControlsComponent {
     private router: Router,
     private singleProjectService: SingleProjectService,
     private toastr: ToastrService,
+    public auth: AuthService,
   ) { }
 
   goToOverview() {

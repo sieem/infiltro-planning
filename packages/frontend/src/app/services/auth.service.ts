@@ -49,4 +49,10 @@ export class AuthService {
       ? this.getUserDetails()?.role === 'admin'
       : false
   }
+
+  isClient() {
+    return this.loggedIn()
+      ? this.getUserDetails()?.role === 'client'
+      : false
+  }
 }

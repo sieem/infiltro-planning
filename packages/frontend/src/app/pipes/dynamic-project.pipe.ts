@@ -22,6 +22,7 @@ export class DynamicProjectPipe implements PipeTransform {
   async transform(value: any, field: string): Promise<any> {
     switch(field) {
       case 'company':
+      case 'client':
         return await this.CompanyPipe.transform(value);
       case 'EpbReporter':
         return await this.UserPipe.transform(value);
