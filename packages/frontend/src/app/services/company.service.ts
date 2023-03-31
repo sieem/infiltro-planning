@@ -21,6 +21,8 @@ export class CompanyService {
     shareReplay({ refCount: false, bufferSize: 1 }),
   );
 
+  hasClientsOf$ = this.clientsOf$.pipe(map((clientsOf) => clientsOf.length > 0));
+
 
   constructor(
     private api: ApiService,

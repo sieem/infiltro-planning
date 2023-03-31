@@ -26,19 +26,21 @@ import { projectTypes, statuses, executors } from '@infiltro/shared';
               <infiltro-single-project-row label="Contactpersoon binnen" field="company" type="select" firstValue="Selecteer bedrijf" [dataSource]="companyService.companies$ | async" valueKey="_id" [readOnly]="!auth.isAdmin()">
               </infiltro-single-project-row>
 
-              <infiltro-single-project-row label=":" field="EpbReporter" type="select" firstValue="Selecteer EPB verslaggever" [dataSource]="userService.users$ | async | filterUsers:singleProjectService.projectForm.value.company" valueKey="_id" [showAsterisk]="false">
+              <infiltro-single-project-row label=":" field="EpbReporter" type="select" firstValue="Selecteer EPB verslaggever" [dataSource]="userService.users$ | async | filterUsers:singleProjectService.projectForm.value.company" valueKey="_id" [showAsterisk]="false" [readOnly]="auth.isClient()">
               </infiltro-single-project-row>
             </div>
           </div>
       </div>
-      <div class="projectSection">
-          <div class="topControls">
-            <div class="right">
-              <infiltro-single-project-row label="Klant" field="client" type="select" firstValue="Selecteer bedrijf" [dataSource]="companyService.clientsOf$ | async" valueKey="_id" [readOnly]="!auth.isAdmin()">
-              </infiltro-single-project-row>
+      <ng-container *ngIf="companyService.hasClientsOf$ | async">
+        <div class="projectSection">
+            <div class="topControls">
+              <div class="right">
+                <infiltro-single-project-row label="Klant" field="client" type="select" firstValue="Selecteer klant" [dataSource]="companyService.clientsOf$ | async" valueKey="_id" [readOnly]="!auth.isAdmin()">
+                </infiltro-single-project-row>
+              </div>
             </div>
-          </div>
-      </div>
+        </div>
+      </ng-container>
       <div class="projectSection">
         <div class="projectRow">
           <h2>{{singleProjectService.projectForm.value.projectName}}</h2>

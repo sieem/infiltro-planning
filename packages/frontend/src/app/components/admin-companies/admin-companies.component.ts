@@ -5,7 +5,7 @@ import { FormService } from '../../services/form.service';
 import { CompanyService } from '../../services/company.service';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../services/auth.service';
-import { combineLatest, firstValueFrom, map, of } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { ngFormToFormData } from '../../utils/form.utils';
 import { emailRegex, ICompany } from '@infiltro/shared';
 
@@ -52,7 +52,7 @@ import { emailRegex, ICompany } from '@infiltro/shared';
         <label for="company">Bedrijf van</label>
         <select name="company" formControlName="clientOf">
           <option value="">select company</option>
-          <option *ngFor="let company of companiesWithoutOwn$ | async" [value]="company._id">{{company.name}}</option>
+          <option *ngFor="let company of companyService.companies$ | async" [value]="company._id">{{company.name}}</option>
         </select>
         <p *ngIf="formService.checkInputField(companyForm, 'clientOf', submitted)" class="error">!</p>
       </div>
@@ -83,11 +83,6 @@ export class AdminCompaniesComponent {
   })
   submitted = false
   editState = false
-
-
-  companiesWithoutOwn$ = combineLatest([this.companyService.companies$, this.companyForm.get('_id')?.valueChanges ?? of()]).pipe(map(([companies]) =>
-    companies.filter((c) => c._id !== this.companyForm.get('_id')?.value)
-  ))
 
   constructor(
     private formBuilder: FormBuilder,

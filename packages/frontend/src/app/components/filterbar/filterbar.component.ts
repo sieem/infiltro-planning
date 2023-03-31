@@ -57,7 +57,7 @@ import { statuses, statusesForMap, sortables, executors } from '@infiltro/shared
                     <div class="btn" (click)="projectService.selectAllFilter('company', true)">Alles</div>
                     <div class="btn" (click)="projectService.selectAllFilter('company', false)">Niets</div>
                 </div>
-                <div class="item" *ngFor="let company of companyService.companies$ | async"
+                <div class="item" *ngFor="let company of companiesWithoutClients$ | async"
                     (click)="projectService.changeFilter('company', company._id)">
                     <img src="/assets/images/icon-unchecked.svg" alt=""
                         *ngIf="!activeFilter.company.includes(company._id)">
@@ -113,6 +113,8 @@ export class FilterBarComponent {
   sortables = sortables;
   executors = executors;
   statuses = statuses;
+
+  companiesWithoutClients$ = this.companyService.companies$.pipe((map((companies) => companies.filter((c) => !c.clientOf))));
 
   showStartBatchMode$ = this.batchModeService.batchMode$.pipe(map((batchMode) => !batchMode));
   showStopBatchMode$ = combineLatest([this.batchModeService.batchMode$, this.batchModeService.selectedProjects$]).pipe(
