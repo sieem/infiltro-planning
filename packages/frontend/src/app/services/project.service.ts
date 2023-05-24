@@ -12,7 +12,19 @@ import { executors, IActiveFilter, IExecutors, IProject, ISortables, IStatuses, 
 })
 export class ProjectService {
   activeFilter$ = new BehaviorSubject<IActiveFilter>({
-    status: ['toContact', 'toPlan', 'proposalSent', 'planned', 'executed', 'reportAvailable', 'conformityAvailable', 'onHold', ...(!this.auth.isAdmin() ? ['onHoldByClient'] : []) as 'onHoldByClient'[]],
+    status: [
+      ...(this.auth.isClient() ? ['contractSigned'] : []) as 'contractSigned'[],
+      'toContact',
+      'toPlan',
+      'proposalSent',
+      'planned',
+      'executed',
+      'reportAvailable',
+      'conformityAvailable',
+      'onHold',
+      ...(!this.auth.isAdmin() ? ['onHoldByClient'] : []) as 'onHoldByClient'[],
+      ...(this.auth.isClient() ? ['completed'] : []) as 'completed'[],
+    ],
     executor: ['david', 'roel', 'together'],
     company: []
   });
