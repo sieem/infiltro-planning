@@ -20,51 +20,51 @@ import { Component } from '@angular/core';
           <tr>
             <td>1</td>
             <td>2</td>
-            <td>€ 170,00</td>
+            <td>€ 200,00</td>
             <td>€ 125,00</td>
-            <td>€ 32,00</td>
+            <td>€ 35,00</td>
           </tr>
           <tr>
             <td>3</td>
             <td>4</td>
-            <td>€ 170,00</td>
+            <td>€ 200,00</td>
             <td>€ 120,00</td>
-            <td>€ 32,00</td>
+            <td>€ 35,00</td>
           </tr>
           <tr>
             <td>5</td>
             <td>9</td>
-            <td>€ 170,00</td>
+            <td>€ 200,00</td>
             <td>€ 115,00</td>
-            <td>€ 32,00</td>
+            <td>€ 35,00</td>
           </tr>
           <tr>
             <td>10</td>
             <td>14</td>
-            <td>€ 170,00</td>
+            <td>€ 200,00</td>
             <td>€ 110,00</td>
-            <td>€ 32,00</td>
+            <td>€ 35,00</td>
           </tr>
           <tr>
             <td>15</td>
             <td>19</td>
-            <td>€ 170,00</td>
+            <td>€ 200,00</td>
             <td>€ 105,00</td>
-            <td>€ 32,00</td>
+            <td>€ 35,00</td>
           </tr>
           <tr>
             <td>20</td>
             <td>50</td>
-            <td>€ 170,00</td>
+            <td>€ 200,00</td>
             <td>€ 100,00</td>
-            <td>€ 32,00</td>
+            <td>€ 35,00</td>
           </tr>
           <tr>
             <td>&nbsp;</td>
             <td>>50</td>
-            <td>€ 170,00</td>
+            <td>€ 200,00</td>
             <td>€ 95,00</td>
-            <td>€ 32,00</td>
+            <td>€ 35,00</td>
           </tr>
         </tbody>
       </table>
@@ -100,7 +100,7 @@ import { Component } from '@angular/core';
         <tbody>
           <tr>
             <td>Test per traphal</td>
-            <td>€ 170,00</td>
+            <td>€ 200,00</td>
             <td>€ 125,00</td>
             <td>€ 25,00</td>
             <td>Volgens verliesoppervlak/volume</td>
@@ -110,7 +110,7 @@ import { Component } from '@angular/core';
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
-            <td>Tarieven SKH vanaf 1/10/2018</td>
+            <td>Tarieven SKH vanaf 1/10/2023</td>
           </tr>
         </tbody>
       </table>
