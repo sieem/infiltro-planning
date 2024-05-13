@@ -171,7 +171,7 @@ import { Component } from '@angular/core';
         Voor de provincies West-Vlaanderen en Luxemburg wordt deze forfaitaire vergoeding met 50 euro (ex BTW) verhoogd.
       </p>
       <h2>Extra's</h2>
-      <p>Op vraag van de klant wordt voor weekend- en avondwerk (starten na 17 uur) een extra vergoeding van 150 euro aangerekend.</p>
+      <p>Voor testen buiten de kantooruren (8 - 17 uur) wordt een vergoeding van 200 euro aangerekend. Voor avondwerk waarvan de test pas kan starten na 20 uur en voor testen tijdens het weekend of op feestdagen wordt een extra vergoeding van 300 euro aangerekend.</p>
     </div>
   `,
   styleUrls: ['./prices.component.scss']
